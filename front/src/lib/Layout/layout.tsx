@@ -1,14 +1,8 @@
-import {
-  Link,
-  Route,
-  Routes,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { Link, Route, Routes } from "react-router-dom";
 import Search from "../../page/search/search";
 import Main from "../../page/main/main";
 import Category from "../../page/catgegory/category";
-import Login from "../../page/account/login/login";
+
 import Regist from "../../page/account/regist/regist";
 import Point from "../../page/point/point";
 import Product from "../../page/product/product";
@@ -19,13 +13,13 @@ import { List } from "../list";
 import NotLogin from "../../Component/LoginInfo/NotLogin";
 import Maneger from "../../Component/LoginInfo/Maneger";
 import { useEffect } from "react";
+import Login from "../../Component/LoginInfo/Login";
 
 interface IProps {
   userlogin: boolean;
   main: List[];
   catepage: List[];
   searchpage: List[];
-  setpage(): void;
 }
 
 const Layout = ({
@@ -33,19 +27,9 @@ const Layout = ({
   main,
   catepage,
   searchpage,
-  setpage,
 }: IProps): JSX.Element => {
-  const url = useLocation();
-  const path = url.pathname.slice(8);
-  console.log(path);
-  const Navigator = useNavigate();
-  const Mobile = () => {
-    Navigator(`/${path}`);
-  };
-  const authority = true;
-  useEffect(() => {
-    Mobile();
-  }, []);
+  const authority = false;
+
   return (
     <div>
       <div className="p-1 h-[6rem] bg-orange-200">
@@ -56,13 +40,7 @@ const Layout = ({
               <div className="text-[2rem] text-white font-bold">햄스터마켓</div>
             </div>
           </Link>
-          {!userlogin ? (
-            <NotLogin />
-          ) : !authority ? (
-            <Login />
-          ) : (
-            <Maneger setpage={setpage} />
-          )}
+          {!userlogin ? <NotLogin /> : !authority ? <Login /> : <Maneger />}
         </div>
       </div>
       <Routes>

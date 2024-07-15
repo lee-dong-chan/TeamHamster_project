@@ -3,19 +3,21 @@ import List from "../../Component/List/List";
 import { List as ListData } from "../../lib/list";
 import { useParams } from "react-router-dom";
 import Paging from "../../Component/paging/paging";
+import { useBreakPoint } from "../../CustomHook/BreakPoint";
 
 interface IProps {
   list: ListData[];
 }
 
 const Search = ({ list }: IProps): JSX.Element => {
+  const { isdesktop, ismobile } = useBreakPoint();
   let { id } = useParams();
   const result = true;
   console.log(id);
   return (
     <div>
-      <SearchComp />
-      <div className="Box">
+      {isdesktop && <SearchComp />}
+      <div className={`${isdesktop && "Box"} ${ismobile && "MobileBox"}`}>
         <div className="p-[2rem] text-[1.7rem] font-bold">
           <span className="text-orange-500">{id}</span>의 검색결과
         </div>
@@ -23,9 +25,7 @@ const Search = ({ list }: IProps): JSX.Element => {
         {result ? (
           <div>
             <List list={list} />
-            <div className="py-5 Center">
-              <Paging />
-            </div>
+            <div className="py-5 Center">{isdesktop && <Paging />}</div>
           </div>
         ) : (
           <div className="pb-20 Center">
