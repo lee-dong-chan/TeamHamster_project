@@ -1,4 +1,4 @@
-import { IItem } from "../../Component/List/ListItem";
+import { IItem } from "../Component/List/ListItem";
 
 interface IList extends IItem {}
 

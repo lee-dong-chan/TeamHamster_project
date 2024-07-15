@@ -1,9 +1,16 @@
 import { Link } from "react-router-dom";
-import Category from "../Catgegory/Category";
+
+import { ChangeEvent, useState } from "react";
+import Category from "../Category/Category";
 
 interface IProps {}
 
 const SearchComp = ({}: IProps): JSX.Element => {
+  const [content, setContent] = useState("");
+  const saveContent = (e: ChangeEvent<HTMLInputElement>) => {
+    setContent(e.target.value);
+  };
+  console.log(content);
   return (
     <div className="h-[15rem] flex justify-center">
       <div className="h-[15rem] w-[100%] flex justify-center absolute">
@@ -27,14 +34,22 @@ const SearchComp = ({}: IProps): JSX.Element => {
           <input
             className="ms-3 px-3 h-[3rem] w-[20rem] outline-none text-gray-500 border"
             placeholder="카테고리 또는 상품의 이름을 입력하세요"
+            value={content}
+            onInput={saveContent}
           ></input>
-          {/* {<Category />} */}
+          {content ? <Category /> : ""}
         </div>
-        <Link to={"/search"}>
+        {content ? (
+          <Link to={`/search/${content}`}>
+            <div className="Center px-2 h-[3rem] border rounded-e bg-blue-100 text-gray-500">
+              검색
+            </div>
+          </Link>
+        ) : (
           <div className="Center px-2 h-[3rem] border rounded-e bg-blue-100 text-gray-500">
             검색
           </div>
-        </Link>
+        )}
       </div>
     </div>
   );

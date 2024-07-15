@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { List as ListData } from "../../lib/Layout/list";
+import { List as ListData } from "../../lib/list";
 
 export interface IItem {
   getId: () => number;

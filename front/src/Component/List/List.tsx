@@ -1,4 +1,4 @@
-import { List as ListData } from "../../lib/Layout/list";
+import { List as ListData } from "../../lib/list";
 import Item from "./ListItem";
 
 interface IProps {
