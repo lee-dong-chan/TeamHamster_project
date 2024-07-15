@@ -37,7 +37,7 @@ const SearchComp = ({}: IProps): JSX.Element => {
             value={content}
             onInput={saveContent}
           ></input>
-          {content ? <Category /> : ""}
+          {content ? <Category content={content} /> : ""}
         </div>
         {content ? (
           <Link to={`/search/${content}`}>
