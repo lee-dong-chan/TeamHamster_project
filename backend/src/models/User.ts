@@ -15,7 +15,6 @@ class User extends Model {
   public readonly createdAt!: Date;
   public readonly updateAt!: Date;
   public readonly deletedAt!: Date;
-  // addChildren: any;
 
   public static initialize(sequelize: Sequelize) {
     User.init(

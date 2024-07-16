@@ -10,25 +10,26 @@ class ExtraAddress extends Model {
   public readonly id!: number;
 
   //User
-  public email!: string;
-  public password!: string;
-  public mobile!: string;
-  public delivery!: boolean;
-  public admin!: boolean;
-  public Oauth!: string;
-
-  //Store
-  public nick!: string;
-  public point!: number;
-  public introduction!: string;
-  public report_point!: number;
+  // public email!: string;
+  // public password!: string;
   // public mobile!: string;
-  public block!: boolean;
+  // public delivery!: boolean;
+  // public admin!: boolean;
+  // public Oauth!: string;
+
+  // //Store
+  // public nick!: string;
+  // public point!: number;
+  // public introduction!: string;
+  // public report_point!: number;
+  // // public mobile!: string;
+  // public block!: boolean;
 
   //ExtraAddress
+  public mobile!: string;
   public detailAddress!: string;
 
-  public readonly storeeId!: number;
+  // public readonly storeeId!: number;
 
   public readonly createdAt!: Date;
   public readonly updateAt!: Date;

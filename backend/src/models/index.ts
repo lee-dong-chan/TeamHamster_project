@@ -28,14 +28,15 @@ Report.initialize(sequelize);
 DeliveryCost.initialize(sequelize);
 
 Category.associate({ Product, Category });
-Product.associate({ Category, Store });
+Product.associate({ Category, Store, Review });
 Store.associate({ User, Product, PointHistory, Review, ExtraAddress });
-// User.associate({ Store });
+User.associate({ Store });
 // PointHistory.associate({ Store });
-Review.associate({ Store });
-// ExtraAddress.associate({ Store });
+// Review.associate({ Store });
+ExtraAddress.associate({ Product });
 Address.associate({ ExtraAddress });
 Name.associate({ ExtraAddress });
+DeliveryCost.associate({ Product });
 
 export {
   Category,

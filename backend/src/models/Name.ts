@@ -27,7 +27,7 @@ class Name extends Model {
   //Name
   public name!: string;
 
-  public readonly nameId!: number;
+  // public readonly nameId!: number;
 
   public readonly createdAt!: Date;
   public readonly updateAt!: Date;
