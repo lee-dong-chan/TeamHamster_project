@@ -20,7 +20,7 @@ const Category = ({ list }: IProps): JSX.Element => {
         {list ? (
           <div>
             <List list={list} />
-            <div className="Center">{isdesktop && <Paging />}</div>
+            <div className="center">{isdesktop && <Paging />}</div>
           </div>
         ) : (
           <div></div>

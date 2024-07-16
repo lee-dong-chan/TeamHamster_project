@@ -41,12 +41,12 @@ const SearchComp = ({}: IProps): JSX.Element => {
         </div>
         {content ? (
           <Link to={`/search/${content}`}>
-            <div className="Center px-2 h-[3rem] border rounded-e bg-blue-100 text-gray-500">
+            <div className="center px-2 h-[3rem] border rounded-e bg-blue-100 text-gray-500">
               검색
             </div>
           </Link>
         ) : (
-          <div className="Center px-2 h-[3rem] border rounded-e bg-blue-100 text-gray-500">
+          <div className="center px-2 h-[3rem] border rounded-e bg-blue-100 text-gray-500">
             검색
           </div>
         )}

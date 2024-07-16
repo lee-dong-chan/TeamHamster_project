@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import Button from "../../lib/Button/Button";
-import TinyButton from "../Button/TinyButton";
+import { Button } from "../../lib/Button/Button";
+import { TinyButton } from "../Button/Button";
 
 interface IProps {}
 

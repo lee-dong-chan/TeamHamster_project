@@ -2,11 +2,7 @@ import { useState } from "react";
 import Layout from "./lib/Layout/layout";
 import { List } from "./lib/list";
 
-import { useBreakPoint } from "./CustomHook/BreakPoint";
-
 const App = (): JSX.Element => {
-  const { ismobile, isdesktop } = useBreakPoint();
-
   const [main, setMain] = useState([
     new List(1, "자전거", "hamster", 3000, 2024),
     new List(1, "자전거", "hamster", 3000, 2024),
