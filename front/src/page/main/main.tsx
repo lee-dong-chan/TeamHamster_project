@@ -16,6 +16,11 @@ const Main = ({ list }: IProps): JSX.Element => {
       <div className={`${isdesktop && "Box"} ${ismobile && "MobileBox"}`}>
         {cookie ? (
           <div>
+            <div className="mx-auto w-[10rem] flex justify-evenly bg-red-200">
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
             <div className="p-[2rem] text-[1.7rem] font-bold">최근 본 상품</div>
             <List list={list} />
           </div>

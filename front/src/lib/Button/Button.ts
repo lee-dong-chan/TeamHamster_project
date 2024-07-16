@@ -1,20 +1,19 @@
-import { IBtn } from "../../Component/Button/LargeButton";
+export interface Button {
+  getText(): string;
+  getBtnClass(): string;
+}
 
-interface IButton extends IBtn {}
-
-class Button implements IButton {
+export class Button implements Button {
   private text: string;
   private btnclass: string;
   constructor(text: string, btnclass: string) {
     this.text = text;
     this.btnclass = btnclass;
   }
-  getText() {
+  getText(): string {
     return this.text;
   }
-  getBtnClass() {
+  getBtnClass(): string {
     return this.btnclass;
   }
 }
-
-export default Button;

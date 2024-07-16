@@ -25,10 +25,10 @@ const Search = ({ list }: IProps): JSX.Element => {
         {result ? (
           <div>
             <List list={list} />
-            <div className="py-5 Center">{isdesktop && <Paging />}</div>
+            <div className="py-5 center">{isdesktop && <Paging />}</div>
           </div>
         ) : (
-          <div className="pb-20 Center">
+          <div className="pb-20 center">
             <div>
               <div className="p-[2rem] text-[1.7rem] font-bold">
                 <span className="text-orange-500">{id}</span>에 대한 검색결과를

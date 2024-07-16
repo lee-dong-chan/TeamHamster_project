@@ -1,7 +1,7 @@
 interface IProps {}
 
-const Login = ({}: IProps): JSX.Element => {
+const LoginPage = ({}: IProps): JSX.Element => {
   return <div></div>;
 };
 
-export default Login;
+export default LoginPage;

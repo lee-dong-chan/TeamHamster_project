@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { List as ListData } from "../../lib/list";
+import { useBreakPoint } from "../../CustomHook/BreakPoint";
 
 export interface IItem {
   getId: () => number;
@@ -14,13 +15,18 @@ interface IProps {
 }
 
 const Item = ({ item }: IProps): JSX.Element => {
+  const { isdesktop, ismobile } = useBreakPoint();
   return (
     <Link to={`/product/${item.getId()}`}>
-      <div className="mb-5 max-w-[15rem] border">
+      <div
+        className={`${isdesktop && "mb-5 max-w-[15rem] border"} ${
+          ismobile && "mb-5 max-w-[12rem] border"
+        }`}
+      >
         <div>
           <img src={`/imgs/${item.getImg()}.png`}></img>
         </div>
-        <div className="border border-t">
+        <div className=" border-t">
           <div className="p-3 text-[1.1rem]">{item.getTite()}</div>
           <div className="p-3 flex justify-between items-center">
             <div>
