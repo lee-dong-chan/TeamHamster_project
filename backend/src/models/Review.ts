@@ -18,28 +18,28 @@ class Review extends Model {
   // public name!: string;
   // public preCateId!: number;
 
-  //User
-  public email!: string;
-  public password!: string;
-  public mobile!: string;
-  public delivery!: boolean;
-  public admin!: boolean;
-  public Oauth!: string;
-
-  //Store
-  public nick!: string;
-  public point!: number;
-  public introduction!: string;
-  public report_point!: number;
+  // //User
+  // public email!: string;
+  // public password!: string;
   // public mobile!: string;
-  public block!: boolean;
+  // public delivery!: boolean;
+  // public admin!: boolean;
+  // public Oauth!: string;
+
+  // //Store
+  // public nick!: string;
+  // public point!: number;
+  // public introduction!: string;
+  // public report_point!: number;
+  // // public mobile!: string;
+  // public block!: boolean;
 
   //review
   public star!: number;
   public reviewContent!: string;
 
-  public readonly categoryId!: number;
-  public readonly storeeId!: number;
+  // public readonly categoryId!: number;
+  // public readonly storeeId!: number;
 
   public readonly createdAt!: Date;
   public readonly updateAt!: Date;

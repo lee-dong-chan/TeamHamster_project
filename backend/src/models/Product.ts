@@ -13,7 +13,7 @@ class Product extends Model {
   //category
   public name!: string;
   public preCateId!: number;
-  addChildren: any;
+  // addChildren: any;
 
   public title!: string;
   public discription!: string;
@@ -22,22 +22,22 @@ class Product extends Model {
   public prepayment!: boolean;
   public img!: string;
   // User
-  public email!: string;
-  public password!: string;
-  public mobile!: string;
-  public delivery!: boolean;
-  public admin!: boolean;
-  public Oauth!: string;
-  // Store
-  public nick!: string;
-  public point!: number;
-  public introduction!: string;
-  public report_point!: number;
+  // public email!: string;
+  // public password!: string;
   // public mobile!: string;
-  public block!: boolean;
-  //
-  public readonly categoryId!: number;
-  public readonly storeId!: number;
+  // public delivery!: boolean;
+  // public admin!: boolean;
+  // public Oauth!: string;
+  // // Store
+  // public nick!: string;
+  // public point!: number;
+  // public introduction!: string;
+  // public report_point!: number;
+  // // public mobile!: string;
+  // public block!: boolean;
+  // //
+  // public readonly categoryId!: number;
+  // public readonly storeId!: number;
 
   public readonly createdAt!: Date;
   public readonly updateAt!: Date;
@@ -89,7 +89,7 @@ class Product extends Model {
       foreignKey: "categoryId",
     });
     Product.belongsTo(Store, {
-      as: "Store",
+      as: "Sell",
       foreignKey: "storeId",
     });
     Product.belongsTo(Store, {

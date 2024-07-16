@@ -34,11 +34,11 @@ class Category extends Model {
   }
   static associate({}: {}) {
     Category.hasMany(Category, {
-      as: "children",
+      as: "Children",
       foreignKey: "preCateId",
     });
     Category.belongsTo(Category, {
-      as: "parent",
+      as: "Parent",
       foreignKey: "preCateId",
     });
     Category.hasMany(Product, {

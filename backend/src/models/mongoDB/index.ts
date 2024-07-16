@@ -1,7 +1,7 @@
 /// 몽고DB 스키마관련
 import mongoose, { Schema } from "mongoose";
 
-const url = "mongodb://localhost:27017";
+// const url = "mongodb://localhost:27017";
 
 const deliveryscham = new Schema(
   {
@@ -15,14 +15,16 @@ const deliveryscham = new Schema(
   }
 );
 
+// export { deliveryscham };
+
 ///
 
 /// 몽고 DB 연결관련
-mongoose.connect(url);
+// mongoose.connect(url);
 
-mongoose.connection.on("connected", () => {
-  console.log("mongoose connection");
-});
+// mongoose.connection.on("connected", () => {
+//   console.log("mongoose connection");
+// });
 
 // mongoose.connection.dropCollection("teamhamsters");
 // 이건 컬렉션(mysql로 치면 테이블)삭제

@@ -11,29 +11,28 @@ type Constructor<T> = new (...args: any[]) => T;
 class Store extends Model {
   public readonly id!: number;
   //Category
-  public name!: string;
-  public preCateId!: number;
-  //User
-  public email!: string;
-  public password!: string;
-  public mobile!: string;
-  public delivery!: boolean;
-  public admin!: boolean;
-  public Oauth!: string;
+  // public name!: string;
+  // public preCateId!: number;
+  // //User
+  // public email!: string;
+  // public password!: string;
+  // public mobile!: string;
+  // public delivery!: boolean;
+  // public admin!: boolean;
+  // public Oauth!: string;
   //Store
   public nick!: string;
   public point!: number;
   public introduction!: string;
   public report_point!: number;
-  // public mobile!: string;
+  public mobile!: string;
   public block!: boolean;
 
-  public readonly userId!: number;
+  // public readonly userId!: number;
 
   public readonly createdAt!: Date;
   public readonly updateAt!: Date;
   public readonly deletedAt!: Date;
-  addChildren: any;
 
   public static initialize(sequelize: Sequelize) {
     Store.init(
@@ -61,6 +60,9 @@ class Store extends Model {
           type: DataTypes.BOOLEAN,
           defaultValue: false,
         },
+        profileimg: {
+          type: DataTypes.TEXT,
+        },
       },
       {
         sequelize,
@@ -78,7 +80,7 @@ class Store extends Model {
       foreignKey: "userId",
     });
     Store.hasMany(Product, {
-      as: "Product",
+      as: "Sell",
       foreignKey: "storeId",
     });
     Store.hasMany(Product, {
@@ -99,7 +101,7 @@ class Store extends Model {
     });
     Store.hasMany(Report, {
       as: "Report",
-      foreignKey: "storeId",
+      foreignKey: "adminId",
     });
   }
 }

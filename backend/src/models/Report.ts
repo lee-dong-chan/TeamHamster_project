@@ -26,7 +26,7 @@ class Report extends Model {
 
   //Report
   public reportText!: string;
-  public productId!: number;
+  // public productId!: number;
   public readonly createdAt!: Date;
   public readonly updateAt!: Date;
   public readonly deletedAt!: Date;
@@ -57,7 +57,7 @@ class Report extends Model {
     });
     Report.belongsTo(Store, {
       as: "Store",
-      foreignKey: "storeId",
+      foreignKey: "adminId",
     });
   }
 }

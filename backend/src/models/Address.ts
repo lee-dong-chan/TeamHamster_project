@@ -27,7 +27,7 @@ class Address extends Model {
   //Address
   public address!: string;
 
-  public readonly addressId!: number;
+  // public readonly addressId!: number;
 
   public readonly createdAt!: Date;
   public readonly updateAt!: Date;
