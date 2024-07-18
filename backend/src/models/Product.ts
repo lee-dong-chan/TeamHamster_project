@@ -44,6 +44,7 @@ class Product extends Model {
   public readonly deletedAt!: Date;
   addReport: any;
   addReview: any;
+  addDeliveryCost: any;
 
   public static initialize(sequelize: Sequelize) {
     Product.init(
@@ -65,6 +66,7 @@ class Product extends Model {
         },
         prepayment: {
           type: DataTypes.BOOLEAN,
+          defaultValue: true,
         },
         img: {
           type: DataTypes.TEXT,
