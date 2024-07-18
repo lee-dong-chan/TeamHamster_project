@@ -2,6 +2,7 @@ import { DataTypes, Model, Sequelize } from "sequelize";
 import Store from "./Store";
 import Product from "./Product";
 import ExtraAddress from "./ExtraAddress";
+import User from "./User";
 
 type Constructor<T> = new (...args: any[]) => T;
 
@@ -32,6 +33,8 @@ class Name extends Model {
   public readonly createdAt!: Date;
   public readonly updateAt!: Date;
   public readonly deletedAt!: Date;
+  addExtraAddress: any;
+  addUser: any;
   // addChildren: any;
 
   public static initialize(sequelize: Sequelize) {
@@ -56,6 +59,10 @@ class Name extends Model {
   static associate({}: {}) {
     Name.hasMany(ExtraAddress, {
       as: "ExtraAddress",
+      foreignKey: "nameId",
+    });
+    Name.hasMany(User, {
+      as: "User",
       foreignKey: "nameId",
     });
   }

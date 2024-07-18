@@ -1,5 +1,6 @@
 import { DataTypes, Model, Sequelize } from "sequelize";
 import Store from "./Store";
+import Name from "./Name";
 
 type Constructor<T> = new (...args: any[]) => T;
 
@@ -15,6 +16,8 @@ class User extends Model {
   public readonly createdAt!: Date;
   public readonly updateAt!: Date;
   public readonly deletedAt!: Date;
+  setStore: any;
+  nameId: number | undefined;
 
   public static initialize(sequelize: Sequelize) {
     User.init(
@@ -57,6 +60,10 @@ class User extends Model {
     User.hasOne(Store, {
       as: "Store",
       foreignKey: "userId",
+    });
+    User.belongsTo(Name, {
+      as: "Name",
+      foreignKey: "nameId",
     });
   }
 }

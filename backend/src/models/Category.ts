@@ -11,6 +11,7 @@ class Category extends Model {
   public readonly updateAt!: Date;
   public readonly deletedAt!: Date;
   addChildren: any;
+  addProduct: any;
 
   public static initialize(sequelize: Sequelize) {
     Category.init(

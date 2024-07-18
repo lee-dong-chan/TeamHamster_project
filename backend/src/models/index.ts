@@ -32,10 +32,10 @@ Product.associate({ Category, Store, Review });
 Store.associate({ User, Product, PointHistory, Review, ExtraAddress });
 User.associate({ Store });
 // PointHistory.associate({ Store });
-// Review.associate({ Store });
+Review.associate({ Product });
 ExtraAddress.associate({ Product });
 Address.associate({ ExtraAddress });
-Name.associate({ ExtraAddress });
+Name.associate({ ExtraAddress, User });
 DeliveryCost.associate({ Product });
 
 export {

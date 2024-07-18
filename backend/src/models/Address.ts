@@ -32,6 +32,7 @@ class Address extends Model {
   public readonly createdAt!: Date;
   public readonly updateAt!: Date;
   public readonly deletedAt!: Date;
+  addExtraAddress: any;
   // addChildren: any;
 
   public static initialize(sequelize: Sequelize) {
