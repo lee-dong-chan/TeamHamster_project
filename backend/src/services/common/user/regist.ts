@@ -6,7 +6,6 @@ import { Transaction } from "sequelize";
 
 export default async (req: Request, res: Response) => {
   const transaction: Transaction = await sequelize.transaction();
-
   try {
     dotenv.config();
     const reqbody = req.body;
@@ -27,7 +26,7 @@ export default async (req: Request, res: Response) => {
     const iv = process.env.IV || "";
     const cipher = crypto.createCipheriv("aes-256-gcm", key, iv);
 
-    let encryptionemail = cipher.update(`${reqbody.email}`, "utf-8", "hex");
+    const encryptionemail: string = cipher.update(`${reqbody.email}`, "utf-8", "hex");
 
     const emailcheck: User | null = await User.findOne({
       where: { email: encryptionemail },

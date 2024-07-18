@@ -17,6 +17,8 @@ import sessionFileStore from "session-file-store";
 const FileStore = sessionFileStore(session);
 
 import layout from "../services/common/layout";
+import deliveries from "./deliveries";
+
 /// page
 import main from "../services/common/page/main";
 import catepage from "../services/common/page/catepage";
@@ -49,6 +51,10 @@ import logout from "../services/common/user/logout";
 import findemail from "../services/common/user/findemail";
 import findpw from "../services/common/user/findpw";
 import updatepw from "../services/common/user/updatepw";
+import NaverCallback from "../services/common/user/NaverCallback";
+import GoogleCallback from "../services/common/user/GoogleCallback";
+import imgSave from "../services/common/imgSave";
+import testtwo from "../services/test/testtwo";
 
 router.use(
   session({
@@ -57,11 +63,11 @@ router.use(
     secret: "test",
     name: "store-session",
     store: new FileStore({
-      reapInterval: 10,
+      reapInterval: 60,
       path: "./login-session",
     }),
     cookie: {
-      maxAge: 60 * 1000,
+      maxAge: 60 * 60 * 1000,
     },
   })
 );
@@ -69,10 +75,13 @@ router.use(
 router.get("/dbtest", dbtest);
 // router.get("/sessiontest", sessiontest);
 // router.post("/review", review);
+router.post("/testtwo", testtwo);
 
 ///
 
 router.use(layout);
+router.use("/deliveries", deliveries);
+
 /// page
 router.post("/main", main);
 router.post("/category/:id", catepage);
@@ -85,6 +94,8 @@ router.post("/write", productwrite);
 ///
 router.post("/category", category);
 router.post("/catefirst", catefirst);
+router.post("/imgSave", ...imgSave);
+
 /// view
 router.post("/purchase/:id", purchase);
 router.post("/report/:id", report);
@@ -105,5 +116,8 @@ router.post("/logout", logout);
 router.post("/findemail", findemail);
 router.post("/findpw", findpw);
 router.post("/updatepw", updatepw);
+/// OAuth
+router.post("/NaverCallback", NaverCallback);
+router.post("/GoogleCallback", GoogleCallback);
 
 export default router;
