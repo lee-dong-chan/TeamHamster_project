@@ -1,14 +1,16 @@
-import SmallButton from "../../Component/Button/smallButton";
+import { box, center } from "../../lib/styles";
+import { SmallButton } from "../../Component/Button/Button";
+
 import Ben from "../../Component/List/ManegeList/User/Ben/Ben";
 import ReportUser from "../../Component/List/ManegeList/User/ReportUser/ReportUser";
-import Button from "../../lib/Button/Button";
+import { Button } from "../../lib/Button/Button";
 
 interface IProps {}
 
 const ManegeUser = ({}: IProps): JSX.Element => {
   const btn = new Button("검색", "bg-orange-500");
   return (
-    <div className="Box Center">
+    <div className={`${box} ${center}`}>
       <div>
         <div className=" h-[20rem] w-[70rem] border border-gray-400 overflow-y-auto">
           <ReportUser />

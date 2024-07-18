@@ -2,6 +2,7 @@ import SearchComp from "../../Component/Search/SearchComp";
 import List from "../../Component/List/List";
 import { List as ListData } from "../../lib/list";
 import { useBreakPoint } from "../../CustomHook/BreakPoint";
+import { box, mobilebox } from "../../lib/styles";
 
 interface IProps {
   list: ListData[];
@@ -13,7 +14,7 @@ const Main = ({ list }: IProps): JSX.Element => {
   return (
     <div>
       {isdesktop && <SearchComp />}
-      <div className={`${isdesktop && "Box"} ${ismobile && "MobileBox"}`}>
+      <div className={`${isdesktop && `${box}`} ${ismobile && mobilebox}`}>
         {cookie ? (
           <div>
             <div className="mx-auto w-[10rem] flex justify-evenly bg-red-200">

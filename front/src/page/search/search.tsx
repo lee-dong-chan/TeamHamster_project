@@ -4,6 +4,7 @@ import { List as ListData } from "../../lib/list";
 import { useParams } from "react-router-dom";
 import Paging from "../../Component/paging/paging";
 import { useBreakPoint } from "../../CustomHook/BreakPoint";
+import { box, mobilebox } from "../../lib/styles";
 
 interface IProps {
   list: ListData[];
@@ -13,11 +14,11 @@ const Search = ({ list }: IProps): JSX.Element => {
   const { isdesktop, ismobile } = useBreakPoint();
   let { id } = useParams();
   const result = true;
-  console.log(id);
+
   return (
     <div>
       {isdesktop && <SearchComp />}
-      <div className={`${isdesktop && "Box"} ${ismobile && "MobileBox"}`}>
+      <div className={`${isdesktop && box} ${ismobile && mobilebox}`}>
         <div className="p-[2rem] text-[1.7rem] font-bold">
           <span className="text-orange-500">{id}</span>의 검색결과
         </div>
