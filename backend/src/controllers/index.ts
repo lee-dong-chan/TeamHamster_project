@@ -55,6 +55,7 @@ import NaverCallback from "../services/common/user/NaverCallback";
 import GoogleCallback from "../services/common/user/GoogleCallback";
 import imgSave from "../services/common/imgSave";
 import testtwo from "../services/test/testtwo";
+import admin from "./admin";
 
 router.use(
   session({
@@ -81,6 +82,7 @@ router.post("/testtwo", testtwo);
 
 router.use(layout);
 router.use("/deliveries", deliveries);
+router.use("/admin", admin);
 
 /// page
 router.post("/main", main);

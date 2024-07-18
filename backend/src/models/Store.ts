@@ -38,6 +38,7 @@ class Store extends Model {
   addPurchase: any;
   addReview: any;
   addPointHistory: any;
+  addReport: any;
 
   public static initialize(sequelize: Sequelize) {
     Store.init(
