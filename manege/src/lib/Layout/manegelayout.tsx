@@ -1,4 +1,4 @@
-import { Link, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import ManegeReport from "../../page/manege/report";
 import ManegeCategory from "../../page/manege/category";
 import ManegeBenKeyword from "../../page/manege/benkeyword";
@@ -7,8 +7,9 @@ import ManegePoint from "../../page/manege/point";
 import ManegeDeliveryTip from "../../page/manege/deliverytip";
 import ManegePageCategory from "../../Component/Category/ManegePageCategory";
 
-import Button from "../Button/Button";
-import TinyButton from "../../Component/Button/TinyButton";
+import { TinyButton } from "../../Component/Button/Button";
+import { box, center } from "../styles";
+import { Button } from "../Button/Button";
 
 interface IProps {}
 
@@ -17,8 +18,8 @@ const ManegeLayout = ({}: IProps): JSX.Element => {
   return (
     <div>
       <div className="p-1 h-[6rem] bg-orange-600">
-        <div className="Box h-[100%] flex justify-between items-center ">
-          <div className="Center">
+        <div className={`${box} h-[100%] flex justify-between items-center `}>
+          <div className={`${center}`}>
             <img src="/imgs/hamster.png" className="h-[4rem]"></img>
             <div>
               <div className="text-[2rem] text-white font-bold">햄스터마켓</div>
@@ -27,7 +28,7 @@ const ManegeLayout = ({}: IProps): JSX.Element => {
               </div>
             </div>
           </div>
-          <div className="Center gap-3">
+          <div className={`${center} gap-3`}>
             <div className="h-[3rem] w-[3rem]">
               <img className="h-[100%]" src="/imgs/good.png"></img>
             </div>
@@ -37,7 +38,7 @@ const ManegeLayout = ({}: IProps): JSX.Element => {
           </div>
         </div>
       </div>
-      <div className="Box">
+      <div>
         <ManegePageCategory />
         <Routes>
           <Route path="/manege/report" element={<ManegeReport />} />
@@ -50,7 +51,7 @@ const ManegeLayout = ({}: IProps): JSX.Element => {
       </div>
 
       <div className="border border-t border-b">
-        <div className="py-[1rem] Box Center text-gray-400 ">
+        <div className={`${box} ${center} py-[1rem]text-gray-400 `}>
           <div>팀이름</div>
           <div className="mx-[1.5rem] h-[1rem] border border-[1px] border-gray-200 "></div>
           <div>프로젝트 이름</div>

@@ -9,12 +9,12 @@ interface IProps {
 const Login = ({ ModalOn }: IProps): JSX.Element => {
   const { isdesktop, ismobile } = useBreakPoint();
   return (
-    <div className={`${center}" gap-4 text-gray-500 "`}>
+    <div className={`${center} gap-4 text-gray-500 `}>
       {isdesktop && (
         <div>
           <div className="">{`${"??"}님`}</div>
           <div className="">{`보유포인트:${"100"}포인트`}</div>
-          <div className=" center w-[5rem] border rounded bg-blue-100 ">
+          <div className={`${center} w-[5rem] border rounded bg-blue-100`}>
             로그아웃
           </div>
         </div>
@@ -36,7 +36,7 @@ const Login = ({ ModalOn }: IProps): JSX.Element => {
           </Link>
           <Link to={"/mystore"}>
             <div
-              className={`${center}" px-2 py-3 w-[5rem] bg-blue-200 border rounded"`}
+              className={`${center} px-2 py-3 w-[5rem] bg-blue-200 border rounded`}
             >
               내상점
             </div>

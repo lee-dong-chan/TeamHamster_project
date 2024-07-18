@@ -1,13 +1,14 @@
-import SmallButton from "../../Component/Button/smallButton";
-import Button from "../../lib/Button/Button";
+import { box, center } from "../../lib/styles";
+import { SmallButton } from "../../Component/Button/Button";
+import { Button } from "../../lib/Button/Button";
 
 interface IProps {}
 
 const ManegeDeliveryTip = ({}: IProps): JSX.Element => {
   const btn = new Button("확인", "bg-orange-500");
   return (
-    <div className="Box">
-      <div className="Center flex-col">
+    <div className={`${box}`}>
+      <div className={`${center} flex-col`}>
         <div className="mt-[5rem] mb-[10rem] w-[50rem] flex justify-between items-center">
           <div className="h-[4rem] ">
             <input

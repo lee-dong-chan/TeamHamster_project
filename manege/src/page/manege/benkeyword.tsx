@@ -1,13 +1,16 @@
-import SmallButton from "../../Component/Button/smallButton";
+import { SmallButton } from "../../Component/Button/Button";
+
 import BenKeyWord from "../../Component/List/ManegeList/BenKeyword/Benkeyword";
-import Button from "../../lib/Button/Button";
+import { Button } from "../../lib/Button/Button";
+
+import { box, center } from "../../lib/styles";
 
 interface IProps {}
 
 const ManegeBenKeyword = ({}: IProps): JSX.Element => {
   const btn = new Button("추가", "bg-orange-500");
   return (
-    <div className="Box Center">
+    <div className={`${box} ${center}`}>
       <div>
         <div className=" h-[30rem] w-[70rem] border border-gray-400 overflow-y-auto">
           <BenKeyWord />

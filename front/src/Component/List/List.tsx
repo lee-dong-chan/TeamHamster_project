@@ -1,6 +1,6 @@
 import { useBreakPoint } from "../../CustomHook/BreakPoint";
 import { List as ListData } from "../../lib/list";
-import { center } from "../../lib/styles";
+import { box, center } from "../../lib/styles";
 import Item from "./ListItem";
 
 interface IProps {
@@ -11,7 +11,7 @@ const List = ({ list }: IProps): JSX.Element => {
   const { isdesktop, ismobile } = useBreakPoint();
   return (
     <div
-      className={`${isdesktop && "Box"} ${
+      className={`${isdesktop && box} ${
         ismobile && "MobileBox overflow-auto scrollbar-hide"
       }`}
     >

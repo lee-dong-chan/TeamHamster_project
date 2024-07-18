@@ -22,8 +22,9 @@ import { CgAdd } from "react-icons/cg";
 import { MdOutlineShoppingBag } from "react-icons/md";
 import { IoAccessibility } from "react-icons/io5";
 import LoginPage from "../../page/account/login/login";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import MobileModal from "../../Component/Mobile/Modal/MobileModal";
+import { box, center } from "../styles";
 
 interface IProps {
   userlogin: boolean;
@@ -40,18 +41,18 @@ const Layout = ({
 }: IProps): JSX.Element => {
   const [modal, setModal] = useState(false);
   const [ModalContent, setModalContent] = useState("");
-  const MenuOn = () => {
+  const MenuOn = useCallback(() => {
     setModal(true);
     setModalContent("menu");
-  };
-  const SearchOn = () => {
+  }, []);
+  const SearchOn = useCallback(() => {
     setModal(true);
     setModalContent("search");
-  };
-  const ModalOff = () => {
+  }, []);
+  const ModalOff = useCallback(() => {
     setModal(false);
-  };
-  console.log(modal);
+  }, []);
+
   const { isdesktop, ismobile } = useBreakPoint();
   const authority = false;
 
@@ -59,9 +60,9 @@ const Layout = ({
     <div>
       <div>
         <div className="p-1 h-[6rem] bg-orange-200">
-          <div className="Box h-[100%] flex justify-between items-center ">
+          <div className={`${box} h-[100%] flex justify-between items-center`}>
             <Link to={"/"}>
-              <div className="center">
+              <div className={`${center}`}>
                 {ismobile && (
                   <div className="flex flex-col items-center" onClick={MenuOn}>
                     <div>
@@ -117,7 +118,7 @@ const Layout = ({
         {isdesktop && (
           <div>
             <div className="border border-t border-b">
-              <div className="py-[1rem] Box center text-gray-400 ">
+              <div className={`${box} ${center} py-[1rem]  text-gray-400 `}>
                 <div>팀이름</div>
                 <div className="mx-[1.5rem] h-[1rem] border border-[1px] border-gray-200 "></div>
                 <div>프로젝트 이름</div>
@@ -134,7 +135,7 @@ const Layout = ({
             </div>
           </div>
         )}
-        {ismobile && (
+        {ismobile && !modal && (
           <div className="h-[6em] flex justify-evenly items-center sticky bottom-0 bg-gray-300 border border-t">
             <Link to={"/"}>
               <div className="flex flex-col items-center ">

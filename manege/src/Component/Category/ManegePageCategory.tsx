@@ -1,29 +1,36 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { center } from "../../lib/styles";
 
 const ManegePageCategory = (): JSX.Element => {
-  const [manegecate, setManegeCate] = useState("report");
-  const report = (): void => {
+  const [manegecate, setManegeCate] = useState<string>();
+  const report = useCallback((): void => {
     setManegeCate("report");
-  };
-  const category = (): void => {
+  }, []);
+  const category = useCallback((): void => {
     setManegeCate("cate");
-  };
-  const keyword = (): void => {
+  }, []);
+  const keyword = useCallback((): void => {
     setManegeCate("keyword");
-  };
-  const user = (): void => {
+  }, []);
+  const user = useCallback((): void => {
     setManegeCate("user");
-  };
-  const point = (): void => {
+  }, []);
+  const point = useCallback((): void => {
     setManegeCate("point");
-  };
-  const delivery = (): void => {
+  }, []);
+  const delivery = useCallback((): void => {
     setManegeCate("delivery");
-  };
+  }, []);
+
+  useEffect(() => {
+    setManegeCate("report");
+  }, []);
 
   return (
-    <div className="pt-20 pb-10 Center gap-20 text-[1.2rem] text-gray-500 font-bold">
+    <div
+      className={`pt-20 pb-10 ${center}  gap-20 text-[1.2rem] text-gray-500 font-bold`}
+    >
       <Link to={"/manege/report"}>
         {manegecate == "report" ? (
           <div className="text-orange-500">신고관리</div>
