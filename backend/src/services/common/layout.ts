@@ -10,10 +10,10 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         raw: true,
       });
     }
+    next();
   } catch (err) {
     console.error(err);
-    // res.json({ result: "fail" });
-  } finally {
-    next();
+    res.json({ result: "fail" });
+    // } finally {
   }
 };
