@@ -5,7 +5,7 @@ export default async (req: Request, res: Response) => {
   try {
     const reqbody = req.body;
     const productlist: Product[] = await Product.findAll({
-      where: { itemState: null },
+      where: { itemState: "판매중" },
       attributes: ["id", "title", "discription", "price", "createdAt", "img"],
       include: [{ model: Category, as: "Category", attributes: ["name"] }],
       raw: true,
