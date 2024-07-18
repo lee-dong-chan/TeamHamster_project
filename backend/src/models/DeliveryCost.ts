@@ -32,6 +32,7 @@ class DeliveryCost extends Model {
   public readonly createdAt!: Date;
   public readonly updateAt!: Date;
   public readonly deletedAt!: Date;
+  addProduct: any;
   // addChildren: any;
 
   public static initialize(sequelize: Sequelize) {

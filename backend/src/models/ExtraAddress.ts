@@ -34,6 +34,8 @@ class ExtraAddress extends Model {
   public readonly createdAt!: Date;
   public readonly updateAt!: Date;
   public readonly deletedAt!: Date;
+  addSellAddress: any;
+  addPurchaseAddress: any;
   // addChildren: any;
 
   public static initialize(sequelize: Sequelize) {

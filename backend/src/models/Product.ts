@@ -42,18 +42,23 @@ class Product extends Model {
   public readonly createdAt!: Date;
   public readonly updateAt!: Date;
   public readonly deletedAt!: Date;
+  addReport: any;
+  addReview: any;
 
   public static initialize(sequelize: Sequelize) {
     Product.init(
       {
         title: {
           type: DataTypes.STRING(48),
+          allowNull: false,
         },
         discription: {
           type: DataTypes.TEXT,
+          allowNull: false,
         },
         itemState: {
           type: DataTypes.STRING(5),
+          defaultValue: "판매중",
         },
         price: {
           type: DataTypes.INTEGER,
@@ -63,6 +68,9 @@ class Product extends Model {
         },
         img: {
           type: DataTypes.TEXT,
+        },
+        delivery: {
+          type: DataTypes.INTEGER,
         },
       },
       {
@@ -90,7 +98,7 @@ class Product extends Model {
     });
     Product.belongsTo(Store, {
       as: "Sell",
-      foreignKey: "storeId",
+      foreignKey: "sellId",
     });
     Product.belongsTo(Store, {
       as: "Purchase",

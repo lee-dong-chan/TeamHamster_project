@@ -33,6 +33,11 @@ class Store extends Model {
   public readonly createdAt!: Date;
   public readonly updateAt!: Date;
   public readonly deletedAt!: Date;
+  addExtraAddress: any;
+  addSell: any;
+  addPurchase: any;
+  addReview: any;
+  addPointHistory: any;
 
   public static initialize(sequelize: Sequelize) {
     Store.init(
@@ -81,7 +86,7 @@ class Store extends Model {
     });
     Store.hasMany(Product, {
       as: "Sell",
-      foreignKey: "storeId",
+      foreignKey: "sellId",
     });
     Store.hasMany(Product, {
       as: "Purchase",
