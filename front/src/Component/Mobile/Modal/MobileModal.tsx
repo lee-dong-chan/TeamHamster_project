@@ -3,7 +3,7 @@ import Menu from "../Menu/Menu";
 import Search from "../Search/Search";
 interface IProps {
   ModalOff(): void;
-  ModalContent: string;
+  ModalContent: string | undefined;
 }
 
 const MobileModal = ({ ModalOff, ModalContent }: IProps): JSX.Element => {

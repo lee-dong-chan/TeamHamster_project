@@ -28,7 +28,7 @@ const ButtonComp = ({
 export default ButtonComp;
 
 export const LargeButton = ({ btn }: IProps): JSX.Element => {
-  return <ButtonComp btn={btn} width="w-[55rem]" />;
+  return <ButtonComp btn={btn} width="w-[70rem]" />;
 };
 
 export const SmallButton = ({ btn }: IProps): JSX.Element => {
