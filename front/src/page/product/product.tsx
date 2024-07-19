@@ -5,18 +5,11 @@ import { Button } from "../../lib/Button/Button";
 import { box, center } from "../../lib/styles";
 
 interface IProps {
-  buymodal(): void;
-  reportmodal(): void;
   mobilereport(): void;
   mobilebuy(): void;
 }
 
-const Product = ({
-  buymodal,
-  reportmodal,
-  mobilereport,
-  mobilebuy,
-}: IProps): JSX.Element => {
+const Product = ({ mobilereport, mobilebuy }: IProps): JSX.Element => {
   const { isdesktop, ismobile } = useBreakPoint();
   const btn = new Button("구매하기", "bg-orange-200");
   return (
@@ -27,7 +20,7 @@ const Product = ({
           <div className={`pt-5 pb-3`}>
             {isdesktop && (
               <div
-                onClick={reportmodal}
+                onClick={mobilereport}
                 className="p-2 flex justify-end text-gray-400"
               >
                 신고하기
@@ -43,7 +36,7 @@ const Product = ({
             )}
 
             {isdesktop && (
-              <div onClick={buymodal}>
+              <div onClick={mobilebuy}>
                 <LargeButton btn={btn} />
               </div>
             )}
