@@ -25,6 +25,7 @@ import LoginPage from "../../page/account/login/login";
 import { useCallback, useState } from "react";
 import MobileModal from "../../Component/Mobile/Modal/MobileModal";
 import { box, center } from "../styles";
+import WebModal from "../../Component/Mobile/Modal/WebModal";
 
 interface IProps {
   userlogin: boolean;
@@ -39,18 +40,35 @@ const Layout = ({
   catepage,
   searchpage,
 }: IProps): JSX.Element => {
-  const [modal, setModal] = useState(false);
-  const [ModalContent, setModalContent] = useState("");
-  const MenuOn = useCallback(() => {
-    setModal(true);
-    setModalContent("menu");
+  const [Webmodal, setWebModal] = useState(false);
+  const [mobilemodal, setMobileModal] = useState(false);
+  const [ModalContent, setModalContent] = useState<string>();
+  const ReportModalOn = useCallback(() => {
+    setModalContent("report");
+    setWebModal(true);
   }, []);
-  const SearchOn = useCallback(() => {
-    setModal(true);
-    setModalContent("search");
+  const BuyModalOn = useCallback(() => {
+    setModalContent("buy");
+    setWebModal(true);
+  }, []);
+  const ReviewModalOn = useCallback(() => {
+    setModalContent("review");
+    setWebModal(true);
   }, []);
   const ModalOff = useCallback(() => {
-    setModal(false);
+    setWebModal(false);
+  }, []);
+
+  const MobileMenuOn = useCallback(() => {
+    setMobileModal(true);
+    setModalContent("menu");
+  }, []);
+  const MobileSearchOn = useCallback(() => {
+    setMobileModal(true);
+    setModalContent("search");
+  }, []);
+  const MobileModalOff = useCallback(() => {
+    setMobileModal(false);
   }, []);
 
   const { isdesktop, ismobile } = useBreakPoint();
@@ -58,13 +76,16 @@ const Layout = ({
 
   return (
     <div>
-      <div>
+      <div className="relative">
         <div className="p-1 h-[6rem] bg-orange-200">
           <div className={`${box} h-[100%] flex justify-between items-center`}>
             <Link to={"/"}>
               <div className={`${center}`}>
                 {ismobile && (
-                  <div className="flex flex-col items-center" onClick={MenuOn}>
+                  <div
+                    className="flex flex-col items-center"
+                    onClick={MobileMenuOn}
+                  >
                     <div>
                       <CgFormatJustify size={40} />
                     </div>
@@ -84,34 +105,47 @@ const Layout = ({
             {!userlogin ? (
               <NotLogin />
             ) : !authority ? (
-              <Login ModalOn={SearchOn} />
+              <Login ModalOn={MobileSearchOn} />
             ) : (
               <Maneger />
             )}
           </div>
         </div>
-        {!modal ? (
-          <Routes>
-            <Route path="/" element={<Main list={main} />}></Route>
-            <Route
-              path="/category/:id"
-              element={<Category list={catepage} />}
-            ></Route>
-            <Route
-              path={`/search/:id`}
-              element={<Search list={searchpage} />}
-            ></Route>
-            <Route path="/product/:id" element={<Product />}></Route>
-            <Route path="/sell" element={<Sell />}></Route>
-            <Route path="/mystore" element={<MyStore />}></Route>
-            <Route path="/login" element={<LoginPage />}></Route>
-            <Route path="/regist" element={<Regist />}></Route>
-            <Route path="/point" element={<Point />}></Route>
-          </Routes>
+        {!mobilemodal ? (
+          <div>
+            <Routes>
+              <Route path="/" element={<Main list={main} />}></Route>
+              <Route
+                path="/category/:id"
+                element={<Category list={catepage} />}
+              ></Route>
+              <Route
+                path={`/search/:id`}
+                element={<Search list={searchpage} />}
+              ></Route>
+              <Route
+                path="/product/:id"
+                element={<Product buymodal={BuyModalOn} />}
+              ></Route>
+              <Route path="/sell" element={<Sell />}></Route>
+              <Route path="/mystore" element={<MyStore />}></Route>
+              <Route path="/login" element={<LoginPage />}></Route>
+              <Route path="/regist" element={<Regist />}></Route>
+              <Route path="/point" element={<Point />}></Route>
+            </Routes>
+            {Webmodal && isdesktop && (
+              <div className="absolute top-40 ">
+                <WebModal ModalOff={ModalOff} />
+              </div>
+            )}
+          </div>
         ) : (
           <div>
-            {ismobile && (
-              <MobileModal ModalOff={ModalOff} ModalContent={ModalContent} />
+            {ismobile && mobilemodal && (
+              <MobileModal
+                ModalOff={MobileModalOff}
+                ModalContent={ModalContent}
+              />
             )}
           </div>
         )}
@@ -135,7 +169,7 @@ const Layout = ({
             </div>
           </div>
         )}
-        {ismobile && !modal && (
+        {ismobile && !mobilemodal && (
           <div className="h-[6em] flex justify-evenly items-center sticky bottom-0 bg-gray-300 border border-t">
             <Link to={"/"}>
               <div className="flex flex-col items-center ">
