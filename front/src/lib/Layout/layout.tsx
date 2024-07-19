@@ -23,9 +23,8 @@ import { MdOutlineShoppingBag } from "react-icons/md";
 import { IoAccessibility } from "react-icons/io5";
 import LoginPage from "../../page/account/login/login";
 import { useCallback, useEffect, useState } from "react";
-import MobileModal from "../../Component/Mobile/Modal/MobileModal";
+import MobileModal from "../../Component/Mobile/Modal/Modal";
 import { box, center } from "../styles";
-import WebModal from "../../Component/Mobile/Modal/WebModal";
 
 interface IProps {
   userlogin: boolean;
@@ -42,51 +41,32 @@ const Layout = ({
 }: IProps): JSX.Element => {
   const { isdesktop, ismobile } = useBreakPoint();
   const authority = false;
-  const [Webmodal, setWebModal] = useState(false);
-  const [mobilemodal, setMobileModal] = useState(false);
+
+  const [modal, setModal] = useState(false);
   const [ModalContent, setModalContent] = useState<string>();
-  //WebModal
+
+  const MenuOn = useCallback(() => {
+    setModal(true);
+    setModalContent("menu");
+  }, []);
+  const SearchOn = useCallback(() => {
+    setModal(true);
+    setModalContent("search");
+  }, []);
   const ReportModalOn = useCallback(() => {
     setModalContent("report");
-    setWebModal(true);
+    setModal(true);
   }, []);
   const BuyModalOn = useCallback(() => {
     setModalContent("buy");
-    setWebModal(true);
-  }, []);
-  const ReviewModalOn = useCallback(() => {
-    setModalContent("review");
-    setWebModal(true);
+    setModal(true);
   }, []);
   const ModalOff = useCallback(() => {
-    setWebModal(false);
-  }, []);
-  //MobileModal
-  const MobileMenuOn = useCallback(() => {
-    setMobileModal(true);
-    setModalContent("menu");
-  }, []);
-  const MobileSearchOn = useCallback(() => {
-    setMobileModal(true);
-    setModalContent("search");
-  }, []);
-  const MobileReportModalOn = useCallback(() => {
-    setModalContent("report");
-    setMobileModal(true);
-  }, []);
-  const MobileBuyModalOn = useCallback(() => {
-    setModalContent("buy");
-    setMobileModal(true);
-  }, []);
-  const MobileModalOff = useCallback(() => {
-    setMobileModal(false);
+    setModal(false);
   }, []);
 
   useEffect(() => {
-    setWebModal(false);
-  }, [ismobile]);
-  useEffect(() => {
-    setMobileModal(false);
+    setModal(false);
   }, [isdesktop]);
   return (
     <div>
@@ -95,10 +75,7 @@ const Layout = ({
           <div className={`${box} h-[100%] flex justify-between items-center`}>
             <div className={`${center}`}>
               {ismobile && (
-                <div
-                  className="flex flex-col items-center"
-                  onClick={MobileMenuOn}
-                >
+                <div className="flex flex-col items-center" onClick={MenuOn}>
                   <div>
                     <CgFormatJustify size={40} />
                   </div>
@@ -120,14 +97,17 @@ const Layout = ({
             {!userlogin ? (
               <NotLogin />
             ) : !authority ? (
-              <Login ModalOn={MobileSearchOn} />
+              <Login ModalOn={SearchOn} />
             ) : (
               <Maneger />
             )}
           </div>
         </div>
-        {!mobilemodal ? (
-          <div>
+
+        <div>
+          {ismobile && modal ? (
+            <div></div>
+          ) : (
             <Routes>
               <Route path="/" element={<Main list={main} />}></Route>
               <Route
@@ -142,10 +122,8 @@ const Layout = ({
                 path="/product/:id"
                 element={
                   <Product
-                    buymodal={BuyModalOn}
-                    reportmodal={ReportModalOn}
-                    mobilereport={MobileReportModalOn}
-                    mobilebuy={MobileBuyModalOn}
+                    mobilereport={ReportModalOn}
+                    mobilebuy={BuyModalOn}
                   />
                 }
               ></Route>
@@ -155,22 +133,14 @@ const Layout = ({
               <Route path="/regist" element={<Regist />}></Route>
               <Route path="/point" element={<Point />}></Route>
             </Routes>
-            {Webmodal && isdesktop && (
-              <div className="absolute top-40 start-80 ">
-                <WebModal ModalOff={ModalOff} />
-              </div>
-            )}
-          </div>
-        ) : (
+          )}
           <div>
-            {ismobile && mobilemodal && (
-              <MobileModal
-                ModalOff={MobileModalOff}
-                ModalContent={ModalContent}
-              />
+            {modal && (
+              <MobileModal ModalOff={ModalOff} ModalContent={ModalContent} />
             )}
           </div>
-        )}
+        </div>
+
         {isdesktop && (
           <div>
             <div className="border border-t border-b">
@@ -191,7 +161,7 @@ const Layout = ({
             </div>
           </div>
         )}
-        {ismobile && !mobilemodal && (
+        {ismobile && !modal && (
           <div className="h-[6em] flex justify-evenly items-center sticky bottom-0 bg-gray-300 border border-t">
             <Link to={"/"}>
               <div className="flex flex-col items-center ">
