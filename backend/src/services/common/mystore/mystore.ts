@@ -38,7 +38,7 @@ export default async (req: Request, res: Response) => {
       loginuser = true;
     }
 
-    res.json({ login: reqbody.user, store: store, loginuser: loginuser });
+    res.json({ store: store, loginuser: loginuser });
   } catch (err) {
     console.error(err);
     res.json({ result: "fail" });

@@ -39,7 +39,7 @@ export default async (req: Request, res: Response) => {
       await nowuser?.addReview(reviewWrite);
     }
 
-    res.json({ login: reqbody.user, result: "ok", duplicationcheck: duplicationcheck });
+    res.json({ result: "ok", duplicationcheck: duplicationcheck });
   } catch (err) {
     console.error(err);
     await transaction.rollback();

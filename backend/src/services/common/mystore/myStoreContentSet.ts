@@ -17,7 +17,7 @@ export default async (req: Request, res: Response) => {
       { where: { id: nowstoreid } }
     );
 
-    res.json({ login: reqbody.user, result: "ok" });
+    res.json({ result: "ok" });
   } catch (err) {
     console.error(err);
     res.json({ result: "fail" });

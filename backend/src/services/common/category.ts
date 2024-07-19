@@ -18,7 +18,7 @@ export default async (req: Request, res: Response) => {
         include: [{ model: Category, as: "Children", attributes: ["id", "name"] }],
       });
     }
-    res.json({ login: reqbody.user, category: categorylist });
+    res.json({ category: categorylist });
   } catch (err) {
     console.error(err);
     res.json({ result: "fail" });

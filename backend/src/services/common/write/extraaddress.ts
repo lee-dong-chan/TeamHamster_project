@@ -15,7 +15,7 @@ export default async (req: Request, res: Response) => {
         { model: Name, as: "Name", attributes: ["name"] },
       ],
     });
-    res.json({ login: reqbody.user, extraAddress: address });
+    res.json({ extraAddress: address });
   } catch (err) {
     console.error(err);
     res.json({ result: "fail" });

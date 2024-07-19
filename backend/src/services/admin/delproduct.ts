@@ -27,7 +27,7 @@ export default async (req: Request, res: Response) => {
 
     delproduct.destroy();
 
-    res.json({ result: "ok", delproduct: delproduct });
+    res.json({ result: "ok" });
   } catch (err) {
     console.error(err);
     res.json({ result: "fail" });

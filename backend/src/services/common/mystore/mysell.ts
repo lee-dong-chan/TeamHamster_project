@@ -29,7 +29,7 @@ export default async (req: Request, res: Response) => {
     });
     // const sellcount: number = product.length;
 
-    res.json({ login: reqbody.user, product: product });
+    res.json({ product: product });
   } catch (err) {
     console.error(err);
     res.json({ result: "fail" });

@@ -10,9 +10,10 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         raw: true,
       });
     }
-    res.json({ login: req.body.user });
+    next();
   } catch (err) {
     console.error(err);
     res.json({ result: "fail" });
+    // } finally {
   }
 };
