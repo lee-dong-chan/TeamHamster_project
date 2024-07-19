@@ -11,7 +11,7 @@ export default async (req: Request, res: Response) => {
       raw: true,
     });
 
-    res.json({ login: reqbody.user, product: productlist });
+    res.json({ product: productlist });
   } catch (err) {
     console.error(err);
     res.json({ result: "fail" });

@@ -16,7 +16,9 @@ declare module "express-session" {
 import sessionFileStore from "session-file-store";
 const FileStore = sessionFileStore(session);
 
-import layout from "../services/common/layout";
+import layout from "../services/common/logincheck";
+import logincheck from "../services/common/logincheck";
+
 import deliveries from "./deliveries";
 
 /// page
@@ -31,6 +33,8 @@ import productwrite from "../services/common/write/productwrite";
 ///
 import category from "../services/common/category";
 import catefirst from "../services/common/catefirst";
+import catelist from "../services/common/catelist";
+
 /// view
 import purchase from "../services/common/view/purchase";
 import report from "../services/common/view/report";
@@ -80,7 +84,7 @@ router.post("/testtwo", testtwo);
 
 ///
 
-router.use(layout);
+router.use(logincheck);
 router.use("/deliveries", deliveries);
 router.use("/admin", admin);
 
@@ -97,6 +101,7 @@ router.post("/write", productwrite);
 router.post("/category", category);
 router.post("/catefirst", catefirst);
 router.post("/imgSave", ...imgSave);
+router.post("/catelist/:id", catelist);
 
 /// view
 router.post("/purchase/:id", purchase);

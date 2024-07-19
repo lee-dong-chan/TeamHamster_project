@@ -46,7 +46,7 @@ export default async (req: Request, res: Response) => {
     await product?.update({ itemState: "픽업 대기" });
     await nowuser?.update({ point: pointcheck });
 
-    res.json({ login: reqbody.user, result: "ok" });
+    res.json({ result: "ok" });
   } catch (err) {
     console.error(err);
     res.json({ result: "fail" });

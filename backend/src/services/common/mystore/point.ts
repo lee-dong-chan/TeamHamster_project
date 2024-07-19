@@ -30,7 +30,7 @@ export default async (req: Request, res: Response) => {
 
     await nowuser?.addPointHistory(pointhistory);
 
-    res.json({ login: reqbody.user, result: "ok" });
+    res.json({ result: "ok" });
   } catch (err) {
     console.error(err);
     res.json({ result: "fail" });

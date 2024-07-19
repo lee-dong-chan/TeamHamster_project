@@ -24,7 +24,7 @@ export default async (req: Request, res: Response) => {
     // } else {
     //   throw Error("not pickup");
     // }
-    res.json({ login: reqbody.user, deliveryspot: deliveryspot });
+    res.json({ deliveryspot: deliveryspot });
   } catch (err) {
     console.error(err);
     res.json({ result: "fail" });

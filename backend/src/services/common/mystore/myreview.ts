@@ -26,7 +26,6 @@ export default async (req: Request, res: Response) => {
     });
     const reviewpercent = Math.floor((reviewcount / preductcount) * 100);
     res.json({
-      login: reqbody.user,
       reviewCount: reviewcount,
       reviewAverage: { star: star },
       reviewPercent: reviewpercent,

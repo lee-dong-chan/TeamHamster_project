@@ -56,7 +56,7 @@ export default async (req: Request, res: Response) => {
       await newaddress.addExtraAddress(extraaddress);
     }
 
-    res.json({ login: reqbody.user, result: "ok" });
+    res.json({ result: "ok" });
   } catch (err) {
     console.error(err);
     await transaction.rollback();

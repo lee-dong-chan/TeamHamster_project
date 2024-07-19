@@ -8,7 +8,7 @@ export default async (req: Request, res: Response) => {
       where: { preCateId: null },
       attributes: ["id", "name"],
     });
-    res.json({ login: reqbody.user, category: catefirst });
+    res.json({ category: catefirst });
   } catch (err) {
     console.error(err);
     res.json({ result: "fail" });

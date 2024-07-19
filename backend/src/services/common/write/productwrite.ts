@@ -51,7 +51,7 @@ export default async (req: Request, res: Response) => {
       throw Error("not category OR deliveryCost OR extraAddress");
     }
 
-    res.json({ login: reqbody.user, result: "ok" });
+    res.json({ result: "ok" });
   } catch (err) {
     console.error(err);
     await transaction.rollback();
