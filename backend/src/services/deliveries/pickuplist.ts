@@ -1,12 +1,18 @@
 import { Request, Response } from "express";
 import { Address, Category, ExtraAddress, Product } from "../../models";
+import { delivery } from "../../models/mongoDB";
 
 export default async (req: Request, res: Response) => {
   try {
     const reqbody = req.body;
+    // const deliveryfind: any = await delivery.find({ userId: 1 }).distinct("productId");
+
+    const deliveryfind: any = await delivery
+      .find({ userId: reqbody.user.id })
+      .distinct("productId");
 
     const waitepickup: Product[] = await Product.findAll({
-      where: { delivery: reqbody.user.id, itemState: "픽업중" },
+      where: { id: deliveryfind, itemState: "픽업중" },
       attributes: ["id", "title", "discription", "img"],
       include: [
         {

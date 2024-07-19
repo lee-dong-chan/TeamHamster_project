@@ -22,7 +22,8 @@ export default async (id: number) => {
       group: ["Store.id"],
       raw: true,
     });
-    return review[0];
+    const star: number = Math.floor(review[0].star * 10) / 10;
+    return star;
   } catch (err) {
     console.error(err);
   }

@@ -11,10 +11,10 @@ export default async (req: Request, res: Response) => {
       throw Error("not login");
     }
     const category: number = reqbody.categoryId;
-    const deliveryCost: number = reqbody.deliveryCostId;
+    // const deliveryCost: number = reqbody.deliveryCostId;
     const extraAddress: number = reqbody.extraAddressId;
 
-    if (!category || !deliveryCost || !extraAddress) {
+    if (!category || !extraAddress) {
       throw Error("not category OR deliveryCost OR extraAddress");
     }
     const nowuser: Store | null = await Store.findOne({
@@ -23,9 +23,9 @@ export default async (req: Request, res: Response) => {
     const nowcategory: Category | null = await Category.findOne({
       where: { id: category },
     });
-    const nowdeliveryCost: DeliveryCost | null = await DeliveryCost.findOne({
-      where: { id: deliveryCost },
-    });
+    // const nowdeliveryCost: DeliveryCost | null = await DeliveryCost.findOne({
+    //   where: { id: deliveryCost },
+    // });
     const nowextraAddress: ExtraAddress | null = await ExtraAddress.findOne({
       where: { id: extraAddress },
     });
@@ -41,10 +41,10 @@ export default async (req: Request, res: Response) => {
       { transaction }
     );
 
-    if (nowcategory && nowdeliveryCost && nowextraAddress && nowuser) {
+    if (nowcategory && nowextraAddress && nowuser) {
       await transaction.commit();
       await nowcategory.addProduct(write);
-      await nowdeliveryCost.addProduct(write);
+      // await nowdeliveryCost.addProduct(write);
       await nowextraAddress.addSellAddress(write);
       await nowuser.addSell(write);
     } else {

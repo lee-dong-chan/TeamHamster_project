@@ -29,9 +29,9 @@ export default async (req: Request, res: Response) => {
     let pointcheck: number = nowuser.point - product.price;
     const delcost: number = deliverycost?.cost || 1000;
 
-    if (product.prepayment) {
-      pointcheck = nowuser.point - product.price - delcost;
-    }
+    // if (product.prepayment) {
+    pointcheck = nowuser.point - product.price - delcost;
+    // }
 
     if (pointcheck < 0) {
       throw Error("not have point");
@@ -40,12 +40,11 @@ export default async (req: Request, res: Response) => {
     const Purchaseaddress: ExtraAddress | null = await ExtraAddress.findOne({
       where: { id: reqbody.extraAddressId },
     });
-
+    await deliverycost?.addProduct(product);
     await nowuser?.addPurchase(product);
     await Purchaseaddress?.addPurchaseAddress(product);
     await product?.update({ itemState: "픽업 대기" });
     await nowuser?.update({ point: pointcheck });
-    await product.addDeliveryCost(deliverycost);
 
     res.json({ login: reqbody.user, result: "ok" });
   } catch (err) {

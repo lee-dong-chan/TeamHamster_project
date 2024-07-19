@@ -27,6 +27,7 @@ class Store extends Model {
   public report_point!: number;
   public mobile!: string;
   public block!: boolean;
+  public star!: number;
 
   // public readonly userId!: number;
 
