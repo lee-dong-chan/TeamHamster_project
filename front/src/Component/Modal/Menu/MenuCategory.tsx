@@ -2,11 +2,9 @@ import { center } from "../../../lib/styles";
 import CategoryItem from "./CategoryItem";
 import { useCallback, useMemo, useState } from "react";
 
-interface IProps {
-  ModalOff(): void;
-}
+interface IProps {}
 
-const MenuCategory = ({ ModalOff }: IProps): JSX.Element => {
+const MenuCategory = ({}: IProps): JSX.Element => {
   const [cateCount, setCateCount] = useState(0);
 
   const setCatePage = useCallback((num: number) => {
@@ -53,7 +51,7 @@ const MenuCategory = ({ ModalOff }: IProps): JSX.Element => {
       <div className="w-[30rem] overflow-hidden">
         <div className={`px-8 py-10 grid grid-cols-3 gap-8 `}>
           {test.slice(cateCount * 9, (cateCount + 1) * 9).map((item, idx) => (
-            <CategoryItem item={item} ModalOff={ModalOff} />
+            <CategoryItem item={item} />
           ))}
         </div>
       </div>

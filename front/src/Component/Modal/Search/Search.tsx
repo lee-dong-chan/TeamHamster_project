@@ -3,11 +3,9 @@ import { box, center } from "../../../lib/styles";
 import { Link } from "react-router-dom";
 import { Debounce } from "../../../CustomHook/Debounce";
 
-interface IProps {
-  ModalOff(): void;
-}
+interface IProps {}
 
-const Search = ({ ModalOff }: IProps): JSX.Element => {
+const Search = ({}: IProps): JSX.Element => {
   const [content, setContent] = useState<string>("");
   const [searchlog, setSearchLog] = useState("");
   const saveContent = useCallback((e: ChangeEvent<HTMLInputElement>) => {
@@ -36,7 +34,6 @@ const Search = ({ ModalOff }: IProps): JSX.Element => {
             <Link to={`/search/${content}`}>
               <div
                 onClick={() => {
-                  ModalOff();
                   savelog();
                 }}
                 className={`${center} w-[4rem] h-[3rem] bg-orange-200 border rounded-e `}
