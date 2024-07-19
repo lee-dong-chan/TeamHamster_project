@@ -6,9 +6,17 @@ import { box, center } from "../../lib/styles";
 
 interface IProps {
   buymodal(): void;
+  reportmodal(): void;
+  mobilereport(): void;
+  mobilebuy(): void;
 }
 
-const Product = ({ buymodal }: IProps): JSX.Element => {
+const Product = ({
+  buymodal,
+  reportmodal,
+  mobilereport,
+  mobilebuy,
+}: IProps): JSX.Element => {
   const { isdesktop, ismobile } = useBreakPoint();
   const btn = new Button("구매하기", "bg-orange-200");
   return (
@@ -18,10 +26,20 @@ const Product = ({ buymodal }: IProps): JSX.Element => {
           <ProductInfo />
           <div className={`pt-5 pb-3`}>
             {isdesktop && (
-              <div className="p-2 flex justify-end text-gray-400">신고하기</div>
+              <div
+                onClick={reportmodal}
+                className="p-2 flex justify-end text-gray-400"
+              >
+                신고하기
+              </div>
             )}
             {ismobile && (
-              <div className="p-2 flex justify-end text-gray-400">신고하기</div>
+              <div
+                onClick={mobilereport}
+                className="p-2 flex justify-end text-gray-400"
+              >
+                신고하기
+              </div>
             )}
 
             {isdesktop && (
@@ -29,7 +47,11 @@ const Product = ({ buymodal }: IProps): JSX.Element => {
                 <LargeButton btn={btn} />
               </div>
             )}
-            {ismobile && <ButtonComp width="w-[30rem]" btn={btn} />}
+            {ismobile && (
+              <div onClick={mobilebuy}>
+                <ButtonComp width="w-[30rem]" btn={btn} />
+              </div>
+            )}
           </div>
         </div>
       </div>

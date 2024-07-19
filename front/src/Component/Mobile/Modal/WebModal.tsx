@@ -7,7 +7,7 @@ interface IProps {
 
 const WebModal = ({ ModalOff }: IProps): JSX.Element => {
   return (
-    <div className="h-[47rem] w-[50rem] bg-gray-100 overflow-scroll scrollbar-hide ">
+    <div className="h-[60rem] w-[50rem] bg-gray-100 overflow-scroll scrollbar-hide ">
       <div className="flex justify-end">
         <div onClick={ModalOff}>
           <IoMdClose size={30} color="gray" />
