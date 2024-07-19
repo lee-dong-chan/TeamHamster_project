@@ -9,7 +9,7 @@ const router: Router = Router();
 
 router.use(deliverycheck);
 router.post("/pickup", pickup);
-router.post("/pickup/:id", pickupid);
+router.post("/pickupId", pickupid);
 router.post("/pickscan/:id", pickscan);
 router.post("/pickuplist", pickuplist);
 

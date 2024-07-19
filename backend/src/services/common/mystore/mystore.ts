@@ -30,10 +30,11 @@ export default async (req: Request, res: Response) => {
     });
 
     if (store) {
-      const star: Store | undefined = await review(store.id);
-      store.dataValues.star = star;
+      const star: number | undefined = await review(store.id);
+      store.dataValues.star = { star: star };
     }
-    if (reqbody.user.id == store?.id) {
+    if (!reqbody.user) {
+    } else if (reqbody.user.id == store?.id) {
       loginuser = true;
     }
 

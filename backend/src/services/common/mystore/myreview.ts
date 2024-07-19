@@ -8,12 +8,12 @@ export default async (req: Request, res: Response) => {
     // const nowstoreid: string = req.params.id;
     const nowstoreid: any = req.query.id;
 
-    const star: Store | undefined = await review(nowstoreid);
+    const star: number | undefined = await review(nowstoreid);
 
     const reviewlist: Review[] = await Review.findAll({
       attributes: ["star", "reviewContent"],
       include: [
-        { model: Store, as: "Store", attributes: ["nick"] },
+        { model: Store, as: "Store", attributes: ["nick", "img"] },
         { model: Product, as: "Product", attributes: ["title"] },
       ],
     });
@@ -24,11 +24,11 @@ export default async (req: Request, res: Response) => {
     const reviewcount: number = await Review.count({
       include: [{ model: Product, as: "Product", where: { sellId: nowstoreid } }],
     });
-    const reviewpercent = Math.floor((reviewcount / preductcount) * 10000);
+    const reviewpercent = Math.floor((reviewcount / preductcount) * 100);
     res.json({
       login: reqbody.user,
       reviewCount: reviewcount,
-      reviewAverage: star,
+      reviewAverage: { star: star },
       reviewPercent: reviewpercent,
       reviewlist: reviewlist,
     });

@@ -8,11 +8,16 @@ export default async (req: Request, res: Response) => {
     const selectproduct: string = req.params.id;
 
     const waitepickup: Product | null = await Product.findOne({
-      where: { id: selectproduct, itemState: "픽업중", delivery: reqbody.user.id },
+      where: { id: selectproduct, itemState: "픽업중" },
     });
     if (waitepickup) {
       waitepickup.update({ itemState: "픽업 완료" });
-      delivery.create({ userId: reqbody.user.id, productId: waitepickup.id });
+      delivery.create({
+        userId: reqbody.user.id,
+        productId: waitepickup.id,
+        spotX: reqbody.spotX,
+        spotY: reqbody.spotY,
+      });
     } else {
       throw Error("not choice pickup");
     }

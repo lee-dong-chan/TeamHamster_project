@@ -29,8 +29,8 @@ export default async (req: Request, res: Response) => {
         },
       ],
     });
-    const star: Store | undefined = await review(productlist.Sell.id);
-    productlist.dataValues.Sell.dataValues.star = star;
+    const star: number | undefined = await review(productlist.Sell.id);
+    productlist.dataValues.Sell.dataValues.star = { star: star };
     res.json({ login: reqbody.user, product: productlist });
   } catch (err) {
     console.error(err);

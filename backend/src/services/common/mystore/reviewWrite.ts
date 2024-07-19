@@ -8,6 +8,9 @@ export default async (req: Request, res: Response) => {
   try {
     const reqbody = req.body;
     const selectproduct: string = req.params.id;
+    if (!reqbody.user) {
+      throw Error("not login");
+    }
 
     const product = await Product.findOne({
       where: { id: selectproduct },

@@ -7,14 +7,23 @@ export default async (req: Request, res: Response) => {
     const reqbody = req.body;
     const selectproduct: string = req.params.id;
 
-    const waitepickup: Product | null = await Product.findOne({
-      where: { id: selectproduct, itemState: "픽업 대기" },
+    console.log(reqbody.id);
+
+    const waitepickup: Product[] | null = await Product.findAll({
+      where: { id: reqbody.id, itemState: "픽업 대기" },
     });
-    if (waitepickup) {
-      waitepickup.update({ itemState: "픽업중", delivery: reqbody.user.id });
-      delivery.create({ userId: reqbody.user.id, productId: waitepickup.id });
-    } else {
+    // if (waitepickup) {
+    //   waitepickup.update({ itemState: "픽업중" });
+    //   delivery.create({ userId: reqbody.user.id, productId: waitepickup.id });
+    // } else {
+    //   throw Error("other pickup");
+    // }
+    if (waitepickup.length == 0) {
       throw Error("other pickup");
+    }
+    for (let i = 0; i < waitepickup.length; i++) {
+      waitepickup[i].update({ itemState: "픽업중" });
+      delivery.create({ userId: reqbody.user.id, productId: waitepickup[i].id });
     }
 
     res.json({ result: "ok" });
