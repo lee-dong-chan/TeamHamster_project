@@ -1,13 +1,18 @@
 import { Link } from "react-router-dom";
 import { useBreakPoint } from "../../CustomHook/BreakPoint";
 import { center } from "../../lib/styles";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { Modal } from "../../Context/Modal";
 
-interface IProps {
-  ModalOn(): void;
-}
+interface IProps {}
 
-const Login = ({ ModalOn }: IProps): JSX.Element => {
+const Login = ({}: IProps): JSX.Element => {
   const { isdesktop, ismobile } = useBreakPoint();
+
+  const setModal = useSetRecoilState(Modal);
+  const opensearch = () => {
+    setModal("mobilesearch");
+  };
   return (
     <div className={`${center} gap-4 text-gray-500 `}>
       {isdesktop && (
@@ -22,7 +27,10 @@ const Login = ({ ModalOn }: IProps): JSX.Element => {
       {ismobile && (
         <div className="flex items-center gap-3">
           <div className="text-white">이동찬님</div>
-          <div className="h-[3rem] w-[3rem] border rounded-]" onClick={ModalOn}>
+          <div
+            className="h-[3rem] w-[3rem] border rounded-]"
+            onClick={opensearch}
+          >
             <img className="h-[100%]" src="/imgs/listsearch.png"></img>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import { Link, Route, Routes } from "react-router-dom";
+import { Link, Route, Routes, useLocation } from "react-router-dom";
 import Search from "../../page/search/search";
 import Main from "../../page/main/main";
 import Category from "../../page/catgegory/category";
@@ -22,9 +22,11 @@ import { CgAdd } from "react-icons/cg";
 import { MdOutlineShoppingBag } from "react-icons/md";
 import { IoAccessibility } from "react-icons/io5";
 import LoginPage from "../../page/account/login/login";
-import { useCallback, useEffect, useState } from "react";
-import MobileModal from "../../Component/Mobile/Modal/Modal";
+import { useEffect } from "react";
+import MobileModal from "../../Component/Modal/ModalBox/Modal";
 import { box, center } from "../styles";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { Modal } from "../../Context/Modal";
 
 interface IProps {
   userlogin: boolean;
@@ -42,32 +44,17 @@ const Layout = ({
   const { isdesktop, ismobile } = useBreakPoint();
   const authority = false;
 
-  const [modal, setModal] = useState(false);
-  const [ModalContent, setModalContent] = useState<string>();
+  const getModal = useRecoilState(Modal);
+  const setModal = useSetRecoilState(Modal);
 
-  const MenuOn = useCallback(() => {
-    setModal(true);
-    setModalContent("menu");
-  }, []);
-  const SearchOn = useCallback(() => {
-    setModal(true);
-    setModalContent("search");
-  }, []);
-  const ReportModalOn = useCallback(() => {
-    setModalContent("report");
-    setModal(true);
-  }, []);
-  const BuyModalOn = useCallback(() => {
-    setModalContent("buy");
-    setModal(true);
-  }, []);
-  const ModalOff = useCallback(() => {
-    setModal(false);
-  }, []);
-
+  const openmenu = () => {
+    setModal("mobilemenu");
+  };
+  const location = useLocation();
   useEffect(() => {
-    setModal(false);
-  }, [isdesktop]);
+    setModal(undefined);
+  }, [location]);
+
   return (
     <div>
       <div className="relative">
@@ -75,7 +62,7 @@ const Layout = ({
           <div className={`${box} h-[100%] flex justify-between items-center`}>
             <div className={`${center}`}>
               {ismobile && (
-                <div className="flex flex-col items-center" onClick={MenuOn}>
+                <div className="flex flex-col items-center" onClick={openmenu}>
                   <div>
                     <CgFormatJustify size={40} />
                   </div>
@@ -94,18 +81,12 @@ const Layout = ({
               </div>
             </div>
 
-            {!userlogin ? (
-              <NotLogin />
-            ) : !authority ? (
-              <Login ModalOn={SearchOn} />
-            ) : (
-              <Maneger />
-            )}
+            {!userlogin ? <NotLogin /> : !authority ? <Login /> : <Maneger />}
           </div>
         </div>
 
         <div>
-          {ismobile && modal ? (
+          {ismobile && getModal[0] !== undefined ? (
             <div></div>
           ) : (
             <Routes>
@@ -118,15 +99,7 @@ const Layout = ({
                 path={`/search/:id`}
                 element={<Search list={searchpage} />}
               ></Route>
-              <Route
-                path="/product/:id"
-                element={
-                  <Product
-                    mobilereport={ReportModalOn}
-                    mobilebuy={BuyModalOn}
-                  />
-                }
-              ></Route>
+              <Route path="/product/:id" element={<Product />}></Route>
               <Route path="/sell" element={<Sell />}></Route>
               <Route path="/mystore" element={<MyStore />}></Route>
               <Route path="/login" element={<LoginPage />}></Route>
@@ -134,11 +107,7 @@ const Layout = ({
               <Route path="/point" element={<Point />}></Route>
             </Routes>
           )}
-          <div>
-            {modal && (
-              <MobileModal ModalOff={ModalOff} ModalContent={ModalContent} />
-            )}
-          </div>
+          <div>{getModal[0] !== undefined && <MobileModal />}</div>
         </div>
 
         {isdesktop && (
@@ -161,7 +130,7 @@ const Layout = ({
             </div>
           </div>
         )}
-        {ismobile && !modal && (
+        {ismobile && getModal[0] == undefined && (
           <div className="h-[6em] flex justify-evenly items-center sticky bottom-0 bg-gray-300 border border-t">
             <Link to={"/"}>
               <div className="flex flex-col items-center ">
