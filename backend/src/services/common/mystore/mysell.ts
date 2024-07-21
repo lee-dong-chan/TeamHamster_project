@@ -29,6 +29,11 @@ export default async (req: Request, res: Response) => {
     });
     // const sellcount: number = product.length;
 
+    for (let i = 0; i < product.rows.length; i++) {
+      const splimg = product.rows[i].img.split(",");
+      product.rows[i].dataValues.image = splimg;
+    }
+
     res.json({ product: product });
   } catch (err) {
     console.error(err);

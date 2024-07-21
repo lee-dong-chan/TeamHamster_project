@@ -19,6 +19,12 @@ export default async (req: Request, res: Response) => {
       where: { title: { [Op.like]: `%${req.params.keyword}%` } },
       include: [{ model: Category, as: "Category", attributes: ["name"] }],
     });
+
+    for (let i = 0; i < productlist.length; i++) {
+      const splimg = productlist[i].img.split(",");
+      productlist[i].dataValues.image = splimg;
+    }
+
     res.json({ product: productlist });
   } catch (err) {
     console.error(err);

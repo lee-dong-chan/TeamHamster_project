@@ -4,8 +4,6 @@ import { Transaction } from "sequelize";
 import { bankeyword } from "../../../models/mongoDB";
 
 export default async (req: Request, res: Response) => {
-  const transaction: Transaction = await sequelize.transaction();
-
   try {
     const reqbody = req.body;
 
@@ -56,7 +54,6 @@ export default async (req: Request, res: Response) => {
     });
 
     if (nowcategory && nowextraAddress) {
-      await transaction.commit();
       await nowcategory.addProduct(nowproduct);
       await nowextraAddress.addSellAddress(nowproduct);
     } else {
@@ -66,7 +63,6 @@ export default async (req: Request, res: Response) => {
     res.json({ result: "ok" });
   } catch (err) {
     console.error(err);
-    await transaction.rollback();
     res.json({ result: "fail" });
   }
 };

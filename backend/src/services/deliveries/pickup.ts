@@ -23,6 +23,11 @@ export default async (req: Request, res: Response) => {
       ],
     });
 
+    for (let i = 0; i < product.length; i++) {
+      const splimg = product[i].img.split(",");
+      product[i].dataValues.image = splimg;
+    }
+
     res.json({ login: reqbody.user, product: product });
   } catch (err) {
     console.error(err);

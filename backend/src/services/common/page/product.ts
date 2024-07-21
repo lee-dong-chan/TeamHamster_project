@@ -6,7 +6,7 @@ import review from "../review";
 export default async (req: Request, res: Response) => {
   try {
     const reqbody = req.body;
-    let productlist: any = await Product.findOne({
+    let productlist: Product | null = await Product.findOne({
       attributes: [
         "id",
         "title",
@@ -14,7 +14,6 @@ export default async (req: Request, res: Response) => {
         "price",
         "createdAt",
         "itemState",
-        // "prepayment",
         "img",
         "categoryId",
       ],
@@ -29,10 +28,18 @@ export default async (req: Request, res: Response) => {
         },
       ],
     });
-    const star: number | undefined = await review(productlist.Sell.id);
+    // console.log(productlist.Sell, "asdasdas");
+
+    if (!productlist) {
+      throw Error("not product");
+    }
+
+    const star: number | undefined = await review(productlist.dataValues.Sell.id);
     productlist.dataValues.Sell.dataValues.star = { star: star };
-    const spl = productlist.img.split(",");
-    productlist.img = spl;
+    if (productlist.img) {
+      const splimg = productlist.img.split(",");
+      productlist.dataValues.image = splimg;
+    }
 
     res.json({ product: productlist });
   } catch (err) {
