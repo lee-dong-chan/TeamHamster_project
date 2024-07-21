@@ -1,29 +1,28 @@
 import multer from "multer";
 import { Request, Response } from "express";
 
-const upload = multer({
+const upload: multer.Multer = multer({
   storage: multer.diskStorage({
     destination: (req, file, callback) => {
       callback(null, "./uploads");
     },
     filename: (req, file, callback) => {
+      file.originalname = Buffer.from(file.originalname, "ascii").toString("utf8");
       const tempName = Date.now() + "_" + file.originalname;
-      // imgs.push(tempName);
       callback(null, tempName);
     },
   }),
 });
 
 export default [
-  upload.array("upload"),
+  upload.array("img"),
   (req: Request, res: Response) => {
     console.log(req.files);
     const files: any = req.files;
     const fileUrls: string[] = [];
     files.forEach((item: any) => {
-      fileUrls.push(`http://localhost:3000/imgs/${item.filename}`);
+      fileUrls.push(`http://localhost:3001/api/imgs/${item.filename}`);
     });
-
     console.log(fileUrls);
 
     res.json({

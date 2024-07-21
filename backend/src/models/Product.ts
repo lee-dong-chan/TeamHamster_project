@@ -19,7 +19,7 @@ class Product extends Model {
   public discription!: string;
   public itemState!: string;
   public price!: number;
-  public prepayment!: boolean;
+  // public prepayment!: boolean;
   public img!: string;
   // User
   // public email!: string;
@@ -38,7 +38,7 @@ class Product extends Model {
   // //
   // public readonly categoryId!: number;
   // public readonly storeId!: number;
-
+  public sellId!: number;
   public readonly createdAt!: Date;
   public readonly updateAt!: Date;
   public readonly deletedAt!: Date;
@@ -63,10 +63,6 @@ class Product extends Model {
         },
         price: {
           type: DataTypes.INTEGER,
-        },
-        prepayment: {
-          type: DataTypes.BOOLEAN,
-          defaultValue: true,
         },
         img: {
           type: DataTypes.TEXT,

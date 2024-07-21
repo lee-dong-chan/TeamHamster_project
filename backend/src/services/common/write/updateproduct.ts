@@ -7,18 +7,28 @@ export default async (req: Request, res: Response) => {
 
   try {
     const reqbody = req.body;
+
     if (!reqbody.user) {
       throw Error("not login");
     }
+    const nowproduct = await Product.findOne({
+      where: { id: req.params.id },
+    });
+    const nowuser: Store | null = await Store.findOne({
+      where: { id: reqbody.user.id },
+    });
+
+    if (nowproduct?.sellId != nowuser?.id) {
+      throw Error("not match user");
+    }
+
     const category: number = reqbody.categoryId;
     const extraAddress: number = reqbody.extraAddressId;
 
     if (!category || !extraAddress) {
-      throw Error("not category OR deliveryCost OR extraAddress");
+      throw Error("not category OR extraAddress");
     }
-    const nowuser: Store | null = await Store.findOne({
-      where: { id: reqbody.user.id },
-    });
+
     const nowcategory: Category | null = await Category.findOne({
       where: { id: category },
     });
@@ -26,23 +36,19 @@ export default async (req: Request, res: Response) => {
       where: { id: extraAddress },
     });
 
-    const write = await Product.create(
-      {
-        title: reqbody.title,
-        discription: reqbody.discription,
-        price: reqbody.price,
-        img: reqbody.img,
-      },
-      { transaction }
-    );
+    await nowproduct?.update({
+      title: reqbody.title,
+      discription: reqbody.discription,
+      price: reqbody.price,
+      img: reqbody.img,
+    });
 
-    if (nowcategory && nowextraAddress && nowuser) {
+    if (nowcategory && nowextraAddress) {
       await transaction.commit();
-      await nowcategory.addProduct(write);
-      await nowextraAddress.addSellAddress(write);
-      await nowuser.addSell(write);
+      await nowcategory.addProduct(nowproduct);
+      await nowextraAddress.addSellAddress(nowproduct);
     } else {
-      throw Error("not category OR deliveryCost OR extraAddress");
+      throw Error("not category OR extraAddress");
     }
 
     res.json({ result: "ok" });

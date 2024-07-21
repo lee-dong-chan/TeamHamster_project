@@ -15,6 +15,16 @@ const deliveryscham = new Schema(
   }
 );
 
+const pointscham = new Schema(
+  {
+    userId: Number,
+    pointPercent: Number,
+  },
+  {
+    timestamps: true,
+  }
+);
+
 // export { deliveryscham };
 
 ///
@@ -32,8 +42,9 @@ const deliveryscham = new Schema(
 ///
 
 const delivery = mongoose.model("delivery", deliveryscham);
+const point = mongoose.model("point", pointscham);
 
-export { delivery };
+export { delivery, point };
 
 // let connectDB: Promise<Mongoose>;
 
