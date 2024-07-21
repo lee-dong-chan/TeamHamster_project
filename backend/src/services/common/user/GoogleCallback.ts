@@ -44,8 +44,86 @@ export default async (req: Request, res: Response) => {
       })
     ).data;
 
-    console.log(userInfoResponse);
+    // console.log(userInfoResponse);
 
+    const key = crypto.scryptSync("hgaomasttmexrj", `${process.env.KEY || ""}`, 32);
+    const iv = process.env.IV || "";
+    const cipher = crypto.createCipheriv("aes-256-gcm", key, iv);
+
+    const encryptionemail: string = cipher.update(`${userInfoResponse.email}`, "utf-8", "hex");
+
+    const emailcheck: User | null = await User.findOne({
+      where: { email: encryptionemail },
+    });
+    const encryptionpw = crypto
+      .createHash("sha512")
+      .update(`${userInfoResponse.id + process.env.SALT}`)
+      .digest("hex");
+
+    /// name = given_name 에서 앞 4글자
+    const registname = userInfoResponse.given_name.slice(0, 4);
+    /// 회원가입 코드
+    if (!emailcheck) {
+      const name: Name | null = await Name.findOne({
+        where: { name: registname },
+      });
+
+      const nickcheck: Store | null = await Store.findOne({
+        where: { nick: userInfoResponse.name },
+      });
+
+      if (nickcheck) {
+        throw Error("duplication nick");
+      }
+
+      // const navermobile: string = userInfoResponse.mobile_e164.replace("+82", "0");
+      // console.log(navermobile);
+      // navermobile = navermobile.replace("+82", "0");
+      // console.log(navermobile);
+
+      const regist = await User.create(
+        {
+          email: encryptionemail,
+          password: encryptionpw,
+          // mobile: navermobile,
+          Oauth: "구글",
+        },
+        { transaction }
+      );
+
+      const store = await Store.create(
+        {
+          nick: userInfoResponse.name,
+          // mobile: navermobile,
+          profileimg: userInfoResponse.picture,
+        },
+        { transaction }
+      );
+
+      if (name) {
+        await transaction.commit();
+        await name.addUser(regist);
+      } else {
+        const newname = await Name.create({
+          name: registname,
+        });
+        await transaction.commit();
+        await newname.addUser(regist);
+      }
+
+      await regist.setStore(store);
+    }
+
+    /// 여기부터 로그인코드
+    const usercheck: User | null = await User.findOne({
+      where: { email: encryptionemail, password: encryptionpw, Oauth: "구글" },
+    });
+
+    if (usercheck) {
+      req.session.store = usercheck.id;
+    } else {
+      throw Error("not match user");
+    }
     res.status(200).json({ result: "ok" });
   } catch (error) {
     // console.error(error);

@@ -1,4 +1,6 @@
-import { Router } from "express";
+import { Router, Request, Response } from "express";
+import multer from "multer";
+
 const router: Router = Router();
 /// 테스트용 코드 위치, 테스트할때 주석해제만 해서 쓰게
 import dbtest from "../services/test/dbtest";
@@ -89,6 +91,7 @@ router.use("/deliveries", deliveries);
 router.use("/admin", admin);
 
 /// page
+router.post("/layout", layout);
 router.post("/main", main);
 router.post("/category/:id", catepage);
 router.post("/product/:id", product);
@@ -100,7 +103,40 @@ router.post("/write", productwrite);
 ///
 router.post("/category", category);
 router.post("/catefirst", catefirst);
-router.post("/imgSave", ...imgSave);
+
+/////
+
+// const upload: multer.Multer = multer({
+//   storage: multer.diskStorage({
+//     destination: (req, file, callback) => {
+//       callback(null, "./uploads");
+//     },
+//     filename: (req, file, callback) => {
+//       file.originalname = Buffer.from(file.originalname, "ascii").toString("utf8");
+//       const tempName = Date.now() + "_" + file.originalname;
+//       callback(null, tempName);
+//     },
+//   }),
+// });
+
+// router.post("/imgSave", upload.array("img"), (req: Request, res: Response) => {
+//   console.log(req.files);
+//   const files: any = req.files;
+//   const fileUrls: string[] = [];
+//   files.forEach((item: any) => {
+//     fileUrls.push(`http://localhost:3000/api/imgs/${item.filename}`);
+//   });
+//   console.log(fileUrls);
+
+//   res.json({
+//     uploaded: true,
+//     url: fileUrls,
+//   });
+// });
+
+////////
+router.post("/imgSave", imgSave);
+
 router.post("/catelist/:id", catelist);
 
 /// view

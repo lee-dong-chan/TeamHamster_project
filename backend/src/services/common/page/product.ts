@@ -14,7 +14,7 @@ export default async (req: Request, res: Response) => {
         "price",
         "createdAt",
         "itemState",
-        "prepayment",
+        // "prepayment",
         "img",
         "categoryId",
       ],
