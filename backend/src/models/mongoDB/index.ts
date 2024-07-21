@@ -25,6 +25,15 @@ const pointscham = new Schema(
   }
 );
 
+const keywordscham = new Schema(
+  {
+    word: { type: String, unique: true },
+  },
+  {
+    timestamps: true,
+  }
+);
+
 // export { deliveryscham };
 
 ///
@@ -43,8 +52,9 @@ const pointscham = new Schema(
 
 const delivery = mongoose.model("delivery", deliveryscham);
 const point = mongoose.model("point", pointscham);
+const bankeyword = mongoose.model("bankeyword", keywordscham);
 
-export { delivery, point };
+export { delivery, point, bankeyword };
 
 // let connectDB: Promise<Mongoose>;
 

@@ -31,6 +31,9 @@ export default async (req: Request, res: Response) => {
     });
     const star: number | undefined = await review(productlist.Sell.id);
     productlist.dataValues.Sell.dataValues.star = { star: star };
+    const spl = productlist.img.split(",");
+    productlist.img = spl;
+
     res.json({ product: productlist });
   } catch (err) {
     console.error(err);
