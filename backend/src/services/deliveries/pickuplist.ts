@@ -24,6 +24,11 @@ export default async (req: Request, res: Response) => {
       ],
     });
 
+    for (let i = 0; i < waitepickup.length; i++) {
+      const splimg = waitepickup[i].img.split(",");
+      waitepickup[i].dataValues.image = splimg;
+    }
+
     res.json({ product: waitepickup });
   } catch (err) {
     console.error(err);

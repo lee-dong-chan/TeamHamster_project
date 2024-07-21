@@ -21,6 +21,8 @@ class Product extends Model {
   public price!: number;
   // public prepayment!: boolean;
   public img!: string;
+  public image!: string[];
+
   // User
   // public email!: string;
   // public password!: string;
