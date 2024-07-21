@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { Category, DeliveryCost, ExtraAddress, Product, Store, sequelize } from "../../../models";
 import { Transaction } from "sequelize";
+import { bankeyword } from "../../../models/mongoDB";
 
 export default async (req: Request, res: Response) => {
   const transaction: Transaction = await sequelize.transaction();
@@ -25,6 +26,15 @@ export default async (req: Request, res: Response) => {
     const nowextraAddress: ExtraAddress | null = await ExtraAddress.findOne({
       where: { id: extraAddress },
     });
+
+    const productdiscription = reqbody.discription;
+    const banword = await bankeyword.find({}, { word: 1, _id: 0 });
+
+    for (let i = 0; i < banword.length; i++) {
+      if (productdiscription.indexOf(banword[i].word!) > -1) {
+        throw Error("bankeyword");
+      }
+    }
 
     const write = await Product.create(
       {

@@ -11,6 +11,9 @@ import pointpercent from "../services/admin/pointpercent";
 import updatepoint from "../services/admin/updatepoint";
 import deliverycost from "../services/admin/deliverycost";
 import updatedeliverycost from "../services/admin/updatedeliverycost";
+import keyword from "../services/admin/keyword";
+import addkeyword from "../services/admin/addkeyword";
+import delkeyword from "../services/admin/delkeyword";
 const router: Router = Router();
 
 router.use(admincheck);
@@ -26,5 +29,9 @@ router.post("/pointpercent", pointpercent);
 router.patch("/updatepoint", updatepoint);
 router.post("/deliverycost", deliverycost);
 router.patch("/updatedeliverycost", updatedeliverycost);
+/// 금지키워드
+router.post("/keyword", keyword);
+router.post("/addkeyword", addkeyword);
+router.post("/delkeyword", delkeyword);
 
 export default router;
