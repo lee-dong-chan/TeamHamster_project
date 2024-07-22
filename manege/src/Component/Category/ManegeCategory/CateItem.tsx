@@ -6,11 +6,26 @@ export interface ICate {
 interface IProps {
   item: ICate;
   setcate: React.Dispatch<React.SetStateAction<number | undefined>>;
+  setselectcate1?: React.Dispatch<React.SetStateAction<number | undefined>>;
+  setselectcate2?: React.Dispatch<React.SetStateAction<number | undefined>>;
 }
 
-const CateItem = ({ item, setcate }: IProps): JSX.Element => {
+const CateItem = ({
+  item,
+  setcate,
+  setselectcate1,
+  setselectcate2,
+}: IProps): JSX.Element => {
   const select = () => {
-    setcate(item.id);
+    if (setselectcate1) {
+      setcate(item.id);
+      setselectcate1(item.id);
+    } else if (setselectcate2) {
+      setcate(item.id);
+      setselectcate2(item.id);
+    } else {
+      setcate(item.id);
+    }
   };
 
   return (
