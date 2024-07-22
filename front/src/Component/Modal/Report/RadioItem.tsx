@@ -1,8 +1,11 @@
+import { ChangeEvent } from "react";
+
 interface IProps {
+  selectinput: (e: ChangeEvent<HTMLInputElement>) => void;
   item: string;
 }
 
-const Radioitem = ({ item }: IProps): JSX.Element => {
+const Radioitem = ({ item, selectinput }: IProps): JSX.Element => {
   return (
     <div className="py-3 flex gap-4 items-center">
       <input
@@ -10,6 +13,7 @@ const Radioitem = ({ item }: IProps): JSX.Element => {
         name="report"
         className="h-[1.5rem] w-[1.5rem] "
         value={`${item}`}
+        onChange={selectinput}
       ></input>
       <div>{item}</div>
     </div>

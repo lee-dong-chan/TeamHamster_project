@@ -6,6 +6,7 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import { Modal } from "../../../Context/Modal";
 import Report from "../Report/Report";
 import Buy from "../Buy/Buy";
+import Addadress from "../Addadress/Addadress";
 
 interface IProps {}
 
@@ -14,6 +15,7 @@ const modal = {
   mobilesearch: <Search />,
   report: <Report />,
   buy: <Buy />,
+  addadress: <Addadress />,
 };
 
 const MobileModal = ({}: IProps): JSX.Element => {
@@ -41,6 +43,7 @@ const MobileModal = ({}: IProps): JSX.Element => {
         {modalContent[0] == "mobilesearch" && modal.mobilesearch}
         {modalContent[0] == "report" && modal.report}
         {modalContent[0] == "buy" && modal.buy}
+        {modalContent[0] == "addadress" && modal.addadress}
       </div>
     </div>
   );

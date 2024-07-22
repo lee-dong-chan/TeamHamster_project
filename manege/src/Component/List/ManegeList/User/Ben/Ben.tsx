@@ -1,6 +1,10 @@
-interface IProps {}
+import Item, { IBenUser } from "./BenItem";
 
-const Ben = ({}: IProps): JSX.Element => {
+interface IProps {
+  data: IBenUser[];
+}
+
+const Ben = ({ data }: IProps): JSX.Element => {
   return (
     <div>
       <div className="px-5 py-2 flex items-center border-b">
@@ -8,6 +12,9 @@ const Ben = ({}: IProps): JSX.Element => {
         <span className="flex-1 text-center">정지유저</span>
         <span className="mx-3  py-2 w-[4rem] ">유저처분</span>
       </div>
+      {data.map((item: IBenUser, idx: number) => (
+        <Item key={idx} item={item} idx={idx + 1} />
+      ))}
     </div>
   );
 };

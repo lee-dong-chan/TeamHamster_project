@@ -1,8 +1,10 @@
-import Item from "./ReportItem";
+import Item, { IReport } from "./ReportItem";
 
-interface IProps {}
+interface IProps {
+  data: IReport[];
+}
 
-const Report = ({}: IProps): JSX.Element => {
+const Report = ({ data }: IProps): JSX.Element => {
   return (
     <div>
       <div className="px-5 py-2 flex items-center border-b">
@@ -12,7 +14,9 @@ const Report = ({}: IProps): JSX.Element => {
         <span className="mx-3  py-2 w-[4rem] ">상품정보</span>
         <span className="mx-3  py-2 w-[4rem] ">신고삭제</span>
       </div>
-      <Item />
+      {data.map((item: IReport, idx: number) => (
+        <Item key={idx} item={item} idx={idx + 1} />
+      ))}
     </div>
   );
 };

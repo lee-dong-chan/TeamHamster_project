@@ -41,7 +41,7 @@ const ManegeLayout = ({}: IProps): JSX.Element => {
       <div>
         <ManegePageCategory />
         <Routes>
-          <Route path="/manege/report" element={<ManegeReport />} />
+          <Route path="/manege" element={<ManegeReport />} />
           <Route path="/manege/category" element={<ManegeCategory />} />
           <Route path="/manege/keyword" element={<ManegeBenKeyword />} />
           <Route path="/manege/user" element={<ManegeUser />} />

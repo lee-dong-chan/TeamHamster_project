@@ -1,25 +1,62 @@
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { box, center } from "../../../lib/styles";
 import { Link } from "react-router-dom";
-import { Debounce } from "../../../CustomHook/Debounce";
+import { useCookies } from "react-cookie";
+import { useSetRecoilState } from "recoil";
+import { Modal } from "../../../Context/Modal";
 
 interface IProps {}
 
 const Search = ({}: IProps): JSX.Element => {
+  const [cookies, setCookie, removeCookie] = useCookies(["search"]);
   const [content, setContent] = useState<string>("");
   const [searchlog, setSearchLog] = useState("");
+  const setmodal = useSetRecoilState(Modal);
+  const close = () => {
+    setmodal(undefined);
+  };
   const saveContent = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setContent(e.target.value);
   }, []);
 
-  const search = Debounce(content, 1000);
+  const handleCookie = (search: string) => {
+    setCookie(
+      "search",
+      {
+        search: search,
+      },
+      {
+        path: "/",
+      }
+    );
+  };
+  const save = () => {
+    handleCookie(searchlog + `+${content}`);
+  };
+  const remove = () => {
+    removeCookie("search");
+    setSearchLog("");
+  };
 
-  const savelog = () => {};
-  const cookie = useMemo(() => {}, []);
+  const recentsearch = searchlog
+    .split("+")
+    .filter((item) => item != "")
+    .filter((item, idx) => {
+      return (
+        searchlog
+          .split("+")
+          .filter((item) => item != "")
+          .indexOf(item) === idx
+      );
+    });
+
+  console.log(recentsearch);
 
   useEffect(() => {
-    console.log(search);
-  }, [search]);
+    if (cookies.search) {
+      setSearchLog(cookies.search.search);
+    }
+  }, [cookies.search]);
   return (
     <div>
       <div className={`${box}`}>
@@ -33,23 +70,43 @@ const Search = ({}: IProps): JSX.Element => {
           {content ? (
             <Link to={`/search/${content}`}>
               <div
-                onClick={() => {
-                  savelog();
-                }}
-                className={`${center} w-[4rem] h-[3rem] bg-orange-200 border rounded-e `}
+                onClick={save}
+                className={`${center} w-[4rem] h-[3rem] bg-orange-200 border rounded-e text-white`}
               >
                 검색
               </div>
             </Link>
           ) : (
             <div
-              className={`${center} w-[4rem] h-[3rem] bg-orange-200 border rounded-e`}
+              className={`${center} w-[4rem] h-[3rem] bg-orange-200 border rounded-e text-white`}
             >
               검색
             </div>
           )}
         </div>
-        <div></div>
+        <div className="px-[3.5rem] py-5 h-[30rem] ">
+          <div className="py-5 text-[1.3rem]">최근검색어</div>
+          {cookies.search ? (
+            recentsearch.map((item: string, idx: number) => (
+              <Link key={idx} to={`/search/${item}`}>
+                <div className="py-2 text-[1.2rem]">
+                  <span className="pe-4 text-orange-500">{idx + 1}</span>
+                  {item}
+                </div>
+              </Link>
+            ))
+          ) : (
+            <div>현재 최근검색어가 없습니다.</div>
+          )}
+        </div>
+      </div>
+      <div className="pe-5 flex justify-end">
+        <div
+          onClick={remove}
+          className="p-1 border rounded bg-orange-200 text-white"
+        >
+          검색어 초기화
+        </div>
       </div>
     </div>
   );
