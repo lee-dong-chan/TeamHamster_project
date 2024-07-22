@@ -14,17 +14,24 @@ import updatedeliverycost from "../services/admin/updatedeliverycost";
 import keyword from "../services/admin/keyword";
 import addkeyword from "../services/admin/addkeyword";
 import delkeyword from "../services/admin/delkeyword";
+import userblocksearch from "../services/admin/userblocksearch";
+import reportsearch from "../services/admin/reportsearch";
 const router: Router = Router();
 
 router.use(admincheck);
+/// 신고 관련
 router.post("/report", report);
 router.delete("/report/:id", reportId);
+router.post("reportsearch", reportsearch);
 router.delete("/delproduct/:id", delproduct);
+///
 router.post("/createcategory", createcategory);
-router.post("/user", user);
+/// 밴 유저 관련
 router.post("/user", user);
 router.post("/userblock/:id", userblock);
 router.post("/userunblock/:id", userunblock);
+router.post("/userblocksearch", userblocksearch);
+/// 포인트 관련
 router.post("/pointpercent", pointpercent);
 router.patch("/updatepoint", updatepoint);
 router.post("/deliverycost", deliverycost);
