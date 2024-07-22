@@ -3,11 +3,11 @@ import Search from "../../page/search/search";
 import Main from "../../page/main/main";
 import Category from "../../page/catgegory/category";
 
-import Regist from "../../page/account/regist/regist";
 import Point from "../../page/point/point";
 import Product from "../../page/product/product";
 import Sell from "../../page/sell/sell";
 import MyStore from "../../page/mystore/mystore";
+import LoginPage from "../../page/account/login/loginpage";
 
 import { List } from "../list";
 import NotLogin from "../../Component/LoginInfo/NotLogin";
@@ -21,12 +21,13 @@ import { BiPurchaseTag } from "react-icons/bi";
 import { CgAdd } from "react-icons/cg";
 import { MdOutlineShoppingBag } from "react-icons/md";
 import { IoAccessibility } from "react-icons/io5";
-import LoginPage from "../../page/account/login/login";
+
 import { useEffect } from "react";
 import MobileModal from "../../Component/Modal/ModalBox/Modal";
 import { box, center } from "../styles";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { Modal } from "../../Context/Modal";
+import Regist from "../../page/account/regist/registpage";
 
 interface IProps {
   userlogin: boolean;
