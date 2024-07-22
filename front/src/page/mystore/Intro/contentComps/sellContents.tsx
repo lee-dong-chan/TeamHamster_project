@@ -4,8 +4,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { IProduct } from "../../../../lib/interFace";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Modal, MapId } from "../../../../Context/Modal";
-import { useSetRecoilState, useRecoilState } from "recoil";
+import { Modal, MapId, ReviewId, ImgUrl } from "../../../../Context/Modal";
+import { useSetRecoilState } from "recoil";
 
 interface IProps {
   data: IProduct;
@@ -21,6 +21,8 @@ const SellContent = ({ data, isBuyTap = false }: IProps) => {
   const navigate = useNavigate();
   const ModalState = useSetRecoilState(Modal);
   const setmapId = useSetRecoilState(MapId);
+  const setreviewId = useSetRecoilState(ReviewId);
+  const setImgUrl = useSetRecoilState(ImgUrl);
 
   //custom
   const serverUrl = process.env.REACT_APP_SERVER_URL;
@@ -49,6 +51,8 @@ const SellContent = ({ data, isBuyTap = false }: IProps) => {
 
   const showReviewModal = () => {
     ModalState("reviewWhite");
+    setreviewId(data.id || 1);
+    setImgUrl(data.img);
   };
 
   const confirmation = () => {

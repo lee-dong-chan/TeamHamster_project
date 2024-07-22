@@ -1,6 +1,5 @@
 import React, { useRef, useState, useEffect, useLayoutEffect } from "react";
 import axios, { AxiosResponse } from "axios";
-import { SetterOrUpdater } from "recoil";
 import { center } from "../../lib/styles";
 
 interface IProps {
