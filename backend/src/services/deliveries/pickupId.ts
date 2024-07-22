@@ -27,8 +27,12 @@ export default async (req: Request, res: Response) => {
     }
 
     res.json({ result: "ok" });
-  } catch (err) {
+  } catch (err: any) {
     console.error(err);
-    res.json({ result: "fail" });
+    if (err.message == "other pickup") {
+      res.status(400).json({ result: "other pickup" });
+    } else {
+      res.status(500).json({ result: "fail" });
+    }
   }
 };

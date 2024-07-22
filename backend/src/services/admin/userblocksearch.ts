@@ -13,9 +13,13 @@ export default async (req: Request, res: Response) => {
       attributes: ["id", "nick"],
     });
 
-    res.json({ userlist: { block: blockuser } });
-  } catch (err) {
+    res.json({ block: blockuser });
+  } catch (err: any) {
     console.error(err);
-    res.json({ result: "fail" });
+    if (err.message == "search nick") {
+      res.status(400).json({ result: "not search nick" });
+    } else {
+      res.status(500).json({ result: "fail" });
+    }
   }
 };

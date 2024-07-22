@@ -10,7 +10,7 @@ export default async (req: Request, res: Response) => {
     /// 상위 카테고리
     const selectprecate: number | null = reqbody.precate;
 
-    const newcategory = await Category.create(
+    const newcategory: Category = await Category.create(
       {
         name: reqbody.name,
       },
@@ -33,6 +33,6 @@ export default async (req: Request, res: Response) => {
   } catch (err) {
     console.error(err);
     await transaction.rollback();
-    res.json({ result: "fail" });
+    res.status(500).json({ result: "fail" });
   }
 };

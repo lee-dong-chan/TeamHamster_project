@@ -28,9 +28,15 @@ export default async (req: Request, res: Response) => {
     }
 
     res.json({ result: "ok" });
-  } catch (err) {
+  } catch (err: any) {
     console.error(err);
     await transaction.rollback();
-    res.json({ result: "fail" });
+    if (err.message == "not login") {
+      res.status(400).json({ result: "not login" });
+    } else if (err.message == "notfind product") {
+      res.status(400).json({ result: "notfind product" });
+    } else {
+      res.status(500).json({ result: "fail" });
+    }
   }
 };

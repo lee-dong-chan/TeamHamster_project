@@ -18,11 +18,11 @@ export default async (req: Request, res: Response, next: NextFunction) => {
   } catch (err: any) {
     console.error(err);
     if (err.message == "not login") {
-      res.json({ result: "not login" });
+      res.status(400).json({ result: "not login" });
     } else if (err.message == "not admin") {
-      res.json({ result: "not admin" });
+      res.status(400).json({ result: "not admin" });
     } else {
-      res.json({ result: "fail" });
+      res.status(500).json({ result: "fail" });
     }
   }
 };

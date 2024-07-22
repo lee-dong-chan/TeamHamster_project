@@ -8,6 +8,6 @@ export default async (req: Request, res: Response) => {
     res.json({ keyword: keyword });
   } catch (err) {
     console.error(err);
-    res.json({ result: "fail" });
+    res.status(500).json({ result: "fail" });
   }
 };

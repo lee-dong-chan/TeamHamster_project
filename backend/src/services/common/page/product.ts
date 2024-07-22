@@ -42,8 +42,12 @@ export default async (req: Request, res: Response) => {
     }
 
     res.json({ product: productlist });
-  } catch (err) {
+  } catch (err: any) {
     console.error(err);
-    res.json({ result: "fail" });
+    if (err.message == "not product") {
+      res.status(400).json({ result: "not product" });
+    } else {
+      res.status(500).json({ result: "fail" });
+    }
   }
 };

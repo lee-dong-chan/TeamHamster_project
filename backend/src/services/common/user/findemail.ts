@@ -38,8 +38,12 @@ export default async (req: Request, res: Response) => {
     let findemail = decipher.update(usercheck.email, "hex", "utf-8");
 
     res.json({ email: findemail });
-  } catch (err) {
+  } catch (err: any) {
     console.error(err);
-    res.json({ result: "fail" });
+    if (err.message == "not find email") {
+      res.status(400).json({ result: "not find email" });
+    } else {
+      res.status(500).json({ result: "fail" });
+    }
   }
 };

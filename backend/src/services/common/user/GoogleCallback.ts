@@ -125,10 +125,15 @@ export default async (req: Request, res: Response) => {
       throw Error("not match user");
     }
     res.status(200).json({ result: "ok" });
-  } catch (error) {
-    // console.error(error);
+  } catch (err: any) {
+    console.error(err);
     await transaction.rollback();
-
-    res.status(500).json({ result: "Error" });
+    if (err.message == "duplication nick") {
+      res.status(400).json({ result: "duplication nick" });
+    } else if (err.message == "not match user") {
+      res.status(400).json({ result: "not match user" });
+    } else {
+      res.status(500).json({ result: "fail" });
+    }
   }
 };
