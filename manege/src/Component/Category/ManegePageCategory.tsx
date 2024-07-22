@@ -1,14 +1,14 @@
 import { useCallback, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { center } from "../../lib/styles";
 
 const ManegePageCategory = (): JSX.Element => {
-  const [manegecate, setManegeCate] = useState<string>();
+  const [manegecate, setManegeCate] = useState<string | undefined>("");
   const report = useCallback((): void => {
-    setManegeCate("report");
+    setManegeCate("");
   }, []);
   const category = useCallback((): void => {
-    setManegeCate("cate");
+    setManegeCate("category");
   }, []);
   const keyword = useCallback((): void => {
     setManegeCate("keyword");
@@ -23,23 +23,25 @@ const ManegePageCategory = (): JSX.Element => {
     setManegeCate("delivery");
   }, []);
 
+  const cate = useLocation().pathname.slice(8);
+
   useEffect(() => {
-    setManegeCate("report");
+    setManegeCate(cate);
   }, []);
 
   return (
     <div
       className={`pt-20 pb-10 ${center}  gap-20 text-[1.2rem] text-gray-500 font-bold`}
     >
-      <Link to={"/manege/report"}>
-        {manegecate == "report" ? (
+      <Link to={"/manege"}>
+        {manegecate == "" ? (
           <div className="text-orange-500">신고관리</div>
         ) : (
           <div onClick={report}>신고관리</div>
         )}
       </Link>
       <Link to={"/manege/category"}>
-        {manegecate == "cate" ? (
+        {manegecate == "category" ? (
           <div className="text-orange-500">카테고리관리</div>
         ) : (
           <div onClick={category}>카테고리관리</div>

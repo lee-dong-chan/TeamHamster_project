@@ -3,6 +3,7 @@ import Imgs from "./Imgs/imgs";
 import User, { IUser } from "./User";
 import { center } from "../../lib/styles";
 import { useBreakPoint } from "../../CustomHook/BreakPoint";
+import { useParams } from "react-router-dom";
 export interface IProduct {}
 
 interface IProps {}

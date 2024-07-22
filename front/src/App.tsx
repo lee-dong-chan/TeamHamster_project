@@ -5,13 +5,13 @@ import { List } from "./lib/list";
 const App = (): JSX.Element => {
   const [main, setMain] = useState([
     new List(1, "자전거", "hamster", 3000, 2024),
-    new List(1, "자전거", "hamster", 3000, 2024),
-    new List(1, "자전거", "hamster", 3000, 2024),
-    new List(1, "자전거", "hamster", 3000, 2024),
-    new List(1, "자전거", "hamster", 3000, 2024),
-    new List(1, "자전거", "hamster", 3000, 2024),
-    new List(1, "자전거", "hamster", 3000, 2024),
-    new List(1, "자전거", "hamster", 3000, 2024),
+    new List(2, "자전", "hamster", 3000, 2024),
+    new List(3, "자전거", "hamster", 3000, 2024),
+    new List(4, "자전거", "hamster", 3000, 2024),
+    new List(5, "자전거", "hamster", 3000, 2024),
+    new List(6, "자전거", "hamster", 3000, 2024),
+    new List(7, "자전거", "hamster", 3000, 2024),
+    new List(8, "자전거", "hamster", 3000, 2024),
   ]);
 
   const [catepage, setCatePage] = useState([

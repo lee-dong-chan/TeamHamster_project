@@ -1,8 +1,11 @@
-import Item from "./BenKeywordItem";
+import Item, { IKeyword } from "./BenKeywordItem";
 
-interface IProps {}
+interface IProps {
+  data: IKeyword[];
+}
 
-const BenKeyWord = ({}: IProps): JSX.Element => {
+const BenKeyWord = ({ data }: IProps): JSX.Element => {
+  console.log(data);
   return (
     <div>
       <div className="px-5 py-2 flex items-center border-b">
@@ -10,7 +13,11 @@ const BenKeyWord = ({}: IProps): JSX.Element => {
         <span className="flex-1 text-center">금지키워드</span>
         <span className="mx-3  py-2 w-[4rem] ">신고삭제</span>
       </div>
-      <Item />
+      <div>
+        {data.map((item: IKeyword, idx: number) => (
+          <Item key={idx} idx={idx + 1} item={item} />
+        ))}
+      </div>
     </div>
   );
 };

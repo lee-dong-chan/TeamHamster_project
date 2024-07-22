@@ -2,14 +2,22 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import { Button } from "../../../lib/Button/Button";
 import ButtonComp from "../../Button/Button";
 import Radioitem from "./RadioItem";
-import { Modal } from "../../../Context/Modal";
+import { Modal, Modalproduct } from "../../../Context/Modal";
 import { useBreakPoint } from "../../../CustomHook/BreakPoint";
+import { ChangeEvent, useCallback, useEffect, useState } from "react";
 
 interface IProps {}
 
 const Report = ({}: IProps): JSX.Element => {
+  const [select, setselect] = useState<string>();
+  const selectinput = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    setselect(e.target.value);
+  }, []);
+
   const { ismobile, isdesktop } = useBreakPoint();
   const setmodal = useSetRecoilState(Modal);
+  const productid = useRecoilState(Modalproduct)[0];
+  console.log(productid);
   const close = () => {
     setmodal(undefined);
   };
@@ -21,6 +29,7 @@ const Report = ({}: IProps): JSX.Element => {
     "사기가 의심됩니다(외부거래유도)",
     "전문업자로 의심됩니다",
   ];
+
   return (
     <div>
       <div className="m-auto w-[40rem] flex flex-col justify-center">
@@ -29,18 +38,25 @@ const Report = ({}: IProps): JSX.Element => {
         </div>
         <div className={`text-[1.2rem] h-[35rem] ${ismobile && "px-5"} `}>
           {selectreport.map((item: string, idx: number) => (
-            <Radioitem key={idx} item={item} />
+            <Radioitem key={idx} item={item} selectinput={selectinput} />
           ))}
-          <div className={`${ismobile && "flex justify-center"} `}>
-            <textarea
-              className={`p-2 ${
-                isdesktop && "w-[40rem]"
-              } h-[15rem] border bg-white resize-none ${
-                ismobile && "w-[36rem]"
-              }`}
-              placeholder="신고사유를 입력해주세요"
-            ></textarea>
-          </div>
+          {!select ? (
+            <div className={`py-5 ${ismobile && "flex justify-center"} `}>
+              <textarea
+                className={`p-2 resize-none ${
+                  isdesktop && "w-[40rem]"
+                } h-[15rem] border bg-white  ${ismobile && "w-[36rem]"}`}
+                placeholder="신고사유를 입력해주세요"
+              ></textarea>
+            </div>
+          ) : (
+            <div className="my-20 text-[1.3rem] font-bold">
+              <div></div>
+              <div>
+                사유:<span className="text-orange-400">{select}</span>
+              </div>
+            </div>
+          )}
         </div>
 
         <div onClick={close} className={"flex justify-center"}>
