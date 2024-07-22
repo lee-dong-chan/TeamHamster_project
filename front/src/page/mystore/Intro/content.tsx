@@ -23,9 +23,9 @@ const Content = ({ loginCheck }: { loginCheck: boolean }): JSX.Element => {
 
   //comp
   return (
-    <div className={`${outborder} w-[90%] h-[781px] flex flex-wrap pt-5`}>
+    <div className={`w-[90%] h-[781px] flex flex-wrap pt-5`}>
       <div className={`p-10 w-[100%]`}>
-        <div className={`${outborder} w-[100%] h-[54px] flex flex-wrap`}>
+        <div className={`w-[100%] h-[54px] flex flex-wrap`}>
           <CateBtn text="리뷰" click={() => valueChanger(0)}></CateBtn>
           {loginCheck && (
             <>

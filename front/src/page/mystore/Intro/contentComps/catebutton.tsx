@@ -1,4 +1,4 @@
-import { center, outborder } from "../../../../lib/styles";
+import { center } from "../../../../lib/styles";
 
 interface IProps {
   text: string;
@@ -12,7 +12,7 @@ const CateBtn = ({ text, click }: IProps) => {
       onClick={() => {
         click();
       }}
-      className={`${center} ${outborder} p-3 pl-16 pr-16`}
+      className={`${center} bg-gray-100 border-2 p-3 pl-16 pr-16`}
     >
       {text}
     </div>

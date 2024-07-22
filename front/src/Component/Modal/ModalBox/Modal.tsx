@@ -3,13 +3,14 @@ import Menu from "../Menu/Menu";
 import Search from "../Search/Search";
 import { useBreakPoint } from "../../../CustomHook/BreakPoint";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { MapId, Modal } from "../../../Context/Modal";
+import { MapId, ReviewId, Modal, ImgUrl } from "../../../Context/Modal";
 import Report from "../Report/Report";
 import Buy from "../Buy/Buy";
 import NMap from "../../Map/NMap";
 import { center } from "../../../lib/styles";
 import { useMemo } from "react";
 import Addadress from "../Addadress/Addadress";
+import ReviewWrite from "../ReviewWrite/ReviewWrite";
 
 interface IProps {}
 
@@ -21,8 +22,10 @@ const modal = {
   showMap: (id: number | undefined) => {
     return <NMap id={id} />;
   },
+  reviewWhite: (id: number | undefined, img: string | undefined) => {
+    return <ReviewWrite id={id} img={img} />;
+  },
   addadress: <Addadress />,
-  // reviewWhite: <ReviewWrite />,
 };
 
 const MobileModal = ({}: IProps): JSX.Element => {
@@ -31,6 +34,8 @@ const MobileModal = ({}: IProps): JSX.Element => {
   const [modalContent, setmodal] = useRecoilState(Modal);
 
   const mapId = useRecoilValue(MapId);
+  const reviewId = useRecoilValue(ReviewId);
+  const imgUrl = useRecoilValue(ImgUrl);
 
   //func
   const close = () => {
@@ -41,6 +46,14 @@ const MobileModal = ({}: IProps): JSX.Element => {
   const mapIdValue = useMemo(() => {
     return mapId;
   }, [mapId]);
+
+  const reviewIdValue = useMemo(() => {
+    return reviewId;
+  }, [reviewId]);
+
+  const imgUrlValue = useMemo(() => {
+    return imgUrl;
+  }, [imgUrl]);
 
   return (
     <div
@@ -62,8 +75,10 @@ const MobileModal = ({}: IProps): JSX.Element => {
         {modalContent === "mobilesearch" && modal.mobilesearch}
         {modalContent === "report" && modal.report}
         {modalContent === "buy" && modal.buy}
-        {modalContent == "addadress" && modal.addadress}
-        {/* {modalContent === "reviewWhite" && modal.reviewWhite} */}
+        {modalContent === "addadress" && modal.addadress}
+        {modalContent === "reviewWhite" && (
+          <div>{modal.reviewWhite(reviewIdValue, imgUrlValue)}</div>
+        )}
         {modalContent === "showMap" && (
           <div className={`${center}`}>{modal.showMap(mapIdValue)}</div>
         )}
