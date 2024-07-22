@@ -18,8 +18,12 @@ export default async (req: Request, res: Response) => {
     );
 
     res.json({ result: "ok" });
-  } catch (err) {
+  } catch (err: any) {
     console.error(err);
-    res.json({ result: "fail" });
+    if (err.message == "not match user") {
+      res.status(400).json({ result: "not match user" });
+    } else {
+      res.status(500).json({ result: "fail" });
+    }
   }
 };

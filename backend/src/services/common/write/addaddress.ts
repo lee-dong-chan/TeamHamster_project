@@ -35,7 +35,7 @@ export default async (req: Request, res: Response) => {
       await transaction.commit();
       await nowuser.addExtraAddress(extraaddress);
     } else {
-      throw Error("not login");
+      throw Error("not find user");
     }
 
     if (name) {
@@ -57,9 +57,17 @@ export default async (req: Request, res: Response) => {
     }
 
     res.json({ result: "ok" });
-  } catch (err) {
+  } catch (err: any) {
     console.error(err);
     await transaction.rollback();
-    res.json({ result: "fail" });
+    if (err.message == "not login") {
+      res.status(400).json({ result: "not login" });
+    } else if (err.message == "not find user") {
+      res.status(400).json({ result: "not find user" });
+    } else if (err.message == "not name OR address") {
+      res.status(400).json({ result: "not name OR address" });
+    } else {
+      res.status(500).json({ result: "fail" });
+    }
   }
 };

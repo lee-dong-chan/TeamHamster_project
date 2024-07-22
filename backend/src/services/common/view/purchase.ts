@@ -47,8 +47,18 @@ export default async (req: Request, res: Response) => {
     await nowuser?.update({ point: pointcheck });
 
     res.json({ result: "ok" });
-  } catch (err) {
+  } catch (err: any) {
     console.error(err);
-    res.json({ result: "fail" });
+    if (err.message == "not login") {
+      res.status(400).json({ result: "not login" });
+    } else if (err.message == "not find user") {
+      res.status(400).json({ result: "not find user" });
+    } else if (err.message == "not Sell") {
+      res.status(400).json({ result: "not Sell" });
+    } else if (err.message == "not have point") {
+      res.status(400).json({ result: "not have point" });
+    } else {
+      res.status(500).json({ result: "fail" });
+    }
   }
 };

@@ -16,13 +16,14 @@ export default async (req: Request, res: Response, next: NextFunction) => {
     }
     next();
   } catch (err: any) {
+    console.log(err);
     console.error(err);
     if (err.message == "not login") {
-      res.json({ result: "not login" });
+      res.status(400).json({ result: "not login" });
     } else if (err.message == "not delivery") {
-      res.json({ result: "not delivery" });
+      res.status(400).json({ result: "not delivery" });
     } else {
-      res.json({ result: "fail" });
+      res.status(500).json({ result: "fail" });
     }
   }
 };

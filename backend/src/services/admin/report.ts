@@ -5,7 +5,7 @@ export default async (req: Request, res: Response) => {
   try {
     const reqbody = req.body;
 
-    const reportlist = await Report.findAll({
+    const reportlist: Report[] = await Report.findAll({
       attributes: ["id", "reportText"],
       include: [
         {
@@ -20,6 +20,6 @@ export default async (req: Request, res: Response) => {
     res.json({ report: reportlist });
   } catch (err) {
     console.error(err);
-    res.json({ result: "fail" });
+    res.status(500).json({ result: "fail" });
   }
 };

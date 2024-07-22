@@ -16,8 +16,12 @@ export default async (req: Request, res: Response) => {
       ],
     });
     res.json({ extraAddress: address });
-  } catch (err) {
+  } catch (err: any) {
     console.error(err);
-    res.json({ result: "fail" });
+    if (err.message == "not login") {
+      res.status(400).json({ result: "not login" });
+    } else {
+      res.json({ result: "fail" });
+    }
   }
 };

@@ -32,6 +32,6 @@ export default async (req: Request, res: Response) => {
     res.json({ product: waitepickup });
   } catch (err) {
     console.error(err);
-    res.json({ result: "fail" });
+    res.status(500).json({ result: "fail" });
   }
 };

@@ -75,11 +75,11 @@ export default async (req: Request, res: Response) => {
     console.error(err);
     await transaction.rollback();
     if (err.message == "duplication nick") {
-      res.json({ result: "duplication nick" });
+      res.status(400).json({ result: "duplication nick" });
     } else if (err.message == "duplication email") {
-      res.json({ result: "duplication email" });
+      res.status(400).json({ result: "duplication email" });
     } else {
-      res.json({ result: "fail" });
+      res.status(500).json({ result: "fail" });
     }
   }
 };

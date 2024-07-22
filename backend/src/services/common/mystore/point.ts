@@ -31,8 +31,14 @@ export default async (req: Request, res: Response) => {
     await nowuser?.addPointHistory(pointhistory);
 
     res.json({ result: "ok" });
-  } catch (err) {
+  } catch (err: any) {
     console.error(err);
-    res.json({ result: "fail" });
+    if (err.message == "not loged in") {
+      res.status(400).json({ result: "not loged in" });
+    } else if (err.message == "not match user") {
+      res.status(400).json({ result: "not match user" });
+    } else {
+      res.status(500).json({ result: "fail" });
+    }
   }
 };

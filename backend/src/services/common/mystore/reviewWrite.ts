@@ -40,9 +40,15 @@ export default async (req: Request, res: Response) => {
     }
 
     res.json({ result: "ok", duplicationcheck: duplicationcheck });
-  } catch (err) {
+  } catch (err: any) {
     console.error(err);
     await transaction.rollback();
-    res.json({ result: "fail" });
+    if (err.message == "not login") {
+      res.status(400).json({ result: "not login" });
+    } else if (err.message == "duplication review") {
+      res.status(400).json({ result: "duplication review" });
+    } else {
+      res.status(500).json({ result: "fail" });
+    }
   }
 };

@@ -10,8 +10,12 @@ export default async (req: Request, res: Response) => {
     await bankeyword.create({ word: reqbody.keyword });
 
     res.json({ result: "ok" });
-  } catch (err) {
+  } catch (err: any) {
     console.error(err);
-    res.json({ result: "fail" });
+    if (err.message == "short") {
+      res.status(400).json({ result: "short keyword" });
+    } else {
+      res.status(500).json({ result: "fail" });
+    }
   }
 };

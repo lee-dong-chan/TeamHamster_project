@@ -37,8 +37,12 @@ export default async (req: Request, res: Response) => {
     console.log(req.session.finduser);
 
     res.json({ result: "ok" });
-  } catch (err) {
+  } catch (err: any) {
     console.error(err);
-    res.json({ result: "fail" });
+    if (err.message == "not find user") {
+      res.status(400).json({ result: "not find user" });
+    } else {
+      res.status(500).json({ result: "fail" });
+    }
   }
 };
