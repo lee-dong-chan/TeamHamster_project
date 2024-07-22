@@ -53,7 +53,7 @@ const Layout = ({
   const location = useLocation();
   useEffect(() => {
     setModal(undefined);
-  }, [location]);
+  }, [location, setModal]);
 
   return (
     <div>
@@ -70,7 +70,11 @@ const Layout = ({
                 </div>
               )}
               <Link to={"/"}>
-                <img src="/imgs/hamster.png" className="h-[4rem]"></img>
+                <img
+                  alt="logo"
+                  src="/imgs/hamster.png"
+                  className="h-[4rem]"
+                ></img>
               </Link>
               <div
                 className={`${
@@ -115,22 +119,22 @@ const Layout = ({
             <div className="border border-t border-b">
               <div className={`${box} ${center} py-[1rem]  text-gray-400 `}>
                 <div>팀이름</div>
-                <div className="mx-[1.5rem] h-[1rem] border border-[1px] border-gray-200 "></div>
+                <div className="mx-[1.5rem] h-[1rem] border-[1px] border-gray-200 "></div>
                 <div>프로젝트 이름</div>
-                <div className="mx-[1.5rem] h-[1rem] border border-[1px] border-gray-200 "></div>
+                <div className="mx-[1.5rem] h-[1rem] border-[1px] border-gray-200 "></div>
 
                 <div>팀원명단</div>
-                <div className="mx-[1.5rem] h-[1rem] border border-[1px] border-gray-200 "></div>
+                <div className="mx-[1.5rem] h-[1rem] border-[1px] border-gray-200 "></div>
 
                 <div>담당영역</div>
-                <div className="mx-[1.5rem] h-[1rem] border border-[1px] border-gray-200 "></div>
+                <div className="mx-[1.5rem] h-[1rem] border-[1px] border-gray-200 "></div>
 
                 <div>깃주소</div>
               </div>
             </div>
           </div>
         )}
-        {ismobile && getModal[0] == undefined && (
+        {ismobile && getModal[0] === undefined && (
           <div className="h-[6em] flex justify-evenly items-center sticky bottom-0 bg-gray-300 border border-t">
             <Link to={"/"}>
               <div className="flex flex-col items-center ">
