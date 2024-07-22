@@ -62,6 +62,7 @@ import GoogleCallback from "../services/common/user/GoogleCallback";
 import imgSave from "../services/common/imgSave";
 import testtwo from "../services/test/testtwo";
 import admin from "./admin";
+import catelistthird from "../services/common/catelistthird";
 
 router.use(
   session({
@@ -95,7 +96,7 @@ router.post("/layout", layout);
 router.post("/main", main);
 router.post("/category/:id", catepage);
 router.post("/product/:id", product);
-router.post("/search/:keyword", search);
+router.post("/search", search);
 /// write
 router.post("/address", extraaddress);
 router.post("/addaddress", addaddress);
@@ -104,40 +105,11 @@ router.post("/write", productwrite);
 router.post("/category", category);
 router.post("/catefirst", catefirst);
 
-/////
-
-// const upload: multer.Multer = multer({
-//   storage: multer.diskStorage({
-//     destination: (req, file, callback) => {
-//       callback(null, "./uploads");
-//     },
-//     filename: (req, file, callback) => {
-//       file.originalname = Buffer.from(file.originalname, "ascii").toString("utf8");
-//       const tempName = Date.now() + "_" + file.originalname;
-//       callback(null, tempName);
-//     },
-//   }),
-// });
-
-// router.post("/imgSave", upload.array("img"), (req: Request, res: Response) => {
-//   console.log(req.files);
-//   const files: any = req.files;
-//   const fileUrls: string[] = [];
-//   files.forEach((item: any) => {
-//     fileUrls.push(`http://localhost:3000/api/imgs/${item.filename}`);
-//   });
-//   console.log(fileUrls);
-
-//   res.json({
-//     uploaded: true,
-//     url: fileUrls,
-//   });
-// });
-
 ////////
 router.post("/imgSave", imgSave);
 
 router.post("/catelist/:id", catelist);
+router.post("catelistthird/:id", catelistthird);
 
 /// view
 router.post("/purchase/:id", purchase);

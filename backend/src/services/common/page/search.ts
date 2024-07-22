@@ -16,7 +16,7 @@ export default async (req: Request, res: Response) => {
         "img",
         "categoryId",
       ],
-      where: { title: { [Op.like]: `%${req.params.keyword}%` } },
+      where: { title: { [Op.like]: `%${reqbody.keyword}%` } },
       include: [{ model: Category, as: "Category", attributes: ["name"] }],
     });
 
