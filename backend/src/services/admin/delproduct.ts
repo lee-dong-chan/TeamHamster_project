@@ -1,9 +1,8 @@
 import { Request, Response } from "express";
-import { Address, Category, ExtraAddress, Product, Report, Store, User } from "../../models";
+import { Product, Store } from "../../models";
 
 export default async (req: Request, res: Response) => {
   try {
-    const reqbody = req.body;
     const selectreport: string = req.params.id;
 
     const delproduct: Product | null = await Product.findOne({

@@ -6,21 +6,8 @@ import Review from "./Review";
 import ExtraAddress from "./ExtraAddress";
 import Report from "./Report";
 
-type Constructor<T> = new (...args: any[]) => T;
-
 class Store extends Model {
   public readonly id!: number;
-  //Category
-  // public name!: string;
-  // public preCateId!: number;
-  // //User
-  // public email!: string;
-  // public password!: string;
-  // public mobile!: string;
-  // public delivery!: boolean;
-  // public admin!: boolean;
-  // public Oauth!: string;
-  //Store
   public nick!: string;
   public point!: number;
   public introduction!: string;
@@ -28,8 +15,6 @@ class Store extends Model {
   public mobile!: string;
   public block!: boolean;
   public star!: number;
-
-  // public readonly userId!: number;
 
   public readonly createdAt!: Date;
   public readonly updateAt!: Date;

@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { Category, DeliveryCost, ExtraAddress, Product, Store, sequelize } from "../../../models";
-import { Transaction } from "sequelize";
 import { bankeyword } from "../../../models/mongoDB";
 
 export default async (req: Request, res: Response) => {

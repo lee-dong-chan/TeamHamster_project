@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Address, Category, ExtraAddress, Product, Report, Store, sequelize } from "../../models";
+import { Store } from "../../models";
 import { Op } from "sequelize";
 
 export default async (req: Request, res: Response) => {

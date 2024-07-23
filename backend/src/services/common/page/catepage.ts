@@ -3,7 +3,6 @@ import { Category, Product } from "../../../models";
 
 export default async (req: Request, res: Response) => {
   try {
-    const reqbody = req.body;
     let productlist: Product[] = await Product.findAll({
       attributes: [
         "id",

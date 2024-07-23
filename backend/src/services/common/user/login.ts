@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import dotenv from "dotenv";
 import crypto from "crypto";
-import { Name, Store, User } from "../../../models";
+import { User } from "../../../models";
 
 export default async (req: Request, res: Response) => {
   try {

@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { Store } from "../../models";
 import { point } from "../../models/mongoDB";
 
 export default async (req: Request, res: Response) => {

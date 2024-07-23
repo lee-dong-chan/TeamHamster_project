@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Category, DeliveryCost, ExtraAddress, Product, Store, sequelize } from "../../../models";
+import { Category, ExtraAddress, Product, Store, sequelize } from "../../../models";
 import { Transaction } from "sequelize";
 import { bankeyword } from "../../../models/mongoDB";
 

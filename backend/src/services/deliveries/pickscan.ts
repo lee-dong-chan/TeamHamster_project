@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Address, Category, ExtraAddress, Product } from "../../models";
+import { Product } from "../../models";
 import { delivery } from "../../models/mongoDB";
 
 export default async (req: Request, res: Response) => {

@@ -14,6 +14,5 @@ export default async (req: Request, res: Response, next: NextFunction) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ result: "fail" });
-    // } finally {
   }
 };

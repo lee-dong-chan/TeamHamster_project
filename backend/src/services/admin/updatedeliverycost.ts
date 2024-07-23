@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
-import { DeliveryCost, Store } from "../../models";
-import { point } from "../../models/mongoDB";
+import { DeliveryCost } from "../../models";
 
 export default async (req: Request, res: Response) => {
   try {

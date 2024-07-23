@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Store, User } from "../../../models";
+import { User } from "../../../models";
 import dotenv from "dotenv";
 import crypto from "crypto";
 

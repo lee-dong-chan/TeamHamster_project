@@ -29,9 +29,7 @@ export default async (req: Request, res: Response) => {
     let pointcheck: number = nowuser.point - product.price;
     const delcost: number = deliverycost?.cost || 1000;
 
-    // if (product.prepayment) {
     pointcheck = nowuser.point - product.price - delcost;
-    // }
 
     if (pointcheck < 0) {
       throw Error("not have point");

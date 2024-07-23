@@ -1,12 +1,11 @@
 import { Request, Response } from "express";
-import { Address, Category, ExtraAddress, Product } from "../../models";
+import { Product } from "../../models";
 import { delivery } from "../../models/mongoDB";
 
 export default async (req: Request, res: Response) => {
   try {
     const reqbody = req.body;
 
-    // delivery.create({ userId: reqbody.user.id, spotX: reqbody.spotX, spotY: reqbody.spotY });
     const pickupspot: Product[] | null = await Product.findAll({
       where: { itemState: "픽업 완료" },
       attributes: ["id"],
