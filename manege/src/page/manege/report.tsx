@@ -8,6 +8,10 @@ import axios from "axios";
 import { useQuery } from "react-query";
 import { IReport } from "../../Component/List/ManegeList/Report/ReportItem";
 
+interface IData {
+  report: IReport[];
+}
+
 interface IProps {}
 
 const ManegeReport = ({}: IProps): JSX.Element => {
@@ -20,32 +24,37 @@ const ManegeReport = ({}: IProps): JSX.Element => {
 
   const sumit = useCallback(async () => {
     try {
-      await axios.post("http://localhost:3000", {
-        keyword: user,
-      });
+      await axios.post(
+        `${process.env.REACT_APP_SERVER_URL}/admin/reportsearch`,
+        {
+          keyword: user,
+        }
+      );
     } catch (err) {
       console.error(err);
     }
   }, []);
 
-  // const { data } = useQuery<IReport[]>({
-  //   queryKey: "reportlist",
-  //   queryFn: async () => {
-  //     const { data } = await axios.post(`${process.env.REACT_APP_AXIOS}/report`);
-  //     console.log(data);
-  //     return data;
-  //   },
-  // });
+  const { data } = useQuery<IData>({
+    queryKey: "reportlist",
+    queryFn: async () => {
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_SERVER_URL}/admin/report`
+      );
+      console.log(data);
+      return data;
+    },
+  });
 
-  const data: IReport[] = [
-    { id: 1, content: "광고징", username: "신고함", productid: 3 },
-  ];
+  // const data: IReport[] = [
+  //   { id: 1, content: "광고징", username: "신고함", productid: 3 },
+  // ];
 
   return (
     <div className={`${box} ${center}`}>
       <div>
         <div className=" h-[30rem] w-[70rem] border border-gray-400 overflow-y-scroll">
-          <Report data={data} />
+          <Report data={data?.report} />
         </div>
         <div className="mt-[10rem] mb-[10rem]  flex justify-between items-center">
           <div className="h-[4rem] ">

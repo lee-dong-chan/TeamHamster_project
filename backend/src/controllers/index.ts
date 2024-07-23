@@ -3,7 +3,7 @@ import multer from "multer";
 
 const router: Router = Router();
 /// 테스트용 코드 위치, 테스트할때 주석해제만 해서 쓰게
-import dbtest from "../services/test/dbtest";
+// import dbtest from "../services/test/dbtest";
 // import sessiontest from "../services/test/sessiontest";
 import review from "../services/common/review";
 
@@ -60,7 +60,7 @@ import updatepw from "../services/common/user/updatepw";
 import NaverCallback from "../services/common/user/NaverCallback";
 import GoogleCallback from "../services/common/user/GoogleCallback";
 import imgSave from "../services/common/imgSave";
-import testtwo from "../services/test/testtwo";
+// import testtwo from "../services/test/testtwo";
 import admin from "./admin";
 import catelistthird from "../services/common/catelistthird";
 
@@ -80,10 +80,10 @@ router.use(
   })
 );
 /// 테스트용 코드
-router.get("/dbtest", dbtest);
+// router.get("/dbtest", dbtest);
 // router.get("/sessiontest", sessiontest);
 // router.post("/review", review);
-router.post("/testtwo", testtwo);
+// router.post("/testtwo", testtwo);
 
 ///
 

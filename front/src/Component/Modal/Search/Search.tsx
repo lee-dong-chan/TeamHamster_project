@@ -4,17 +4,17 @@ import { Link } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useSetRecoilState } from "recoil";
 import { Modal } from "../../../Context/Modal";
+import { useBreakPoint } from "../../../CustomHook/BreakPoint";
 
 interface IProps {}
 
 const Search = ({}: IProps): JSX.Element => {
+  const { ismobile, isdesktop } = useBreakPoint();
   const [cookies, setCookie, removeCookie] = useCookies(["search"]);
   const [content, setContent] = useState<string>("");
   const [searchlog, setSearchLog] = useState("");
   const setmodal = useSetRecoilState(Modal);
-  const close = () => {
-    setmodal(undefined);
-  };
+
   const saveContent = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setContent(e.target.value);
   }, []);
@@ -31,7 +31,9 @@ const Search = ({}: IProps): JSX.Element => {
     );
   };
   const save = () => {
-    handleCookie(searchlog + `+${content}`);
+    if (recentsearch.length < 10) {
+      handleCookie(searchlog + `+${content}`);
+    }
   };
   const remove = () => {
     removeCookie("search");
@@ -50,13 +52,18 @@ const Search = ({}: IProps): JSX.Element => {
       );
     });
 
-  console.log(recentsearch);
-
   useEffect(() => {
     if (cookies.search) {
       setSearchLog(cookies.search.search);
     }
   }, [cookies.search]);
+
+  useEffect(() => {
+    if (isdesktop) {
+      setmodal(undefined);
+    }
+  }, [isdesktop]);
+  console.log(recentsearch.length);
   return (
     <div>
       <div className={`${box}`}>

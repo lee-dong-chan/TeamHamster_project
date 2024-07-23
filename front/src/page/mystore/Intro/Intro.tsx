@@ -6,11 +6,13 @@ import axios from "axios";
 import Star from "../../../Component/Star/Star";
 
 import { rowfont, center, outborder, nanoBtn } from "../../../lib/styles";
+import { useBreakPoint } from "../../../CustomHook/BreakPoint";
 
 const serverUrl = process.env.REACT_APP_SERVER_URL;
 const imgBase = process.env.REACT_APP_IMG_BASE;
 
 const Intro = ({ intro }: IIntro): JSX.Element => {
+  const { isdesktop, ismobile } = useBreakPoint();
   const {
     storeName,
     storePoint,
@@ -83,7 +85,13 @@ const Intro = ({ intro }: IIntro): JSX.Element => {
 
   return (
     <div
-      className={`border-2 border-gray-300 w-[95%] h-[350px] p-5 flex justify-between gap-[4%]`}
+      className={`${
+        isdesktop &&
+        "border-2 border-gray-300 w-[95%] h-[350px] p-5 flex justify-between gap-[4%]"
+      } ${
+        ismobile &&
+        "mx-3 border-2 border-gray-300 w-[95%] h-[17rem] p-5 flex justify-between gap-[4%]"
+      }`}
     >
       {/*  */}
       <div
@@ -150,12 +158,21 @@ const Intro = ({ intro }: IIntro): JSX.Element => {
             <div className={`${rowfont}`}>보유 포인트:{storePoint}</div>
           )}
         </div>
-        <div className={`${rowfont} h-[65%]`}>{storeIntro}</div>
+        <div
+          className={`${isdesktop && `${rowfont} h-[65%]`} ${
+            ismobile && `${rowfont} h-[40%]`
+          }`}
+        >
+          {storeIntro}
+        </div>
         {loginCheck && (
           <div className={`flex`}>
             <button
               onClick={contentBtnOpen}
-              className={`${center} ${rowfont} ${nanoBtn} h-[24px]`}
+              className={`${
+                isdesktop && `${center} ${rowfont} ${nanoBtn} h-[24px]`
+              }
+              ${ismobile && " text-[0.6rem] "}`}
             >
               소개글 수정
             </button>
@@ -173,7 +190,10 @@ const Intro = ({ intro }: IIntro): JSX.Element => {
                 />
                 <button
                   onClick={storeContentHandler}
-                  className={`${rowfont} ${nanoBtn}`}
+                  className={`${isdesktop && `mx-1 ${rowfont} ${nanoBtn}`} ${
+                    ismobile &&
+                    "m-1 px-1 text-[0.7rem] border border-black rounded  "
+                  }`}
                 >
                   수정하기
                 </button>

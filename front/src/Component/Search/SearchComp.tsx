@@ -4,19 +4,50 @@ import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import Category from "../Category/Category";
 import { center } from "../../lib/styles";
 import { Debounce } from "../../CustomHook/Debounce";
+import axios, { AxiosResponse } from "axios";
+import { IChild } from "../Category/categoryItem";
 
 interface IProps {}
 
+export interface ICategory {
+  id: number;
+  name: string;
+  children: IChild[];
+}
 const SearchComp = ({}: IProps): JSX.Element => {
   const [content, setContent] = useState<string>("");
-
+  const [catedata, setCateData] = useState<ICategory>();
   const saveContent = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setContent(e.target.value);
   }, []);
 
-  const search = Debounce(content, 1000);
+  const search = Debounce(content, 800);
+
+  const getcategory = async () => {
+    await axios
+      .post(
+        `${process.env.REACT_APP_SERVER_URL}/category`,
+        { category: search },
+        { withCredentials: true }
+      )
+      .then((data: AxiosResponse) => {
+        console.log(data);
+        const category: ICategory = data.data.category;
+        setCateData(category);
+      })
+      .catch(() => {
+        setCateData({
+          id: 5,
+          name: "자동차",
+          children: [{ id: 3, name: "오류임" }],
+        });
+      });
+  };
+  console.log(catedata);
 
   useEffect(() => {
+    getcategory();
+
     console.log(search);
   }, [search]);
 
@@ -46,7 +77,7 @@ const SearchComp = ({}: IProps): JSX.Element => {
             onInput={saveContent}
             value={content}
           ></input>
-          {content ? <Category content={content} /> : ""}
+          {search ? <Category content={content} category={catedata} /> : ""}
         </div>
         {content ? (
           <Link to={`/search/${content}`}>

@@ -5,18 +5,29 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { RecoilRoot } from "recoil";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      // refetchInterval: 1000,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
+
 root.render(
   // <React.StrictMode>
-
-  <BrowserRouter>
-    <RecoilRoot>
-      <App />
-    </RecoilRoot>
-  </BrowserRouter>
+  <QueryClientProvider client={queryClient}>
+    <BrowserRouter>
+      <RecoilRoot>
+        <App />
+      </RecoilRoot>
+    </BrowserRouter>
+  </QueryClientProvider>
 
   // </React.StrictMode>
 );

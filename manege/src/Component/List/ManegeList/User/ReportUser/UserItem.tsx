@@ -5,7 +5,7 @@ import axios from "axios";
 
 export interface IReportUser {
   id: number;
-  name: string;
+  nick: string;
 }
 
 interface IProps {
@@ -18,7 +18,7 @@ const Item = ({ item, idx }: IProps): JSX.Element => {
 
   const benuser = useCallback(async () => {
     try {
-      await axios.post(`http://localhost/admin/userblock/${item.id}`, {
+      await axios.post(`${process.env.REACT_APP_SERVER_URL}/${item.id}`, {
         withCredentials: true,
       });
     } catch (err) {
@@ -29,7 +29,7 @@ const Item = ({ item, idx }: IProps): JSX.Element => {
   return (
     <div className="px-5 py-2 flex items-center ">
       <span className="mx-2">{idx}</span>
-      <span className="ps-3 flex-1 text-center truncate ">{item.name}</span>
+      <span className="ps-3 flex-1 text-center truncate ">{item.nick}</span>
       <div onClick={benuser}>
         <TinyButton btn={benbtn} />
       </div>

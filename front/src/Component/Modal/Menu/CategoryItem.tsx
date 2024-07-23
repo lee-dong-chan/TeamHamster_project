@@ -1,11 +1,15 @@
 import { Link } from "react-router-dom";
 
+export interface ICate {
+  id: number;
+  name: string;
+}
+
 interface IProps {
   item: { id: number; name: string };
 }
 
 const CategoryItem = ({ item }: IProps): JSX.Element => {
-  console.log(item);
   return (
     <Link to={`/category/${item.id}`}>
       <div className="flex flex-col items-center">

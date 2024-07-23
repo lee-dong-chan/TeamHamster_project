@@ -5,7 +5,7 @@ import { useCallback } from "react";
 
 export interface IBenUser {
   id: number;
-  name: string;
+  nick: string;
 }
 
 interface IProps {
@@ -18,7 +18,7 @@ const Item = ({ idx, item }: IProps): JSX.Element => {
   const releseuser = useCallback(async () => {
     try {
       await axios.post(
-        `http://localhost/admin/userunblock/${item.id}`,
+        `${process.env.REACT_APP_SERVER_URL}/${item.id}`,
 
         { withCredentials: true }
       );
@@ -30,7 +30,7 @@ const Item = ({ idx, item }: IProps): JSX.Element => {
   return (
     <div className="px-5 py-2 flex items-center ">
       <span className="mx-2">{idx}</span>
-      <span className="ps-3 flex-1 text-center">{item.name}</span>
+      <span className="ps-3 flex-1 text-center">{item.nick}</span>
       <div onClick={releseuser}>
         <TinyButton btn={deletebtn} />
       </div>
