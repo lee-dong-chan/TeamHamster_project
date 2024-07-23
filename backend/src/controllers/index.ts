@@ -6,6 +6,7 @@ const router: Router = Router();
 // import dbtest from "../services/test/dbtest";
 // import sessiontest from "../services/test/sessiontest";
 import review from "../services/common/review";
+import testtwo from "../services/test/testtwo";
 
 ///
 import session from "express-session";
@@ -61,7 +62,6 @@ import updatepw from "../services/common/user/updatepw";
 import NaverCallback from "../services/common/user/NaverCallback";
 import GoogleCallback from "../services/common/user/GoogleCallback";
 import imgSave from "../services/common/imgSave";
-// import testtwo from "../services/test/testtwo";
 import admin from "./admin";
 import catelistthird from "../services/common/catelistthird";
 import arrayId from "../services/common/page/arrayId";

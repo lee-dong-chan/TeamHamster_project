@@ -18,7 +18,6 @@ class Category extends Model {
       {
         name: {
           type: DataTypes.STRING(100),
-          unique: true,
         },
         preCateId: {
           type: DataTypes.INTEGER,

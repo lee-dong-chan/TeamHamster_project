@@ -4,11 +4,12 @@ import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import morgan from "morgan";
-import multer from "multer";
-import mysql2 from "mysql2";
+import crypto from "crypto";
 
 import router from "./controllers";
-import { sequelize } from "./models";
+import { DeliveryCost, Name, Store, User, sequelize } from "./models";
+import { point } from "./models/mongoDB";
+import basicCate from "./services/common/basicCate";
 
 dotenv.config();
 
@@ -33,6 +34,55 @@ mongoose.connection.on("connected", () => {
   console.log("mongoose connection");
 });
 // mongoose.connection.dropCollection("deliveries");
+
+const a = async () => {
+  try {
+    if (!(await User.findOne())) {
+      DeliveryCost.create({ cost: 3000 });
+      point.create({ pointPercent: 1000 });
+
+      const key = crypto.scryptSync("hgaomasttmexrj", `${process.env.KEY || ""}`, 32);
+      const iv = process.env.IV || "";
+      const cipher = crypto.createCipheriv("aes-256-gcm", key, iv);
+
+      const encryptionemail: string = cipher.update(`admin1@admin.com`, "utf-8", "hex");
+
+      const encryptionpw = crypto
+        .createHash("sha512")
+        .update(`admin1 + ${process.env.SALT}`)
+        .digest("hex");
+
+      const store = await Store.create({
+        nick: "admin1",
+        mobile: "",
+      });
+
+      await Name.create({
+        name: "관리자",
+      });
+
+      const newname: Name | null = await Name.findOne({
+        where: { name: "관리자" },
+      });
+
+      const regist = await User.create({
+        email: encryptionemail,
+        password: encryptionpw,
+        admin: true,
+        delivery: true,
+      });
+
+      await newname?.addUser(regist);
+
+      await regist.setStore(store);
+      basicCate();
+    }
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+a();
 
 app.listen(app.get("port"), (): void => {
   console.log(app.get("port"), "port server open");
