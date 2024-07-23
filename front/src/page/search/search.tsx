@@ -5,15 +5,75 @@ import { useParams } from "react-router-dom";
 import Paging from "../../Component/paging/paging";
 import { useBreakPoint } from "../../CustomHook/BreakPoint";
 import { box, mobilebox } from "../../lib/styles";
+import axios, { AxiosResponse } from "axios";
+import { IListData, IProduct } from "../../App";
+import { useEffect, useState } from "react";
 
-interface IProps {
-  list: ListData[];
-}
+interface IProps {}
 
-const Search = ({ list }: IProps): JSX.Element => {
+const Search = ({}: IProps): JSX.Element => {
+  const [search, setSearch] = useState<ListData[]>([]);
+  const [ListDatas, setListDatas] = useState<IListData[]>([]);
   const { isdesktop, ismobile } = useBreakPoint();
   let { id } = useParams();
   const result = true;
+
+  const searchDataGet = async () => {
+    await axios
+      .post(
+        `${process.env.REACT_APP_SERVER_URL}/main`,
+        { keyword: id },
+        { withCredentials: true }
+      )
+      .then((data: AxiosResponse) => {
+        console.log(data);
+        const products: IProduct[] = data.data.product;
+        const listDatas: IListData[] = products.map((data: IProduct) => {
+          const listData: IListData = {
+            id: data.id,
+            title: data.title,
+            img: data.image[0],
+            price: data.price,
+            createdAt: Math.floor(
+              (+new Date() - +new Date(data.createdAt)) / (1000 * 60 * 60 * 24)
+            ),
+          };
+          return listData;
+        });
+        setListDatas(listDatas);
+      })
+      .catch(() => {
+        setListDatas([
+          {
+            id: 1,
+            title: "자전거 ok",
+            img: "hamster.png",
+            price: 3000,
+            createdAt: 3,
+          },
+        ]);
+      });
+  };
+  //mount
+  useEffect(() => {
+    if (ListDatas[0]) {
+      setSearch(
+        ListDatas.map((data) => {
+          return new ListData(
+            data.id,
+            data.title,
+            data.img,
+            data.price,
+            data.createdAt
+          );
+        })
+      );
+    }
+  }, [ListDatas]);
+
+  useEffect(() => {
+    searchDataGet();
+  }, []);
 
   return (
     <div>
@@ -25,7 +85,7 @@ const Search = ({ list }: IProps): JSX.Element => {
 
         {result ? (
           <div>
-            <List list={list} />
+            <List list={search} />
             <div className="py-5 center">{isdesktop && <Paging />}</div>
           </div>
         ) : (

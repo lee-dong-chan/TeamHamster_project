@@ -6,12 +6,14 @@ import Count from "../../../../Component/jabs/Count";
 import axios, { AxiosResponse } from "axios";
 import { sellContentsErr, buyContentsErr } from "../../../../lib/errors";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useBreakPoint } from "../../../../CustomHook/BreakPoint";
 
 interface IProps {
   value: number;
 }
 
 const SellComp = ({ value }: IProps) => {
+  const { ismobile, isdesktop } = useBreakPoint();
   //State
   const [products, setProducts] = useState<IProduct[]>([]);
   const [isBuyTap, setIsBuyTap] = useState<boolean>(false);
@@ -81,7 +83,7 @@ const SellComp = ({ value }: IProps) => {
   }, [products]);
 
   return (
-    <div className={`mt-4 w-[100%] h-[90%]`}>
+    <div className={`mt-4 w-[100%] min-w-[30rem] h-[90%]`}>
       {/* 탭 */}
       <div className={`flex justify-between`}>
         <Count text="상품" number={products.length}></Count>
@@ -101,7 +103,9 @@ const SellComp = ({ value }: IProps) => {
 
       {/* 상품페이지 변환 */}
       <div
-        className={`h-auto flex flex-nowrap overflow-x-scroll`}
+        className={`${
+          isdesktop && "h-auto flex flex-nowrap overflow-x-scroll"
+        } ${ismobile && "flex grid grid-cols-2"}`}
         style={{ scrollbarWidth: "none" }}
       >
         {/* 상품 */}

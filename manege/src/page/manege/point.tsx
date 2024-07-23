@@ -1,9 +1,17 @@
 import { box, center } from "../../lib/styles";
 import { SmallButton } from "../../Component/Button/Button";
 import { Button } from "../../lib/Button/Button";
-import { ChangeEvent, useCallback, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { useQuery } from "react-query";
+
+interface IPoint {
+  pointPercent: number;
+}
+
+interface IData {
+  point: IPoint;
+}
 
 interface IProps {}
 
@@ -17,7 +25,7 @@ const ManegePoint = ({}: IProps): JSX.Element => {
   const submit = useCallback(async () => {
     try {
       await axios.patch(
-        "http://localhost:3000/admin/updatepoint",
+        `${process.env.REACT_APP_SERVER_URL}/admin/updatepoint`,
         { point: point },
         { withCredentials: true }
       );
@@ -26,13 +34,21 @@ const ManegePoint = ({}: IProps): JSX.Element => {
     }
   }, []);
 
-  // const { data } = useQuery({
-  //   queryKey: "pointvalue",
-  //   queryFn: async () => {
-  //     const { data } = await axios.post("http://localhost:3000/admin/pointpercent");
-  //     return data;
-  //   },
-  // });
+  const pointpercent = useQuery<IData>({
+    queryKey: "pointvalue",
+    queryFn: async () => {
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_SERVER_URL}/admin/pointpercent`
+      );
+      console.log(data);
+      return data;
+    },
+  });
+
+  useEffect(() => {
+    console.log(pointpercent.data?.point);
+  }, [pointpercent]);
+
   const data = { point: 1000 };
   return (
     <div className={`${box}`}>
@@ -41,7 +57,6 @@ const ManegePoint = ({}: IProps): JSX.Element => {
           <div className="h-[4rem] ">
             <input
               placeholder="1000원당 포인트 액수"
-              type="text"
               className="p-3 h-[100%] w-[30rem] border border-gray-400 "
               value={point}
               onInput={changepoint}
@@ -55,7 +70,8 @@ const ManegePoint = ({}: IProps): JSX.Element => {
           <div>현재 포인트 비율: </div>
           <div>
             <span className="text-orange-500">1000</span> 원 당
-            <span className="text-orange-500"> {data.point}</span>포인트
+            {/* <span className="text-orange-500">{pointpercent.data?.point}</span> */}
+            포인트
           </div>
         </div>
       </div>

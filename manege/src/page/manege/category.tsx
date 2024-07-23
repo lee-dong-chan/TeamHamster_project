@@ -21,10 +21,13 @@ const ManegeCategory = ({}: IProps): JSX.Element => {
 
   const sumit = useCallback(async () => {
     try {
-      await axios.post("http://localhost/admin/createcategory", {
-        precate: topcate,
-        name: createcate,
-      });
+      await axios.post(
+        `${process.env.REACT_APP_SERVER_URL}/admin/createcategory`,
+        {
+          precate: topcate,
+          name: createcate,
+        }
+      );
     } catch (err) {
       console.error(err);
     }

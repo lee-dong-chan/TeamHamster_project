@@ -1,7 +1,7 @@
 import Item, { IReport } from "./ReportItem";
 
 interface IProps {
-  data: IReport[];
+  data: IReport[] | undefined;
 }
 
 const Report = ({ data }: IProps): JSX.Element => {
@@ -14,9 +14,10 @@ const Report = ({ data }: IProps): JSX.Element => {
         <span className="mx-3  py-2 w-[4rem] ">상품정보</span>
         <span className="mx-3  py-2 w-[4rem] ">신고삭제</span>
       </div>
-      {data.map((item: IReport, idx: number) => (
-        <Item key={idx} item={item} idx={idx + 1} />
-      ))}
+      {data &&
+        data.map((item: IReport, idx: number) => (
+          <Item key={idx} item={item} idx={idx + 1} />
+        ))}
     </div>
   );
 };

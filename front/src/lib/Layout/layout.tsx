@@ -22,35 +22,63 @@ import { CgAdd } from "react-icons/cg";
 import { MdOutlineShoppingBag } from "react-icons/md";
 import { IoAccessibility } from "react-icons/io5";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import MobileModal from "../../Component/Modal/ModalBox/Modal";
 import { box, center } from "../styles";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { Modal } from "../../Context/Modal";
 import Regist from "../../page/account/regist/registpage";
+import { useQuery } from "react-query";
+import axios from "axios";
 
-interface IProps {
-  userlogin: boolean;
-  main: List[];
-  catepage: List[];
-  searchpage: List[];
+interface IUser {
+  id: number;
+  nick: string;
+  point: number;
 }
 
-const Layout = ({ userlogin, main, catepage, searchpage }: IProps): JSX.Element => {
+interface IProps {
+  main: List[];
+}
+
+const Layout = ({ main }: IProps): JSX.Element => {
   const { isdesktop, ismobile } = useBreakPoint();
   const authority = false;
-
   const getModal = useRecoilState(Modal);
   const setModal = useSetRecoilState(Modal);
-
   const openmenu = () => {
     setModal("mobilemenu");
   };
+
+  const user = useQuery<IUser>({
+    queryKey: "usercheck",
+    queryFn: async () => {
+      try {
+        const { data } = await axios.post(
+          `${process.env.REACT_APP_SERVER_URL}/layout`,
+          {},
+          { withCredentials: true }
+        );
+        return data;
+      } catch (err) {
+        console.error(err);
+      }
+    },
+  });
+
+  let userlogin: Boolean;
+  let userData: IUser;
+  if (user.data !== undefined) {
+    userlogin = true;
+    userData = user.data;
+  } else {
+    userlogin = false;
+  }
+
   const location = useLocation();
   useEffect(() => {
     setModal(undefined);
   }, [location, setModal]);
-
   return (
     <div>
       <div className="relative">
@@ -66,12 +94,16 @@ const Layout = ({ userlogin, main, catepage, searchpage }: IProps): JSX.Element 
                 </div>
               )}
               <Link to={"/"}>
-                <img alt="logo" src="/imgs/hamster.png" className="h-[4rem]"></img>
+                <img
+                  alt="logo"
+                  src="/imgs/hamster.png"
+                  className="h-[4rem]"
+                ></img>
               </Link>
               <div
-                className={`${isdesktop && "text-[2rem] text-white font-bold"} ${
-                  ismobile && "text-[1rem] text-white font-bold"
-                }`}
+                className={`${
+                  isdesktop && "text-[2rem] text-white font-bold"
+                } ${ismobile && "text-[1rem] text-white font-bold"}`}
               >
                 햄스터마켓
               </div>
@@ -87,8 +119,8 @@ const Layout = ({ userlogin, main, catepage, searchpage }: IProps): JSX.Element 
           ) : (
             <Routes>
               <Route path="/" element={<Main list={main} />}></Route>
-              <Route path="/category/:id" element={<Category list={catepage} />}></Route>
-              <Route path={`/search/:id`} element={<Search list={searchpage} />}></Route>
+              <Route path="/category/:id" element={<Category />}></Route>
+              <Route path={`/search/:id`} element={<Search />}></Route>
               <Route path="/product/:id" element={<Product />}></Route>
               <Route path="/sell" element={<Sell />}></Route>
               <Route path="/mystore" element={<MyStore />}></Route>

@@ -3,14 +3,62 @@ import List from "../../Component/List/List";
 import { List as ListData } from "../../lib/list";
 import { useBreakPoint } from "../../CustomHook/BreakPoint";
 import { box, mobilebox } from "../../lib/styles";
+import { IListData } from "../../App";
+import { useCallback, useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
+import axios from "axios";
 
 interface IProps {
   list: ListData[];
 }
 
 const Main = ({ list }: IProps): JSX.Element => {
+  const [cookies] = useCookies(["Product"]);
   const { ismobile, isdesktop } = useBreakPoint();
-  const cookie = true;
+  const [recent, setrecent] = useState<ListData[]>([]);
+  const [recentlist, setresent] = useState<number[]>([]);
+
+  const save = () => {
+    if (cookies.Product) {
+      const products = cookies.Product.product;
+
+      const recentproduct = products
+        .split("+")
+        .filter((item: string) => item != "")
+        .filter((item: String, idx: number) => {
+          return (
+            products
+              .split("+")
+              .filter((item: string) => item != "")
+              .indexOf(item) === idx
+          );
+        });
+      const pre: number[] = recentproduct.map((item: string) => {
+        return Number(item);
+      });
+      setresent(pre);
+    }
+  };
+
+  const getrecent = async () => {
+    try {
+      await axios.post(
+        `${process.env.REACT_APP_SERVER_URL}/recent`,
+        { productlist: recentlist },
+        { withCredentials: true }
+      );
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const cookie = false;
+
+  useEffect(() => {
+    save();
+    getrecent();
+  }, []);
+
   return (
     <div>
       {isdesktop && <SearchComp />}

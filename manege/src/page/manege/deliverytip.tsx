@@ -3,10 +3,7 @@ import { SmallButton } from "../../Component/Button/Button";
 import { Button } from "../../lib/Button/Button";
 import { ChangeEvent, useCallback, useState } from "react";
 import axios from "axios";
-
-interface ICost {
-  cost: number;
-}
+import { useQuery } from "react-query";
 
 interface IProps {}
 
@@ -16,28 +13,26 @@ const ManegeDeliveryTip = ({}: IProps): JSX.Element => {
     settip(Number(e.target.value));
   }, []);
 
-  const submit = useCallback(async () => {
-    try {
-      await axios.patch(
-        "http://localhost:3000/admin/updatedeliverycost",
-        { cost: tip },
-        { withCredentials: true }
-      );
-    } catch (err) {
-      console.error(err);
-    }
-  }, []);
+  const submit = async () => {
+    await axios.patch(
+      ` ${process.env.REACT_APP_SERVER_URL}/admin/updatedeliverycost`,
+      { cost: tip },
+      { withCredentials: true }
+    );
+  };
 
-  // const { data } = useQuery({
-  //   queryKey: "deliverycost",
-  //   queryFn: async () => {
-  //     const { data } = await axios.post("http://localhost:3000/admin/deliverycost");
-  //     return data;
-  //   },
-  // });
+  const deliverycost = useQuery({
+    queryKey: "deliverycost",
+    queryFn: async () => {
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_SERVER_URL}/admin/deliverycost`
+      );
+      return data;
+    },
+  });
+  console.log(deliverycost.data?.cost.cost);
   const btn = new Button("확인", "bg-orange-500");
 
-  const data: ICost = { cost: 2000 };
   return (
     <div className={`${box}`}>
       <div className={`${center} flex-col`}>
@@ -50,12 +45,17 @@ const ManegeDeliveryTip = ({}: IProps): JSX.Element => {
               onInput={changetip}
             ></input>
           </div>
-          <SmallButton btn={btn} />
+          <div onClick={submit}>
+            <SmallButton btn={btn} />
+          </div>
         </div>
         <div className="pb-20 flex w-[45rem] text-[2rem] font-bold gap-10">
           <div>현재 배송비: </div>
           <div>
-            <span className="text-orange-500">{data.cost}</span>원
+            <span className="text-orange-500">
+              {deliverycost.data?.cost.cost}
+            </span>
+            원
           </div>
         </div>
       </div>

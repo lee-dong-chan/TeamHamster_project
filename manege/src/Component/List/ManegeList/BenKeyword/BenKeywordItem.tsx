@@ -4,8 +4,7 @@ import { TinyButton } from "../../../Button/Button";
 import axios from "axios";
 
 export interface IKeyword {
-  id: number;
-  benkeyword: string;
+  keyword: string;
 }
 
 interface IProps {
@@ -18,8 +17,8 @@ const Item = ({ item, idx }: IProps): JSX.Element => {
 
   const delKeyword = async () => {
     try {
-      await axios.post(`http://localhost/admin/keyword/${item.id}`, {
-        deleteid: item.id,
+      await axios.post(`${process.env.REACT_APP_SERVER_URL}/delkeyword`, {
+        Keyword: item.keyword,
       });
     } catch (err) {
       console.error(err);
@@ -29,7 +28,7 @@ const Item = ({ item, idx }: IProps): JSX.Element => {
   return (
     <div className="px-5 py-2 flex items-center ">
       <span className="mx-2">{idx}</span>
-      <span className="ps-3 flex-1 text-center">{item.benkeyword}</span>
+      <span className="ps-3 flex-1 text-center">{item.keyword}</span>
       <div onClick={delKeyword}>
         <TinyButton btn={deletebtn} />
       </div>

@@ -1,3 +1,4 @@
+import { useBreakPoint } from "../../../../CustomHook/BreakPoint";
 import { center } from "../../../../lib/styles";
 
 interface IProps {
@@ -7,12 +8,15 @@ interface IProps {
 }
 
 const CateBtn = ({ text, click }: IProps) => {
+  const { ismobile, isdesktop } = useBreakPoint();
   return (
     <div
       onClick={() => {
         click();
       }}
-      className={`${center} bg-gray-100 border-2 p-3 pl-16 pr-16`}
+      className={`${
+        isdesktop && `${center} bg-gray-100 border-2 p-3 pl-16 pr-16`
+      } ${ismobile && `${center} pe-5 font-bold  `} `}
     >
       {text}
     </div>
