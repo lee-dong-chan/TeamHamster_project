@@ -63,6 +63,7 @@ import imgSave from "../services/common/imgSave";
 // import testtwo from "../services/test/testtwo";
 import admin from "./admin";
 import catelistthird from "../services/common/catelistthird";
+import arrayId from "../services/common/page/arrayId";
 
 router.use(
   session({
@@ -97,6 +98,7 @@ router.post("/main", main);
 router.post("/category/:id", catepage);
 router.post("/product/:id", product);
 router.post("/search", search);
+router.post("/recent", arrayId);
 /// write
 router.post("/address", extraaddress);
 router.post("/addaddress", addaddress);
