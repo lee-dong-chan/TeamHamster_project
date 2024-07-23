@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { PointHistory, Store } from "../../../models";
+import { point } from "../../../models/mongoDB";
 
 export default async (req: Request, res: Response) => {
   try {
@@ -18,9 +19,14 @@ export default async (req: Request, res: Response) => {
     if (nowuser?.id != reqbody.user.id) {
       throw Error("not match user");
     }
+    const pointpercent = await point.findOne({}, { pointPercent: 1, _id: 0 }).sort({ _id: -1 });
+    if (!pointpercent?.pointPercent) {
+      throw Error("err");
+    }
+    const chargepoint = (reqbody.pointvalue / 1000) * pointpercent?.pointPercent;
 
     await nowuser?.update({
-      point: reqbody.user.point + reqbody.pointvalue,
+      point: reqbody.user.point + chargepoint,
     });
 
     const pointhistory = await PointHistory.create({

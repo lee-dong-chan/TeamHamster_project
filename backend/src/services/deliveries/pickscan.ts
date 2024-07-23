@@ -8,7 +8,7 @@ export default async (req: Request, res: Response) => {
     const selectproduct: string = req.params.id;
 
     const waitepickup: Product | null = await Product.findOne({
-      where: { id: selectproduct, itemState: "픽업중" },
+      where: { id: selectproduct, itemState: "픽업 중" },
     });
     if (waitepickup) {
       waitepickup.update({ itemState: "픽업 완료" });

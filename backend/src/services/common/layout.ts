@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { Store } from "../../models";
+import { Store, User } from "../../models";
 
 export default async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -9,6 +9,11 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         attributes: ["id", "nick", "point"],
         raw: true,
       });
+      const check = await User.findOne({
+        where: { id: req.body.user.id },
+      });
+      req.body.user.admin = check?.admin;
+      req.body.user.delivery = check?.delivery;
     }
     res.json({ login: req.body.user });
   } catch (err) {

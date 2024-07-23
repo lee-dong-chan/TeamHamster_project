@@ -18,7 +18,7 @@ declare module "express-session" {
 import sessionFileStore from "session-file-store";
 const FileStore = sessionFileStore(session);
 
-import layout from "../services/common/logincheck";
+import layout from "../services/common/layout";
 import logincheck from "../services/common/logincheck";
 
 import deliveries from "./deliveries";
@@ -45,7 +45,8 @@ import mystore from "../services/common/mystore/mystore";
 import mysell from "../services/common/mystore/mysell";
 import mypurchase from "../services/common/mystore/mypurchase";
 import myreview from "../services/common/mystore/myreview";
-import delivery from "../services/common/mystore/delivery";
+import GpsRiderGet from "../services/common/mystore/GpsRiderGet";
+import GpsUserGet from "../services/common/mystore/GpsUserGet";
 import reviewWrite from "../services/common/mystore/reviewWrite";
 import myStoreNameSet from "../services/common/mystore/myStoreNameSet";
 import myStoreContentSet from "../services/common/mystore/myStoreContentSet";
@@ -64,6 +65,7 @@ import imgSave from "../services/common/imgSave";
 import admin from "./admin";
 import catelistthird from "../services/common/catelistthird";
 import arrayId from "../services/common/page/arrayId";
+import purchaseCheck from "../services/common/mystore/purchaseCheck";
 
 router.use(
   session({
@@ -121,11 +123,14 @@ router.post("/mystore", mystore);
 router.post("/mysell", mysell);
 router.post("/mypurchase", mypurchase);
 router.post("/review", myreview);
-router.post("/delivery/:id", delivery);
+router.post("/GpsRiderGet/:id", GpsRiderGet);
+router.post("/GpsUserGet/:id", GpsUserGet);
 router.post("/reviewWrite/:id", reviewWrite);
 router.post("/myStoreNameSet", myStoreNameSet);
 router.post("/myStoreContentSet", myStoreContentSet);
 router.post("/point", point);
+router.post("/purchaseCheck/:id", purchaseCheck);
+
 /// user
 router.post("/regist", regist);
 router.post("/login", login);
