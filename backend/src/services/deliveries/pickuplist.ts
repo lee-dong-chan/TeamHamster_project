@@ -12,7 +12,7 @@ export default async (req: Request, res: Response) => {
       .distinct("productId");
 
     const waitepickup: Product[] = await Product.findAll({
-      where: { id: deliveryfind, itemState: "픽업중" },
+      where: { id: deliveryfind, itemState: "픽업 중" },
       attributes: ["id", "title", "discription", "img"],
       include: [
         {

@@ -4,6 +4,7 @@ import pickupid from "../services/deliveries/pickupId";
 import pickscan from "../services/deliveries/pickscan";
 import pickuplist from "../services/deliveries/pickuplist";
 import deliverycheck from "../services/deliveries/deliverycheck";
+import deliverycomplete from "../services/deliveries/deliverycomplete";
 
 const router: Router = Router();
 
@@ -12,5 +13,6 @@ router.post("/pickup", pickup);
 router.post("/pickupId", pickupid);
 router.post("/pickscan/:id", pickscan);
 router.post("/pickuplist", pickuplist);
+router.post("/deliverycomplete/:id", deliverycomplete);
 
 export default router;

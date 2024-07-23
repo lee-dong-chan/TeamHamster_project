@@ -22,7 +22,7 @@ export default async (req: Request, res: Response) => {
       throw Error("other pickup");
     }
     for (let i = 0; i < waitepickup.length; i++) {
-      waitepickup[i].update({ itemState: "픽업중" });
+      waitepickup[i].update({ itemState: "픽업 중" });
       delivery.create({ userId: reqbody.user.id, productId: waitepickup[i].id });
     }
 

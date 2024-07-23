@@ -16,8 +16,11 @@ export default async (req: Request, res: Response) => {
       },
       { transaction }
     );
-
+    if (!newcategory) {
+      throw Error("err");
+    }
     await transaction.commit();
+
     if (selectprecate) {
       const precate: Category | null = await Category.findOne({
         where: { id: selectprecate },

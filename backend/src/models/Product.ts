@@ -22,7 +22,7 @@ class Product extends Model {
   // public prepayment!: boolean;
   public img!: string;
   public image!: string[];
-
+  public userCheck!: boolean;
   // User
   // public email!: string;
   // public password!: string;
@@ -71,6 +71,10 @@ class Product extends Model {
         },
         delivery: {
           type: DataTypes.INTEGER,
+        },
+        userCheck: {
+          type: DataTypes.BOOLEAN,
+          defaultValue: false,
         },
       },
       {

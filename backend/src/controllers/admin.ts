@@ -16,6 +16,7 @@ import addkeyword from "../services/admin/addkeyword";
 import delkeyword from "../services/admin/delkeyword";
 import userblocksearch from "../services/admin/userblocksearch";
 import reportsearch from "../services/admin/reportsearch";
+import authority from "../services/admin/authority";
 const router: Router = Router();
 
 router.use(admincheck);
@@ -40,5 +41,7 @@ router.patch("/updatedeliverycost", updatedeliverycost);
 router.post("/keyword", keyword);
 router.post("/addkeyword", addkeyword);
 router.post("/delkeyword", delkeyword);
+/// 권한 부여
+router.post("/authority", authority);
 
 export default router;

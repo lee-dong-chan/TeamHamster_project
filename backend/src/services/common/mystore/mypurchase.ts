@@ -7,7 +7,7 @@ export default async (req: Request, res: Response) => {
     // const nowstoreid: string = req.params.id;
     const nowstoreid = req.query.id;
 
-    const product: {
+    let product: {
       rows: Product[];
       count: number;
     } = await Product.findAndCountAll({
@@ -33,8 +33,19 @@ export default async (req: Request, res: Response) => {
     for (let i = 0; i < product.rows.length; i++) {
       const splimg = product.rows[i].img.split(",");
       product.rows[i].dataValues.image = splimg;
+      if (
+        product.rows[i].itemState == "픽업 대기" ||
+        product.rows[i].itemState == "픽업 중" ||
+        product.rows[i].itemState == "픽업 완료"
+      ) {
+        product.rows[i].itemState = "배송중";
+      } else if (product.rows[i].itemState == "배송 완료") {
+        product.rows[i].itemState = "배송중";
+        product.rows[i].userCheck = true;
+      } else if ((product.rows[i].itemState = "구매 확정")) {
+        product.rows[i].itemState = "구매 완료";
+      }
     }
-
     res.json({ product: product });
   } catch (err) {
     console.error(err);
