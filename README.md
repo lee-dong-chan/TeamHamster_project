@@ -13,6 +13,7 @@ https://docs.google.com/document/d/1Lbk7PtXBUfBku5mMkZbMHQXitBpCQMp4umXeGECt414/
 ## 사용한 기술 스택
 
 Node.js, Mysql, MongoDB, typeScript, React, tailwindcss
+네이버 맵 api, 네이버Aauth, 구글OAuth,
 
 ## 사용법
 
@@ -20,12 +21,12 @@ Node.js, Mysql, MongoDB, typeScript, React, tailwindcss
 
 .env
 
-PORT=포트추가
-MONGURL="mongodb://localhost:?????" (?????에 몽고DB 포트)
+PORT= 포트추가
+MONGURL= "몽고DB 포트"
 IV= Buffer 16자리 string으로
-SALT="암호화 할 문자 salt 값"
+SALT= "암호화 할 문자 salt 값"
 KEY= Buffer 32자리 string으로
-CLIENT_N_ID="네이버 client ID"
+CLIENT_N_ID= "네이버 client ID"
 CLIENT_N_SECRET = "네이버 Client Secret"
 CLIENT_G_ID = "구글 클라이언트 ID"
 CLIENT_G_SECRET = "구글 클라이언트 보안 비밀번호"
@@ -48,9 +49,19 @@ config/config.json
 .env
 
 ```
-REACT_APP_BASE_URL = "리액트 주소 및 포트"
-REACT_APP_SERVER_URL = "서버 주소 및 포트"
-REACT_APP_SERVER_OAUTH_CALLBACK_URL = "서버 주소 및 포트 위와 동일"
+REACT_APP_BASE_URL ="리액트 주소 및 포트"
+REACT_APP_SERVER_URL ="서버 주소 및 포트"
+REACT_APP_SERVER_OAUTH_CALLBACK_URL ="서버 주소 및 포트 위와 동일"
 REACT_APP_G_CLIENT_ID="구글 클라이언트 ID"
 REACT_APP_N_CLIENT_ID="네이버 client ID"
 ```
+
+## RND
+
+### NAVERMAP
+
+https://drive.google.com/drive/folders/18u39uPqaEW-z7-4yb0NhnnKjtOjT8WuJ?usp=sharing
+
+### OAuth
+
+https://drive.google.com/drive/folders/1rTh0Xih_axQRc04mEHp57c7Cg4p9WkoT?usp=sharing
