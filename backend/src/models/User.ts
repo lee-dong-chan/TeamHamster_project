@@ -2,8 +2,6 @@ import { DataTypes, Model, Sequelize } from "sequelize";
 import Store from "./Store";
 import Name from "./Name";
 
-type Constructor<T> = new (...args: any[]) => T;
-
 class User extends Model {
   public readonly id!: number;
   public email!: string;

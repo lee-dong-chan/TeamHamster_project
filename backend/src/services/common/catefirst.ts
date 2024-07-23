@@ -3,7 +3,6 @@ import { Category } from "../../models";
 
 export default async (req: Request, res: Response) => {
   try {
-    const reqbody = req.body;
     const catefirst: Category[] = await Category.findAll({
       where: { preCateId: null },
       attributes: ["id", "name"],

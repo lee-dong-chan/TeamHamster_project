@@ -5,7 +5,6 @@ import review from "../review";
 export default async (req: Request, res: Response) => {
   try {
     const reqbody = req.body;
-    // const nowstoreid: string = req.params.id;
     const nowstoreid = req.query.id;
     let loginuser: boolean = false;
 
@@ -26,7 +25,6 @@ export default async (req: Request, res: Response) => {
           attributes: [],
         },
       ],
-      // group: ["Sell.id"],
     });
 
     if (store) {

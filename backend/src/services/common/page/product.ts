@@ -1,11 +1,10 @@
 import { Request, Response } from "express";
-import { Category, DeliveryCost, Product, Review, Store, sequelize } from "../../../models";
+import { Category, DeliveryCost, Product, Store } from "../../../models";
 
 import review from "../review";
 
 export default async (req: Request, res: Response) => {
   try {
-    const reqbody = req.body;
     let productlist: Product | null = await Product.findOne({
       attributes: [
         "id",
@@ -28,7 +27,6 @@ export default async (req: Request, res: Response) => {
         },
       ],
     });
-    // console.log(productlist.Sell, "asdasdas");
 
     if (!productlist) {
       throw Error("not product");

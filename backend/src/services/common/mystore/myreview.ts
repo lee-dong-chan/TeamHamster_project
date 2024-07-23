@@ -1,11 +1,9 @@
 import { Request, Response } from "express";
-import { Product, Review, Store, sequelize } from "../../../models";
+import { Product, Review, Store } from "../../../models";
 import review from "../review";
 
 export default async (req: Request, res: Response) => {
   try {
-    const reqbody = req.body;
-    // const nowstoreid: string = req.params.id;
     const nowstoreid: any = req.query.id;
 
     const star: number | undefined = await review(nowstoreid);

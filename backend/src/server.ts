@@ -35,7 +35,7 @@ mongoose.connection.on("connected", () => {
 });
 // mongoose.connection.dropCollection("deliveries");
 
-const a = async () => {
+const basicvalue = async () => {
   try {
     if (!(await User.findOne())) {
       DeliveryCost.create({ cost: 3000 });
@@ -82,7 +82,7 @@ const a = async () => {
   }
 };
 
-a();
+basicvalue();
 
 app.listen(app.get("port"), (): void => {
   console.log(app.get("port"), "port server open");

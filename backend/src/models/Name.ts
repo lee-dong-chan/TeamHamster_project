@@ -1,41 +1,18 @@
 import { DataTypes, Model, Sequelize } from "sequelize";
-import Store from "./Store";
-import Product from "./Product";
 import ExtraAddress from "./ExtraAddress";
 import User from "./User";
-
-type Constructor<T> = new (...args: any[]) => T;
 
 class Name extends Model {
   public readonly id!: number;
 
-  // //User
-  // public email!: string;
-  // public password!: string;
-  // public mobile!: string;
-  // public delivery!: boolean;
-  // public admin!: boolean;
-  // public Oauth!: string;
-
-  // //Store
-  // public nick!: string;
-  // public point!: number;
-  // public introduction!: string;
-  // public report_point!: number;
-  // // public mobile!: string;
-  // public block!: boolean;
-
   //Name
   public name!: string;
-
-  // public readonly nameId!: number;
 
   public readonly createdAt!: Date;
   public readonly updateAt!: Date;
   public readonly deletedAt!: Date;
   addExtraAddress: any;
   addUser: any;
-  // addChildren: any;
 
   public static initialize(sequelize: Sequelize) {
     Name.init(

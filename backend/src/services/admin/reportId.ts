@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Address, Category, ExtraAddress, Product, Report, Store } from "../../models";
+import { Report, Store } from "../../models";
 
 export default async (req: Request, res: Response) => {
   try {

@@ -33,8 +33,6 @@ export default async (req: Request, res: Response) => {
       },
     });
 
-    // console.log(response);
-
     const accessToken = response.data.access_token;
 
     // 여기서 추가로 사용자 정보 요청
@@ -49,7 +47,6 @@ export default async (req: Request, res: Response) => {
     console.log(userInfoResponse);
 
     /// 여기부터 회원가입 코드
-    // const reqbody = req.body;
 
     const key = crypto.scryptSync("hgaomasttmexrj", `${process.env.KEY || ""}`, 32);
     const iv = process.env.IV || "";
@@ -78,11 +75,7 @@ export default async (req: Request, res: Response) => {
         throw Error("duplication nick");
       }
 
-      console.log("문제4");
       const navermobile: string = userInfoResponse.mobile_e164.replace("+82", "0");
-      console.log(navermobile);
-      // navermobile = navermobile.replace("+82", "0");
-      // console.log(navermobile);
 
       const regist = await User.create(
         {
@@ -93,7 +86,6 @@ export default async (req: Request, res: Response) => {
         },
         { transaction }
       );
-      console.log("문제3");
 
       const store = await Store.create(
         {
@@ -104,7 +96,6 @@ export default async (req: Request, res: Response) => {
         { transaction }
       );
 
-      console.log("문제1");
       if (name) {
         await transaction.commit();
         await name.addUser(regist);
@@ -115,7 +106,6 @@ export default async (req: Request, res: Response) => {
         await transaction.commit();
         await newname.addUser(regist);
       }
-      console.log("문제2");
 
       await regist.setStore(store);
     }

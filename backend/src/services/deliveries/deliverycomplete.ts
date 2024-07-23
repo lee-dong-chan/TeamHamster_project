@@ -3,7 +3,6 @@ import { Product } from "../../models";
 
 export default async (req: Request, res: Response) => {
   try {
-    const reqbody = req.body;
     const selectproduct: string = req.params.id;
 
     const complete: Product | null = await Product.findOne({

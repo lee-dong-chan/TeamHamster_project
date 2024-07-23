@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import dotenv from "dotenv";
 import crypto from "crypto";
-import { Name, Store, User } from "../../../models";
+import { Name, User } from "../../../models";
 
 export default async (req: Request, res: Response) => {
   try {
@@ -11,9 +11,6 @@ export default async (req: Request, res: Response) => {
 
     const key = crypto.scryptSync("hgaomasttmexrj", `${process.env.KEY || ""}`, 32);
     const iv = process.env.IV || "";
-    // const cipher = crypto.createCipheriv("aes-256-gcm", key, iv);
-
-    // let encryptionemail = cipher.update(`${reqbody.email}`, "utf-8", "hex");
 
     const usercheck: User | null = await User.findOne({
       where: { mobile: reqbody.mobile, Oauth: "햄스터" },

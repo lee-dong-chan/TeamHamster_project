@@ -1,4 +1,3 @@
-import { NextFunction } from "express";
 import { Category } from "../../models";
 
 export default async () => {
