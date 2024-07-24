@@ -40,19 +40,19 @@ const Main = ({ list }: IProps): JSX.Element => {
     }
   };
 
-  const getrecent = async () => {
-    await axios.post(
-      `${process.env.REACT_APP_SERVER_URL}/recent`,
-      { productlist: recentlist },
-      { withCredentials: true }
-    );
-  };
+  // const getrecent = async () => {
+  //   await axios.post(
+  //     `${process.env.REACT_APP_SERVER_URL}/recent`,
+  //     { productlist: [1, 2] },
+  //     { withCredentials: true }
+  //   );
+  // };
 
   const cookie = false;
 
   useEffect(() => {
     save();
-    getrecent();
+    // getrecent();
   }, []);
 
   return (

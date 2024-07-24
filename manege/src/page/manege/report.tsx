@@ -22,6 +22,16 @@ interface IData {
     }
   ];
 }
+interface IProduct {
+  id: number;
+  reportText: string;
+  Product: {
+    id: number;
+    Sell: {
+      nick: string;
+    };
+  };
+}
 
 interface IProps {}
 
@@ -55,13 +65,19 @@ const ManegeReport = ({}: IProps): JSX.Element => {
         `${process.env.REACT_APP_SERVER_URL}/admin/report`
       );
       const report: IData = data.report;
-      const reportlist = report;
+      const reportlist = report.report.map((data: IProduct) => {
+        const lastdata = {
+          id: data.id,
+          content: data.reportText,
+          username: data.Product.Sell.nick,
+          productid: data.Product.id,
+        };
+        return lastdata;
+      });
 
-      return data;
+      return reportlist;
     },
   });
-  const Data: IData | undefined = queryClient.getQueryData("reportlist");
-  console.log(Data);
 
   // const data: IReport[] = [
   //   { id: 1, content: "광고징", username: "신고함", productid: 3 },
@@ -71,7 +87,7 @@ const ManegeReport = ({}: IProps): JSX.Element => {
     <div className={`${box} ${center}`}>
       <div>
         <div className=" h-[30rem] w-[70rem] border border-gray-400 overflow-y-scroll">
-          <Report data={data?.report} />
+          <Report data={data} />
         </div>
         <div className="mt-[10rem] mb-[10rem]  flex justify-between items-center">
           <div className="h-[4rem] ">

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Button } from "../../../../lib/Button/Button";
 import { TinyButton } from "../../../Button/Button";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 export interface IReport {
   id: number;
@@ -32,15 +32,18 @@ const Item = ({ item, idx }: IProps): JSX.Element => {
       console.error(err);
     }
   };
-
+  const onclick = () => {
+    window.location.replace(`http://localhost:3000/product/${item.id}`);
+  };
   return (
     <div className="px-5 py-2 flex items-center ">
       <span className="mx-2">{idx}</span>
       <span className="ps-3 flex-1 text-center truncate ">{item.content}</span>
       <span className="px-3 w-[5rem] truncate">{item.username}</span>
-      <Link to={`/product/${item.productid}`}>
+      <div onClick={onclick}>
         <TinyButton btn={productbtn} />
-      </Link>
+      </div>
+
       <div onClick={deletereport}>
         <TinyButton btn={deletebtn} />
       </div>
