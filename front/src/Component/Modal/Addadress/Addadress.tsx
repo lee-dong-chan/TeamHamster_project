@@ -14,14 +14,12 @@ const Addaddress = ({}: IProps): JSX.Element => {
   const btn = new Button("추가하기", "bg-orange-200");
 
   const [api, setApi] = useState(false);
-  //주소
   const [address, setaddress] = useState({
     code: "",
     full: "",
   });
-  //상세주소
   const [etcaddress, setetcadress] = useState<string>("");
-  //이름
+
   const [name, setName] = useState<string>("");
   //폰 넘버
   const [phoneNum, setPhoneNum] = useState<string>("");

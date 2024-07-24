@@ -117,7 +117,6 @@ const Regist = ({}: IProps): JSX.Element => {
                 onChange={(e) => setCheckPassword(e.target.value)}
                 placeholder="비밀번호 확인"
               />
-
               {checkPassword !== "" && password !== checkPassword && (
                 <div className="text-red-500">
                   비밀번호가 일치하지 않습니다.
@@ -143,7 +142,6 @@ const Regist = ({}: IProps): JSX.Element => {
                 onChange={(e) => setNickname(e.target.value)}
                 placeholder="닉네임"
               />
-
               {nickname !== "" && nickReg.test(nickname) === false && (
                 <div className="text-red-500">
                   특수문자 제외 알파벳과 한글로 작성하세요
@@ -159,7 +157,6 @@ const Regist = ({}: IProps): JSX.Element => {
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="휴대폰번호"
               />
-
               {phone !== "" && phoneReg.test(phone) === false && (
                 <div className="text-red-500">
                   전화번호 형식에 맞추어 주세요

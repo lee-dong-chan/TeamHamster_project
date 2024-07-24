@@ -4,7 +4,7 @@ import ButtonComp from "../../Button/Button";
 import Radioitem from "./RadioItem";
 import { Modal, Modalproduct } from "../../../Context/Modal";
 import { useBreakPoint } from "../../../CustomHook/BreakPoint";
-import { ChangeEvent, useCallback, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import axios from "axios";
 
 interface IProps {}

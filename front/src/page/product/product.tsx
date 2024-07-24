@@ -27,7 +27,6 @@ const Product = ({}: IProps): JSX.Element => {
 
   const [propData, setPropData] = useState<IProductPage>();
 
-  //funcs
   const report = () => {
     ModalState("report");
   };
@@ -61,6 +60,21 @@ const Product = ({}: IProps): JSX.Element => {
         console.log(err);
         setPropData(productPageDataErr);
       });
+  };
+
+  const handleCookie = (product: string) => {
+    const time = 3600; //1시간
+    const expiration = new Date(Date.now() + time * 1000);
+    setCookie(
+      "Product",
+      {
+        product: product,
+      },
+      {
+        path: "/",
+        expires: expiration,
+      }
+    );
   };
 
   useEffect(() => {
