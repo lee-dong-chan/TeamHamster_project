@@ -5,11 +5,22 @@ import Report from "../../Component/List/ManegeList/Report/Report";
 import { Button } from "../../lib/Button/Button";
 import { ChangeEvent, useCallback, useState } from "react";
 import axios from "axios";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { IReport } from "../../Component/List/ManegeList/Report/ReportItem";
 
 interface IData {
-  report: IReport[];
+  report: [
+    {
+      id: number;
+      reportText: string;
+      Product: {
+        id: number;
+        Sell: {
+          nick: string;
+        };
+      };
+    }
+  ];
 }
 
 interface IProps {}
@@ -17,34 +28,40 @@ interface IProps {}
 const ManegeReport = ({}: IProps): JSX.Element => {
   const [user, setuser] = useState<string>();
   const btn = new Button("검색", "bg-orange-500");
-
+  const queryClient = useQueryClient();
   const searchuser = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setuser(e.target.value);
   }, []);
 
-  const sumit = useCallback(async () => {
-    try {
+  const sumit = useMutation({
+    mutationKey: "searchreport",
+    mutationFn: async () => {
       await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/admin/reportsearch`,
         {
           keyword: user,
         }
       );
-    } catch (err) {
-      console.error(err);
-    }
-  }, []);
+    },
+    onSuccess(data) {
+      queryClient.setQueriesData(["searchreport"], data);
+    },
+  });
 
-  const { data } = useQuery<IData>({
+  const { data } = useQuery({
     queryKey: "reportlist",
     queryFn: async () => {
       const { data } = await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/admin/report`
       );
-      console.log(data);
+      const report: IData = data.report;
+      const reportlist = report;
+
       return data;
     },
   });
+  const Data: IData | undefined = queryClient.getQueryData("reportlist");
+  console.log(Data);
 
   // const data: IReport[] = [
   //   { id: 1, content: "광고징", username: "신고함", productid: 3 },
@@ -65,7 +82,11 @@ const ManegeReport = ({}: IProps): JSX.Element => {
               onInput={searchuser}
             ></input>
           </div>
-          <div onClick={sumit}>
+          <div
+            onClick={() => {
+              sumit.mutate();
+            }}
+          >
             <SmallButton btn={btn} />
           </div>
         </div>

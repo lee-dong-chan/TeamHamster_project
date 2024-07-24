@@ -6,12 +6,41 @@ import { mobilebox } from "../lib/styles";
 import { List } from "../Component/List/List";
 import { ChangeEvent, useEffect, useMemo, useState } from "react";
 import { PickCheck } from "../Component/List/item/Item";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import axios from "axios";
+
+interface IData {
+  product: [
+    {
+      id: number;
+      itemState: string;
+      SellAddress: {
+        detailAddress: string;
+        Address: {
+          address: string;
+        };
+      };
+    }
+  ];
+}
+interface IProduct {
+  id: number;
+  itemState: string;
+  SellAddress: {
+    detailAddress: string;
+    Address: {
+      address: string;
+    };
+  };
+}
+
 interface IProps {
   liststate: number;
   checklist(item: number): void;
 }
 
 const PickupCheck = ({ liststate, checklist }: IProps): JSX.Element => {
+  const [lastdata, setlastdata] = useState<PickCheck[]>();
   const [checkbox, SetCheckBox] = useState("");
   const checkdata = (e: ChangeEvent<HTMLInputElement>) => {
     SetCheckBox(e.target.value);
@@ -22,8 +51,43 @@ const PickupCheck = ({ liststate, checklist }: IProps): JSX.Element => {
     { id: 1, pickadress: "어디지", campadress: "배송중" },
     { id: 2, pickadress: "어디지", campadress: "배송중" },
   ];
+  const queryClient = useQueryClient();
 
-  const data = () => {
+  const { data } = useQuery({
+    queryKey: "pickup",
+    queryFn: async () => {
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_SERVER_URL}/delivery/pickup`,
+        {},
+        { withCredentials: true }
+      );
+      const date: IData | undefined = queryClient.getQueryData("pickup");
+      const product = date?.product;
+      const productlist = product?.map((data: IProduct) => {
+        const outData = {
+          id: data.id,
+          pickadress:
+            data.SellAddress.Address.address + data.SellAddress.detailAddress,
+          campadress: data.itemState,
+        };
+        return outData;
+      });
+      setlastdata(productlist);
+    },
+  });
+
+  const selectpick = useMutation({
+    mutationKey: ["selectpick"],
+    mutationFn: async () => {
+      await axios.post(
+        `${process.env.REACT_APP_SERVER_URL}/delivery/pickupid`,
+        { id: pickitems },
+        { withCredentials: true }
+      );
+    },
+  });
+
+  const cookiedata = () => {
     let str = pickitems[0];
     for (let i = 0; i < pickitems.length - 1; i++) {
       str += "," + pickitems[i + 1];
@@ -56,7 +120,9 @@ const PickupCheck = ({ liststate, checklist }: IProps): JSX.Element => {
       </div>
       <div className={`my-5 flex`}>
         <div className="flex items-center">
-          <div className="pe-2 text-[1.2rem] font-bold">배송번호:{data()}</div>
+          <div className="pe-2 text-[1.2rem] font-bold">
+            배송번호:{cookiedata()}
+          </div>
           번
         </div>
       </div>
@@ -66,7 +132,11 @@ const PickupCheck = ({ liststate, checklist }: IProps): JSX.Element => {
       </div>
       <div className={`m-[3rem] `}>
         <Link to={"/"}>
-          <div>
+          <div
+            onClick={() => {
+              selectpick.mutate();
+            }}
+          >
             <ButtonComp btn={btn} width={"w-[25rem]"} height="h-[4rem]" />
           </div>
         </Link>

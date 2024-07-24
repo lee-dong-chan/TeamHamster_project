@@ -4,15 +4,29 @@ import { Button } from "../lib/Button/Button";
 import { mobilebox } from "../lib/styles";
 import Scan from "../Component/Scan/Scan";
 import { ChangeEvent, useState } from "react";
+import { useMutation } from "react-query";
+import axios from "axios";
+import { Debounce } from "../Costomhook/Debounce";
 
 const PickupScan = ({}): JSX.Element => {
-  const [pickitem, SetPickItem] = useState<string>();
+  const [pickitem, SetPickItem] = useState<string>("");
   const changeitem = (e: ChangeEvent<HTMLInputElement>) => {
-    setTimeout(() => {
-      SetPickItem(e.target.value);
-    }, 2000);
+    SetPickItem(e.target.value);
   };
+
+  const item = Debounce(pickitem, 200);
+
   const btn = new Button("확인", "bg-blue-200");
+
+  const completepcik = useMutation({
+    mutationKey: ["pickcomplete"],
+    mutationFn: async () => {
+      await axios.post(
+        `${process.env.REACT_APP_SERVER_URL}/delivery/pickscan/${item}`
+      );
+    },
+  });
+
   return (
     <div className={`${mobilebox} flex flex-col items-center`}>
       <div className="py-3 text-[1.2rem] font-bold">픽업상품 스캔</div>
@@ -23,7 +37,8 @@ const PickupScan = ({}): JSX.Element => {
         <div className="flex items-center">
           <div className="pe-2 text-[1.2rem] font-bold">배송번호: </div>
           <input
-            className="p-1 h-[2.5rem] w-[20rem] border"
+            type="number"
+            className="p-1 h-[2.5rem] w-[20rem] border [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             placeholder="배송번호를 입력하세요"
             onChange={changeitem}
           ></input>
@@ -36,7 +51,11 @@ const PickupScan = ({}): JSX.Element => {
       </div>
       <div className={`m-[3rem] `}>
         <Link to={"/"}>
-          <div>
+          <div
+            onClick={() => {
+              completepcik.mutate();
+            }}
+          >
             <ButtonComp btn={btn} width={"w-[25rem]"} height="h-[4rem]" />
           </div>
         </Link>

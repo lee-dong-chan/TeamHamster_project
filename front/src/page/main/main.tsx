@@ -41,15 +41,11 @@ const Main = ({ list }: IProps): JSX.Element => {
   };
 
   const getrecent = async () => {
-    try {
-      await axios.post(
-        `${process.env.REACT_APP_SERVER_URL}/recent`,
-        { productlist: recentlist },
-        { withCredentials: true }
-      );
-    } catch (err) {
-      console.error(err);
-    }
+    await axios.post(
+      `${process.env.REACT_APP_SERVER_URL}/recent`,
+      { productlist: recentlist },
+      { withCredentials: true }
+    );
   };
 
   const cookie = false;

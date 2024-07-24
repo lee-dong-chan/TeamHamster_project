@@ -3,7 +3,7 @@ import { SmallButton } from "../../Component/Button/Button";
 import { Button } from "../../lib/Button/Button";
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import axios from "axios";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
 interface IPoint {
   pointPercent: number;
@@ -17,39 +17,50 @@ interface IProps {}
 
 const ManegePoint = ({}: IProps): JSX.Element => {
   const btn = new Button("확인", "bg-orange-500");
-  const [point, setpoint] = useState<number>(0);
+  const [onclick, setonclick] = useState<number>(0);
+  const [point, setpoint] = useState<number>();
   const changepoint = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setpoint(Number(e.target.value));
   }, []);
 
-  const submit = useCallback(async () => {
-    try {
+  // const submit = async () => {
+  //   await axios.patch(
+  //     `${process.env.REACT_APP_SERVER_URL}/admin/updatepoint`,
+  //     { point: point },
+  //     { withCredentials: true }
+  //   );
+  //   setonclick(onclick + 1);
+  //   console.log(onclick);
+  //   window.location.replace("/manege/point");
+  // };
+
+  const queryClient = useQueryClient();
+  const { mutate } = useMutation({
+    mutationKey: ["patchpoint"],
+    mutationFn: async () => {
       await axios.patch(
         `${process.env.REACT_APP_SERVER_URL}/admin/updatepoint`,
         { point: point },
         { withCredentials: true }
       );
-    } catch (err) {
-      console.error(err);
-    }
-  }, []);
+    },
+    onSuccess(data) {
+      queryClient.invalidateQueries({ queryKey: "pointvalue" });
+    },
+  });
+  const date: IData | undefined = queryClient.getQueryData("pointvalue");
+  console.log(date);
 
-  const pointpercent = useQuery<IData>({
+  const { data } = useQuery<IData>({
     queryKey: "pointvalue",
     queryFn: async () => {
       const { data } = await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/admin/pointpercent`
       );
-      console.log(data);
       return data;
     },
   });
 
-  useEffect(() => {
-    console.log(pointpercent.data?.point);
-  }, [pointpercent]);
-
-  const data = { point: 1000 };
   return (
     <div className={`${box}`}>
       <div className={`${center} flex-col`}>
@@ -57,12 +68,16 @@ const ManegePoint = ({}: IProps): JSX.Element => {
           <div className="h-[4rem] ">
             <input
               placeholder="1000원당 포인트 액수"
-              className="p-3 h-[100%] w-[30rem] border border-gray-400 "
-              value={point}
+              type="number"
+              className="p-3 h-[100%] w-[30rem] border border-gray-400 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
               onInput={changepoint}
             ></input>
           </div>
-          <div onClick={submit}>
+          <div
+            onClick={() => {
+              mutate();
+            }}
+          >
             <SmallButton btn={btn} />
           </div>
         </div>
@@ -70,7 +85,7 @@ const ManegePoint = ({}: IProps): JSX.Element => {
           <div>현재 포인트 비율: </div>
           <div>
             <span className="text-orange-500">1000</span> 원 당
-            {/* <span className="text-orange-500">{pointpercent.data?.point}</span> */}
+            <span className="text-orange-500">{data?.point.pointPercent}</span>
             포인트
           </div>
         </div>

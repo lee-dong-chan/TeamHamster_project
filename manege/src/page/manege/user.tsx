@@ -4,25 +4,19 @@ import { SmallButton } from "../../Component/Button/Button";
 import Ben from "../../Component/List/ManegeList/User/Ben/Ben";
 import ReportUser from "../../Component/List/ManegeList/User/ReportUser/ReportUser";
 import { Button } from "../../lib/Button/Button";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import axios from "axios";
 import { IReportUser } from "../../Component/List/ManegeList/User/ReportUser/UserItem";
 import { IBenUser } from "../../Component/List/ManegeList/User/Ben/BenItem";
 import { ChangeEvent, useCallback, useState } from "react";
+interface Block {
+  id: number;
+  nick: string;
+}
 
 interface UserList {
-  manyreport: [
-    {
-      id: number;
-      nick: string;
-    }
-  ];
-  block: [
-    {
-      id: number;
-      nick: string;
-    }
-  ];
+  manyreport: Block[];
+  block: Block[];
 }
 
 interface IProps {}
@@ -30,6 +24,8 @@ interface IProps {}
 const ManegeUser = ({}: IProps): JSX.Element => {
   const btn = new Button("검색", "bg-orange-500");
   const [search, setsearch] = useState<string>("");
+  const [searchlist, setsearchlist] = useState();
+
   const bensearch = (e: ChangeEvent<HTMLInputElement>) => {
     setsearch(e.target.value);
   };
@@ -37,23 +33,21 @@ const ManegeUser = ({}: IProps): JSX.Element => {
   const user = useQuery<UserList>({
     queryKey: "User",
     queryFn: async () => {
-      try {
-        const { data } = await axios.post(
-          `${process.env.REACT_APP_SERVER_URL}/admin/user`
-        );
-        console.log(data);
-        return data;
-      } catch (err) {
-        console.error(err);
-      }
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_SERVER_URL}/admin/user`
+      );
+      return data;
     },
   });
 
   const Manyreport = user.data?.manyreport;
   const block = user.data?.block;
 
-  const submit = useCallback(async () => {
-    try {
+  const queryClient = useQueryClient();
+
+  const { mutate } = useMutation({
+    mutationKey: ["searchben"],
+    mutationFn: async () => {
       await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/admin/userblocksearch`,
         {
@@ -61,10 +55,17 @@ const ManegeUser = ({}: IProps): JSX.Element => {
         },
         { withCredentials: true }
       );
-    } catch (err) {
-      console.error(err);
-    }
-  }, []);
+    },
+    onSuccess(data) {
+      queryClient.invalidateQueries({ queryKey: "searchben" });
+      queryClient.setQueriesData(["searchben"], data);
+    },
+  });
+
+  const searchuser: Block[] | undefined = queryClient.getQueryData([
+    "searchben",
+  ]);
+
   return (
     <div className={`${box} ${center}`}>
       <div>
@@ -72,7 +73,7 @@ const ManegeUser = ({}: IProps): JSX.Element => {
           <ReportUser data={Manyreport} />
         </div>
         <div className="mt-20 h-[20rem] w-[70rem] border border-gray-400 overflow-y-auto">
-          <Ben data={block} />
+          <Ben data={searchuser == undefined ? block : searchuser} />
         </div>
         <div className="mt-[10rem] mb-[10rem]  flex justify-between items-center">
           <div className="h-[4rem] ">
@@ -83,7 +84,11 @@ const ManegeUser = ({}: IProps): JSX.Element => {
               onInput={bensearch}
             ></input>
           </div>
-          <div onClick={submit}>
+          <div
+            onClick={() => {
+              mutate();
+            }}
+          >
             <SmallButton btn={btn} />
           </div>
         </div>

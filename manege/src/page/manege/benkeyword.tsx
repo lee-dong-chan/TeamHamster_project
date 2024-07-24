@@ -7,7 +7,7 @@ import { Button } from "../../lib/Button/Button";
 import { box, center } from "../../lib/styles";
 import axios, { AxiosResponse } from "axios";
 
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { IKeyword } from "../../Component/List/ManegeList/BenKeyword/BenKeywordItem";
 
 export interface IData {
@@ -23,9 +23,11 @@ const ManegeBenKeyword = ({}: IProps): JSX.Element => {
   const inputKeyword = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setkeyword(e.target.value);
   }, []);
+  const queryClient = useQueryClient();
 
-  const submit = async () => {
-    try {
+  const { mutate } = useMutation({
+    mutationKey: ["addKeyword"],
+    mutationFn: async () => {
       await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/admin/addkeyword`,
         {
@@ -33,28 +35,34 @@ const ManegeBenKeyword = ({}: IProps): JSX.Element => {
         },
         { withCredentials: true }
       );
-    } catch (err) {
-      console.error(err);
-    }
-  };
+    },
+    onSuccess(data) {
+      queryClient.invalidateQueries({ queryKey: "benlist" });
+    },
+  });
 
-  const Keywordlist = useQuery<IData>({
-    queryKey: "benlist",
+  const Keywordlist = useQuery({
+    queryKey: ["benlist"],
     queryFn: async () => {
       const { data } = await axios.post(
-        `${process.env.REACT_APP_SERVER_URL}/keyword`,
+        `${process.env.REACT_APP_SERVER_URL}/admin/keyword`,
         {},
         { withCredentials: true }
       );
-      return data;
+      const keywordlist = data.keyword;
+
+      return keywordlist;
     },
   });
+
+  const Data: IKeyword[] | undefined = queryClient.getQueryData(["benlist"]);
+  console.log(Data);
 
   return (
     <div className={`${box} ${center}`}>
       <div>
         <div className=" h-[30rem] w-[70rem] border border-gray-400 overflow-y-auto">
-          <BenKeyWord data={Keywordlist.data} />
+          {Data ? <BenKeyWord data={Data} /> : ""}
         </div>
         <div className="mt-[10rem] mb-[10rem]  flex justify-between items-center">
           <div className="h-[4rem] ">
@@ -65,7 +73,11 @@ const ManegeBenKeyword = ({}: IProps): JSX.Element => {
               onInput={inputKeyword}
             ></input>
           </div>
-          <div onClick={submit}>
+          <div
+            onClick={() => {
+              mutate();
+            }}
+          >
             <SmallButton btn={btn} />
           </div>
         </div>

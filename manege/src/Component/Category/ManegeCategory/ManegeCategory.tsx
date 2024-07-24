@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import CateItem, { ICate } from "./CateItem";
 import { useQuery } from "react-query";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 
 interface IData {
   category: ICate[];
@@ -13,8 +13,10 @@ interface IProps {
 
 const ManegeCategoryList = ({ settopcate }: IProps): JSX.Element => {
   const [cate, setcate] = useState<number>();
-  const [selectcate1, setselectcate1] = useState<number | undefined>(undefined);
-  const [selectcate2, setselectcate2] = useState<number | undefined>(undefined);
+  const [selectcate1, setselectcate1] = useState<number>(0);
+  const [selectcate2, setselectcate2] = useState<number>(0);
+  const [data2, setdata2] = useState<ICate[]>([]);
+  const [data3, setdata3] = useState<ICate[]>([]);
 
   const firstcate = useQuery<IData>({
     queryKey: "firstcate",
@@ -29,32 +31,37 @@ const ManegeCategoryList = ({ settopcate }: IProps): JSX.Element => {
     },
   });
 
-  const secondcate = useQuery<IData>({
-    queryKey: "secondcate",
-    queryFn: async () => {
-      const { data } = await axios.post(
-        `${process.env.REACT_APP_AXIOS}/catelist/${selectcate1}`,
-        {
-          withCredentials: true,
-        }
-      );
-      return data;
-    },
-  });
+  const secondcate = async () => {
+    await axios
+      .post(
+        `${process.env.REACT_APP_SERVER_URL}/catelist/${selectcate1}`,
+        {},
+        { withCredentials: true }
+      )
+      .then((data: AxiosResponse) => {
+        const Children: ICate[] = data.data.category[0].Children;
+        setdata2(Children);
+      })
+      .catch(() => {
+        console.log("안되네");
+      });
+  };
 
-  const thirdcate = useQuery<IData>({
-    queryKey: "secondcate",
-    queryFn: async () => {
-      const { data } = await axios.post(
-        `${process.env.REACT_APP_AXIOS}/catelist/${selectcate2}`,
-        {
-          withCredentials: true,
-        }
-      );
-
-      return data;
-    },
-  });
+  const thirdcate = async () => {
+    await axios
+      .post(
+        `${process.env.REACT_APP_SERVER_URL}/catelist/${selectcate2}`,
+        {},
+        { withCredentials: true }
+      )
+      .then((data: AxiosResponse) => {
+        const Children: ICate[] = data.data.category[0].Children;
+        setdata3(Children);
+      })
+      .catch(() => {
+        console.log("안되네");
+      });
+  };
 
   console.log(`cate:${cate}`);
   console.log(`cate1:${selectcate1}`);
@@ -62,7 +69,10 @@ const ManegeCategoryList = ({ settopcate }: IProps): JSX.Element => {
 
   useEffect(() => {
     settopcate(cate);
+    secondcate();
+    thirdcate();
   }, [cate]);
+
   return (
     <div className="w-[60rem] h-[30rem] flex border">
       <div className="h-[100%] flex-1 border-e overflow-y-auto">
@@ -80,7 +90,7 @@ const ManegeCategoryList = ({ settopcate }: IProps): JSX.Element => {
       <div className="h-[100%] flex-1 border-e overflow-y-auto">
         <div className="p-2">
           {selectcate1 !== undefined &&
-            secondcate.data?.category.map((item: ICate, idx: number) => (
+            data2.map((item: ICate, idx: number) => (
               <CateItem
                 key={idx}
                 item={item}
@@ -93,7 +103,7 @@ const ManegeCategoryList = ({ settopcate }: IProps): JSX.Element => {
       <div className="h-[100%] flex-1 overflow-y-auto">
         <div className="p-2">
           {selectcate2 !== undefined &&
-            thirdcate.data?.category.map((item: ICate, idx: number) => (
+            data3.map((item: ICate, idx: number) => (
               <CateItem key={idx} item={item} setcate={setcate} />
             ))}
         </div>
