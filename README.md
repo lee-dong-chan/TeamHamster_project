@@ -1,67 +1,86 @@
-# TeamHamster
+# FourTeamProject
 
-## 미션가이드
+## 주기능
 
-중고거래 사이트에서 직거래가 아닌, 먼거리에서 택배를 지원하는 사이트
-일반 택배사이트처럼 택배기사의 위치를 확인 가능
-결재는 현금거래가 아닌 포인트를 충전하여 거래하는 방식
+- 개인판매 가능
 
-## 레퍼런스
+## 화폐
 
-https://docs.google.com/document/d/1Lbk7PtXBUfBku5mMkZbMHQXitBpCQMp4umXeGECt414/edit?usp=sharing
+- 포인트(돈 대신)는 관리자가 특정유저한테 주는방식
 
-## 사용한 기술 스택
+## 개인페이지
 
-Node.js, Mysql, MongoDB, typeScript, React, tailwindcss
-네이버 맵 api, 네이버Aauth, 구글OAuth,
+- 관리자페이지 : 백엔드 위주로
+- 가입시 상점페이지 생김(프로필 느낌으로 1인당 1개의 상점페이지)
+  - 여기서 평판 및 판매 등록가능
 
-## 사용법
+전체 틀
 
-### backend 폴더내 추가
+- 레퍼런스 : 당근, 채팅기능x
 
-.env
+필요 스택
+구글 맵 api
+OAuth 2.0 : 보안관련? 간편로그인?
 
-PORT= 포트추가
-MONGURL= "몽고DB 포트"
-IV= Buffer 16자리 string으로
-SALT= "암호화 할 문자 salt 값"
-KEY= Buffer 32자리 string으로
-CLIENT_N_ID= "네이버 client ID"
-CLIENT_N_SECRET = "네이버 Client Secret"
-CLIENT_G_ID = "구글 클라이언트 ID"
-CLIENT_G_SECRET = "구글 클라이언트 보안 비밀번호"
+프론트엔드
 
-config/config.json
+1. UI 나누기, API - 이동찬
+2. react로 페이지 틀(비동기) - 이동찬
+   component(동기) 만들기 - 전체(각자 페이지)
+3. Ajax : API 요청,응답 받아서 코드 짜오기 - 손민복
+4. 모바일크기 변환 - 프로젝트 막바지에 적용(컴포넌트 만든사람이 변환하기)
 
-```json
-"development": {
-"username": "username",
-"password": "mysql 비밀번호",
-"database": "dbname",
-"host": "127.0.0.1",
-"dialect": "mysql",
-"timezone": "+09:00"
-},
-```
+백엔드
 
-### fornt 폴더내 추가
+1. DB (mySQL | MongoDB) : ERD그리기 - 이승배
+2. SERVER : - 이승배
+3. 지도 API - 이정배
+4. OAuth 2.0 - 이정배
 
-.env
+프론트에서 검색하면 -> 키워드랑 제목 검색
 
-```
-REACT_APP_BASE_URL ="리액트 주소 및 포트"
-REACT_APP_SERVER_URL ="서버 주소 및 포트"
-REACT_APP_SERVER_OAUTH_CALLBACK_URL ="서버 주소 및 포트 위와 동일"
-REACT_APP_G_CLIENT_ID="구글 클라이언트 ID"
-REACT_APP_N_CLIENT_ID="네이버 client ID"
-```
+판매글 페이지
 
-## RND
+- 판매페이지에서 판매자는 구매요청한 당사자에 한해 현재위치 올릴수있게 gps기능으로
+- 택배 위치추적 기능
+- 신고기능 필수
 
-### NAVERMAP
+회원가입할때 mysql user-> id 받아와서 -> mongDB에 id 저장
 
-https://drive.google.com/drive/folders/18u39uPqaEW-z7-4yb0NhnnKjtOjT8WuJ?usp=sharing
+택배회사
 
-### OAuth
+택배기사-> 판매자 집으로 보낸다음 -> 물건을 픽업하면 -> 주소x 물건을 택배회사가 가져왔습니다. -> 택배회사에서 영업소 도착시 위치 gps로 출력
+택배비 기본값 2500원이긴한데, 관리자가 수정가능
+판매자
 
-https://drive.google.com/drive/folders/1rTh0Xih_axQRc04mEHp57c7Cg4p9WkoT?usp=sharing
+구매자
+
+질문 : 택배비 관련은 어떻게? (선불, 착불, 선택 여부, 가격)
+
+- 문제 발생시 문제 발생한쪽에서 추가금 지불, 기본은 구매:판매 = 50:50으로 가격은 미정
+
+택배기사가 판매자의 물건을 회수하면 gps는 언제부터 찍으면 좋을지?
+
+- 물류센터에 들어왔을때 찍고, 그 이후로 구매자한테 도착할때까지 gps
+- 판매자 쪽에서도 물건위치 볼수있게
+
+회원가입(유저정보)는 회사가 가지고 있을건지? (OAuth 2.0로 다른 간편로그인 할때도 저장할건지)
+
+포인트 환전은 어떻게?(수수료관련) ex) 10만원 충전하면 10만포인트 할건지?/10만포인트를 환전하면 그대로 10만원 줄건지
+
+- 사업얘기라 신경 x
+- 시연할때는 10만원 충전하면 10만포인트 충전하게
+
+구매자가 구매요청시 구매자쪽 바로 포인트차감, 구매자가 구매확인시 판매자에게 포인트지급 하면될지?O
+
+### 직접 생각해볼것
+
+1. 사기친 유저에 관한 대응은 어떻게 할건지?
+   사기친경우 사기친 유저 상점페이지 이용금지(구매와 판매글 작성 불가) 및 환전 불가를 적용
+
+2. 검색
+   검색시 제목만 검색되게 할 예정
+   ex) 판매글 제목이 아이폰 13 중고 판매합니다.
+   검색어에 '아이'만 쳐도 아이폰이 나옴(다만 아이용품등이 나올수도있음)
+   카테고리내 검색 가능하게 할 예정
+   전자제품 카테고리에서 검색할경우 다른 카테고리물건은 검색안됨

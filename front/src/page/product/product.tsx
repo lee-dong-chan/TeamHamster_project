@@ -7,6 +7,9 @@ import { box, center } from "../../lib/styles";
 import { Modal, Modalproduct } from "../../Context/Modal";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import axios, { AxiosResponse } from "axios";
+import { IProductPage } from "../../lib/interFace";
+import { productPageDataErr } from "../../lib/errors";
 import { useCookies } from "react-cookie";
 
 interface IProps {}
@@ -32,20 +35,6 @@ const Product = ({}: IProps): JSX.Element => {
   };
   const buy = () => {
     ModalState("buy");
-  };
-  const handleCookie = (product: string) => {
-    const time = 3600; //1시간
-    const expiration = new Date(Date.now() + time * 1000);
-    setCookie(
-      "Product",
-      {
-        product: product,
-      },
-      {
-        path: "/",
-        expires: expiration,
-      }
-    );
   };
 
   const getDatas = async () => {
@@ -81,6 +70,7 @@ const Product = ({}: IProps): JSX.Element => {
     if (id !== undefined) {
       setproductlog(id);
       Modalproductitem(id);
+      getDatas();
     }
     if (cookies.Product == undefined) {
       if (id !== undefined) {

@@ -38,10 +38,12 @@ interface IUser {
 }
 
 interface IProps {
+  setUserLogin: React.Dispatch<React.SetStateAction<boolean>>;
+  userlogin: boolean;
   main: List[];
 }
 
-const Layout = ({ main }: IProps): JSX.Element => {
+const Layout = ({ setUserLogin, userlogin, main }: IProps): JSX.Element => {
   const { isdesktop, ismobile } = useBreakPoint();
   const authority = false;
   const getModal = useRecoilState(Modal);
@@ -49,29 +51,6 @@ const Layout = ({ main }: IProps): JSX.Element => {
   const openmenu = () => {
     setModal("mobilemenu");
   };
-
-  // const user = useQuery<IUser>({
-  //   queryKey: "usercheck",
-  //   queryFn: async () => {
-  //     const { data } = await axios.post(
-  //       `${process.env.REACT_APP_SERVER_URL}/layout`,
-  //       {},
-  //       { withCredentials: true }
-  //     );
-  //     return data;
-  //   },
-  // });
-
-  // let userlogin: Boolean;
-  // let userData: IUser;
-  // if (user.data !== undefined) {
-  //   userlogin = true;
-  //   userData = user.data;
-  // } else {
-  //   userlogin = false;
-  // }
-
-  const userlogin = true;
   const location = useLocation();
   useEffect(() => {
     setModal(undefined);
