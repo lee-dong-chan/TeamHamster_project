@@ -4,10 +4,6 @@ import { point } from "../../models/mongoDB";
 export default async (req: Request, res: Response) => {
   try {
     const reqbody = req.body;
-    console.log(reqbody);
-    // if (reqbody.point >= 100 || reqbody.point < 0) {
-    //   throw Error("point precent");
-    // }
 
     await point.create({
       userId: reqbody.user.id,
