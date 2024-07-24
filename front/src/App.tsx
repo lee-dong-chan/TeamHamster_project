@@ -3,7 +3,6 @@ import Layout from "./lib/Layout/layout";
 import { List } from "./lib/list";
 
 import axios, { AxiosResponse } from "axios";
-
 export interface IProduct {
   id: number;
   title: string;
@@ -109,7 +108,6 @@ const App = (): JSX.Element => {
   }
 
   const [main, setMain] = useState<List[]>([]);
-
   const [ListDatas, setListDatas] = useState<IListData[]>([]);
 
   const mainDataGet = async () => {
@@ -141,6 +139,13 @@ const App = (): JSX.Element => {
           {
             id: 1,
             title: "자전거",
+            img: "hamster.png",
+            price: 3000,
+            createdAt: 3,
+          },
+          {
+            id: 2,
+            title: "자전건가",
             img: "hamster.png",
             price: 3000,
             createdAt: 3,

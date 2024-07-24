@@ -5,10 +5,10 @@ import Category from "../../page/catgegory/category";
 
 import Point from "../../page/point/point";
 import Product from "../../page/product/product";
+import Sell from "../../page/sell/sell";
 import MyStore from "../../page/mystore/mystore";
 import LoginPage from "../../page/account/login/loginpage";
 import ProductWrite from "../../page/sell/ProductWrite";
-
 import { List } from "../list";
 import NotLogin from "../../Component/LoginInfo/NotLogin";
 import Maneger from "../../Component/LoginInfo/Maneger";

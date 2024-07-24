@@ -39,7 +39,6 @@ const LoginPage = ({ setUserLogin }: IProps): JSX.Element => {
         if (response.status === 200) {
           setLoginCheck(false);
           setUserLogin(true);
-          // Store token in local storage
           console.log("로그인성공, 이메일주소:" + result.email);
           navigate("/"); // 로그인 성공시 홈으로 이동합니다.
         } else {
@@ -88,7 +87,6 @@ const LoginPage = ({ setUserLogin }: IProps): JSX.Element => {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="비밀번호"
               />
-
               {password !== "" &&
                 pwReg.test(password) == false &&
                 (password.length < 8 || password.length > 30 ? (

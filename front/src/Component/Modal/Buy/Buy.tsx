@@ -1,4 +1,5 @@
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
+import { center } from "../../../lib/styles";
 import AdressItem from "./UserAdressItem";
 import { Link, useNavigate } from "react-router-dom";
 import { useRecoilState, useSetRecoilState } from "recoil";
@@ -34,9 +35,7 @@ const Buy = ({}: IProps): JSX.Element => {
   const navigate = useNavigate();
   const btn = new Button("구매하기", "bg-orange-200");
   const modalstate = useSetRecoilState(Modal);
-  //
   const productid = useRecoilState(Modalproduct)[0];
-  //
   const [selectcontent, setcontent] = useState<string>();
   const [id, setId] = useState<number>();
   const serverUrl = process.env.REACT_APP_SERVER_URL;
