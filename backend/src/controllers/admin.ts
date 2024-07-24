@@ -1,6 +1,8 @@
 import { Router } from "express";
 /// 권한 체크
 import admincheck from "../services/admin/admincheck";
+/// 어드민 로그인
+import adminlogin from "../services/admin/adminlogin";
 /// 신고 관련
 import report from "../services/admin/report";
 import reportId from "../services/admin/reportId";
@@ -24,10 +26,13 @@ import addkeyword from "../services/admin/addkeyword";
 import delkeyword from "../services/admin/delkeyword";
 /// 권한 부여
 import authority from "../services/admin/authority";
+import usersearch from "../services/admin/usersearch";
 const router: Router = Router();
 
 /// 권한 체크
 router.use(admincheck);
+/// 어드민 로그인
+router.post("/login", adminlogin);
 /// 신고 관련
 router.post("/report", report);
 router.delete("/report/:id", reportId);
@@ -51,5 +56,7 @@ router.post("/addkeyword", addkeyword);
 router.post("/delkeyword", delkeyword);
 /// 권한 부여
 router.post("/authority", authority);
+/// 유저 검색
+router.post("/usersearch", usersearch);
 
 export default router;

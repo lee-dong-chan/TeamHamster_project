@@ -72,6 +72,7 @@ const basicvalue = async () => {
       const store = await Store.create({
         nick: "admin1",
         mobile: "",
+        report_point: 10,
       });
 
       await Name.create({
@@ -85,6 +86,7 @@ const basicvalue = async () => {
       const regist = await User.create({
         email: encryptionemail,
         password: encryptionpw,
+        supurAdmin: true,
         admin: true,
         delivery: true,
       });

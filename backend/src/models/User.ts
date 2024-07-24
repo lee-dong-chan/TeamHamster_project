@@ -39,6 +39,10 @@ class User extends Model {
           type: DataTypes.BOOLEAN,
           defaultValue: false,
         },
+        superAdmin: {
+          type: DataTypes.BOOLEAN,
+          defaultValue: false,
+        },
         Oauth: {
           type: DataTypes.STRING(3),
           defaultValue: "햄스터",

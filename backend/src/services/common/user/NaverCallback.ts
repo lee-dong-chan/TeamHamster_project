@@ -112,7 +112,7 @@ export default async (req: Request, res: Response) => {
 
     /// 여기부터 로그인코드
     const usercheck: User | null = await User.findOne({
-      where: { email: encryptionemail, password: encryptionpw, Oauth: "네이버" },
+      where: { email: encryptionemail, password: encryptionpw, Oauth: "네이버", admin: false },
     });
 
     if (usercheck) {
