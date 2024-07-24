@@ -14,6 +14,9 @@ import { Button } from "../Button/Button";
 interface IProps {}
 
 const ManegeLayout = ({}: IProps): JSX.Element => {
+  const onclick = () => {
+    window.location.replace("http://localhost:3000/");
+  };
   const btn = new Button("메인페이지", "bg-orange-200");
   return (
     <div>
@@ -33,8 +36,9 @@ const ManegeLayout = ({}: IProps): JSX.Element => {
               <img className="h-[100%]" src="/imgs/good.png"></img>
             </div>
             <div className="text-white">{`관리자${"??"}`}</div>
-
-            <TinyButton btn={btn} />
+            <div onClick={onclick}>
+              <TinyButton btn={btn} />
+            </div>
           </div>
         </div>
       </div>
