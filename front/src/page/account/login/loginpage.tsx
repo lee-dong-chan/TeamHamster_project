@@ -16,6 +16,8 @@ const LoginPage = ({ setUserLogin }: IProps): JSX.Element => {
   const [password, setPassword] = useState("");
   const [loginCheck, setLoginCheck] = useState(false); // 로그인 상태 체크
 
+  const serverUrl = process.env.REACT_APP_SERVER_URL;
+
   const navigate = useNavigate();
 
   const handleLogin = async (event: React.FormEvent) => {
@@ -29,7 +31,7 @@ const LoginPage = ({ setUserLogin }: IProps): JSX.Element => {
       emailReg.test(email)
     ) {
       try {
-        const response = await axios.post("/login", {
+        const response = await axios.post(`${serverUrl}/login`, {
           email: email,
           password: password,
         });

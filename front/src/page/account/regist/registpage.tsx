@@ -11,6 +11,7 @@ interface IProps {}
 const Regist = ({}: IProps): JSX.Element => {
   const { ismobile, isdesktop } = useBreakPoint();
   const [email, setEmail] = useState("");
+  const serverUrl = process.env.REACT_APP_SERVER_URL;
 
   const [name, setName] = useState("");
   const [nickname, setNickname] = useState("");
@@ -52,7 +53,7 @@ const Regist = ({}: IProps): JSX.Element => {
 
       try {
         console.log(payload);
-        const response = await axios.post("/regist", payload);
+        const response = await axios.post(`${serverUrl}/regist`, payload);
         console.log(response);
         navigate("/login"); // 로그인 페이지로 이동
       } catch (error) {
