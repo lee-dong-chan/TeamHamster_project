@@ -7,7 +7,7 @@ export default async (req: Request, res: Response) => {
 
     const product: Product[] = await Product.findAll({
       where: { itemState: "픽업 대기" },
-      attributes: ["id", "title", "discription", "img"],
+      attributes: ["id", "itemState"],
       include: [
         {
           model: ExtraAddress,
@@ -15,18 +15,8 @@ export default async (req: Request, res: Response) => {
           attributes: ["detailAddress"],
           include: [{ model: Address, as: "Address", attributes: ["address"] }],
         },
-        {
-          model: Category,
-          as: "Category",
-          attributes: ["name"],
-        },
       ],
     });
-
-    for (let i = 0; i < product.length; i++) {
-      const splimg = product[i].img.split(",");
-      product[i].dataValues.image = splimg;
-    }
 
     res.json({ login: reqbody.user, product: product });
   } catch (err) {

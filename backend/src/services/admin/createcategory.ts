@@ -10,15 +10,17 @@ export default async (req: Request, res: Response) => {
     /// 상위 카테고리
     const selectprecate: number | null = reqbody.precate;
 
+    if (!reqbody.name) {
+      throw Error("err");
+    }
+
     const newcategory: Category = await Category.create(
       {
         name: reqbody.name,
       },
       { transaction }
     );
-    if (!newcategory) {
-      throw Error("err");
-    }
+
     await transaction.commit();
 
     if (selectprecate) {

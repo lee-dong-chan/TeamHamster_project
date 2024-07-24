@@ -12,7 +12,7 @@ export default async (req: Request, res: Response) => {
 
     const waitepickup: Product[] = await Product.findAll({
       where: { id: deliveryfind, itemState: "픽업 중" },
-      attributes: ["id", "title", "discription", "img"],
+      attributes: ["id", "itemState"],
       include: [
         {
           model: ExtraAddress,
@@ -22,11 +22,6 @@ export default async (req: Request, res: Response) => {
         },
       ],
     });
-
-    for (let i = 0; i < waitepickup.length; i++) {
-      const splimg = waitepickup[i].img.split(",");
-      waitepickup[i].dataValues.image = splimg;
-    }
 
     res.json({ product: waitepickup });
   } catch (err) {
