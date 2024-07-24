@@ -4,8 +4,8 @@ const router: Router = Router();
 /// 테스트용 코드 위치, 테스트할때 주석해제만 해서 쓰게
 // import dbtest from "../services/test/dbtest";
 // import sessiontest from "../services/test/sessiontest";
-import review from "../services/common/review";
-import testtwo from "../services/test/testtwo";
+// import review from "../services/common/review";
+// import testtwo from "../services/test/testtwo";
 
 ///
 import session from "express-session";
