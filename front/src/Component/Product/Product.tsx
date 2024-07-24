@@ -1,31 +1,58 @@
 import { useCallback, useMemo, useState } from "react";
 import Imgs from "./Imgs/imgs";
-import User, { IUser } from "./User";
+import User from "./User";
 import { center } from "../../lib/styles";
 import { useBreakPoint } from "../../CustomHook/BreakPoint";
-import { useParams } from "react-router-dom";
-export interface IProduct {}
+import { IProductPage } from "../../lib/interFace";
 
-interface IProps {}
+interface IProps {
+  data: IProductPage;
+}
 
-const ProductInfo = ({}: IProps): JSX.Element => {
+interface IUser {
+  id: number;
+  name: string;
+  adress: string;
+  star: number;
+  img: string;
+}
+
+interface IProduct {
+  title: string;
+  category: string;
+  createdAt: string;
+  price: number;
+  deliverycost: boolean;
+  content: string;
+  imgs: string[];
+}
+
+const ProductInfo = ({ data }: IProps): JSX.Element => {
   const { isdesktop, ismobile } = useBreakPoint();
 
-  const user = {
-    id: 1,
-    name: "버즐",
-    adress: "부산 사하구 1동",
-    review: 5,
-    img: "hamster",
-  };
-  const product = {
-    title: "방치한 로드팝니다",
-    category: "스포츠/레져",
-    createdAt: "14시간전",
-    price: 35000,
-    deliverycost: true,
-    content: "지인에게 받았는데 쓰지않아서 판매합니다",
-    imgs: ["4", "hamster", "good"],
+  const user: IUser = useMemo(() => {
+    return {
+      id: data.Sell.id,
+      name: data.Sell.nick,
+      adress: "주소 추가좀@@",
+      star: +data.Sell.star.star,
+      img: "good.png",
+    };
+  }, [data.Sell]);
+
+  const product: IProduct = {
+    title: data.title,
+    category: data.Category?.name || "카테고리 에러",
+    createdAt:
+      (data.createdAt &&
+        Math.floor(
+          (+new Date() - +new Date(data.createdAt)) / (1000 * 60 * 60 * 24)
+        ) + "일전") ||
+      "아오 에러시치",
+    price: data.price,
+    deliverycost: data.DeliveryCost?.cost ? true : false,
+    content: data.discription,
+    imgs: data.image,
   };
 
   const [imgcount, SetCount] = useState(0);

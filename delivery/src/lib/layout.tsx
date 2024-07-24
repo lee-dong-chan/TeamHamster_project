@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { Link, Route, Routes } from "react-router-dom";
 import { mobilebox } from "./styles";
@@ -6,6 +6,8 @@ import { IoIosHome } from "react-icons/io";
 import { MdLocalShipping } from "react-icons/md";
 import { BsPersonFill } from "react-icons/bs";
 import { FaTag } from "react-icons/fa";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import Main from "../page/main";
 import PickupScan from "../page/pickupscan";
 import DeliveryScan from "../page/deliveryscan";
@@ -18,6 +20,12 @@ import MyPage from "../page/mypage";
 const LayOut = (): JSX.Element => {
   const [workstate, SetWorkState] = useState<boolean>();
   const [liststate, SetListState] = useState(0);
+  // let intervalGpsGet: any;
+  const [intervalGpsGet, setIntervalGpsGet] = useState<any>();
+
+  //env
+  const serverUrl = process.env.REACT_APP_SERVER_URL;
+
   const start = useCallback(() => {
     SetWorkState(true);
   }, []);
@@ -27,6 +35,77 @@ const LayOut = (): JSX.Element => {
   const saveList = useCallback((item: number) => {
     SetListState(item);
   }, []);
+  const gpsToServer = async (x: number, y: number) => {
+    await axios
+      .post(
+        `${serverUrl}/deliveries/nowspot`,
+        {
+          spotX: x,
+          spotY: y,
+        },
+        { withCredentials: true }
+      )
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log();
+      });
+  };
+
+  //func
+
+  const [x, setX] = useState<number>();
+  const [y, setY] = useState<number>();
+  const [gpsDidRes, setGpsDidRes] = useState<boolean>(true);
+
+  const getGps = async () => {
+    if (gpsDidRes) {
+      setGpsDidRes(false);
+      navigator.geolocation.getCurrentPosition(
+        (data: GeolocationPosition) => {
+          const { latitude, longitude } = data.coords;
+          const y: number = latitude;
+          const x: number = longitude;
+          console.log(x, y);
+          setX(x);
+          setY(y);
+          setGpsDidRes(true);
+        },
+        (err) => {
+          console.log("err", err);
+          setGpsDidRes(true);
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 5000,
+          maximumAge: 0,
+        }
+      );
+    } else {
+      console.log("아직 응답 안함");
+    }
+  };
+
+  //mount
+
+  useEffect(() => {
+    console.log(workstate);
+    if (workstate) {
+      console.log("gps 인터벌 시작");
+      setIntervalGpsGet(setInterval(getGps, 3000));
+    } else {
+      console.log("gps 인터벌 종료");
+      setIntervalGpsGet(clearInterval(intervalGpsGet));
+    }
+  }, [workstate]);
+
+  //
+
+  useEffect(() => {
+    if (x && y) gpsToServer(x, y);
+  }, [x, y]);
 
   return (
     <div className="h-[50rem] ">

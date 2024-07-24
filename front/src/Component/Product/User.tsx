@@ -1,8 +1,10 @@
+import Star from "../Star/Star";
+
 export interface IUser {
   id: number;
   name: string;
   adress: string;
-  review: number;
+  star: number;
   img: string;
 }
 
@@ -17,7 +19,7 @@ const User = ({ user }: IProps): JSX.Element => {
         <div>
           <img
             className="h-[5rem] border rounded-[5rem]"
-            src={`/imgs/${user.img}.png`}
+            src={`/imgs/${user.img}`}
           ></img>
         </div>
         <div>
@@ -25,11 +27,10 @@ const User = ({ user }: IProps): JSX.Element => {
           <div>{user.adress}</div>
         </div>
       </div>
-      <div className="pe-[3rem] text-center ">
+      <div className="pe-[3rem] text-center">
         <div>판매자평점</div>
-        <div className="flex">
-          <div>★★★★★</div>
-          <div>{user.review}</div>
+        <div className="flex bg-green-400">
+          <Star storeStar={user.star}></Star>
         </div>
       </div>
     </div>

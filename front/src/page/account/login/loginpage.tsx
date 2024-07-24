@@ -6,9 +6,11 @@ import LargeButton from "../../../Component/Button/Button";
 import { Button } from "../../../lib/Button/Button";
 import { useBreakPoint } from "../../../CustomHook/BreakPoint";
 
-interface IProps {}
+interface IProps {
+  setUserLogin: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-const LoginPage = ({}: IProps): JSX.Element => {
+const LoginPage = ({ setUserLogin }: IProps): JSX.Element => {
   const { isdesktop, ismobile } = useBreakPoint();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,27 +21,34 @@ const LoginPage = ({}: IProps): JSX.Element => {
   const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    try {
-      const response = await axios.post("/login", {
-        email: email,
-        password: password,
-      });
+    if (
+      !(password.length < 8 || password.length > 30) &&
+      pwReg.test(password) &&
+      password !== "" &&
+      email !== "" &&
+      emailReg.test(email)
+    ) {
+      try {
+        const response = await axios.post("/login", {
+          email: email,
+          password: password,
+        });
 
-      const result = response.data;
+        const result = response.data;
 
-      if (response.status === 200) {
-        setLoginCheck(false);
-        // Store token in local storage
-        sessionStorage.setItem("token", result.token);
-        sessionStorage.setItem("email", result.email); // 여기서 email을 저장합니다.
-        console.log("로그인성공, 이메일주소:" + result.email);
-        navigate("/"); // 로그인 성공시 홈으로 이동합니다.
-      } else {
+        if (response.status === 200) {
+          setLoginCheck(false);
+          setUserLogin(true);
+          // Store token in local storage
+          console.log("로그인성공, 이메일주소:" + result.email);
+          navigate("/"); // 로그인 성공시 홈으로 이동합니다.
+        } else {
+          setLoginCheck(true);
+        }
+      } catch (error) {
+        console.error("오류 발생:", error);
         setLoginCheck(true);
       }
-    } catch (error) {
-      console.error("오류 발생:", error);
-      setLoginCheck(true);
     }
   };
 
@@ -79,6 +88,7 @@ const LoginPage = ({}: IProps): JSX.Element => {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="비밀번호"
               />
+
               {password !== "" &&
                 pwReg.test(password) == false &&
                 (password.length < 8 || password.length > 30 ? (
@@ -130,9 +140,14 @@ const LoginPage = ({}: IProps): JSX.Element => {
             </div>
             <div className="text-center">
               지금바로{" "}
-              <a href="/regist" className="text-blue-500">
+              <div
+                onClick={() => {
+                  navigate("/regist");
+                }}
+                className="text-blue-500"
+              >
                 회원가입
-              </a>
+              </div>
             </div>
           </form>
         </div>

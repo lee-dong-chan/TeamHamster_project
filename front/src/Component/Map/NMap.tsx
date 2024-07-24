@@ -7,7 +7,6 @@ interface IProps {
 }
 
 const NMap = ({ id }: IProps): JSX.Element => {
-  console.log(id, "체크하기");
   //맵을 표시할 element를 알려주기 위한 변수
   const mapRef: React.MutableRefObject<null> = useRef(null);
 
@@ -46,12 +45,27 @@ const NMap = ({ id }: IProps): JSX.Element => {
     );
   };
 
+  interface IXY {
+    deliveryspot: {
+      spotX: number;
+      spotY: number;
+    };
+  }
   const getRiderLatLng = async () => {
     await axios
       .post(`${serverUrl}/GpsRiderGet`, { id: id }, { withCredentials: true })
-      .then((data: AxiosResponse<any, any>) => {
+      .then((data: AxiosResponse<IXY>) => {
         //성공시 콜백
-        console.log(data);
+        console.log("라이더 겟 데이타 보고 수정", data.data.deliveryspot);
+
+        const x = data.data.deliveryspot.spotX;
+        const y = data.data.deliveryspot.spotY;
+
+        if (x && y) {
+          setRiderPosition(new naver.maps.LatLng(y, x));
+        } else {
+          throw new Error("라이더 실패");
+        }
       })
       .catch(() => {
         console.error("라이더 위치 실패");
@@ -60,12 +74,14 @@ const NMap = ({ id }: IProps): JSX.Element => {
       });
   };
 
+  interface IUserAddRes {
+    PurchaseAddress: string;
+  }
   const getUserAddress = async () => {
     await axios
       .post(`${serverUrl}/GpsUserGet`, { id: id }, { withCredentials: true })
-      .then((data: AxiosResponse<any, any>) => {
-        //성공시 URL
-        console.log(data);
+      .then((data: AxiosResponse<IUserAddRes>) => {
+        userPositionSet(data.data.PurchaseAddress);
       })
       .catch(() => {
         //실패시 URL

@@ -19,7 +19,7 @@ const MyStore = ({}: IProps): JSX.Element => {
   const [storeStar, setStoreStar] = useState<number>(0);
   const [storePFImg, setStorePFImg] = useState<string>("good.png");
   const [sellCount, setSellCount] = useState<number>(0);
-  const [loginCheck, setLoginCheck] = useState<boolean>(true);
+  const [loginCheck, setLoginCheck] = useState<boolean>(false);
 
   const loca = useLocation();
 

@@ -28,28 +28,36 @@ const Regist = ({}: IProps): JSX.Element => {
   const handleSignup = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    // 요청 페이로드 생성
-    const payload = {
-      email: email,
-      password: password,
-      nickname: nickname,
-      name: name,
-      phone: phone,
-    };
+    if (
+      email !== "" &&
+      emailReg.test(email) &&
+      password !== "" &&
+      pwReg.test(password) &&
+      !(password.length < 8 || password.length > 30) &&
+      checkPassword !== "" &&
+      password === checkPassword &&
+      nickname !== "" &&
+      nickReg.test(nickname) &&
+      phone !== "" &&
+      phoneReg.test(phone)
+    ) {
+      // 요청 페이로드 생성
+      const payload = {
+        email: email,
+        pw: password,
+        nick: nickname,
+        name: name,
+        mobile: phone,
+      };
 
-    try {
-      const response = await axios.post("/regist", payload);
-
-      if (response.status === 201) {
-        // 회원가입 성공
-        console.log("성공! 이메일주소: " + response.data.email);
+      try {
+        console.log(payload);
+        const response = await axios.post("/regist", payload);
+        console.log(response);
         navigate("/login"); // 로그인 페이지로 이동
-      } else if (response.status === 400) {
-        // 회원가입 실패
-        alert(`회원가입 실패: ${response.data.message}`);
+      } catch (error) {
+        console.error("회원가입 오류:", error);
       }
-    } catch (error) {
-      console.error("오류 발생:", error);
     }
   };
 
@@ -71,8 +79,9 @@ const Regist = ({}: IProps): JSX.Element => {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="이메일주소"
               />
-              {email !== "" && emailReg.test(email) == false && (
+              {email !== "" && emailReg.test(email) === false && (
                 <div className="text-red-500">
+                  {`${emailReg.test(email)}`}
                   이메일 형식에 맞추어 입력해 주세요
                 </div>
               )}
@@ -86,8 +95,9 @@ const Regist = ({}: IProps): JSX.Element => {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="비밀번호"
               />
+
               {password !== "" &&
-                pwReg.test(password) == false &&
+                pwReg.test(password) === false &&
                 (password.length < 8 || password.length > 30 ? (
                   <div className="text-red-500">
                     "비밀번호는 8글자 이상, 30글자 이하로 작성하세요"
@@ -107,6 +117,7 @@ const Regist = ({}: IProps): JSX.Element => {
                 onChange={(e) => setCheckPassword(e.target.value)}
                 placeholder="비밀번호 확인"
               />
+
               {checkPassword !== "" && password !== checkPassword && (
                 <div className="text-red-500">
                   비밀번호가 일치하지 않습니다.
@@ -132,7 +143,8 @@ const Regist = ({}: IProps): JSX.Element => {
                 onChange={(e) => setNickname(e.target.value)}
                 placeholder="닉네임"
               />
-              {nickname !== "" && nickReg.test(nickname) == false && (
+
+              {nickname !== "" && nickReg.test(nickname) === false && (
                 <div className="text-red-500">
                   특수문자 제외 알파벳과 한글로 작성하세요
                 </div>
@@ -147,7 +159,8 @@ const Regist = ({}: IProps): JSX.Element => {
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="휴대폰번호"
               />
-              {phone !== "" && phoneReg.test(phone) == false && (
+
+              {phone !== "" && phoneReg.test(phone) === false && (
                 <div className="text-red-500">
                   전화번호 형식에 맞추어 주세요
                 </div>
@@ -162,9 +175,14 @@ const Regist = ({}: IProps): JSX.Element => {
             <p className="text-center mt-4">햄스터 마켓 계정이 있으신가요?</p>
             <p className="text-center">
               지금바로{" "}
-              <a href="/login" className="text-blue-500">
+              <div
+                onClick={() => {
+                  navigate("/login");
+                }}
+                className="text-blue-500"
+              >
                 로그인
-              </a>
+              </div>
               하러가기
             </p>
           </form>

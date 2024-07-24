@@ -2,10 +2,11 @@ import { ChangeEvent } from "react";
 
 interface IProps {
   item: string;
-  selectadress: (e: ChangeEvent<HTMLInputElement>) => void;
+  selectadress: (value: string, id: number) => void;
+  id: number;
 }
 
-const AdressItem = ({ item, selectadress }: IProps): JSX.Element => {
+const AdressItem = ({ item, selectadress, id }: IProps): JSX.Element => {
   return (
     <div className="p-4 flex gap-5 text-[1.2rem] ">
       <input
@@ -13,7 +14,9 @@ const AdressItem = ({ item, selectadress }: IProps): JSX.Element => {
         type="radio"
         value={item}
         name="buy"
-        onChange={selectadress}
+        onChange={(e: ChangeEvent<HTMLInputElement>) => {
+          selectadress(e.target.value, id);
+        }}
       ></input>
       <div>{item}</div>
     </div>
