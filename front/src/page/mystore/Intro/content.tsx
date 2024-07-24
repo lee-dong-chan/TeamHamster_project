@@ -35,7 +35,7 @@ const Content = ({ loginCheck }: { loginCheck: boolean }): JSX.Element => {
           )}
         </div>
         {/* 바뀌는 부분 */}
-        {loginCheck && isReview ? <></> : <SellComp value={value}></SellComp>}
+        {loginCheck && !isReview ? <SellComp value={value}></SellComp> : <></>}
         {isReview ? <Review></Review> : <></>}
         {/*  */}
       </div>

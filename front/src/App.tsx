@@ -180,7 +180,6 @@ const App = (): JSX.Element => {
     new List(1, "햄스터", "hamster", 3000, 3),
   ]);
 
-  const userlogin = false;
   return (
     <div>
       <div>

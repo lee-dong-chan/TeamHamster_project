@@ -12,7 +12,7 @@ const Imgs = ({ item }: IProps): JSX.Element => {
         ismobile && "h-[25rem] w-[25rem]"
       } border rounded-[2rem] overflow-hidden`}
     >
-      <img className="h-[100%] w-[100%]" src={`/imgs/${item}.png`}></img>
+      <img className="h-[100%] w-[100%]" src={`/imgs/${item}`}></img>
     </div>
   );
 };

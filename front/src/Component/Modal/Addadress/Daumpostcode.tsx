@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import DaumPostcodeEmbed from "react-daum-postcode";
 
 interface IProps {
@@ -25,7 +26,8 @@ const DaumApi = ({ setaddress }: IProps): JSX.Element => {
     }
 
     setaddress({
-      code: data.roadnameCode,
+      // code: data.roadnameCode,
+      code: data.zonecode,
       full: fullAddress,
     });
   };

@@ -5,9 +5,9 @@ import Category from "../../page/catgegory/category";
 
 import Point from "../../page/point/point";
 import Product from "../../page/product/product";
-import Sell from "../../page/sell/sell";
 import MyStore from "../../page/mystore/mystore";
 import LoginPage from "../../page/account/login/loginpage";
+import ProductWrite from "../../page/sell/ProductWrite";
 
 import { List } from "../list";
 import NotLogin from "../../Component/LoginInfo/NotLogin";
@@ -119,9 +119,13 @@ const Layout = ({ main }: IProps): JSX.Element => {
               <Route path="/category/:id" element={<Category />}></Route>
               <Route path={`/search/:id`} element={<Search />}></Route>
               <Route path="/product/:id" element={<Product />}></Route>
-              <Route path="/sell" element={<Sell />}></Route>
+              <Route path="/sell" element={<ProductWrite />}></Route>
+              <Route path="/sell/:id" element={<ProductWrite />}></Route>
               <Route path="/mystore" element={<MyStore />}></Route>
-              <Route path="/login" element={<LoginPage />}></Route>
+              <Route
+                path="/login"
+                element={<LoginPage setUserLogin={setUserLogin} />}
+              ></Route>
               <Route path="/regist" element={<Regist />}></Route>
               <Route path="/point" element={<Point />}></Route>
             </Routes>

@@ -52,13 +52,22 @@ const SellContent = ({ data, isBuyTap = false }: IProps) => {
   const showReviewModal = () => {
     ModalState("reviewWhite");
     setreviewId(data.id || 1);
-    setImgUrl(data.img);
+    if (data.image) {
+      setImgUrl(data.image[0]);
+    } else {
+      setImgUrl(data.img);
+    }
   };
 
   const confirmation = () => {
     axios
-      .post(`${serverUrl}/purchase/${data.id}`, {}, { withCredentials: true })
-      .then(() => {
+      .post(
+        `${serverUrl}/purchaseCheck/${data.id}`,
+        {},
+        { withCredentials: true }
+      )
+      .then((data) => {
+        console.log(data);
         navigate(`${callbackUrl}`);
       })
       .catch((err) => {
@@ -118,7 +127,9 @@ const SellContent = ({ data, isBuyTap = false }: IProps) => {
         <div
           className={`h-[220px] bg-cover relative ${center}`}
           style={{
-            backgroundImage: `url(${imgBase}${data.img})`,
+            backgroundImage: data.image
+              ? `url(${imgBase}${data.image[0]})`
+              : `url(${imgBase}good.png)`,
           }}
         >
           {imgCurtainActive && (
