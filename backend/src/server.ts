@@ -86,7 +86,7 @@ const basicvalue = async () => {
       const regist = await User.create({
         email: encryptionemail,
         password: encryptionpw,
-        supurAdmin: true,
+        superAdmin: true,
         admin: true,
         delivery: true,
       });
