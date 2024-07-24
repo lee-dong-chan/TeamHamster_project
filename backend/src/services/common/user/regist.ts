@@ -22,11 +22,19 @@ export default async (req: Request, res: Response) => {
       throw Error("duplication nick");
     }
 
-    const key = crypto.scryptSync("hgaomasttmexrj", `${process.env.KEY || ""}`, 32);
+    const key = crypto.scryptSync(
+      "hgaomasttmexrj",
+      `${process.env.KEY || ""}`,
+      32
+    );
     const iv = process.env.IV || "";
     const cipher = crypto.createCipheriv("aes-256-gcm", key, iv);
 
-    const encryptionemail: string = cipher.update(`${reqbody.email}`, "utf-8", "hex");
+    const encryptionemail: string = cipher.update(
+      `${reqbody.email}`,
+      "utf-8",
+      "hex"
+    );
 
     const emailcheck: User | null = await User.findOne({
       where: { email: encryptionemail },
@@ -40,11 +48,13 @@ export default async (req: Request, res: Response) => {
       .update(`${reqbody.pw + process.env.SALT}`)
       .digest("hex");
 
+    const nowmobile = reqbody.mobile.replaceAll("-", "");
+
     const regist = await User.create(
       {
         email: encryptionemail,
         password: encryptionpw,
-        mobile: reqbody.mobile,
+        mobile: nowmobile,
       },
       { transaction }
     );
@@ -52,7 +62,7 @@ export default async (req: Request, res: Response) => {
     const store = await Store.create(
       {
         nick: reqbody.nick,
-        mobile: reqbody.mobile,
+        mobile: nowmobile,
       },
       { transaction }
     );

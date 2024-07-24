@@ -10,12 +10,14 @@ export default async (req: Request, res: Response) => {
 
     let categorylist: Category[] = [];
     // where에 undefined가 들어가면 오류뜸
-    if (cate == undefined) {
+    if (!cate) {
     } else {
       categorylist = await Category.findAll({
         where: { name: { [Op.like]: `%${cate}%` } },
         attributes: ["id", "name"],
-        include: [{ model: Category, as: "Children", attributes: ["id", "name"] }],
+        include: [
+          { model: Category, as: "Children", attributes: ["id", "name"] },
+        ],
       });
     }
     res.json({ category: categorylist });
