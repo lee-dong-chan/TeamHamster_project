@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Intro from "./Intro/Intro";
 import Content from "./Intro/content";
-import { box, center } from "../../lib/styles";
+import { center } from "../../lib/styles";
 import { IMyStoreRes } from "../../lib/interFace";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
@@ -72,7 +72,7 @@ const MyStore = ({}: IProps): JSX.Element => {
   });
 
   return (
-    <div className={`py-10 ${box} overflow-y-auto scrollbar-hide`}>
+    <div className={`${center} flex-wrap`}>
       <Intro intro={intro}></Intro>
 
       <Content loginCheck={loginCheck}></Content>
