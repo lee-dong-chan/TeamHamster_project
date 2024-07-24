@@ -5,13 +5,25 @@ import { center, mobilebox } from "../lib/styles";
 
 import Scan from "../Component/Scan/Scan";
 import { ChangeEvent, useState } from "react";
+import { Debounce } from "../Costomhook/Debounce";
+import { useMutation } from "react-query";
+import axios from "axios";
 const DeliveryScan = (): JSX.Element => {
-  const [pickitem, SetPickItem] = useState<string>();
+  const [pickitem, SetPickItem] = useState<string>("");
   const changeitem = (e: ChangeEvent<HTMLInputElement>) => {
-    setTimeout(() => {
-      SetPickItem(e.target.value);
-    }, 2000);
+    SetPickItem(e.target.value);
   };
+  const item = Debounce(pickitem, 200);
+
+  const completdelivery = useMutation({
+    mutationKey: ["pickcomplete"],
+    mutationFn: async () => {
+      await axios.post(
+        `${process.env.REACT_APP_SERVER_URL}/delivery/deliverycomplete/${item}`
+      );
+    },
+  });
+
   const btn = new Button("확인", "bg-blue-200");
   return (
     <div className={`${mobilebox} flex flex-col items-center`}>
@@ -36,7 +48,11 @@ const DeliveryScan = (): JSX.Element => {
       </div>
       <div className={`m-[3rem] `}>
         <Link to={"/"}>
-          <div>
+          <div
+            onClick={() => {
+              completdelivery.mutate();
+            }}
+          >
             <ButtonComp btn={btn} width={"w-[25rem]"} height="h-[4rem]" />
           </div>
         </Link>

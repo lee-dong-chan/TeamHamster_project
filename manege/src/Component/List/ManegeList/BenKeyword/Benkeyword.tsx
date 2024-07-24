@@ -2,11 +2,12 @@ import { IData } from "../../../../page/manege/benkeyword";
 import Item, { IKeyword } from "./BenKeywordItem";
 
 interface IProps {
-  data?: IData;
+  data: IKeyword[];
 }
 
 const BenKeyWord = ({ data }: IProps): JSX.Element => {
   console.log(data);
+
   return (
     <div>
       <div className="px-5 py-2 flex items-center border-b">
@@ -16,7 +17,7 @@ const BenKeyWord = ({ data }: IProps): JSX.Element => {
       </div>
       <div>
         {data &&
-          data.Keyword.map((item: IKeyword, idx: number) => (
+          data.map((item: IKeyword, idx: number) => (
             <Item key={idx} idx={idx + 1} item={item} />
           ))}
       </div>

@@ -4,7 +4,7 @@ import { bankeyword } from "../../models/mongoDB";
 export default async (req: Request, res: Response) => {
   try {
     const reqbody = req.body;
-
+    console.log(reqbody);
     await bankeyword.deleteMany({ word: reqbody.keyword });
 
     res.json({ result: "ok" });

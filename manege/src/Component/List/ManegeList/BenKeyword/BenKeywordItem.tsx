@@ -2,9 +2,10 @@ import { useState } from "react";
 import { Button } from "../../../../lib/Button/Button";
 import { TinyButton } from "../../../Button/Button";
 import axios from "axios";
+import { useMutation, useQueryClient } from "react-query";
 
 export interface IKeyword {
-  keyword: string;
+  word: string;
 }
 
 interface IProps {
@@ -14,22 +15,29 @@ interface IProps {
 
 const Item = ({ item, idx }: IProps): JSX.Element => {
   const deletebtn = new Button("삭제", "bg-red-200");
+  const queryClient = useQueryClient();
 
-  const delKeyword = async () => {
-    try {
-      await axios.post(`${process.env.REACT_APP_SERVER_URL}/delkeyword`, {
-        Keyword: item.keyword,
+  const delKeyword = useMutation({
+    mutationKey: ["delKeyword"],
+    mutationFn: async () => {
+      await axios.post(`${process.env.REACT_APP_SERVER_URL}/admin/delkeyword`, {
+        keyword: item.word,
       });
-    } catch (err) {
-      console.error(err);
-    }
-  };
+    },
+    onSuccess(data) {
+      queryClient.invalidateQueries("benlist");
+    },
+  });
 
   return (
     <div className="px-5 py-2 flex items-center ">
       <span className="mx-2">{idx}</span>
-      <span className="ps-3 flex-1 text-center">{item.keyword}</span>
-      <div onClick={delKeyword}>
+      <span className="ps-3 flex-1 text-center">{item.word}</span>
+      <div
+        onClick={() => {
+          delKeyword.mutate();
+        }}
+      >
         <TinyButton btn={deletebtn} />
       </div>
     </div>

@@ -5,7 +5,6 @@ import { delivery } from "../../models/mongoDB";
 export default async (req: Request, res: Response) => {
   try {
     const reqbody = req.body;
-
     const deliveryfind: any = await delivery
       .find({ userId: reqbody.user.id })
       .distinct("productId");

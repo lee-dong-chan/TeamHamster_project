@@ -50,31 +50,28 @@ const Layout = ({ main }: IProps): JSX.Element => {
     setModal("mobilemenu");
   };
 
-  const user = useQuery<IUser>({
-    queryKey: "usercheck",
-    queryFn: async () => {
-      try {
-        const { data } = await axios.post(
-          `${process.env.REACT_APP_SERVER_URL}/layout`,
-          {},
-          { withCredentials: true }
-        );
-        return data;
-      } catch (err) {
-        console.error(err);
-      }
-    },
-  });
+  // const user = useQuery<IUser>({
+  //   queryKey: "usercheck",
+  //   queryFn: async () => {
+  //     const { data } = await axios.post(
+  //       `${process.env.REACT_APP_SERVER_URL}/layout`,
+  //       {},
+  //       { withCredentials: true }
+  //     );
+  //     return data;
+  //   },
+  // });
 
-  let userlogin: Boolean;
-  let userData: IUser;
-  if (user.data !== undefined) {
-    userlogin = true;
-    userData = user.data;
-  } else {
-    userlogin = false;
-  }
+  // let userlogin: Boolean;
+  // let userData: IUser;
+  // if (user.data !== undefined) {
+  //   userlogin = true;
+  //   userData = user.data;
+  // } else {
+  //   userlogin = false;
+  // }
 
+  const userlogin = true;
   const location = useLocation();
   useEffect(() => {
     setModal(undefined);

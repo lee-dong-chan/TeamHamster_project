@@ -3,23 +3,31 @@ import { SmallButton } from "../../Component/Button/Button";
 import { Button } from "../../lib/Button/Button";
 import { ChangeEvent, useCallback, useState } from "react";
 import axios from "axios";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
 interface IProps {}
 
 const ManegeDeliveryTip = ({}: IProps): JSX.Element => {
-  const [tip, settip] = useState<number>(0);
+  const [tip, settip] = useState<number>();
   const changetip = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     settip(Number(e.target.value));
   }, []);
 
-  const submit = async () => {
-    await axios.patch(
-      ` ${process.env.REACT_APP_SERVER_URL}/admin/updatedeliverycost`,
-      { cost: tip },
-      { withCredentials: true }
-    );
-  };
+  const queryClient = useQueryClient();
+
+  const { mutate } = useMutation({
+    mutationKey: ["patchdelivery"],
+    mutationFn: async () => {
+      await axios.patch(
+        ` ${process.env.REACT_APP_SERVER_URL}/admin/updatedeliverycost`,
+        { cost: tip },
+        { withCredentials: true }
+      );
+    },
+    onSuccess(data) {
+      queryClient.invalidateQueries({ queryKey: "deliverycost" });
+    },
+  });
 
   const deliverycost = useQuery({
     queryKey: "deliverycost",
@@ -40,12 +48,16 @@ const ManegeDeliveryTip = ({}: IProps): JSX.Element => {
           <div className="h-[4rem] ">
             <input
               placeholder="배송비 액수"
-              className="p-3 h-[100%] w-[30rem] border border-gray-400 "
-              value={tip}
+              type="number"
+              className="p-3 h-[100%] w-[30rem] border border-gray-400 appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none "
               onInput={changetip}
             ></input>
           </div>
-          <div onClick={submit}>
+          <div
+            onClick={() => {
+              mutate();
+            }}
+          >
             <SmallButton btn={btn} />
           </div>
         </div>
