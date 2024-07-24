@@ -4,8 +4,9 @@ import { center } from "../../lib/styles";
 
 const ManegePageCategory = (): JSX.Element => {
   const [manegecate, setManegeCate] = useState<string | undefined>("");
+
   const report = useCallback((): void => {
-    setManegeCate("");
+    setManegeCate("report");
   }, []);
   const category = useCallback((): void => {
     setManegeCate("category");
@@ -27,13 +28,13 @@ const ManegePageCategory = (): JSX.Element => {
 
   useEffect(() => {
     setManegeCate(cate);
-  }, []);
+  }, [cate]);
 
   return (
     <div
       className={`pt-20 pb-10 ${center}  gap-20 text-[1.2rem] text-gray-500 font-bold`}
     >
-      <Link to={"/manege"}>
+      <Link to={"/manege/report"}>
         {manegecate == "" ? (
           <div className="text-orange-500">신고관리</div>
         ) : (

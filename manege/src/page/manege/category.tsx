@@ -39,7 +39,7 @@ const ManegeCategory = ({}: IProps): JSX.Element => {
   });
 
   return (
-    <div className={`$${box} pb-10`}>
+    <div className={`${box} pb-10`}>
       <div className={`${center}`}>
         <ManegeCategoryList settopcate={settopcate} />
       </div>

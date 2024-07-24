@@ -116,7 +116,7 @@ const PickupCheck = ({ liststate, checklist }: IProps): JSX.Element => {
     <div className={`${mobilebox} flex flex-col items-center`}>
       <div className="py-3 text-[1.2rem] font-bold">픽업건 선택</div>
       <div className={`my-5 `}>
-        <List liststate={liststate} list1={test1} checkdata={checkdata} />
+        <List liststate={liststate} list1={lastdata} checkdata={checkdata} />
       </div>
       <div className={`my-5 flex`}>
         <div className="flex items-center">
