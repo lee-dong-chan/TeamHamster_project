@@ -3,7 +3,7 @@ import { Store, User } from "../../models";
 
 export default async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const reqbody = req.body;
+    // const reqbody = req.body;
     // if (!reqbody.user) {
     //   throw Error("not login");
     // }

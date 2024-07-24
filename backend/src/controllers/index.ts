@@ -138,6 +138,7 @@ router.post("/logout", logout);
 router.post("/findemail", findemail);
 router.post("/findpw", findpw);
 router.post("/updatepw", updatepw);
+
 /// user 중 OAuth
 router.post("/NaverCallback", NaverCallback);
 router.post("/GoogleCallback", GoogleCallback);

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import dotenv from "dotenv";
 import crypto from "crypto";
-import { User } from "../../../models";
+import { User } from "../../models";
 
 export default async (req: Request, res: Response) => {
   try {
@@ -21,7 +21,7 @@ export default async (req: Request, res: Response) => {
       .digest("hex");
 
     const usercheck: User | null = await User.findOne({
-      where: { email: encryptionemail, password: encryptionpw, Oauth: "햄스터", admin: false },
+      where: { email: encryptionemail, password: encryptionpw, Oauth: "햄스터", admin: true },
     });
 
     if (usercheck) {

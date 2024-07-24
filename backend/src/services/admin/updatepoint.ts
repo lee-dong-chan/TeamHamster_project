@@ -6,7 +6,7 @@ export default async (req: Request, res: Response) => {
     const reqbody = req.body;
 
     await point.create({
-      userId: reqbody.user.id,
+      // userId: reqbody.user.id,
       pointPercent: reqbody.point,
     });
 
