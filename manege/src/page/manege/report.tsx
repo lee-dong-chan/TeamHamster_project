@@ -64,8 +64,9 @@ const ManegeReport = ({}: IProps): JSX.Element => {
       const { data } = await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/admin/report`
       );
-      const report: IData = data.report;
-      const reportlist = report.report.map((data: IProduct) => {
+      const reports: IData = data.report;
+
+      const report = reports?.report.map((data: IProduct) => {
         const lastdata = {
           id: data.id,
           content: data.reportText,
@@ -75,9 +76,11 @@ const ManegeReport = ({}: IProps): JSX.Element => {
         return lastdata;
       });
 
-      return reportlist;
+      return report;
     },
   });
+
+  console.log(data);
 
   // const data: IReport[] = [
   //   { id: 1, content: "광고징", username: "신고함", productid: 3 },

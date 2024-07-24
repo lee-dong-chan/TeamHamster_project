@@ -8,9 +8,13 @@ interface IProps {
   setcate: React.Dispatch<React.SetStateAction<number | undefined>>;
   setselectcate1?: React.Dispatch<React.SetStateAction<number>>;
   setselectcate2?: React.Dispatch<React.SetStateAction<number>>;
+  cate1: number;
+  cate2: number;
 }
 
 const CateItem = ({
+  cate1,
+  cate2,
   item,
   setcate,
   setselectcate1,
@@ -29,11 +33,17 @@ const CateItem = ({
   };
 
   return (
-    <div className="py-3 flex items-center">
-      <div className=" me-2 w-6 rounded border border-black text-center">
-        {item.id}
+    <div>
+      <div
+        onClick={select}
+        className={`py-3 flex items-center hover:bg-gray-200 ${
+          (cate1 == item.id && "bg-gray-200") ||
+          (cate2 == item.id && "bg-gray-200")
+        }`}
+      >
+        <div className=" me-2 w-6 rounded  text-center">{item.id}</div>
+        <div>{item.name}</div>
       </div>
-      <div onClick={select}>{item.name}</div>
     </div>
   );
 };
