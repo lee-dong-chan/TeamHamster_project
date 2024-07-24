@@ -31,7 +31,7 @@ router.use(admincheck);
 /// 신고 관련
 router.post("/report", report);
 router.delete("/report/:id", reportId);
-router.post("reportsearch", reportsearch);
+router.post("/reportsearch", reportsearch);
 router.delete("/delproduct/:id", delproduct);
 /// 카테고리 생성
 router.post("/createcategory", createcategory);
