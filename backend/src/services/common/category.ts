@@ -6,7 +6,6 @@ export default async (req: Request, res: Response) => {
   try {
     const reqbody = req.body;
     let cate = reqbody.category;
-    console.log(req.params);
 
     // where에 undefined가 들어가면 오류뜸
     if (!cate) {
