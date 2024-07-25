@@ -10,6 +10,7 @@ import { Mutation, useMutation, useQueryClient } from "react-query";
 interface IProps {}
 
 const ManegeCategory = ({}: IProps): JSX.Element => {
+  const [topname, settopname] = useState<string>();
   const [topcate, settopcate] = useState<number | undefined>();
   const [createcate, setcreatecate] = useState<string>();
   const btn = new Button("카테고리 생성", "bg-orange-500");
@@ -25,10 +26,13 @@ const ManegeCategory = ({}: IProps): JSX.Element => {
   const { mutate } = useMutation({
     mutationKey: ["addcate"],
     mutationFn: async () => {
-      await axios.post(`${process.env.REACT_APP_SERVER_URL}/admin/createcategory`, {
-        precate: topcate,
-        name: createcate,
-      });
+      await axios.post(
+        `${process.env.REACT_APP_SERVER_URL}/admin/createcategory`,
+        {
+          precate: topcate,
+          name: createcate,
+        }
+      );
     },
     onSuccess(data) {
       queryClient.invalidateQueries({ queryKey: "firstcate" });
@@ -38,14 +42,14 @@ const ManegeCategory = ({}: IProps): JSX.Element => {
   return (
     <div className={`${box} pb-10`}>
       <div className={`${center}`}>
-        <ManegeCategoryList settopcate={settopcate} />
+        <ManegeCategoryList settopcate={settopcate} settopname={settopname} />
       </div>
       <div className={`${center}`}>
         <div className="mt-[10rem] mb-[10rem] w-[60rem]  flex justify-between items-center">
           <div className="h-[4rem] ">
             <input
               type="text"
-              value={topcate !== undefined ? `id:${topcate}` : ""}
+              value={topcate !== undefined ? `${topcate}:${topname}` : ""}
               placeholder="상위카테고리"
               className="p-3 h-[100%] w-[25rem] border border-gray-400 "
               onChange={ok}

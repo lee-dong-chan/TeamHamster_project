@@ -10,42 +10,11 @@ import { IReportUser } from "../../Component/List/ManegeList/User/ReportUser/Use
 import { IBenUser } from "../../Component/List/ManegeList/User/Ben/BenItem";
 import { ChangeEvent, useCallback, useState } from "react";
 
-interface IData {
-  userlist: [
-    {
-      manyreport: [
-        {
-          id: number;
-          nick: string;
-        }
-      ];
-    },
-    {
-      block: [
-        {
-          id: number;
-          nick: string;
-        }
-      ];
-    }
-  ];
-}
-
-interface IBen {
-  block: [
-    {
-      id: number;
-      nick: string;
-    }
-  ];
-}
-
 interface IProps {}
 
 const ManegeUser = ({}: IProps): JSX.Element => {
   const btn = new Button("검색", "bg-orange-500");
   const [search, setsearch] = useState<string>("");
-  const [searchlist, setsearchlist] = useState<IBenUser[]>([]);
 
   const bensearch = (e: ChangeEvent<HTMLInputElement>) => {
     setsearch(e.target.value);
@@ -55,53 +24,42 @@ const ManegeUser = ({}: IProps): JSX.Element => {
     queryKey: "manydata",
     queryFn: async () => {
       const { data } = await axios.post(
-        `${process.env.REACT_APP_SERVER_URL}/admin/user`
+        `${process.env.REACT_APP_SERVER_URL}/admin/manyreportuser`
       );
-      const userdatas: IData = data.userlist;
-      const userdata = userdatas.userlist;
-
-      const manydata: IReportUser[] = userdata[0].manyreport;
-      return manydata;
+      const manylist: IReportUser[] = data.manyreport;
+      return manylist;
     },
   });
-
-  console.log(manylist.data);
 
   const blocklist = useQuery({
     queryKey: "blockdata",
     queryFn: async () => {
       const { data } = await axios.post(
-        `${process.env.REACT_APP_SERVER_URL}/admin/user`
+        `${process.env.REACT_APP_SERVER_URL}/admin/blockuser`
       );
-      const userdatas: IData = data.userlist;
-      const userdata = userdatas.userlist;
-
-      const blockdata: IBenUser[] = userdata[1].block;
-      return blockdata;
+      const blocklist: IBenUser[] = data.block;
+      return blocklist;
     },
   });
 
   const queryClient = useQueryClient();
 
-  const { mutate } = useMutation({
+  const searchlist = useMutation({
     mutationKey: ["searchben"],
     mutationFn: async () => {
       const { data } = await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/admin/userblocksearch`,
         {
-          keyword: search,
+          nick: search,
         },
         { withCredentials: true }
       );
-      const Bendatas: IBen = data.block;
-      const Bendata: IBenUser[] = Bendatas.block;
-      setsearchlist(Bendata);
-    },
-    onSuccess(data) {
-      queryClient.invalidateQueries({ queryKey: "searchben" });
-      queryClient.setQueriesData(["searchben"], data);
+      const Bendatas: IBenUser[] = data.block;
+      return Bendatas;
     },
   });
+
+  console.log(searchlist.data);
 
   return (
     <div className={`${box} ${center}`}>
@@ -110,7 +68,7 @@ const ManegeUser = ({}: IProps): JSX.Element => {
           <ReportUser data={manylist.data} />
         </div>
         <div className="mt-20 h-[20rem] w-[70rem] border border-gray-400 overflow-y-auto">
-          <Ben data={searchlist == undefined ? blocklist.data : searchlist} />
+          <Ben data={searchlist.data ? searchlist.data : blocklist.data} />
         </div>
         <div className="mt-[10rem] mb-[10rem]  flex justify-between items-center">
           <div className="h-[4rem] ">
@@ -123,7 +81,7 @@ const ManegeUser = ({}: IProps): JSX.Element => {
           </div>
           <div
             onClick={() => {
-              mutate();
+              searchlist.mutate();
             }}
           >
             <SmallButton btn={btn} />

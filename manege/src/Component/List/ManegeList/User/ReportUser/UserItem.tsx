@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import { Button } from "../../../../../lib/Button/Button";
 import { TinyButton } from "../../../../Button/Button";
 import axios from "axios";
+import { useMutation, useQueryClient } from "react-query";
 
 export interface IReportUser {
   id: number;
@@ -15,22 +16,33 @@ interface IProps {
 
 const Item = ({ item, idx }: IProps): JSX.Element => {
   const benbtn = new Button("정지", "bg-red-200");
-
-  const benuser = useCallback(async () => {
-    try {
-      await axios.post(`${process.env.REACT_APP_SERVER_URL}/${item.id}`, {
-        withCredentials: true,
-      });
-    } catch (err) {
-      console.error(err);
-    }
-  }, []);
+  const queryClient = useQueryClient();
+  const benuser = useMutation({
+    mutationKey: "benuser",
+    mutationFn: async () => {
+      await axios.post(
+        `${process.env.REACT_APP_SERVER_URL}/admin/userblock/${item.id}`,
+        {},
+        {
+          withCredentials: true,
+        }
+      );
+    },
+    onSuccess(data) {
+      queryClient.invalidateQueries("manydata");
+      queryClient.invalidateQueries("blockdata");
+    },
+  });
 
   return (
     <div className="px-5 py-2 flex items-center ">
       <span className="mx-2">{idx}</span>
       <span className="ps-3 flex-1 text-center truncate ">{item.nick}</span>
-      <div onClick={benuser}>
+      <div
+        onClick={() => {
+          benuser.mutate();
+        }}
+      >
         <TinyButton btn={benbtn} />
       </div>
     </div>
