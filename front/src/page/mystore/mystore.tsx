@@ -22,6 +22,7 @@ const MyStore = ({ userlogin }: IProps): JSX.Element => {
   const [storePFImg, setStorePFImg] = useState<string>("good.png");
   const [sellCount, setSellCount] = useState<number>(0);
   const [loginCheck, setLoginCheck] = useState<boolean>(false);
+  const [reCheck, setReCheck] = useState<boolean>(false);
 
   const loca = useLocation();
 
@@ -71,7 +72,7 @@ const MyStore = ({ userlogin }: IProps): JSX.Element => {
   //mount
   useEffect(() => {
     getPageValues();
-  }, [userlogin]);
+  }, [userlogin, reCheck]);
 
   return (
     <div className={`${center} flex-wrap`}>
