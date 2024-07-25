@@ -9,11 +9,21 @@ interface IData {
 
 interface IProps {
   settopcate: React.Dispatch<React.SetStateAction<number | undefined>>;
+  settopname: React.Dispatch<React.SetStateAction<string | undefined>>;
 }
 
-const ManegeCategoryList = ({ settopcate }: IProps): JSX.Element => {
+export interface ICLick {
+  id: number;
+  name: string;
+}
+
+const ManegeCategoryList = ({
+  settopcate,
+  settopname,
+}: IProps): JSX.Element => {
   const queryClient = useQueryClient();
-  const [cate, setcate] = useState<number>();
+
+  const [cate, setcate] = useState<ICLick>();
   const [selectcate1, setselectcate1] = useState<number>(0);
   const [selectcate2, setselectcate2] = useState<number>(0);
   const [data2, setdata2] = useState<ICate[]>([]);
@@ -69,7 +79,8 @@ const ManegeCategoryList = ({ settopcate }: IProps): JSX.Element => {
   console.log(`cate2:${selectcate2}`);
 
   useEffect(() => {
-    settopcate(cate);
+    settopcate(cate?.id);
+    settopname(cate?.name);
     secondcate();
     thirdcate();
   }, [cate]);

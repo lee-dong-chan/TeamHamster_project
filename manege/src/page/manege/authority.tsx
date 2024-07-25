@@ -13,6 +13,7 @@ interface IProps {}
 
 const Authority = ({}: IProps): JSX.Element => {
   const btn = new Button("확인", "bg-orange-500");
+  const [list, setlist] = useState();
   const [userData, setData] = useState<IUser>();
   const [user, setuser] = useState<string>("");
   const searchuser = useCallback((e: ChangeEvent<HTMLInputElement>) => {
@@ -21,6 +22,7 @@ const Authority = ({}: IProps): JSX.Element => {
 
   const text = Debounce(user, 1000);
   const queryClient = useQueryClient();
+
   const userlist = useMutation({
     mutationKey: ["authorityuser"],
     mutationFn: async () => {
@@ -29,9 +31,9 @@ const Authority = ({}: IProps): JSX.Element => {
         { nick: text },
         { withCredentials: true }
       );
+      const list = data.userlist;
 
-      const user = data.userlist;
-      return user;
+      setlist(list);
     },
   });
 
@@ -49,13 +51,12 @@ const Authority = ({}: IProps): JSX.Element => {
         { withCredentials: true }
       );
     },
-    onSuccess(data) {
-      queryClient.invalidateQueries("authrityuser");
-    },
   });
+
   const redirect = () => {
     setuser("");
     setData(undefined);
+    setlist(undefined);
   };
   useEffect(() => {
     if (text) {
@@ -67,7 +68,7 @@ const Authority = ({}: IProps): JSX.Element => {
     <div className={`${box}`}>
       <div className={`${center} flex-col`}>
         <div className="w-[50rem] h-[20rem] border">
-          <AuthorityComp auth={userlist.data} setdata={setData} />
+          <AuthorityComp auth={list} setdata={setData} />
         </div>
         <div className="mt-[5rem] mb-3 w-[50rem] flex justify-between items-center">
           <div className="h-[4rem] flex flex-1 justify-center ">

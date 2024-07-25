@@ -1,3 +1,5 @@
+import { ICLick } from "./ManegeCategory";
+
 export interface ICate {
   id: number;
   name: string;
@@ -5,7 +7,7 @@ export interface ICate {
 
 interface IProps {
   item: ICate;
-  setcate: React.Dispatch<React.SetStateAction<number | undefined>>;
+  setcate: React.Dispatch<React.SetStateAction<ICLick | undefined>>;
   setselectcate1?: React.Dispatch<React.SetStateAction<number>>;
   setselectcate2?: React.Dispatch<React.SetStateAction<number>>;
   cate1: number;
@@ -22,13 +24,13 @@ const CateItem = ({
 }: IProps): JSX.Element => {
   const select = () => {
     if (setselectcate1) {
-      setcate(item.id);
+      setcate({ id: item.id, name: item.name });
       setselectcate1(item.id);
     } else if (setselectcate2) {
-      setcate(item.id);
+      setcate({ id: item.id, name: item.name });
       setselectcate2(item.id);
     } else {
-      setcate(item.id);
+      setcate({ id: item.id, name: item.name });
     }
   };
 
