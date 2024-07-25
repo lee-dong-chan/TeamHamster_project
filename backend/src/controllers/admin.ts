@@ -1,7 +1,6 @@
 import { Router } from "express";
 /// 권한 체크
 import admincheck from "../services/admin/admincheck";
-/// 어드민 로그인
 /// 신고 관련
 import report from "../services/admin/report";
 import reportId from "../services/admin/reportId";
