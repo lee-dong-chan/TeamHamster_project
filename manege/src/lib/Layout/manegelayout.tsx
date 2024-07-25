@@ -14,13 +14,19 @@ import Authority from "../../page/manege/authority";
 import LoginPage from "../../page/manege/adminlogin";
 import AdminLoginPage from "../../page/manege/adminlogin";
 import { useCallback, useEffect, useState } from "react";
-import { useMutation, useQuery } from "react-query";
+import {
+  QueryClient,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "react-query";
 import axios from "axios";
 
 interface IProps {}
 
 const ManegeLayout = ({}: IProps): JSX.Element => {
   const [userlogin, setUserLogin] = useState<boolean>(false);
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const onclick = () => {
     window.location.replace("http://localhost:3000/");
@@ -29,12 +35,20 @@ const ManegeLayout = ({}: IProps): JSX.Element => {
   const logcheck = useMutation({
     mutationKey: "userlogin",
     mutationFn: async () => {
-      const { data } = await axios.post(`${serverUrl}/layout`);
+      const { data } = await axios.post(
+        `${serverUrl}/layout`,
+        {},
+        { withCredentials: true }
+      );
       return data;
+    },
+    onSuccess(data) {
+      queryClient.setQueryData("uselogin", data);
     },
   });
 
-  console.log(logcheck);
+  const log = queryClient.getQueryData("uselogin");
+  console.log(log);
 
   const move = () => {
     navigate("/manege/login");
