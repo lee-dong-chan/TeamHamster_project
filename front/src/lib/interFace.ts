@@ -10,6 +10,18 @@ export interface IIntro {
   };
 }
 
+//유저 로그인
+
+export interface IUserDatas {
+  login?: {
+    admin: boolean;
+    delivery: boolean;
+    id: number;
+    nick: string;
+    point: number;
+  };
+}
+
 //유저 스토어
 
 export interface IMyStoreRes {

@@ -25,7 +25,7 @@ export const GoogleOAuth = (): JSX.Element => {
   return (
     <button
       onClick={loginHandler}
-      className={`flex items-center justify-center p-2 bg-white border rounded shadow hover:bg-gray-100`}
+      className={`flex items-center justify-center p-2 bg-white border rounded shadow hover:bg-gray-100 w-[100%]`}
     >
       <img
         src="https://developers.google.com/identity/images/g-logo.png"

@@ -21,36 +21,32 @@ const Menu = ({}: IProps): JSX.Element => {
   const myStore = new Button("내상점", "bg-orange-200");
   const Modalstate = useSetRecoilState(Modal);
   const [user, setUser] = useState<IUser | undefined>();
-  const userData = useQuery({
-    queryKey: "menuuser",
-    queryFn: async () => {
-      try {
-        const { data } = await axios.post(
-          `${process.env.REACT_APP_SERVER_URL}/mystore`,
-          { id: 1 },
-          { withCredentials: true }
-        );
-        const userdata: IUser = { name: data.nick, point: data.point };
-        return userdata;
-      } catch (err) {
-        console.error(err);
-        const userdata: IUser = { name: "이동찬", point: 10000 };
-        return userdata;
-      }
-    },
-  });
-  console.log(userData.data);
+  // const userData = useQuery({
+  //   queryKey: "menuuser",
+  //   queryFn: async () => {
+
+  //       const { data } = await axios.post(
+  //         `${process.env.REACT_APP_SERVER_URL}/mystore`,
+  //         { id: 1 },
+  //         { withCredentials: true }
+  //       );
+  //       const userdata: IUser = { name: data.nick, point: data.point };
+  //       return userdata;
+
+  //   },
+  // });
+
   useEffect(() => {
     if (isdesktop) {
       Modalstate(undefined);
     }
   }, [isdesktop]);
 
-  useEffect(() => {
-    if (userData.data !== undefined) {
-      setUser(userData.data);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (userData.data !== undefined) {
+  //     setUser(userData.data);
+  //   }
+  // }, []);
   return (
     <div className="MobileBox">
       <div className="flex items-center justify-between">

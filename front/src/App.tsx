@@ -1,22 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import Layout from "./lib/Layout/layout";
 import { List } from "./lib/list";
 
 import { useBreakPoint } from "./CustomHook/BreakPoint";
 import axios, { AxiosResponse } from "axios";
-import { title } from "process";
-export interface IProduct {
-  id: number;
-  title: string;
-  discription: string;
-  price: number;
-  createdAt: string;
-  img: string;
-  Category: {
-    name: string;
-  };
-  image: string[];
-}
+import { IUserDatas, IProduct } from "./lib/interFace";
+import { errUserDatas } from "./lib/errors";
 
 export interface IListData {
   id: number;
@@ -27,9 +16,13 @@ export interface IListData {
 }
 
 const App = (): JSX.Element => {
+  const serverUrl = process.env.REACT_APP_SERVER_URL;
   const [main, setMain] = useState<List[]>([]);
   const [ListDatas, setListDatas] = useState<IListData[]>([]);
+  const [userlogin, setUserLogin] = useState<boolean>(false);
+  const [userDatas, setUserDatas] = useState<IUserDatas>(errUserDatas);
 
+  //func
   const mainDataGet = async () => {
     await axios
       .post(
@@ -38,16 +31,16 @@ const App = (): JSX.Element => {
         { withCredentials: true }
       )
       .then((data: AxiosResponse) => {
-        console.log(data);
         const products: IProduct[] = data.data.product;
         const listDatas: IListData[] = products.map((data: IProduct) => {
           const listData: IListData = {
-            id: data.id,
+            id: data.id || 9999999,
             title: data.title,
-            img: data.image[0],
+            img: data.image ? data.image[0] : "hamster.png",
             price: data.price,
             createdAt: Math.floor(
-              (+new Date() - +new Date(data.createdAt)) / (1000 * 60 * 60 * 24)
+              (+new Date() - +new Date(data.createdAt || new Date() + "")) /
+                (1000 * 60 * 60 * 24)
             ),
           };
           return listData;
@@ -73,9 +66,21 @@ const App = (): JSX.Element => {
         ]);
       });
   };
+  const userDataCheck = async () => {
+    axios
+      .post(`${serverUrl}/layout`, {}, { withCredentials: true })
+      .then((data: AxiosResponse<IUserDatas>) => {
+        if (data.data.login) {
+          setUserDatas(data.data);
+          setUserLogin(true);
+        }
+      })
+      .catch((err) => {
+        console.log("layOut userDataCheck func Err", err);
+      });
+  };
 
   //mount
-
   useEffect(() => {
     if (ListDatas[0]) {
       setMain(
@@ -92,24 +97,23 @@ const App = (): JSX.Element => {
     }
   }, [ListDatas]);
 
+  useLayoutEffect(() => {
+    userDataCheck();
+  }, []);
+
   useEffect(() => {
     mainDataGet();
   }, []);
 
-  //
-  const [catepage, setCatePage] = useState([
-    new List(1, "자동차", "good", 3000, 3),
-  ]);
-
-  const [searchpage, setSearchPage] = useState([
-    new List(1, "햄스터", "hamster", 3000, 3),
-  ]);
-
-  const [userlogin, setUserLogin] = useState<boolean>(false);
   return (
     <div>
       <div>
-        <Layout setUserLogin={setUserLogin} userlogin={userlogin} main={main} />
+        <Layout
+          userDatas={userDatas}
+          setUserLogin={setUserLogin}
+          userlogin={userlogin}
+          main={main}
+        />
       </div>
     </div>
   );

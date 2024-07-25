@@ -25,7 +25,7 @@ export const NaverOAuth = (): JSX.Element => {
   return (
     <button
       onClick={loginHandler}
-      className={`flex items-center justify-center p-2 bg-green-500 text-white border rounded shadow hover:bg-green-600`}
+      className={`flex items-center justify-center p-2 bg-green-500 text-white border rounded shadow hover:bg-green-600 w-[100%]`}
     >
       <img
         src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Naver_logo_initial.svg"
