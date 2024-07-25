@@ -1,8 +1,9 @@
 interface IProps {
   workstate: boolean | undefined;
+  camp: string;
 }
 
-const Info = ({ workstate }: IProps): JSX.Element => {
+const Info = ({ workstate, camp }: IProps): JSX.Element => {
   return (
     <div className="flex justify-between items-center h-[7rem] border">
       <div className="p-2 flex  items-center gap-4">
@@ -22,10 +23,12 @@ const Info = ({ workstate }: IProps): JSX.Element => {
           )}
         </div>
       </div>
-      <div className="p-2 text-center font-bold ">
-        <div>금일 배정캠프</div>
-        <div className="p-3 border">천호</div>
-      </div>
+      {workstate && (
+        <div className="p-2 text-center font-bold ">
+          <div>금일 배정캠프</div>
+          <div className="p-3 border">{camp ? camp : "배정전"}</div>
+        </div>
+      )}
     </div>
   );
 };
