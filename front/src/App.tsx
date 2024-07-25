@@ -19,6 +19,7 @@ const App = (): JSX.Element => {
   const serverUrl = process.env.REACT_APP_SERVER_URL;
   const [main, setMain] = useState<List[]>([]);
   const [ListDatas, setListDatas] = useState<IListData[]>([]);
+
   const [userlogin, setUserLogin] = useState<boolean>(false);
   const [userDatas, setUserDatas] = useState<IUserDatas>(errUserDatas);
 
@@ -66,6 +67,7 @@ const App = (): JSX.Element => {
         ]);
       });
   };
+
   const userDataCheck = async () => {
     axios
       .post(`${serverUrl}/layout`, {}, { withCredentials: true })
@@ -97,9 +99,9 @@ const App = (): JSX.Element => {
     }
   }, [ListDatas]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     userDataCheck();
-  }, []);
+  });
 
   useEffect(() => {
     mainDataGet();
@@ -113,6 +115,7 @@ const App = (): JSX.Element => {
           setUserLogin={setUserLogin}
           userlogin={userlogin}
           main={main}
+          userDataCheck={userDataCheck}
         />
       </div>
     </div>
