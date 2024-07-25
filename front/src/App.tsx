@@ -71,7 +71,7 @@ const App = (): JSX.Element => {
   };
 
   const userDataCheck = async () => {
-    axios
+    await axios
       .post(`${serverUrl}/layout`, {}, { withCredentials: true })
       .then((data: AxiosResponse<IUserDatas>) => {
         console.log(data.data);
@@ -104,6 +104,7 @@ const App = (): JSX.Element => {
 
   useEffect(() => {
     mainDataGet();
+    userDataCheck();
   }, []);
 
   useEffect(() => {

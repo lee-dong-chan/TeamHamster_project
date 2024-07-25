@@ -103,6 +103,10 @@ const ProductWrite: React.FC = () => {
       [name]: value,
     });
   };
+  interface IImgUpLoaderRes {
+    uploaded: boolean;
+    url: string[];
+  }
   const imgUploader = (files: File[]) => {
     const formData: FormData = new FormData();
 
@@ -115,8 +119,9 @@ const ProductWrite: React.FC = () => {
         withCredentials: true,
         headers: { "Content-type": "multipart/form-data" },
       })
-      .then((data) => {
+      .then((data: AxiosResponse<IImgUpLoaderRes>) => {
         console.log(data);
+        writeClick(data.data.url);
       })
       .catch(() => {
         console.error("error");
@@ -304,7 +309,7 @@ const ProductWrite: React.FC = () => {
       });
   };
 
-  const writeClick = async () => {
+  const writeClick = async (names: string[]) => {
     await axios
       .post(
         `${serverUrl}/write${idPath}`,
@@ -314,6 +319,7 @@ const ProductWrite: React.FC = () => {
           categoryId: lastClickCateId,
           price: +formData.price || 0,
           extraAddressId: id,
+          img: names,
         },
         { withCredentials: true }
       )
@@ -585,7 +591,6 @@ const ProductWrite: React.FC = () => {
                 images.length > 0
               ) {
                 imgUploader(images);
-                writeClick();
               }
             }}
             className={`absolute right-3 bottom-3 ${center} h-[6rem] text-[1.5rem] text-white border rounded-[1rem] bg-amber-300 hover:bg-yellow-600 w-[10rem]`}

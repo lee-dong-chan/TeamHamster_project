@@ -28,7 +28,6 @@ const Intro = ({ intro }: IIntro): JSX.Element => {
 
   const [contentBtn, setContentBtn] = useState<boolean>(false);
   const [contentValue, setContentValue] = useState<string>("");
-  const [imageName, setimageName] = useState<string>();
 
   const navigate = useNavigate();
   const loca = useLocation();
@@ -51,7 +50,8 @@ const Intro = ({ intro }: IIntro): JSX.Element => {
         headers: { "Content-type": "multipart/form-data" },
       })
       .then((data) => {
-        console.log(data);
+        console.log("imgsave", data.data.url[0]);
+        imgChangeToServer(data.data.url[0]);
       })
       .catch(() => {
         console.error("error");
@@ -80,9 +80,7 @@ const Intro = ({ intro }: IIntro): JSX.Element => {
     const file = event.target.files ? event.target.files[0] : undefined;
 
     if (file) {
-      setimageName(file.name);
       imgUploader(file);
-      imgChangeToServer(file.name);
     }
   };
 
