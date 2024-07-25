@@ -4,7 +4,7 @@ import { Button } from "../lib/Button/Button";
 import { mobilebox } from "../lib/styles";
 import Scan from "../Component/Scan/Scan";
 import { ChangeEvent, useState } from "react";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import axios from "axios";
 import { Debounce } from "../Costomhook/Debounce";
 
@@ -17,13 +17,16 @@ const PickupScan = ({}): JSX.Element => {
   const item = Debounce(pickitem, 200);
 
   const btn = new Button("확인", "bg-blue-200");
-
+  const queryClient = useQueryClient();
   const completepcik = useMutation({
     mutationKey: ["pickcomplete"],
     mutationFn: async () => {
       await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/delivery/pickscan/${item}`
       );
+    },
+    onSuccess(data) {
+      queryClient.invalidateQueries(["mypickup"]);
     },
   });
 

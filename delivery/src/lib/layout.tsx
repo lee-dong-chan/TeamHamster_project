@@ -6,7 +6,7 @@ import { IoIosHome } from "react-icons/io";
 import { MdLocalShipping } from "react-icons/md";
 import { BsPersonFill } from "react-icons/bs";
 import { FaTag } from "react-icons/fa";
-import { useMutation, useQuery } from "@tanstack/react-query";
+
 import axios from "axios";
 import Main from "../page/main";
 import PickupScan from "../page/pickupscan";
@@ -18,6 +18,7 @@ import SelectCamp from "../page/selectcamp";
 import MyPage from "../page/mypage";
 
 const LayOut = (): JSX.Element => {
+  const [camp, setcamp] = useState<string>("");
   const [workstate, SetWorkState] = useState<boolean>();
   const [liststate, SetListState] = useState(0);
   // let intervalGpsGet: any;
@@ -142,7 +143,10 @@ const LayOut = (): JSX.Element => {
                 <PickupCheck liststate={liststate} checklist={saveList} />
               }
             ></Route>
-            <Route path="/selectcamp" element={<SelectCamp />}></Route>
+            <Route
+              path="/selectcamp"
+              element={<SelectCamp setcamp={setcamp} />}
+            ></Route>
             <Route
               path="/pickuplist"
               element={
@@ -158,7 +162,7 @@ const LayOut = (): JSX.Element => {
             <Route path="/deliveryscan" element={<DeliveryScan />}></Route>
             <Route
               path="/mypage"
-              element={<MyPage workstate={workstate} />}
+              element={<MyPage workstate={workstate} camp={camp} />}
             ></Route>
           </Routes>
         </div>

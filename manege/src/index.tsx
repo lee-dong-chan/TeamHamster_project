@@ -19,11 +19,13 @@ const queryClient = new QueryClient({
 });
 root.render(
   // <React.StrictMode>
-  <QueryClientProvider client={queryClient}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </QueryClientProvider>
+  <div className="scrollbar-hide">
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </QueryClientProvider>
+  </div>
   // </React.StrictMode>
 );
 

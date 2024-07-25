@@ -3,15 +3,22 @@ import ButtonComp, { LargeButton } from "../Component/Button/Button";
 import { Button } from "../lib/Button/Button";
 import { center, mobilebox } from "../lib/styles";
 import Camp from "../Component/Camp/Camp";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const SelectCamp = (): JSX.Element => {
+interface IProps {
+  setcamp: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const SelectCamp = ({ setcamp }: IProps): JSX.Element => {
   const camplist: string[] = ["천호", "송파", "구의"];
-  const [select, SetSelect] = useState<string>();
+  const [select, SetSelect] = useState<string>("");
   const changeselect = (item: string) => {
     SetSelect(item);
   };
   const btn = new Button("확인", "bg-blue-200");
+  useEffect(() => {
+    setcamp(select);
+  });
   return (
     <div className={`${mobilebox} h-[43rem] flex flex-col items-center`}>
       <div className="py-3 text-[1.2rem] font-bold">배송캠프 선택</div>
