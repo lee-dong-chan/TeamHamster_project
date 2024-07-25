@@ -14,7 +14,7 @@ interface IProps {}
 export interface IAdress {
   id: number;
   mobile: string;
-  detailAddress: string | null;
+  detailAddress: string;
   Address: {
     address: string;
   };
@@ -29,6 +29,7 @@ export interface IData {
 export interface IAdressData {
   address: string;
   addressId: number;
+  detailAddress: string;
 }
 
 const Buy = ({}: IProps): JSX.Element => {
@@ -40,7 +41,7 @@ const Buy = ({}: IProps): JSX.Element => {
   const [id, setId] = useState<number>();
   const serverUrl = process.env.REACT_APP_SERVER_URL;
   const [adress, setAdress] = useState<IAdressData[]>([
-    { address: "오류", addressId: 1 },
+    { address: "오류", addressId: 999, detailAddress: "디테일주소" },
   ]);
   const [price, setPrice] = useState<number>(0);
 
@@ -61,8 +62,12 @@ const Buy = ({}: IProps): JSX.Element => {
       .then((data: AxiosResponse<IData>) => {
         console.log("주소 가져오기 성공", data);
         const addressArr: IAdress[] = data.data.extraAddress;
-        const result = addressArr.map((adress) => {
-          return { address: adress.Address.address, addressId: adress.id };
+        const result = addressArr.map((adress: IAdress) => {
+          return {
+            address: adress.Address.address,
+            addressId: adress.id,
+            detailAddress: adress.detailAddress,
+          };
         });
 
         setAdress(result);
@@ -71,11 +76,16 @@ const Buy = ({}: IProps): JSX.Element => {
         console.log("주소 에러", err);
         setAdress([
           {
-            address: "경기도 남양주시 금곡동 오동아파트310동402호",
+            address: "햄찌동 햄찌빌라",
             addressId: 1,
+            detailAddress: "햄찌호",
           },
-          { address: "송파구 장미아파트 302동1302호", addressId: 2 },
-          { address: "올림픽로 323-112", addressId: 3 },
+          {
+            address: "따봉별 햄스터시티",
+            addressId: 2,
+            detailAddress: "오류동",
+          },
+          { address: "빠킹오류", addressId: 3, detailAddress: "그만떠라" },
         ]);
       });
   };
@@ -127,6 +137,7 @@ const Buy = ({}: IProps): JSX.Element => {
           adress.map((item: IAdressData, idx: number) => (
             <AdressItem
               key={idx}
+              detail={item.detailAddress}
               item={item.address}
               id={item.addressId}
               selectadress={selectadress}

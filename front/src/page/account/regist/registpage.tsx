@@ -22,7 +22,7 @@ const Regist = ({}: IProps): JSX.Element => {
   const emailReg = /^[a-z0-9가-힣]+@[a-z]+\.[a-z]{2,3}$/;
   const pwReg = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,30}$/;
   const nickReg = /^[A-Z|a-z|0-9|ㄱ-ㅎ|가-힣]{2,16}$/;
-  const phoneReg = /^\d{3}-\d{3,4}-\d{4}$/;
+  const phoneReg = /^\d{2,3}-\d{3,4}-\d{4}$/;
 
   const navigate = useNavigate();
 

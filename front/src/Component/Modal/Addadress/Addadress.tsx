@@ -9,6 +9,9 @@ import axios from "axios";
 interface IProps {}
 
 const Addaddress = ({}: IProps): JSX.Element => {
+  const nameReg = /^[가-힣]{2,4}$/;
+  const phoneReg = /^\d{2,3}-\d{3,4}-\d{4}$/;
+
   const modalstate = useSetRecoilState(Modal);
 
   const btn = new Button("추가하기", "bg-orange-200");
@@ -115,7 +118,7 @@ const Addaddress = ({}: IProps): JSX.Element => {
               ></input>
             </div>
 
-            <div className="flex items-center">
+            <div className="flex items-center flex-wrap">
               <div>이름:</div>
               <input
                 className="m-4 p-2 flex-1 max-w-[30rem] h-[3rem] flex items-center bg-white border "
@@ -123,6 +126,11 @@ const Addaddress = ({}: IProps): JSX.Element => {
                 onInput={setNameFunc}
               ></input>
             </div>
+            {!nameReg.test(name) && (
+              <div className="text-red-400">
+                이름은 2~4글자 사이로 입력하세요
+              </div>
+            )}
 
             <div className="flex items-center">
               <div>전화번호:</div>
@@ -132,6 +140,11 @@ const Addaddress = ({}: IProps): JSX.Element => {
                 onInput={setPhoneNumFunc}
               ></input>
             </div>
+            {!phoneReg.test(phoneNum) && (
+              <div className="text-red-400">
+                입력가능한 번호의 예 : 010-1234-5678
+              </div>
+            )}
 
             <div className="my-5 flex items-center">
               <div>추가할 주소: </div>
@@ -145,13 +158,20 @@ const Addaddress = ({}: IProps): JSX.Element => {
           </div>
           <div
             onClick={() => {
-              console.log(etcaddress, address, name, phoneNum);
-              addAdressFunc({
-                etcaddress: etcaddress,
-                address: address,
-                name: name,
-                phoneNum: phoneNum,
-              });
+              if (
+                etcaddress !== "" &&
+                address.code !== "" &&
+                address.full !== "" &&
+                phoneReg.test(phoneNum) &&
+                nameReg.test(name)
+              ) {
+                addAdressFunc({
+                  etcaddress: etcaddress,
+                  address: address,
+                  name: name,
+                  phoneNum: phoneNum,
+                });
+              }
             }}
             className="flex justify-center"
           >

@@ -1,12 +1,18 @@
 import { ChangeEvent } from "react";
 
 interface IProps {
+  detail: string;
   item: string;
   selectadress: (value: string, id: number) => void;
   id: number;
 }
 
-const AdressItem = ({ item, selectadress, id }: IProps): JSX.Element => {
+const AdressItem = ({
+  detail,
+  item,
+  selectadress,
+  id,
+}: IProps): JSX.Element => {
   return (
     <div className="p-4 flex gap-5 text-[1.2rem] ">
       <input
@@ -18,7 +24,9 @@ const AdressItem = ({ item, selectadress, id }: IProps): JSX.Element => {
           selectadress(e.target.value, id);
         }}
       ></input>
-      <div>{item}</div>
+      <div>
+        {item} {detail}
+      </div>
     </div>
   );
 };

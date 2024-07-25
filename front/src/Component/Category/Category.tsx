@@ -8,8 +8,6 @@ interface IProps {
 }
 
 const Category = ({ content, category }: IProps): JSX.Element => {
-  console.log(category);
-  console.log(category?.Children);
   return (
     <div className="ms-3 px-3 bg-white text-[1.2rem] border-b border-s border-e">
       {category && (
