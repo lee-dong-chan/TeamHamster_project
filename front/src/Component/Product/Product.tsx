@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Imgs from "./Imgs/imgs";
 import User from "./User";
 import { center } from "../../lib/styles";
@@ -28,26 +28,25 @@ interface IProduct {
 }
 
 const ProductInfo = ({ data }: IProps): JSX.Element => {
+  //모바일
   const { isdesktop, ismobile } = useBreakPoint();
 
-  const user: IUser = useMemo(() => {
-    return {
-      id: data.Sell.id,
-      name: data.Sell.nick,
-      adress: "주소 추가좀@@",
-      star: +data.Sell.star.star,
-      img: "good.png",
-    };
-  }, [data.Sell]);
+  //판매자
+  const user: IUser = {
+    id: data.Sell.id,
+    name: data.Sell.nick,
+    adress: "주소 추가좀@@",
+    star: +data.Sell.star.star,
+    img: "good.png",
+  };
 
+  //게시글
   const product: IProduct = {
     title: data.title,
     category: data.Category?.name || "카테고리 에러",
     createdAt:
       (data.createdAt &&
-        Math.floor(
-          (+new Date() - +new Date(data.createdAt)) / (1000 * 60 * 60 * 24)
-        ) + "일전") ||
+        Math.floor((+new Date() - +new Date(data.createdAt)) / (1000 * 60 * 60 * 24)) + "일전") ||
       "아오 에러시치",
     price: data.price,
     deliverycost: data.DeliveryCost?.cost ? true : false,
@@ -55,19 +54,23 @@ const ProductInfo = ({ data }: IProps): JSX.Element => {
     imgs: data.image,
   };
 
-  const [imgcount, SetCount] = useState(0);
+  const [imgcount, SetCount] = useState<number>(0);
+  const [btns, setBtns] = useState<number[]>([]);
 
-  const setimgpage = useCallback((num: number) => {
+  const setimgpage = (num: number) => {
     SetCount(num);
-  }, []);
+  };
 
-  const btns = useMemo(() => {
+  const btnsfunc = () => {
     const temp = [];
     for (let i = 0; i < product.imgs.length; i++) temp.push(i);
-    return temp;
-  }, [product.imgs]);
+    setBtns(temp);
+  };
 
-  console.log(imgcount);
+  useEffect(() => {
+    btnsfunc();
+  }, []);
+
   return (
     <div className={`flex flex-col my-[5rem]`}>
       <div className={`${center}`}>
@@ -85,9 +88,9 @@ const ProductInfo = ({ data }: IProps): JSX.Element => {
           )}
           {imgcount == 1 && (
             <div
-              className={`flex absolute ${
-                isdesktop && "translate-x-[-70rem]"
-              } ${ismobile && "translate-x-[-25rem]"}`}
+              className={`flex absolute ${isdesktop && "translate-x-[-70rem]"} ${
+                ismobile && "translate-x-[-25rem]"
+              }`}
             >
               {product.imgs.map((item: string, idx: number) => (
                 <Imgs key={idx} item={item} />
@@ -96,9 +99,9 @@ const ProductInfo = ({ data }: IProps): JSX.Element => {
           )}
           {imgcount == 2 && (
             <div
-              className={`flex absolute ${
-                isdesktop && "translate-x-[-140rem]"
-              } ${ismobile && "translate-x-[-50rem]"}`}
+              className={`flex absolute ${isdesktop && "translate-x-[-140rem]"} ${
+                ismobile && "translate-x-[-50rem]"
+              }`}
             >
               {product.imgs.map((item: string, idx: number) => (
                 <Imgs key={idx} item={item} />
@@ -113,9 +116,7 @@ const ProductInfo = ({ data }: IProps): JSX.Element => {
             <div
               key={idx}
               className={`h-4 ${
-                idx == imgcount
-                  ? "w-7 rounded bg-orange-600"
-                  : "w-4 rounded bg-orange-400"
+                idx == imgcount ? "w-7 rounded bg-orange-600" : "w-4 rounded bg-orange-400"
               }`}
               onClick={() => {
                 setimgpage(idx);
