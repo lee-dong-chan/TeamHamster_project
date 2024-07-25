@@ -1,7 +1,7 @@
 import Item, { IReport } from "./ReportItem";
 
 interface IProps {
-  data: IReport[] | undefined;
+  data?: IReport[];
 }
 
 const Report = ({ data }: IProps): JSX.Element => {
