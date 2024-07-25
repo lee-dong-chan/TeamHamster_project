@@ -80,7 +80,7 @@ const SellComp = ({ value }: IProps) => {
     } else {
       setIsBuyTap(false);
     }
-  }, [products]);
+  }, [value]);
 
   return (
     <div className={`mt-4 w-[100%] min-w-[30rem] h-[90%]`}>
@@ -105,7 +105,7 @@ const SellComp = ({ value }: IProps) => {
       <div
         className={`${
           isdesktop && "h-auto flex flex-nowrap overflow-x-scroll"
-        } ${ismobile && "flex grid grid-cols-2"}`}
+        } ${ismobile && "grid grid-cols-2"}`}
         style={{ scrollbarWidth: "none" }}
       >
         {/* 상품 */}

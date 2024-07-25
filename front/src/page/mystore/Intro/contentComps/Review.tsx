@@ -18,13 +18,14 @@ const Review = () => {
   const [reviews, setReviews] = useState<IReviewOne[]>([]);
   const [reviewRes, setReviewRes] = useState<IReviewRes>();
 
-  const errNum = 3.5;
+  const errNum = 0;
 
   //func
   const getReviews = async () => {
     await axios
       .post(reviewUrl, {}, { withCredentials: true })
       .then((data: AxiosResponse) => {
+        console.log(data.data);
         const reviewRes: IReviewRes = data.data;
         setReviewRes(reviewRes);
       })
@@ -62,7 +63,7 @@ const Review = () => {
   //   useEffect(() => {}, [reviews]);
 
   useEffect(() => {
-    if (reviewRes) setReviews(reviewRes.reviewlist);
+    if (reviewRes?.reviewlist[0]) setReviews(reviewRes.reviewlist);
   }, [reviewRes]);
 
   //mount
@@ -90,7 +91,7 @@ const Review = () => {
         {/* 퍼센트 */}
         <div className="w-[50%]">
           <div className={`${center} ${weightfont}`}>
-            <span>{reviewRes?.reviewPercent || 100}</span>
+            <span>{reviewRes?.reviewPercent || 0}</span>
             <span>%</span>
           </div>
           <div className={`${center} ${rowfont} font-bold text-stone-400`}>
