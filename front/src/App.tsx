@@ -33,7 +33,9 @@ const App = (): JSX.Element => {
           const listData: IListData = {
             id: data.id || 9999999,
             title: data.title,
-            img: data.image ? data.image[0] : "hamster.png",
+            img: data.image
+              ? `${process.env.REACT_APP_SERVER_URL}/imgs/${data.image[0]}`
+              : "/imgs/hamster.png",
             price: data.price,
             createdAt: Math.floor(
               (+new Date() - +new Date(data.createdAt || new Date() + "")) / (1000 * 60 * 60 * 24)

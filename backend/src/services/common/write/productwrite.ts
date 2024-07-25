@@ -35,7 +35,6 @@ export default async (req: Request, res: Response) => {
         throw Error("bankeyword");
       }
     }
-
     const write = await Product.create(
       {
         title: reqbody.title,

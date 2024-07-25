@@ -42,6 +42,10 @@ export default async (req: Request, res: Response) => {
       })
     ).data;
 
+    if (!userInfoResponse) {
+      throw Error("err");
+    }
+
     const key = crypto.scryptSync("hgaomasttmexrj", `${process.env.KEY || ""}`, 32);
     const iv = process.env.IV || "";
     const cipher = crypto.createCipheriv("aes-256-gcm", key, iv);

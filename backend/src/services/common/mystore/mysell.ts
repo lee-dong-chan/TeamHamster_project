@@ -18,17 +18,19 @@ export default async (req: Request, res: Response) => {
     });
 
     for (let i = 0; i < product.rows.length; i++) {
-      const splimg = product.rows[i].img.split(",");
-      product.rows[i].dataValues.image = splimg;
-      if (
-        product.rows[i].itemState == "픽업 대기" ||
-        product.rows[i].itemState == "픽업 중" ||
-        product.rows[i].itemState == "픽업 완료" ||
-        product.rows[i].itemState == "배송 완료"
-      ) {
-        product.rows[i].itemState = "배송중";
-      } else if ((product.rows[i].itemState = "구매 확정")) {
-        product.rows[i].itemState = "판매 완료";
+      if (product.rows[i].img) {
+        const splimg = product.rows[i].img.split(",");
+        product.rows[i].dataValues.image = splimg;
+        if (
+          product.rows[i].itemState == "픽업 대기" ||
+          product.rows[i].itemState == "픽업 중" ||
+          product.rows[i].itemState == "픽업 완료" ||
+          product.rows[i].itemState == "배송 완료"
+        ) {
+          product.rows[i].itemState = "배송중";
+        } else if ((product.rows[i].itemState = "구매 확정")) {
+          product.rows[i].itemState = "판매 완료";
+        }
       }
     }
 

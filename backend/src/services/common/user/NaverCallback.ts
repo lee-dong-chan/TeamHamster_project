@@ -46,6 +46,10 @@ export default async (req: Request, res: Response) => {
 
     console.log(userInfoResponse);
 
+    if (!userInfoResponse) {
+      throw Error("err");
+    }
+
     /// 여기부터 회원가입 코드
 
     const key = crypto.scryptSync("hgaomasttmexrj", `${process.env.KEY || ""}`, 32);
