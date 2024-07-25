@@ -12,7 +12,7 @@ interface IProps {}
 export interface ICategory {
   id: number;
   name: string;
-  children: IChild[];
+  Children: IChild[];
 }
 const SearchComp = ({}: IProps): JSX.Element => {
   const [content, setContent] = useState<string>("");
@@ -39,7 +39,7 @@ const SearchComp = ({}: IProps): JSX.Element => {
         setCateData({
           id: 5,
           name: "자동차",
-          children: [{ id: 3, name: "오류임" }],
+          Children: [{ id: 3, name: "오류임" }],
         });
       });
   };
@@ -54,15 +54,11 @@ const SearchComp = ({}: IProps): JSX.Element => {
   return (
     <div className="h-[15rem] flex justify-center">
       <div className="h-[15rem] w-[100%] flex justify-center absolute">
-        <img
-          className="w-[100%] h-[100%] absolute z-0"
-          src="/imgs/banner.png"
-        ></img>
+        <img className="w-[100%] h-[100%] absolute z-0" src="/imgs/banner.png"></img>
         <div className="flex min-w-[60rem] gap-[9rem]">
           <img className="w-[8rem] relative" src="/imgs/good.png"></img>
           <div className="py-8 relative text-[1.4rem] text-white font-bold text-center">
-            믿을수 있는 중고거래 <br></br>따봉 햄스터가 여러분의 안전한 거래를
-            응원합니다!
+            믿을수 있는 중고거래 <br></br>따봉 햄스터가 여러분의 안전한 거래를 응원합니다!
           </div>
         </div>
       </div>
@@ -81,16 +77,12 @@ const SearchComp = ({}: IProps): JSX.Element => {
         </div>
         {content ? (
           <Link to={`/search/${content}`}>
-            <div
-              className={`${center} px-2 h-[3rem] border rounded-e bg-blue-100 text-gray-500`}
-            >
+            <div className={`${center} px-2 h-[3rem] border rounded-e bg-blue-100 text-gray-500`}>
               검색
             </div>
           </Link>
         ) : (
-          <div
-            className={`${center} px-2 h-[3rem] border rounded-e bg-blue-100 text-gray-500`}
-          >
+          <div className={`${center} px-2 h-[3rem] border rounded-e bg-blue-100 text-gray-500`}>
             검색
           </div>
         )}
