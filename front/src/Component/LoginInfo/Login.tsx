@@ -70,7 +70,7 @@ const Login = ({ setUserLogin, userDatas }: IProps): JSX.Element => {
               포인트충전
             </div>
           </Link>
-          <Link to={"/mystore"}>
+          <Link to={`/mystore?id=${id}`}>
             <div
               className={`${center} px-2 py-3 w-[5rem] bg-blue-200 border rounded`}
             >

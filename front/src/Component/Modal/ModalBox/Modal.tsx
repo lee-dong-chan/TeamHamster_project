@@ -11,25 +11,44 @@ import { center } from "../../../lib/styles";
 import { useMemo } from "react";
 import Addadress from "../Addadress/Addadress";
 import ReviewWrite from "../ReviewWrite/ReviewWrite";
+import { IUserDatas } from "../../../lib/interFace";
 
-interface IProps {}
+interface IProps {
+  setUserLogin: React.Dispatch<React.SetStateAction<boolean>>;
+  userlogin: boolean;
+  userDatas: IUserDatas;
+  userDataCheck: () => void;
+}
 
-const modal = {
-  mobilemenu: <Menu />,
-  mobilesearch: <Search />,
-  report: <Report />,
-  buy: <Buy />,
-  showMap: (id: number | undefined) => {
-    return <NMap id={id} />;
-  },
-  reviewWhite: (id: number | undefined, img: string | undefined) => {
-    return <ReviewWrite id={id} img={img} />;
-  },
-  addadress: <Addadress />,
-};
-
-const MobileModal = ({}: IProps): JSX.Element => {
+const MobileModal = ({
+  setUserLogin,
+  userlogin,
+  userDatas,
+  userDataCheck,
+}: IProps): JSX.Element => {
   //custom
+
+  const modal = {
+    mobilemenu: (
+      <Menu
+        setUserLogin={setUserLogin}
+        userlogin={userlogin}
+        userDatas={userDatas}
+        userDataCheck={userDataCheck}
+      />
+    ),
+    mobilesearch: <Search />,
+    report: <Report />,
+    buy: <Buy />,
+    showMap: (id: number | undefined) => {
+      return <NMap id={id} />;
+    },
+    reviewWhite: (id: number | undefined, img: string | undefined) => {
+      return <ReviewWrite id={id} img={img} />;
+    },
+    addadress: <Addadress />,
+  };
+
   const { ismobile, isdesktop } = useBreakPoint();
   const [modalContent, setmodal] = useRecoilState(Modal);
 

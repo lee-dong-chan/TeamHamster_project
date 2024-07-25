@@ -5,6 +5,10 @@ export interface ICate {
   name: string;
 }
 
+export interface ICates<T> {
+  category: T[];
+}
+
 interface IProps {
   item: { id: number; name: string };
 }

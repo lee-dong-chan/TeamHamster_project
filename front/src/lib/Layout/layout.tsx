@@ -43,6 +43,7 @@ interface IProps {
   userlogin: boolean;
   main: List[];
   userDatas: IUserDatas;
+  userDataCheck: () => void;
 }
 
 const Layout = ({
@@ -50,6 +51,7 @@ const Layout = ({
   setUserLogin,
   userlogin,
   main,
+  userDataCheck,
 }: IProps): JSX.Element => {
   const { isdesktop, ismobile } = useBreakPoint();
   const authority = false;
@@ -122,7 +124,16 @@ const Layout = ({
               <Route path="/point" element={<Point />}></Route>
             </Routes>
           )}
-          <div>{getModal[0] !== undefined && <MobileModal />}</div>
+          <div>
+            {getModal[0] !== undefined && (
+              <MobileModal
+                setUserLogin={setUserLogin}
+                userlogin={userlogin}
+                userDatas={userDatas}
+                userDataCheck={userDataCheck}
+              />
+            )}
+          </div>
         </div>
         {/* 하단 */}
         {isdesktop && (
