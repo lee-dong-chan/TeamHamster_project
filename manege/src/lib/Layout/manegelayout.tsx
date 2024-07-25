@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import ManegeReport from "../../page/manege/report";
 import ManegeCategory from "../../page/manege/category";
 import ManegeBenKeyword from "../../page/manege/benkeyword";
@@ -13,13 +13,40 @@ import { Button } from "../Button/Button";
 import Authority from "../../page/manege/authority";
 import LoginPage from "../../page/manege/adminlogin";
 import AdminLoginPage from "../../page/manege/adminlogin";
+import { useCallback, useEffect, useState } from "react";
+import { useMutation, useQuery } from "react-query";
+import axios from "axios";
 
 interface IProps {}
 
 const ManegeLayout = ({}: IProps): JSX.Element => {
+  const [userlogin, setUserLogin] = useState<boolean>(false);
+  const navigate = useNavigate();
   const onclick = () => {
     window.location.replace("http://localhost:3000/");
   };
+  const serverUrl = process.env.REACT_APP_SERVER_URL;
+  const logcheck = useMutation({
+    mutationKey: "userlogin",
+    mutationFn: async () => {
+      const { data } = await axios.post(`${serverUrl}/layout`);
+      return data;
+    },
+  });
+
+  console.log(logcheck);
+
+  const move = () => {
+    navigate("/manege/login");
+  };
+  const cate = useLocation().pathname.slice(8);
+  useEffect(() => {
+    move();
+  }, []);
+
+  useEffect(() => {
+    logcheck.mutate();
+  }, [cate]);
   const btn = new Button("메인페이지", "bg-orange-200");
   return (
     <div>
@@ -46,9 +73,9 @@ const ManegeLayout = ({}: IProps): JSX.Element => {
         </div>
       </div>
       <div>
-        <ManegePageCategory />
+        {logcheck.data !== null && <ManegePageCategory />}
         <Routes>
-          <Route path="/manege/" element={<AdminLoginPage />} />
+          <Route path="/manege/login" element={<AdminLoginPage />} />
           <Route path="/manege/report" element={<ManegeReport />} />
           <Route path="/manege/category" element={<ManegeCategory />} />
           <Route path="/manege/keyword" element={<ManegeBenKeyword />} />

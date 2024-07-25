@@ -5,9 +5,7 @@ import { box, center } from "../../lib/styles";
 import { LargeButton } from "../../Component/Button/Button";
 import { Button } from "../../lib/Button/Button";
 
-interface IProps {
-  // setUserLogin: React.Dispatch<React.SetStateAction<boolean>>;
-}
+interface IProps {}
 
 const AdminLoginPage = ({}: IProps): JSX.Element => {
   const [email, setEmail] = useState("");
@@ -29,16 +27,16 @@ const AdminLoginPage = ({}: IProps): JSX.Element => {
       emailReg.test(email)
     ) {
       try {
-        const response = await axios.post(`${serverUrl}/login`, {
+        const response = await axios.post(`${serverUrl}/adminlogin`, {
           email: email,
-          password: password,
+          pw: password,
         });
 
         const result = response.data;
 
         if (response.status === 200) {
           setLoginCheck(false);
-          // setUserLogin(true);
+
           console.log("로그인성공, 이메일주소:" + result.email);
           navigate("/"); // 로그인 성공시 홈으로 이동합니다.
         } else {
@@ -108,24 +106,10 @@ const AdminLoginPage = ({}: IProps): JSX.Element => {
                 이메일 혹은 비밀번호가 틀렸습니다.
               </label>
             )}
-            <div onClick={handleLogin}>
+            <div className="mb-10" onClick={handleLogin}>
               <LargeButton
-                btn={new Button("로그인", "bg-amber-300 w-auto")}
+                btn={new Button("로그인", "bg-orange-500 w-auto")}
               ></LargeButton>
-            </div>
-            <div className="text-center mt-4">
-              햄스터 마켓 계정이 없으신가요?
-            </div>
-            <div className="text-center">
-              지금바로{" "}
-              <div
-                onClick={() => {
-                  navigate("/regist");
-                }}
-                className="text-blue-500"
-              >
-                회원가입
-              </div>
             </div>
           </form>
         </div>
