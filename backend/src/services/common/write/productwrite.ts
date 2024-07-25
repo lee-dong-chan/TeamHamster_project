@@ -11,15 +11,21 @@ export default async (req: Request, res: Response) => {
     if (!reqbody.user) {
       throw Error("not login");
     }
+
+    const nowuser: Store | null = await Store.findOne({
+      where: { id: reqbody.user.id },
+    });
+    if (nowuser?.block) {
+      throw Error("block");
+    }
+
     const category: number = reqbody.categoryId;
     const extraAddress: number = reqbody.extraAddressId;
 
     if (!category || !extraAddress) {
       throw Error("not category OR deliveryCost OR extraAddress");
     }
-    const nowuser: Store | null = await Store.findOne({
-      where: { id: reqbody.user.id },
-    });
+
     const nowcategory: Category | null = await Category.findOne({
       where: { id: category },
     });
