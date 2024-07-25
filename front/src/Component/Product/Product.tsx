@@ -46,7 +46,9 @@ const ProductInfo = ({ data }: IProps): JSX.Element => {
     category: data.Category?.name || "카테고리 에러",
     createdAt:
       (data.createdAt &&
-        Math.floor((+new Date() - +new Date(data.createdAt)) / (1000 * 60 * 60 * 24)) + "일전") ||
+        Math.floor(
+          (+new Date() - +new Date(data.createdAt)) / (1000 * 60 * 60 * 24)
+        ) + "일전") ||
       "아오 에러시치",
     price: data.price,
     deliverycost: data.DeliveryCost?.cost ? true : false,
@@ -99,9 +101,9 @@ const ProductInfo = ({ data }: IProps): JSX.Element => {
             )}
             {imgcount == 1 && (
               <div
-                className={`flex absolute ${isdesktop && "translate-x-[-70rem]"} ${
-                  ismobile && "translate-x-[-25rem]"
-                }`}
+                className={`flex absolute ${
+                  isdesktop && "translate-x-[-70rem]"
+                } ${ismobile && "translate-x-[-25rem]"}`}
               >
                 {product.imgs.map((item: string, idx: number) => (
                   <Imgs key={idx} item={item} />
@@ -110,9 +112,9 @@ const ProductInfo = ({ data }: IProps): JSX.Element => {
             )}
             {imgcount == 2 && (
               <div
-                className={`flex absolute ${isdesktop && "translate-x-[-140rem]"} ${
-                  ismobile && "translate-x-[-50rem]"
-                }`}
+                className={`flex absolute ${
+                  isdesktop && "translate-x-[-140rem]"
+                } ${ismobile && "translate-x-[-50rem]"}`}
               >
                 {product.imgs.map((item: string, idx: number) => (
                   <Imgs key={idx} item={item} />
@@ -128,7 +130,9 @@ const ProductInfo = ({ data }: IProps): JSX.Element => {
             <div
               key={idx}
               className={`h-4 ${
-                idx == imgcount ? "w-7 rounded bg-orange-600" : "w-4 rounded bg-orange-400"
+                idx == imgcount
+                  ? "w-7 rounded bg-orange-600"
+                  : "w-4 rounded bg-orange-400"
               }`}
               onClick={() => {
                 setimgpage(idx);
