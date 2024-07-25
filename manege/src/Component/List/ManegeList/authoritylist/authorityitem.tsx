@@ -13,38 +13,55 @@ interface IProps {
 export interface IUser {
   id: number;
   nick: string;
+  // admin: boolean;
+  // superAdmin: boolean;
+  // delivery: boolean;
 }
 
 const Item = ({ item, idx }: IProps): JSX.Element => {
-  const [superadmin, setsuperadmin] = useState(true);
+  // const [superstate, setsuper] = useState(item.superAdmin);
+  // const [adminstate, setadmin] = useState(item.admin);
+  // const [deliverystate, setdelivery] = useState(item.delivery);
 
-  const change = () => {
-    setsuperadmin(!superadmin);
-  };
-  console.log(superadmin);
+  // const superchange = () => {
+  //   setsuper(!item.superAdmin);
+  // };
+  // const adminchange = () => {
+  //   setadmin(!item.admin);
+  // };
+  // const deliverychange = () => {
+  //   setdelivery(!item.delivery);
+  // };
 
   return (
     <div className="px-5 py-2 flex items-center ">
       <span className="mx-2">{idx}</span>
       <span className="ps-3 flex-1 text-center truncate ">{item.nick}</span>
       <div className="me-10 gap-5">
+        {/* {
+          <input
+            className="mx-8"
+            type="checkbox"
+            checked={superstate}
+            onClick={superchange}
+          ></input>
+        }
         {
           <input
             className="mx-8"
             type="checkbox"
-            checked={superadmin}
-            onClick={change}
+            checked={adminstate}
+            onClick={adminchange}
           ></input>
         }
-        {<input className="mx-8" name="auth" type="checkbox"></input>}
         {
           <input
             className="ms-12"
-            name="auth"
-            value={"delivery"}
             type="checkbox"
+            checked={deliverystate}
+            onClick={deliverychange}
           ></input>
-        }
+        } */}
       </div>
     </div>
   );

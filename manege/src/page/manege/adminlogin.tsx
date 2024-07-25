@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { box, center } from "../../lib/styles";
 import { LargeButton } from "../../Component/Button/Button";
 import { Button } from "../../lib/Button/Button";
 
-interface IProps {}
+interface IProps {
+  setUserLogin: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-const AdminLoginPage = ({}: IProps): JSX.Element => {
+const AdminLoginPage = ({ setUserLogin }: IProps): JSX.Element => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginCheck, setLoginCheck] = useState(false); // 로그인 상태 체크
@@ -27,18 +29,22 @@ const AdminLoginPage = ({}: IProps): JSX.Element => {
       emailReg.test(email)
     ) {
       try {
-        const response = await axios.post(`${serverUrl}/adminlogin`, {
-          email: email,
-          pw: password,
-        });
+        const response = await axios.post(
+          `${serverUrl}/adminlogin`,
+          {
+            email: email,
+            pw: password,
+          },
+          { withCredentials: true }
+        );
 
         const result = response.data;
 
         if (response.status === 200) {
           setLoginCheck(false);
-
+          setUserLogin(true);
           console.log("로그인성공, 이메일주소:" + result.email);
-          navigate("/"); // 로그인 성공시 홈으로 이동합니다.
+          navigate("/manege/report"); // 로그인 성공시 홈으로 이동합니다.
         } else {
           setLoginCheck(true);
         }

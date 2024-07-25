@@ -28,8 +28,7 @@ const Authority = ({}: IProps): JSX.Element => {
         { withCredentials: true }
       );
 
-      const user: IUser[] = data.userlist;
-      console.log(user);
+      const user = data.userlist;
       return user;
     },
   });
@@ -37,7 +36,7 @@ const Authority = ({}: IProps): JSX.Element => {
   console.log(userlist.data);
 
   useEffect(() => {
-    if (text !== "") {
+    if (text) {
       userlist.mutate();
     }
   }, [text]);
