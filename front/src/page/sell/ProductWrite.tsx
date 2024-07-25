@@ -263,7 +263,7 @@ const ProductWrite: React.FC = () => {
   };
 
   const [adress, setAdress] = useState<IAdressData[]>([
-    { address: "오류", addressId: 1 },
+    { address: "오류", addressId: 1, detailAddress: "오류" },
   ]);
   //유저 주소 정보 가져오기
   const getUserAddress = async () => {
@@ -272,8 +272,12 @@ const ProductWrite: React.FC = () => {
       .then((data: AxiosResponse<IData>) => {
         console.log("주소 가져오기 성공", data);
         const addressArr: IAdress[] = data.data.extraAddress;
-        const result = addressArr.map((adress) => {
-          return { address: adress.Address.address, addressId: adress.id };
+        const result = addressArr.map((adress: IAdress) => {
+          return {
+            address: adress.Address.address,
+            addressId: adress.id,
+            detailAddress: adress.detailAddress,
+          };
         });
 
         setAdress(result);
@@ -284,11 +288,17 @@ const ProductWrite: React.FC = () => {
           {
             address: "에러시 나오는 에러주소",
             addressId: 1,
+            detailAddress: "오류",
           },
-          { address: "햄스터별 해바라기시 해씨동 햄찌빌라", addressId: 2 },
+          {
+            address: "햄스터별 해바라기시 해씨동 햄찌빌라",
+            addressId: 2,
+            detailAddress: "오류",
+          },
           {
             address: "따봉햄스터의 집주소를 봤다면 코드를 버려라",
             addressId: 3,
+            detailAddress: "오류",
           },
         ]);
       });
@@ -532,6 +542,7 @@ const ProductWrite: React.FC = () => {
           adress.map((item: IAdressData, idx: number) => (
             <AdressItem
               key={idx}
+              detail={item.detailAddress}
               item={item.address}
               id={item.addressId}
               selectadress={selectadress}
