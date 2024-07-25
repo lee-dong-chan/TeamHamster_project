@@ -5,6 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 import LargeButton from "../../../Component/Button/Button";
 import { Button } from "../../../lib/Button/Button";
 import { useBreakPoint } from "../../../CustomHook/BreakPoint";
+import { NaverOAuth } from "../../../Component/OAuth/NaverOAuth";
+import { GoogleOAuth } from "../../../Component/OAuth/GoogleOAuth";
 
 interface IProps {
   setUserLogin: React.Dispatch<React.SetStateAction<boolean>>;
@@ -31,10 +33,14 @@ const LoginPage = ({ setUserLogin }: IProps): JSX.Element => {
       emailReg.test(email)
     ) {
       try {
-        const response = await axios.post(`${serverUrl}/login`, {
-          email: email,
-          password: password,
-        });
+        const response = await axios.post(
+          `${serverUrl}/login`,
+          {
+            email: email,
+            pw: password,
+          },
+          { withCredentials: true }
+        );
 
         const result = response.data;
 
@@ -112,18 +118,8 @@ const LoginPage = ({ setUserLogin }: IProps): JSX.Element => {
               </div>
             </p>
             <div className="flex justify-between mb-20">
-              <button
-                type="button"
-                className="w-1/2 bg-green-500 text-white p-2 rounded mr-2"
-              >
-                네이버로 로그인
-              </button>
-              <button
-                type="button"
-                className="w-1/2 bg-gray-500 text-white p-2 rounded"
-              >
-                카카오로 로그인
-              </button>
+              <NaverOAuth></NaverOAuth>
+              <GoogleOAuth></GoogleOAuth>
             </div>
             {loginCheck && (
               <label style={{ color: "red" }}>

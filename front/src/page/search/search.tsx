@@ -6,7 +6,8 @@ import Paging from "../../Component/paging/paging";
 import { useBreakPoint } from "../../CustomHook/BreakPoint";
 import { box, mobilebox } from "../../lib/styles";
 import axios, { AxiosResponse } from "axios";
-import { IListData, IProduct } from "../../App";
+import { IListData } from "../../App";
+import { IProduct } from "../../lib/interFace";
 import { useEffect, useState } from "react";
 
 interface IProps {}
@@ -30,12 +31,13 @@ const Search = ({}: IProps): JSX.Element => {
         const products: IProduct[] = data.data.product;
         const listDatas: IListData[] = products.map((data: IProduct) => {
           const listData: IListData = {
-            id: data.id,
+            id: data.id || 9999999,
             title: data.title,
-            img: data.image[0],
+            img: data.image ? data.image[0] : "hamster.png",
             price: data.price,
             createdAt: Math.floor(
-              (+new Date() - +new Date(data.createdAt)) / (1000 * 60 * 60 * 24)
+              (+new Date() - +new Date(data.createdAt || new Date() + "")) /
+                (1000 * 60 * 60 * 24)
             ),
           };
           return listData;

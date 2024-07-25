@@ -1,4 +1,14 @@
-import { IProductPage } from "./interFace";
+import { IProductPage, IUserDatas } from "./interFace";
+
+export const errUserDatas = {
+  login: {
+    admin: false,
+    delivery: false,
+    id: 123456789101112,
+    nick: "오류이씹",
+    point: 0,
+  },
+};
 
 export const buyContentsErr = [
   {
