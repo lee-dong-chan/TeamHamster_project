@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { Store } from "../../models";
-import { Op } from "sequelize";
 
 export default async (req: Request, res: Response) => {
   try {
@@ -8,12 +7,8 @@ export default async (req: Request, res: Response) => {
       where: { block: true },
       attributes: ["id", "nick"],
     });
-    const manyreport = await Store.findAll({
-      where: { report_point: { [Op.gte]: 5 } },
-      attributes: ["id", "nick"],
-    });
 
-    res.json({ userlist: [{ manyreport: manyreport }, { block: blockuser }] });
+    res.json({ block: blockuser });
   } catch (err) {
     console.error(err);
     res.status(500).json({ result: "fail" });

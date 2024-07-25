@@ -9,7 +9,7 @@ import delproduct from "../services/admin/delproduct";
 /// 카테고리 생성
 import createcategory from "../services/admin/createcategory";
 /// 밴 유저 관련
-import user from "../services/admin/user";
+import manyreportuser from "../services/admin/manyreportuser";
 import userblock from "../services/admin/userblock";
 import userunblock from "../services/admin/userunblock";
 import userblocksearch from "../services/admin/userblocksearch";
@@ -25,6 +25,7 @@ import delkeyword from "../services/admin/delkeyword";
 /// 권한 부여
 import authority from "../services/admin/authority";
 import usersearch from "../services/admin/usersearch";
+import blockuser from "../services/admin/blockuser";
 const router: Router = Router();
 
 /// 권한 체크
@@ -37,7 +38,8 @@ router.delete("/delproduct/:id", delproduct);
 /// 카테고리 생성
 router.post("/createcategory", createcategory);
 /// 밴 유저 관련
-router.post("/user", user);
+router.post("/manyreportuser", manyreportuser);
+router.post("/blockuser", blockuser);
 router.post("/userblock/:id", userblock);
 router.post("/userunblock/:id", userunblock);
 router.post("/userblocksearch", userblocksearch);
