@@ -23,11 +23,12 @@ export default async (req: Request, res: Response) => {
     const address: Address | null = await Address.findOne({
       where: { address: reqbody.address },
     });
+    const nowmobile = reqbody.mobile.replaceAll("-", "");
 
     const extraaddress: ExtraAddress = await ExtraAddress.create(
       {
         detailAddress: reqbody.detailaddress,
-        mobile: reqbody.mobile,
+        mobile: nowmobile,
       },
       { transaction }
     );
