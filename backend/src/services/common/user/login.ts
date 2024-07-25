@@ -21,7 +21,13 @@ export default async (req: Request, res: Response) => {
       .digest("hex");
 
     const usercheck: User | null = await User.findOne({
-      where: { email: encryptionemail, password: encryptionpw, Oauth: "햄스터", admin: false },
+      where: {
+        email: encryptionemail,
+        password: encryptionpw,
+        Oauth: "햄스터",
+        admin: false,
+        delivery: false,
+      },
     });
 
     if (usercheck) {

@@ -23,7 +23,7 @@ export default async (req: Request, res: Response) => {
         {
           model: Store,
           as: "Sell",
-          attributes: ["id", "nick"],
+          attributes: ["id", "nick", "profileimg"],
         },
       ],
     });

@@ -24,7 +24,6 @@ export default [
       // fileUrls.push(`http://localhost:3001/api/imgs/${item.filename}`);
       fileUrls.push(`${item.filename}`);
     });
-    console.log(fileUrls);
 
     res.json({
       uploaded: true,
