@@ -63,7 +63,9 @@ const ProductInfo = ({ data }: IProps): JSX.Element => {
 
   const btnsfunc = () => {
     const temp = [];
-    for (let i = 0; i < product.imgs.length; i++) temp.push(i);
+    if (product.imgs) {
+      for (let i = 0; i < product.imgs.length; i++) temp.push(i);
+    }
     setBtns(temp);
   };
 
@@ -74,41 +76,51 @@ const ProductInfo = ({ data }: IProps): JSX.Element => {
   return (
     <div className={`flex flex-col my-[5rem]`}>
       <div className={`${center}`}>
-        <div
-          className={`${isdesktop && "h-[50rem] w-[70rem]"} ${
-            ismobile && "h-[25rem] w-[25rem] "
-          } overflow-hidden relative`}
-        >
-          {imgcount == 0 && (
-            <div className="flex absolute ">
-              {product.imgs.map((item: string, idx: number) => (
-                <Imgs key={idx} item={item} />
-              ))}
-            </div>
-          )}
-          {imgcount == 1 && (
-            <div
-              className={`flex absolute ${isdesktop && "translate-x-[-70rem]"} ${
-                ismobile && "translate-x-[-25rem]"
-              }`}
-            >
-              {product.imgs.map((item: string, idx: number) => (
-                <Imgs key={idx} item={item} />
-              ))}
-            </div>
-          )}
-          {imgcount == 2 && (
-            <div
-              className={`flex absolute ${isdesktop && "translate-x-[-140rem]"} ${
-                ismobile && "translate-x-[-50rem]"
-              }`}
-            >
-              {product.imgs.map((item: string, idx: number) => (
-                <Imgs key={idx} item={item} />
-              ))}
-            </div>
-          )}
-        </div>
+        {!product?.imgs ? (
+          <div
+            className={`${isdesktop && "h-[50rem] w-[70rem]"} ${
+              ismobile && "h-[25rem] w-[25rem] "
+            } overflow-hidden relative`}
+          >
+            <Imgs item="hamster.png" />
+          </div>
+        ) : (
+          <div
+            className={`${isdesktop && "h-[50rem] w-[70rem]"} ${
+              ismobile && "h-[25rem] w-[25rem] "
+            } overflow-hidden relative`}
+          >
+            {imgcount == 0 && (
+              <div className="flex absolute ">
+                {product.imgs.map((item: string, idx: number) => (
+                  <Imgs key={idx} item={item} />
+                ))}
+              </div>
+            )}
+            {imgcount == 1 && (
+              <div
+                className={`flex absolute ${isdesktop && "translate-x-[-70rem]"} ${
+                  ismobile && "translate-x-[-25rem]"
+                }`}
+              >
+                {product.imgs.map((item: string, idx: number) => (
+                  <Imgs key={idx} item={item} />
+                ))}
+              </div>
+            )}
+            {imgcount == 2 && (
+              <div
+                className={`flex absolute ${isdesktop && "translate-x-[-140rem]"} ${
+                  ismobile && "translate-x-[-50rem]"
+                }`}
+              >
+                {product.imgs.map((item: string, idx: number) => (
+                  <Imgs key={idx} item={item} />
+                ))}
+              </div>
+            )}
+          </div>
+        )}
       </div>
       <div className={`${center}`}>
         <div className="p-5 flex gap-5">
