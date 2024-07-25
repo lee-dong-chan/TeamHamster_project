@@ -11,7 +11,7 @@ export default async (req: Request, res: Response) => {
     const reviewlist: Review[] = await Review.findAll({
       attributes: ["star", "reviewContent"],
       include: [
-        { model: Store, as: "Store", attributes: ["nick", "img"] },
+        { model: Store, as: "Store", attributes: ["nick", "profileimg"] },
         { model: Product, as: "Product", attributes: ["title"] },
       ],
     });

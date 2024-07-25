@@ -19,8 +19,10 @@ export default async (req: Request, res: Response) => {
       ],
     });
     for (let i = 0; i < productlist.length; i++) {
-      const splimg = productlist[i].img.split(",");
-      productlist[i].dataValues.image = splimg;
+      if (productlist[i].img) {
+        const splimg = productlist[i].img.split(",");
+        productlist[i].dataValues.image = splimg;
+      }
     }
     res.json({ product: productlist });
   } catch (err) {
