@@ -10,7 +10,7 @@ export default async (req: Request, res: Response) => {
     }
     const product: Product | null = await Product.findOne({
       where: { id: nowproid, itemState: "배송 완료" },
-      attributes: ["id"],
+      attributes: ["id", "sellId"],
     });
     if (!product) {
       throw Error("not find");

@@ -35,7 +35,7 @@ const ProductInfo = ({ data }: IProps): JSX.Element => {
   const user: IUser = {
     id: data.Sell.id,
     name: data.Sell.nick,
-    adress: "주소 추가좀@@",
+    adress: "",
     star: +data.Sell.star.star,
     img: "good.png",
   };
