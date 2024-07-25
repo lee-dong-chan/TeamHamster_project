@@ -90,12 +90,16 @@ const Buy = ({}: IProps): JSX.Element => {
       });
   };
 
+  interface IFix<T> {
+    product: T;
+  }
   //값 가져오기
   const getProductValues = async () => {
     await axios
       .post(`${serverUrl}/product/${productid}`, {}, { withCredentials: true })
-      .then((data: AxiosResponse<IProductPage>) => {
-        setPrice(data.data.price);
+      .then((data: AxiosResponse<IFix<IProductPage>>) => {
+        console.log(data.data, "asdasdadasd");
+        setPrice(data.data.product.price);
       })
       .catch((err) => {
         console.log("err", err);
