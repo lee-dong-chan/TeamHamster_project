@@ -31,6 +31,8 @@ import Regist from "../../page/account/regist/registpage";
 import { useQuery } from "react-query";
 import axios from "axios";
 import { IUserDatas } from "../interFace";
+import { GoogleCallback } from "../../Component/OAuth/GoogleOAuth";
+import { NaverCallback } from "../../Component/OAuth/NaverOAuth";
 
 // interface IUser {
 //   id: number;
@@ -110,12 +112,23 @@ const Layout = ({
           ) : (
             <Routes>
               <Route path="/" element={<Main list={main} />}></Route>
+              <Route
+                path="/GoogleLoding"
+                element={<GoogleCallback setUserLogin={setUserLogin} />}
+              ></Route>
+              <Route
+                path="/NaverLoding"
+                element={<NaverCallback setUserLogin={setUserLogin} />}
+              ></Route>
               <Route path="/category/:id" element={<Category />}></Route>
               <Route path={`/search/:id`} element={<Search />}></Route>
               <Route path="/product/:id" element={<Product />}></Route>
               <Route path="/sell" element={<ProductWrite />}></Route>
               <Route path="/sell/:id" element={<ProductWrite />}></Route>
-              <Route path="/mystore" element={<MyStore />}></Route>
+              <Route
+                path="/mystore"
+                element={<MyStore userlogin={userlogin} />}
+              ></Route>
               <Route
                 path="/login"
                 element={<LoginPage setUserLogin={setUserLogin} />}

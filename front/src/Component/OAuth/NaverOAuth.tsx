@@ -37,8 +37,12 @@ export const NaverOAuth = (): JSX.Element => {
   );
 };
 
-export const NaverCallback = (): JSX.Element => {
-  const navigate: NavigateFunction = useNavigate();
+interface INCProp {
+  setUserLogin: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export const NaverCallback = ({ setUserLogin }: INCProp): JSX.Element => {
+  const navigate = useNavigate();
   const code: string | null = new URL(window.location.href).searchParams.get(
     "code"
   );
@@ -46,7 +50,7 @@ export const NaverCallback = (): JSX.Element => {
     "state"
   );
 
-  const naver = async (): Promise<void> => {
+  const naver = async () => {
     await axios
       .post(
         `${serverOAuthCallbackUrl}/NaverCallback?code=${code}&state=${state}`,
@@ -55,15 +59,18 @@ export const NaverCallback = (): JSX.Element => {
           withCredentials: true,
         }
       )
-      .then(() => {
+      .then((data) => {
         //성공시 콜백
 
+        setUserLogin(true);
+        console.log(data);
         //성공시 URL
         navigate("/");
       })
-      .catch(() => {
+      .catch((err) => {
         //실패시 URL
 
+        console.log(err);
         //실패시 URL
         navigate("/");
       });

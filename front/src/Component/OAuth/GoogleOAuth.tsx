@@ -37,8 +37,12 @@ export const GoogleOAuth = (): JSX.Element => {
   );
 };
 
+interface IGCProp {
+  setUserLogin: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
 //구글 콜백용 페이지
-export const GoogleCallback = (): JSX.Element => {
+export const GoogleCallback = ({ setUserLogin }: IGCProp): JSX.Element => {
   //리액트 라우터 돔에서 제공해주는 url 변경용 훅
   const navigate: NavigateFunction = useNavigate();
   //네이버 OAuth 콜백시 주소로 데이터가 넘어오기 때문에 주소에서 데이터를 뽑아 사용해줄거다.
@@ -61,7 +65,7 @@ export const GoogleCallback = (): JSX.Element => {
       )
       .then(() => {
         //성공시 콜백
-
+        setUserLogin(true);
         //성공시 URL
         navigate("/");
       })
