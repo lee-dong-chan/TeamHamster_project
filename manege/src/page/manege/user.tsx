@@ -65,6 +65,8 @@ const ManegeUser = ({}: IProps): JSX.Element => {
     },
   });
 
+  console.log(manylist.data);
+
   const blocklist = useQuery({
     queryKey: "blockdata",
     queryFn: async () => {

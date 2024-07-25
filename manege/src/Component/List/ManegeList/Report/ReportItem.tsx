@@ -2,6 +2,7 @@ import axios from "axios";
 import { Button } from "../../../../lib/Button/Button";
 import { TinyButton } from "../../../Button/Button";
 import { Link, Navigate } from "react-router-dom";
+import { useMutation, useQueryClient } from "react-query";
 
 export interface IReport {
   id: number;
@@ -18,20 +19,20 @@ interface IProps {
 const Item = ({ item, idx }: IProps): JSX.Element => {
   const productbtn = new Button("상품", "bg-blue-200");
   const deletebtn = new Button("삭제", "bg-red-200");
+  const queryClient = useQueryClient();
 
-  const deletereport = async () => {
-    try {
-      await axios.post(
-        "localhost",
-        {
-          deleteid: item.id,
-        },
-        { withCredentials: true }
+  const deletereport = useMutation({
+    mutationKey: "delreport",
+    mutationFn: async () => {
+      await axios.delete(
+        `${process.env.REACT_APP_SERVER_URL}/admin/report/${item.id}`
       );
-    } catch (err) {
-      console.error(err);
-    }
-  };
+    },
+    onSuccess(data) {
+      queryClient.invalidateQueries("reportlist");
+    },
+  });
+
   const onclick = () => {
     window.location.replace(`http://localhost:3000/product/${item.id}`);
   };
@@ -44,7 +45,11 @@ const Item = ({ item, idx }: IProps): JSX.Element => {
         <TinyButton btn={productbtn} />
       </div>
 
-      <div onClick={deletereport}>
+      <div
+        onClick={() => {
+          deletereport.mutate();
+        }}
+      >
         <TinyButton btn={deletebtn} />
       </div>
     </div>

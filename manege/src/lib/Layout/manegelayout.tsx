@@ -11,6 +11,8 @@ import { TinyButton } from "../../Component/Button/Button";
 import { box, center } from "../styles";
 import { Button } from "../Button/Button";
 import Authority from "../../page/manege/authority";
+import LoginPage from "../../page/manege/adminlogin";
+import AdminLoginPage from "../../page/manege/adminlogin";
 
 interface IProps {}
 
@@ -46,6 +48,7 @@ const ManegeLayout = ({}: IProps): JSX.Element => {
       <div>
         <ManegePageCategory />
         <Routes>
+          <Route path="/manege/" element={<AdminLoginPage />} />
           <Route path="/manege/report" element={<ManegeReport />} />
           <Route path="/manege/category" element={<ManegeCategory />} />
           <Route path="/manege/keyword" element={<ManegeBenKeyword />} />
