@@ -17,7 +17,7 @@ export default async (req: Request, res: Response) => {
 
     const encryptionpw = crypto
       .createHash("sha512")
-      .update(`${reqbody.password + process.env.SALT}`)
+      .update(`${reqbody.pw + process.env.SALT}`)
       .digest("hex");
 
     const usercheck: User | null = await User.findOne({

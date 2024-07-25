@@ -22,6 +22,7 @@ const FileStore = sessionFileStore(session);
 import logincheck from "../services/common/logincheck";
 import deliveries from "./deliveries";
 import admin from "./admin";
+import adminlogin from "../services/admin/adminlogin";
 /// 상단 레이아웃
 import layout from "../services/common/layout";
 /// 이미지 저장
@@ -95,6 +96,8 @@ router.use(
 router.use(logincheck);
 router.use("/deliveries", deliveries);
 router.use("/admin", admin);
+router.post("/adminlogin", adminlogin);
+
 /// 상단 레이아웃
 router.post("/layout", layout);
 /// 이미지 저장

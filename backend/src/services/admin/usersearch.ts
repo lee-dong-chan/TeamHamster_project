@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Store } from "../../models";
+import { Store, User, sequelize } from "../../models";
 import { Op } from "sequelize";
 
 export default async (req: Request, res: Response) => {
@@ -8,8 +8,15 @@ export default async (req: Request, res: Response) => {
     const searchuser = reqbody.nick;
 
     const userlist = await Store.findAll({
-      attributes: ["id", "nick"],
+      attributes: [
+        "id",
+        "nick",
+        [sequelize.col("User.admin"), "admin"],
+        [sequelize.col("User.super_admin"), "superAdmin"],
+        [sequelize.col("User.delivery"), "delivery"],
+      ],
       where: { nick: { [Op.like]: `%${searchuser}%` } },
+      include: { model: User, as: "User", attributes: [] },
     });
 
     res.json({ userlist: userlist });

@@ -10,8 +10,6 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         raw: true,
       });
     }
-    console.log("asdasdzxczxczxc");
-    console.log(req.body);
     next();
   } catch (err) {
     console.error(err);
