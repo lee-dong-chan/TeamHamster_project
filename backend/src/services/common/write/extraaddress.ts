@@ -15,6 +15,7 @@ export default async (req: Request, res: Response) => {
         { model: Name, as: "Name", attributes: ["name"] },
       ],
     });
+    console.log(address);
     res.json({ extraAddress: address });
   } catch (err: any) {
     console.error(err);

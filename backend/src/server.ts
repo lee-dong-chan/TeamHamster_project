@@ -14,7 +14,7 @@ import basicCate from "./services/common/basicCate";
 dotenv.config();
 
 const app: Express = express();
-app.use(cookieParser("test"));
+app.use(cookieParser(process.env.COOKIE || "test"));
 
 app.set("port", process.env.PORT || 3000);
 app.set("url", process.env.MONGURL || "mongodb://localhost:27017");
@@ -25,11 +25,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(
   cors({
-    origin: [
-      "http://localhost:3000",
-      "http://localhost:8000",
-      "http://localhost:8080",
-    ],
+    origin: ["http://localhost:3000", "http://localhost:8000", "http://localhost:8080"],
     credentials: true,
   })
 );
@@ -50,23 +46,15 @@ const basicvalue = async () => {
       DeliveryCost.create({ cost: 3000 });
       point.create({ pointPercent: 1000 });
 
-      const key = crypto.scryptSync(
-        "hgaomasttmexrj",
-        `${process.env.KEY || ""}`,
-        32
-      );
+      const key = crypto.scryptSync("hgaomasttmexrj", `${process.env.KEY || ""}`, 32);
       const iv = process.env.IV || "";
       const cipher = crypto.createCipheriv("aes-256-gcm", key, iv);
 
-      const encryptionemail: string = cipher.update(
-        `admin1@admin.com`,
-        "utf-8",
-        "hex"
-      );
+      const encryptionemail: string = cipher.update(`admin1@admin.com`, "utf-8", "hex");
 
       const encryptionpw = crypto
         .createHash("sha512")
-        .update(`admin1${process.env.SALT}`)
+        .update(`admin11@${process.env.SALT}`)
         .digest("hex");
 
       const store = await Store.create({
