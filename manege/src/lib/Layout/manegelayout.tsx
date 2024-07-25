@@ -14,12 +14,7 @@ import Authority from "../../page/manege/authority";
 import LoginPage from "../../page/manege/adminlogin";
 import AdminLoginPage from "../../page/manege/adminlogin";
 import { useCallback, useEffect, useState } from "react";
-import {
-  QueryClient,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import axios from "axios";
 
 interface IUser {
@@ -35,9 +30,14 @@ interface IProps {}
 const ManegeLayout = ({}: IProps): JSX.Element => {
   const [userlogin, setUserLogin] = useState<boolean>(false);
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
+
   const onclick = () => {
     window.location.replace("http://localhost:3000/");
+  };
+
+  const onlogout = () => {
+    logout.mutate();
+    window.location.replace("http://localhost:8000//manege/login");
   };
 
   const serverUrl = process.env.REACT_APP_SERVER_URL;
@@ -53,15 +53,20 @@ const ManegeLayout = ({}: IProps): JSX.Element => {
     },
   });
 
-  const log: IUser = logcheck.data?.login;
+  const logout = useMutation({
+    mutationKey: "userlogout",
+    mutationFn: async () => {
+      await axios.post(`${serverUrl}/logout`, {}, { withCredentials: true });
+    },
+  });
 
-  const cate = useLocation().pathname.slice(8);
+  const log: IUser = logcheck.data?.login;
 
   useEffect(() => {
     logcheck.mutate();
   }, []);
   useEffect(() => {}, [userlogin]);
-  const btn = new Button("메인페이지", "bg-orange-200");
+
   return (
     <div>
       <div className="p-1 h-[6rem] bg-orange-600">
@@ -79,12 +84,25 @@ const ManegeLayout = ({}: IProps): JSX.Element => {
             <div className="h-[3rem] w-[3rem]">
               <img className="h-[100%]" src="/imgs/good.png"></img>
             </div>
-            <div className="text-white w-[7rem]">
+            <div
+              className={`text-white ${log?.nick ? "w-[7rem]" : "w-[2rem]"} `}
+            >
               {log?.nick && `${log?.nick}`}
             </div>
-            <div onClick={onclick}>
-              <TinyButton btn={btn} />
-            </div>
+            {log?.nick ? (
+              <div className="flex gap-2">
+                <div onClick={onclick}>
+                  <div className="p-1 border bg-orange-200 rounded">
+                    메인페이지
+                  </div>
+                </div>
+                <div onClick={onlogout}>
+                  <div className="p-1 border bg-blue-200 rounded">로그아웃</div>
+                </div>
+              </div>
+            ) : (
+              <div className="text-white">관리자로그인이 필요합니다</div>
+            )}
           </div>
         </div>
       </div>
