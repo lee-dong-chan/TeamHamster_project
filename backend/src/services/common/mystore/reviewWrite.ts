@@ -12,12 +12,15 @@ export default async (req: Request, res: Response) => {
       throw Error("not login");
     }
 
-    const product = await Product.findOne({
-      where: { id: selectproduct },
-    });
-
     const nowuser = await Store.findOne({
       where: { id: reqbody.user.id },
+    });
+    if (nowuser?.block) {
+      throw Error("block");
+    }
+
+    const product = await Product.findOne({
+      where: { id: selectproduct },
     });
 
     const duplicationcheck = await Review.findOne({

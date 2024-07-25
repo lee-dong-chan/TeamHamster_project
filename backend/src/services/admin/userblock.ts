@@ -6,6 +6,7 @@ export default async (req: Request, res: Response) => {
     await Store.update(
       {
         block: true,
+        report_point: 0,
       },
       { where: { id: req.params.id } }
     );

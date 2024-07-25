@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Product, Report, sequelize } from "../../../models";
+import { Product, Report, Store, sequelize } from "../../../models";
 import { Transaction } from "sequelize";
 
 export default async (req: Request, res: Response) => {
@@ -9,6 +9,14 @@ export default async (req: Request, res: Response) => {
     if (!reqbody.user) {
       throw Error("not login");
     }
+
+    const nowuser = await Store.findOne({
+      where: { id: reqbody.user.id },
+    });
+    if (nowuser?.block) {
+      throw Error("block");
+    }
+
     const nowproid: string = req.params.id;
     const product: Product | null = await Product.findOne({
       where: { id: nowproid },
