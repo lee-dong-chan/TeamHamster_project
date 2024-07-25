@@ -22,6 +22,14 @@ import {
 } from "react-query";
 import axios from "axios";
 
+interface IUser {
+  id: number;
+  nick: string;
+  point: number;
+  admin: boolean;
+  delivery: boolean;
+}
+
 interface IProps {}
 
 const ManegeLayout = ({}: IProps): JSX.Element => {
@@ -31,6 +39,7 @@ const ManegeLayout = ({}: IProps): JSX.Element => {
   const onclick = () => {
     window.location.replace("http://localhost:3000/");
   };
+
   const serverUrl = process.env.REACT_APP_SERVER_URL;
   const logcheck = useMutation({
     mutationKey: "userlogin",
@@ -42,25 +51,16 @@ const ManegeLayout = ({}: IProps): JSX.Element => {
       );
       return data;
     },
-    onSuccess(data) {
-      queryClient.setQueryData("uselogin", data);
-    },
   });
 
-  const log = queryClient.getQueryData("uselogin");
-  console.log(log);
+  const log: IUser = logcheck.data?.login;
 
-  const move = () => {
-    navigate("/manege/login");
-  };
   const cate = useLocation().pathname.slice(8);
-  useEffect(() => {
-    move();
-  }, []);
 
   useEffect(() => {
     logcheck.mutate();
-  }, [cate]);
+  }, []);
+  useEffect(() => {}, [userlogin]);
   const btn = new Button("메인페이지", "bg-orange-200");
   return (
     <div>
@@ -79,25 +79,37 @@ const ManegeLayout = ({}: IProps): JSX.Element => {
             <div className="h-[3rem] w-[3rem]">
               <img className="h-[100%]" src="/imgs/good.png"></img>
             </div>
-            <div className="text-white">{`관리자${"??"}`}</div>
+            <div className="text-white w-[7rem]">
+              {log?.nick && `${log?.nick}`}
+            </div>
             <div onClick={onclick}>
               <TinyButton btn={btn} />
             </div>
           </div>
         </div>
       </div>
+
       <div>
-        {logcheck.data !== null && <ManegePageCategory />}
-        <Routes>
-          <Route path="/manege/login" element={<AdminLoginPage />} />
-          <Route path="/manege/report" element={<ManegeReport />} />
-          <Route path="/manege/category" element={<ManegeCategory />} />
-          <Route path="/manege/keyword" element={<ManegeBenKeyword />} />
-          <Route path="/manege/user" element={<ManegeUser />} />
-          <Route path="/manege/point" element={<ManegePoint />} />
-          <Route path="/manege/delivery" element={<ManegeDeliveryTip />} />
-          <Route path="/manege/authority" element={<Authority />} />
-        </Routes>
+        {log?.nick ? (
+          <div>
+            <ManegePageCategory />
+            <Routes>
+              <Route
+                path="/manege/login"
+                element={<AdminLoginPage setUserLogin={setUserLogin} />}
+              />
+              <Route path="/manege/report" element={<ManegeReport />} />
+              <Route path="/manege/category" element={<ManegeCategory />} />
+              <Route path="/manege/keyword" element={<ManegeBenKeyword />} />
+              <Route path="/manege/user" element={<ManegeUser />} />
+              <Route path="/manege/point" element={<ManegePoint />} />
+              <Route path="/manege/delivery" element={<ManegeDeliveryTip />} />
+              <Route path="/manege/authority" element={<Authority />} />
+            </Routes>
+          </div>
+        ) : (
+          <AdminLoginPage setUserLogin={setUserLogin} />
+        )}
       </div>
 
       <div className="border border-t border-b">
