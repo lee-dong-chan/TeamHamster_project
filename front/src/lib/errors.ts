@@ -92,7 +92,7 @@ export const productPageDataErr: IProductPage = {
   createdAt: new Date() + "",
   itemState: "판매중",
   prepayment: false,
-  img: "hamster.png",
+  img: "good.png",
   DeliveryCost: { cost: 10 },
   Category: { name: "에러따봉스" },
   categoryId: 1,

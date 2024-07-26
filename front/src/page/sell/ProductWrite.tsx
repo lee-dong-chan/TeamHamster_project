@@ -65,11 +65,18 @@ const ProductWrite: React.FC = () => {
     price: "",
   });
   const [idPath, setIdPath] = useState<string>("");
+  const productId = useMemo(() => {
+    return (
+      loca.pathname.lastIndexOf("/") !== 0 &&
+      loca.pathname.slice(loca.pathname.lastIndexOf("/") + 1)
+    );
+  }, []);
 
   //useMemo
   const isProductReWrite = useMemo<boolean>(() => {
     return loca.pathname.lastIndexOf("/") !== 0;
   }, []);
+
   const idStartIdx = useMemo<number>(() => {
     return loca.pathname.lastIndexOf("/");
   }, []);
@@ -156,8 +163,9 @@ const ProductWrite: React.FC = () => {
     modalstate("addadress");
   };
   const getProductDatas = async () => {
+    console.log(`${serverUrl}/product/${productId}`);
     await axios
-      .post(`${serverUrl}/product/${id}`, {}, { withCredentials: true })
+      .post(`${serverUrl}/product/${productId}`, {}, { withCredentials: true })
       .then(async (data: AxiosResponse<IDataProduct<IProductPage>>) => {
         console.log(data);
         const values = data.data.product;
@@ -181,15 +189,18 @@ const ProductWrite: React.FC = () => {
         console.log(image);
 
         for (const imgName of image) {
+          console.log(imgName);
           const fileNameFull = imgName;
           const fileType = imgName.slice(imgName.indexOf(".") + 1);
           const fileName = imgName.slice(0, imgName.indexOf("."));
 
           const obj: IFiles = {
             fileName: fileName,
-            fileNameFull: fileType,
-            fileType: fileNameFull,
+            fileNameFull: fileNameFull,
+            fileType: fileType,
           };
+
+          console.log(obj);
 
           const result: File = await asyncOperation(obj);
           results.push(result);
@@ -199,41 +210,41 @@ const ProductWrite: React.FC = () => {
       })
       .catch(async (err) => {
         console.log(err);
-        const { image, title, discription, categoryId, Category, price } =
-          productPageDataErr;
+        // const { image, title, discription, categoryId, Category, price } =
+        //   productPageDataErr;
 
-        setFormData({
-          productName: title,
-          description: discription,
-          price: price + "",
-        });
-        setLastClickCateId(categoryId);
-        setShowCateValue([Category ? Category.name : "에러"]);
-        const newImages = Array.from(image);
-        const newPreviewUrls = newImages.map((file) => `${imgBaseUrl}${file}`);
-        setPreviewUrls(newPreviewUrls);
+        // setFormData({
+        //   productName: title,
+        //   description: discription,
+        //   price: price + "",
+        // });
+        // setLastClickCateId(categoryId);
+        // setShowCateValue([Category ? Category.name : "에러"]);
+        // const newImages = Array.from(image);
+        // const newPreviewUrls = newImages.map((file) => `${imgBaseUrl}${file}`);
+        // setPreviewUrls(newPreviewUrls);
 
-        //files Get
+        // //files Get
 
-        const results: File[] = [];
-        console.log(image);
+        // const results: File[] = [];
+        // console.log(image);
 
-        for (const imgName of image) {
-          const fileNameFull = imgName;
-          const fileType = imgName.slice(imgName.indexOf(".") + 1);
-          const fileName = imgName.slice(0, imgName.indexOf("."));
+        // for (const imgName of image) {
+        //   const fileNameFull = imgName;
+        //   const fileType = imgName.slice(imgName.indexOf(".") + 1);
+        //   const fileName = imgName.slice(0, imgName.indexOf("."));
 
-          const obj: IFiles = {
-            fileName: fileName,
-            fileNameFull: fileType,
-            fileType: fileNameFull,
-          };
+        //   const obj: IFiles = {
+        //     fileName: fileName,
+        //     fileNameFull: fileType,
+        //     fileType: fileNameFull,
+        //   };
 
-          const result: File = await asyncOperation(obj);
-          results.push(result);
-        }
+        //   const result: File = await asyncOperation(obj);
+        //   results.push(result);
+        // }
 
-        setImages(results);
+        // setImages(results);
       });
   };
 
@@ -350,9 +361,10 @@ const ProductWrite: React.FC = () => {
   const getImgBlob = async (files: IFiles) => {
     const { fileType, fileName, fileNameFull } = files;
 
+    console.log(`${imgBaseUrl}${fileNameFull}`);
     const response = await fetch(`${imgBaseUrl}${fileNameFull}`);
     if (!response.ok) {
-      throw new Error("이미지가 없음");
+      throw new Error(`${fileNameFull},이미지 없음`);
     }
     const blob = await response.blob();
 
@@ -381,7 +393,7 @@ const ProductWrite: React.FC = () => {
   }, []);
 
   return (
-    <div className={`${center}`}>
+    <div className={`${center} p-8`}>
       <div className="rounded-lg w-full">
         <label
           htmlFor="productImage"

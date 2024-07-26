@@ -36,6 +36,7 @@ const SellComp = ({ value }: IProps) => {
           { withCredentials: true }
         )
         .then((data: AxiosResponse) => {
+          console.log(data);
           const res: IProductRes = data.data;
           const products: IProduct[] = res.product.rows;
           setProducts(products);
