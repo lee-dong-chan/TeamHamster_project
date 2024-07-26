@@ -64,9 +64,12 @@ const Layout = ({
   useEffect(() => {
     setModal(undefined);
   }, [location, setModal]);
+
+  console.log(userDatas);
+
   return (
     <div>
-      <div className="relative">
+      <div className="relative h-[100%] ">
         <div className="p-1 h-[6rem] bg-orange-200">
           <div className={`${box} h-[100%] flex justify-between items-center`}>
             <div className={`${center}`}>
@@ -93,14 +96,14 @@ const Layout = ({
                 햄스터마켓
               </div>
             </div>
-
             <div>
               {!userlogin && <NotLogin />}
-              {userlogin && userDatas.login?.admin ? (
-                <Login userDatas={userDatas} setUserLogin={setUserLogin} />
-              ) : (
-                <Maneger userDatas={userDatas} />
-              )}
+              {userlogin &&
+                (!userDatas.login?.admin ? (
+                  <Login userDatas={userDatas} setUserLogin={setUserLogin} />
+                ) : (
+                  <Maneger userDatas={userDatas} />
+                ))}
             </div>
           </div>
         </div>
@@ -191,7 +194,7 @@ const Layout = ({
           </div>
         )}
         {ismobile && getModal[0] === undefined && (
-          <div className="absolute h-[6em] flex justify-evenly items-center sticky bottom-0 bg-gray-300 border border-t">
+          <div className=" h-[6em] sticky flex justify-evenly items-center  bg-gray-300 border border-t bottom-0">
             <Link to={"/"}>
               <div className="flex flex-col items-center ">
                 <IoHome size={30} />

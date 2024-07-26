@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { List as ListData } from "../../lib/list";
 import { useBreakPoint } from "../../CustomHook/BreakPoint";
-import { IListData } from "../../App";
 import { center } from "../../lib/styles";
 
 export interface IItem {

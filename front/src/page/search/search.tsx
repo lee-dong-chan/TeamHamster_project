@@ -8,7 +8,7 @@ import { box, mobilebox } from "../../lib/styles";
 import axios, { AxiosResponse } from "axios";
 import { IListData } from "../../App";
 import { IProduct } from "../../lib/interFace";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 interface IProps {}
 
@@ -18,9 +18,8 @@ const Search = ({}: IProps): JSX.Element => {
   const { isdesktop, ismobile } = useBreakPoint();
   let { id } = useParams();
   const [obServerOn, setObserverOn] = useState<boolean>(true);
-  const result = true;
 
-  const searchDataGet = async () => {
+  const searchDataGet = useCallback(async () => {
     await axios
       .post(
         `${process.env.REACT_APP_SERVER_URL}/search`,
@@ -69,7 +68,8 @@ const Search = ({}: IProps): JSX.Element => {
           ],
         ]);
       });
-  };
+  }, []);
+
   //mount
   useEffect(() => {
     if (ListDatas[0]) {
@@ -94,12 +94,14 @@ const Search = ({}: IProps): JSX.Element => {
   return (
     <div>
       {isdesktop && <SearchComp />}
-      <div className={`${isdesktop && box} ${ismobile && mobilebox}`}>
+      <div
+        className={`${isdesktop && box} ${ismobile && mobilebox} h-[60rem] `}
+      >
         <div className="p-[2rem] text-[1.7rem] font-bold">
           <span className="text-orange-500">{id}</span>의 검색결과
         </div>
 
-        {result ? (
+        {search[0] ? (
           <div>
             <List list={search} func={searchDataGet} toggleValue={obServerOn} />
             <div className="py-5 center">{isdesktop && <Paging />}</div>

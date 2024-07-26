@@ -3,7 +3,7 @@ import { List as ListData } from "../../lib/list";
 import List from "../../Component/List/List";
 import Paging from "../../Component/paging/paging";
 import { useBreakPoint } from "../../CustomHook/BreakPoint";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { IListData } from "../../App";
 import { IProduct } from "../../lib/interFace";
 import { useParams } from "react-router-dom";
@@ -21,7 +21,7 @@ const Category = ({}: IProps): JSX.Element => {
 
   let { id } = useParams();
 
-  const cateDataGet = async () => {
+  const cateDataGet = useCallback(async () => {
     await axios
       .post(
         `${process.env.REACT_APP_SERVER_URL}/category/${id}`,
@@ -71,7 +71,7 @@ const Category = ({}: IProps): JSX.Element => {
           ],
         ]);
       });
-  };
+  }, []);
 
   const getcatename = useMutation({
     mutationKey: "catename",
@@ -115,13 +115,29 @@ const Category = ({}: IProps): JSX.Element => {
         <div className="p-[2rem] text-[1.7rem] font-bold">
           <span className="text-orange-500">{getcatename.data}</span> 추천상품
         </div>
-        {catelist ? (
+        {catelist[0] ? (
           <div>
             <List list={catelist} func={cateDataGet} toggleValue={obServerOn} />
             {/* <div className={`${center}`}>{isdesktop && <Paging />}</div> */}
           </div>
         ) : (
-          <div></div>
+          <div className="pb-20 center">
+            <div>
+              <div className="p-[2rem] text-[1.7rem] font-bold flex flex-col items-center">
+                <div>
+                  <span className="pe-2 text-orange-500">
+                    {getcatename.data}
+                  </span>
+                  항목에 해당하는 상품이 없습니다.
+                </div>
+                <div>
+                  <img
+                    src={`${process.env.REACT_APP_IMG_BASE}hamster.png`}
+                  ></img>
+                </div>
+              </div>
+            </div>
+          </div>
         )}
       </div>
     </div>
