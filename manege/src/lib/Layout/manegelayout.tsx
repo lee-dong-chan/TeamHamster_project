@@ -90,9 +90,9 @@ const ManegeLayout = ({}: IProps): JSX.Element => {
               <div
                 className={`text-white ${log?.nick ? "w-[7rem]" : "w-[2rem]"} `}
               >
-                {log?.nick && `${log?.nick}`}
+                {log?.admin && `${log?.nick}`}
               </div>
-              {log?.nick ? (
+              {log?.admin ? (
                 <div className="flex gap-2">
                   <div onClick={onclick}>
                     <div className="p-1 border bg-orange-200 rounded">
@@ -113,7 +113,7 @@ const ManegeLayout = ({}: IProps): JSX.Element => {
         </div>
 
         <div>
-          {log?.nick ? (
+          {log?.admin ? (
             <div>
               <ManegePageCategory />
               <Routes>
