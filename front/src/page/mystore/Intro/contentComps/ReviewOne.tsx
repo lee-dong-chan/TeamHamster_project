@@ -3,15 +3,15 @@ import Star from "../../../../Component/Star/Star";
 import { IReviewOne } from "../../../../lib/interFace";
 
 const ReviewOne = ({ data }: { data: IReviewOne }) => {
+  const imgBaseUrl = process.env.REACT_APP_IMG_BASE;
   return (
     <div className={`flex w-[100%] h-[120px]`}>
       {/* 이미지 */}
-      <div
-        style={{
-          backgroundImage: `url(${data.Store.img})`,
-        }}
-        className={`rounded-full bg-cover h-[50px] w-[50px]`}
-      ></div>
+      <img
+        className="rounded-full bg-cover h-[50px] w-[50px]"
+        src={`${imgBaseUrl}${data.Store.img}`}
+        alt="서버랑 연결 실패"
+      />
       {/* 내용 */}
       <div
         className="overflow-scroll pl-2 w-[500px]"

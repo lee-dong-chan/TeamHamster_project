@@ -26,11 +26,26 @@ const Content = ({ loginCheck }: { loginCheck: boolean }): JSX.Element => {
     <div className={`w-[90%] h-[781px] flex flex-wrap pt-5`}>
       <div className={`p-10 w-[100%]`}>
         <div className={`w-[100%] h-[54px] flex flex-wrap`}>
-          <CateBtn text="리뷰" click={() => valueChanger(0)}></CateBtn>
+          <div className={` ${value === 0 && `scale-110 bg-green-500`}`}>
+            <CateBtn text="리뷰" click={() => valueChanger(0)}></CateBtn>
+          </div>
+
           {loginCheck && (
             <>
-              <CateBtn text="판매상품" click={() => valueChanger(1)}></CateBtn>
-              <CateBtn text="구매상품" click={() => valueChanger(2)}></CateBtn>
+              <div className={` ${value === 1 && `scale-110 bg-green-500`}`}>
+                <CateBtn
+                  text="판매상품"
+                  click={() => valueChanger(1)}
+                ></CateBtn>
+              </div>
+
+              <div className={` ${value === 2 && `scale-110 bg-green-500`}`}>
+                {" "}
+                <CateBtn
+                  text="구매상품"
+                  click={() => valueChanger(2)}
+                ></CateBtn>
+              </div>
             </>
           )}
         </div>
