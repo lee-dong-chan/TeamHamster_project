@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useRef } from "react";
 
 interface IProps {
-  func: () => void;
+  func: (i: number) => void;
+  funcValue: number;
 }
 
-const Observer = ({ func }: IProps): JSX.Element => {
+const Observer = ({ func, funcValue }: IProps): JSX.Element => {
   const observerElem: React.MutableRefObject<null> = useRef(null);
 
   const observer = useMemo<IntersectionObserver>(() => {
@@ -13,7 +14,7 @@ const Observer = ({ func }: IProps): JSX.Element => {
         if (!entries[0].isIntersecting) return;
 
         //실행할 함수
-        func();
+        func(funcValue);
         console.log("옵저버 실행");
 
         //옵저버 재실행

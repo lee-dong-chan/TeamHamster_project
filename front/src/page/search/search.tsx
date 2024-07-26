@@ -8,7 +8,7 @@ import { box, mobilebox } from "../../lib/styles";
 import axios, { AxiosResponse } from "axios";
 import { IListData } from "../../App";
 import { IProduct } from "../../lib/interFace";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 interface IProps {}
 
@@ -19,11 +19,14 @@ const Search = ({}: IProps): JSX.Element => {
   let { id } = useParams();
   const [obServerOn, setObserverOn] = useState<boolean>(true);
 
-  const searchDataGet = useCallback(async () => {
+  const idxValue = useMemo(() => {
+    return ListDatas.length;
+  }, [ListDatas]);
+  const searchDataGet = useCallback(async (idxValue: number) => {
     await axios
       .post(
         `${process.env.REACT_APP_SERVER_URL}/search`,
-        { keyword: id, idx: ListDatas.length },
+        { keyword: id, idx: idxValue },
         { withCredentials: true }
       )
       .then((data: AxiosResponse) => {
@@ -36,8 +39,7 @@ const Search = ({}: IProps): JSX.Element => {
             img: data.image ? data.image[0] : "hamster.png",
             price: data.price,
             createdAt: Math.floor(
-              (+new Date() - +new Date(data.createdAt || new Date() + "")) /
-                (1000 * 60 * 60 * 24)
+              (+new Date() - +new Date(data.createdAt || new Date() + "")) / (1000 * 60 * 60 * 24)
             ),
           };
           return listData;
@@ -75,58 +77,48 @@ const Search = ({}: IProps): JSX.Element => {
     if (ListDatas[0]) {
       setSearch(
         ListDatas.map((data) => {
-          return new ListData(
-            data.id,
-            data.title,
-            data.img,
-            data.price,
-            data.createdAt
-          );
+          return new ListData(data.id, data.title, data.img, data.price, data.createdAt);
         })
       );
     }
   }, [ListDatas]);
 
   useEffect(() => {
-    searchDataGet();
+    searchDataGet(idxValue);
   }, []);
 
   return (
     <div>
       {isdesktop && <SearchComp />}
-      <div
-        className={`${isdesktop && box} ${ismobile && mobilebox} h-[60rem] `}
-      >
+      <div className={`${isdesktop && box} ${ismobile && mobilebox} h-[60rem] `}>
         <div className="p-[2rem] text-[1.7rem] font-bold">
           <span className="text-orange-500">{id}</span>의 검색결과
         </div>
 
         {search[0] ? (
           <div>
-            <List list={search} func={searchDataGet} toggleValue={obServerOn} />
+            <List
+              list={search}
+              func={searchDataGet}
+              funcValue={idxValue}
+              toggleValue={obServerOn}
+            />
             <div className="py-5 center">{isdesktop && <Paging />}</div>
           </div>
         ) : (
           <div className="pb-20 center">
             <div>
               <div className="p-[2rem] text-[1.7rem] font-bold">
-                <span className="text-orange-500">{id}</span>에 대한 검색결과를
-                찾을수 없습니다
+                <span className="text-orange-500">{id}</span>에 대한 검색결과를 찾을수 없습니다
               </div>
               <div className="h-[1px] flex border "></div>
 
-              <div className="p-1 text-center font-bold">
-                -단어의 철자가 정확한지 확인해 보세요
-              </div>
+              <div className="p-1 text-center font-bold">-단어의 철자가 정확한지 확인해 보세요</div>
               <div className="p-1 text-center font-bold">
                 - 보다 일반적인 검색어로 다시 검색해 보세요
               </div>
-              <div className="p-1 text-center font-bold">
-                - 검색어의 띄어쓰기를 다르게 해보세요
-              </div>
-              <div className="p-1 text-center font-bold">
-                - 유해/금지어가 아닌지 확인해주세요
-              </div>
+              <div className="p-1 text-center font-bold">- 검색어의 띄어쓰기를 다르게 해보세요</div>
+              <div className="p-1 text-center font-bold">- 유해/금지어가 아닌지 확인해주세요</div>
             </div>
           </div>
         )}

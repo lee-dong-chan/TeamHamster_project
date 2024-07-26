@@ -33,6 +33,7 @@ import axios from "axios";
 import { IUserDatas } from "../interFace";
 import { GoogleCallback } from "../../Component/OAuth/GoogleOAuth";
 import { NaverCallback } from "../../Component/OAuth/NaverOAuth";
+import { IListData } from "../../App";
 
 interface IProps {
   setUserLogin: React.Dispatch<React.SetStateAction<boolean>>;
@@ -40,7 +41,9 @@ interface IProps {
   main: List[];
   userDatas: IUserDatas;
   userDataCheck: () => void;
-  mainDataGet: () => void;
+  dataCheckIdxValue: number;
+  mainDataGet: (i: number) => void;
+  setListDatas: (i: IListData[]) => void;
   obToggleValue: boolean;
 }
 
@@ -51,6 +54,8 @@ const Layout = ({
   main,
   userDataCheck,
   mainDataGet,
+  setListDatas,
+  dataCheckIdxValue,
   obToggleValue,
 }: IProps): JSX.Element => {
   const { isdesktop, ismobile } = useBreakPoint();
@@ -64,8 +69,6 @@ const Layout = ({
   useEffect(() => {
     setModal(undefined);
   }, [location, setModal]);
-
-  console.log(userDatas);
 
   return (
     <div>
@@ -82,16 +85,12 @@ const Layout = ({
                 </div>
               )}
               <Link to={"/"}>
-                <img
-                  alt="logo"
-                  src="/imgs/hamster.png"
-                  className="h-[4rem]"
-                ></img>
+                <img alt="logo" src="/imgs/hamster.png" className="h-[4rem]"></img>
               </Link>
               <div
-                className={`${
-                  isdesktop && "text-[2rem] text-white font-bold"
-                } ${ismobile && "text-[1rem] text-white font-bold"}`}
+                className={`${isdesktop && "text-[2rem] text-white font-bold"} ${
+                  ismobile && "text-[1rem] text-white font-bold"
+                }`}
               >
                 햄스터마켓
               </div>
@@ -117,6 +116,7 @@ const Layout = ({
                 path="/"
                 element={
                   <Main
+                    idxValue={dataCheckIdxValue}
                     list={main}
                     mainDataGet={mainDataGet}
                     obToggleValue={obToggleValue}
@@ -135,20 +135,12 @@ const Layout = ({
               <Route path={`/search/:id`} element={<Search />}></Route>
               <Route
                 path="/product/:id"
-                element={
-                  <Product mainDataGet={mainDataGet} userdata={userDatas} />
-                }
+                element={<Product mainDataGet={setListDatas} userdata={userDatas} />}
               ></Route>
               <Route path="/sell" element={<ProductWrite />}></Route>
               <Route path="/sell/:id" element={<ProductWrite />}></Route>
-              <Route
-                path="/mystore"
-                element={<MyStore userlogin={userlogin} />}
-              ></Route>
-              <Route
-                path="/login"
-                element={<LoginPage setUserLogin={setUserLogin} />}
-              ></Route>
+              <Route path="/mystore" element={<MyStore userlogin={userlogin} />}></Route>
+              <Route path="/login" element={<LoginPage setUserLogin={setUserLogin} />}></Route>
               <Route path="/regist" element={<Regist />}></Route>
               <Route
                 path="/point"
