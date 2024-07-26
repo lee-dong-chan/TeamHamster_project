@@ -24,7 +24,9 @@ const ManegeUser = ({}: IProps): JSX.Element => {
     queryKey: "manydata",
     queryFn: async () => {
       const { data } = await axios.post(
-        `${process.env.REACT_APP_SERVER_URL}/admin/manyreportuser`
+        `${process.env.REACT_APP_SERVER_URL}/admin/manyreportuser`,
+        {},
+        { withCredentials: true }
       );
       const manylist: IReportUser[] = data.manyreport;
       return manylist;
@@ -35,7 +37,9 @@ const ManegeUser = ({}: IProps): JSX.Element => {
     queryKey: "blockdata",
     queryFn: async () => {
       const { data } = await axios.post(
-        `${process.env.REACT_APP_SERVER_URL}/admin/blockuser`
+        `${process.env.REACT_APP_SERVER_URL}/admin/blockuser`,
+        {},
+        { withCredentials: true }
       );
       const blocklist: IBenUser[] = data.block;
       return blocklist;

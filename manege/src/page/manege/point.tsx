@@ -55,7 +55,9 @@ const ManegePoint = ({}: IProps): JSX.Element => {
     queryKey: "pointvalue",
     queryFn: async () => {
       const { data } = await axios.post(
-        `${process.env.REACT_APP_SERVER_URL}/admin/pointpercent`
+        `${process.env.REACT_APP_SERVER_URL}/admin/pointpercent`,
+        {},
+        { withCredentials: true }
       );
       return data;
     },
