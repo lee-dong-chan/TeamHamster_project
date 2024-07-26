@@ -31,7 +31,8 @@ const ManegeCategory = ({}: IProps): JSX.Element => {
         {
           precate: topcate,
           name: createcate,
-        }
+        },
+        { withCredentials: true }
       );
     },
     onSuccess(data) {
