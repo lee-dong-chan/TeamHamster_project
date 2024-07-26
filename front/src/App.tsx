@@ -23,13 +23,14 @@ const App = (): JSX.Element => {
 
   const [userlogin, setUserLogin] = useState<boolean>(false);
   const [userDatas, setUserDatas] = useState<IUserDatas>(errUserDatas);
+  const [obServerOn, setObserverOn] = useState<boolean>(true);
 
   //func
   const mainDataGet = async () => {
     await axios
       .post(
         `${process.env.REACT_APP_SERVER_URL}/main`,
-        {},
+        { idx: ListDatas.length },
         { withCredentials: true }
       )
       .then((data: AxiosResponse) => {
@@ -49,24 +50,38 @@ const App = (): JSX.Element => {
           };
           return listData;
         });
-        setListDatas(listDatas);
+
+        if (
+          products === undefined ||
+          products === null ||
+          products[0] === undefined ||
+          products[0] === null
+        ) {
+          setObserverOn(false);
+        } else {
+          setObserverOn(true);
+        }
+        setListDatas((datas) => [...datas, ...listDatas]);
       })
       .catch(() => {
-        setListDatas([
-          {
-            id: 1,
-            title: "자전거",
-            img: "hamster.png",
-            price: 3000,
-            createdAt: 3,
-          },
-          {
-            id: 2,
-            title: "자전건가",
-            img: "hamster.png",
-            price: 3000,
-            createdAt: 3,
-          },
+        setListDatas((datas) => [
+          ...datas,
+          ...[
+            {
+              id: 1,
+              title: "자전거",
+              img: "hamster.png",
+              price: 3000,
+              createdAt: 3,
+            },
+            {
+              id: 2,
+              title: "자전건가",
+              img: "hamster.png",
+              price: 3000,
+              createdAt: 3,
+            },
+          ],
         ]);
       });
   };
@@ -120,6 +135,7 @@ const App = (): JSX.Element => {
           userlogin={userlogin}
           main={main}
           userDataCheck={userDataCheck}
+          obToggleValue={obServerOn}
         />
       </div>
     </div>

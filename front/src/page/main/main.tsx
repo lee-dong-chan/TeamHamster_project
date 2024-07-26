@@ -7,13 +7,15 @@ import { IListData } from "../../App";
 import { useCallback, useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import axios from "axios";
+import Observer from "../../Component/Observer/Observer";
 
 interface IProps {
   list: ListData[];
   mainDataGet: () => void;
+  obToggleValue: boolean;
 }
 
-const Main = ({ list, mainDataGet }: IProps): JSX.Element => {
+const Main = ({ list, mainDataGet, obToggleValue }: IProps): JSX.Element => {
   const [cookies] = useCookies(["Product"]);
   const { ismobile, isdesktop } = useBreakPoint();
   const [recent, setrecent] = useState<ListData[]>([]);
@@ -75,7 +77,7 @@ const Main = ({ list, mainDataGet }: IProps): JSX.Element => {
           <></>
         )}
         <div className="p-[2rem] text-[1.7rem] font-bold">오늘의 추천상품</div>
-        <List list={list} />
+        <List list={list} func={mainDataGet} toggleValue={obToggleValue} />
       </div>
     </div>
   );

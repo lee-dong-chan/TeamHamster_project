@@ -17,13 +17,14 @@ const Search = ({}: IProps): JSX.Element => {
   const [ListDatas, setListDatas] = useState<IListData[]>([]);
   const { isdesktop, ismobile } = useBreakPoint();
   let { id } = useParams();
+  const [obServerOn, setObserverOn] = useState<boolean>(true);
   const result = true;
 
   const searchDataGet = async () => {
     await axios
       .post(
-        `${process.env.REACT_APP_SERVER_URL}/main`,
-        { keyword: id },
+        `${process.env.REACT_APP_SERVER_URL}/search`,
+        { keyword: id, idx: ListDatas.length },
         { withCredentials: true }
       )
       .then((data: AxiosResponse) => {
@@ -42,17 +43,30 @@ const Search = ({}: IProps): JSX.Element => {
           };
           return listData;
         });
-        setListDatas(listDatas);
+        if (
+          products === undefined ||
+          products === null ||
+          products[0] === undefined ||
+          products[0] === null
+        ) {
+          setObserverOn(false);
+        } else {
+          setObserverOn(true);
+        }
+        setListDatas((datas) => [...datas, ...listDatas]);
       })
       .catch(() => {
-        setListDatas([
-          {
-            id: 1,
-            title: "자전거 ok",
-            img: "hamster.png",
-            price: 3000,
-            createdAt: 3,
-          },
+        setListDatas((datas) => [
+          ...datas,
+          ...[
+            {
+              id: 1,
+              title: "자전거 ok",
+              img: "hamster.png",
+              price: 3000,
+              createdAt: 3,
+            },
+          ],
         ]);
       });
   };
@@ -87,7 +101,7 @@ const Search = ({}: IProps): JSX.Element => {
 
         {result ? (
           <div>
-            <List list={search} />
+            <List list={search} func={searchDataGet} toggleValue={obServerOn} />
             <div className="py-5 center">{isdesktop && <Paging />}</div>
           </div>
         ) : (

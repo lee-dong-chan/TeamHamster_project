@@ -22,7 +22,7 @@ import { CgAdd } from "react-icons/cg";
 import { MdOutlineShoppingBag } from "react-icons/md";
 import { IoAccessibility } from "react-icons/io5";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import MobileModal from "../../Component/Modal/ModalBox/Modal";
 import { box, center } from "../styles";
 import { useRecoilState, useSetRecoilState } from "recoil";
@@ -33,7 +33,6 @@ import axios from "axios";
 import { IUserDatas } from "../interFace";
 import { GoogleCallback } from "../../Component/OAuth/GoogleOAuth";
 import { NaverCallback } from "../../Component/OAuth/NaverOAuth";
-import Observer from "../../Component/Observer/Observer";
 
 interface IProps {
   setUserLogin: React.Dispatch<React.SetStateAction<boolean>>;
@@ -42,6 +41,7 @@ interface IProps {
   userDatas: IUserDatas;
   userDataCheck: () => void;
   mainDataGet: () => void;
+  obToggleValue: boolean;
 }
 
 const Layout = ({
@@ -51,6 +51,7 @@ const Layout = ({
   main,
   userDataCheck,
   mainDataGet,
+  obToggleValue,
 }: IProps): JSX.Element => {
   const { isdesktop, ismobile } = useBreakPoint();
   const authority = false;
@@ -78,12 +79,16 @@ const Layout = ({
                 </div>
               )}
               <Link to={"/"}>
-                <img alt="logo" src="/imgs/hamster.png" className="h-[4rem]"></img>
+                <img
+                  alt="logo"
+                  src="/imgs/hamster.png"
+                  className="h-[4rem]"
+                ></img>
               </Link>
               <div
-                className={`${isdesktop && "text-[2rem] text-white font-bold"} ${
-                  ismobile && "text-[1rem] text-white font-bold"
-                }`}
+                className={`${
+                  isdesktop && "text-[2rem] text-white font-bold"
+                } ${ismobile && "text-[1rem] text-white font-bold"}`}
               >
                 햄스터마켓
               </div>
@@ -105,8 +110,16 @@ const Layout = ({
             <div></div>
           ) : (
             <Routes>
-              <Route path="Test" element={<Observer />}></Route>
-              <Route path="/" element={<Main list={main} mainDataGet={mainDataGet} />}></Route>
+              <Route
+                path="/"
+                element={
+                  <Main
+                    list={main}
+                    mainDataGet={mainDataGet}
+                    obToggleValue={obToggleValue}
+                  />
+                }
+              ></Route>
               <Route
                 path="/GoogleLoding"
                 element={<GoogleCallback setUserLogin={setUserLogin} />}
@@ -119,12 +132,20 @@ const Layout = ({
               <Route path={`/search/:id`} element={<Search />}></Route>
               <Route
                 path="/product/:id"
-                element={<Product mainDataGet={mainDataGet} userdata={userDatas} />}
+                element={
+                  <Product mainDataGet={mainDataGet} userdata={userDatas} />
+                }
               ></Route>
               <Route path="/sell" element={<ProductWrite />}></Route>
               <Route path="/sell/:id" element={<ProductWrite />}></Route>
-              <Route path="/mystore" element={<MyStore userlogin={userlogin} />}></Route>
-              <Route path="/login" element={<LoginPage setUserLogin={setUserLogin} />}></Route>
+              <Route
+                path="/mystore"
+                element={<MyStore userlogin={userlogin} />}
+              ></Route>
+              <Route
+                path="/login"
+                element={<LoginPage setUserLogin={setUserLogin} />}
+              ></Route>
               <Route path="/regist" element={<Regist />}></Route>
               <Route
                 path="/point"

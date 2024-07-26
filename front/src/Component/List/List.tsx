@@ -2,12 +2,15 @@ import { useBreakPoint } from "../../CustomHook/BreakPoint";
 import { List as ListData } from "../../lib/list";
 import { box, center } from "../../lib/styles";
 import Item from "./ListItem";
+import Observer from "../Observer/Observer";
 
 interface IProps {
   list: ListData[];
+  func?: () => void;
+  toggleValue?: boolean;
 }
 
-const List = ({ list }: IProps): JSX.Element => {
+const List = ({ list, func, toggleValue }: IProps): JSX.Element => {
   const { isdesktop, ismobile } = useBreakPoint();
   return (
     <div
@@ -24,6 +27,7 @@ const List = ({ list }: IProps): JSX.Element => {
           {list.map((item: ListData, idx: number) => (
             <Item key={idx} item={item} />
           ))}
+          {toggleValue && func && <Observer func={func} />}
         </div>
       </div>
     </div>

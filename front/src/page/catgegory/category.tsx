@@ -17,6 +17,7 @@ const Category = ({}: IProps): JSX.Element => {
   const cate: string = "자동차";
   const [catelist, setcatelist] = useState<ListData[]>([]);
   const [ListDatas, setListDatas] = useState<IListData[]>([]);
+  const [obServerOn, setObserverOn] = useState<boolean>(true);
 
   let { id } = useParams();
 
@@ -24,7 +25,7 @@ const Category = ({}: IProps): JSX.Element => {
     await axios
       .post(
         `${process.env.REACT_APP_SERVER_URL}/category/${id}`,
-        {},
+        { idx: ListDatas.length },
         { withCredentials: true }
       )
       .then((data: AxiosResponse) => {
@@ -44,18 +45,30 @@ const Category = ({}: IProps): JSX.Element => {
           };
           return listData;
         });
-        setListDatas(listDatas);
+        if (
+          products === undefined ||
+          products === null ||
+          products[0] === undefined ||
+          products[0] === null
+        ) {
+          setObserverOn(false);
+        } else {
+          setObserverOn(true);
+        }
+        setListDatas((datas) => [...datas, ...listDatas]);
       })
-
       .catch(() => {
-        setListDatas([
-          {
-            id: 1,
-            title: "자전거 ok",
-            img: "hamster.png",
-            price: 3000,
-            createdAt: 3,
-          },
+        setListDatas((datas) => [
+          ...datas,
+          ...[
+            {
+              id: 1,
+              title: "자전거 ok",
+              img: "hamster.png",
+              price: 3000,
+              createdAt: 3,
+            },
+          ],
         ]);
       });
   };
@@ -104,7 +117,7 @@ const Category = ({}: IProps): JSX.Element => {
         </div>
         {catelist ? (
           <div>
-            <List list={catelist} />
+            <List list={catelist} func={cateDataGet} toggleValue={obServerOn} />
             {/* <div className={`${center}`}>{isdesktop && <Paging />}</div> */}
           </div>
         ) : (
