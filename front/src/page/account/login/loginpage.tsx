@@ -1,4 +1,4 @@
-import { center } from "../../../lib/styles";
+import { box, center } from "../../../lib/styles";
 import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
@@ -64,7 +64,7 @@ const LoginPage = ({ setUserLogin }: IProps): JSX.Element => {
 
   return (
     <div>
-      <div className={`${ismobile && "px-4 h-[40rem]"} Box ${center}`}>
+      <div className={`${ismobile && "px-4 h-[40rem]"} ${box} ${center}`}>
         <div className="rounded-lg  w-full m">
           <h2 className="text-2xl font-bold text-center text-orange-500 mt-10">
             햄스터 마켓
