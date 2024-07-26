@@ -20,8 +20,12 @@ export default async (req: Request, res: Response) => {
     }
 
     const product = await Product.findOne({
-      where: { id: selectproduct },
+      where: { id: selectproduct, itemState: "구매 확정" },
     });
+
+    if (!product) {
+      throw Error("not found product");
+    }
 
     const duplicationcheck = await Review.findOne({
       where: { productId: selectproduct, storeId: reqbody.user.id },
@@ -42,7 +46,7 @@ export default async (req: Request, res: Response) => {
       await nowuser?.addReview(reviewWrite);
     }
 
-    res.json({ result: "ok", duplicationcheck: duplicationcheck });
+    res.json({ result: "ok" });
   } catch (err: any) {
     console.error(err);
     await transaction.rollback();
