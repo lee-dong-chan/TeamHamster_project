@@ -24,7 +24,13 @@ export default async (req: Request, res: Response) => {
         productlist[i].dataValues.image = splimg;
       }
     }
-    res.json({ product: productlist });
+
+    const nowcate = await Category.findOne({
+      attributes: ["name"],
+      where: { id: req.params.id },
+    });
+
+    res.json({ product: productlist, nowcate: nowcate });
   } catch (err) {
     console.error(err);
     res.status(500).json({ result: "fail" });
