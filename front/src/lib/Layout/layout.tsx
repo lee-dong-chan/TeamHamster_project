@@ -123,7 +123,9 @@ const Layout = ({
               <Route path={`/search/:id`} element={<Search />}></Route>
               <Route
                 path="/product/:id"
-                element={<Product userdata={userDatas} />}
+                element={
+                  <Product mainDataGet={mainDataGet} userdata={userDatas} />
+                }
               ></Route>
               <Route path="/sell" element={<ProductWrite />}></Route>
               <Route path="/sell/:id" element={<ProductWrite />}></Route>

@@ -87,19 +87,17 @@ const App = (): JSX.Element => {
 
   //mount
   useEffect(() => {
-    if (ListDatas[0]) {
-      setMain(
-        ListDatas.map((data) => {
-          return new List(
-            data.id,
-            data.title,
-            data.img,
-            data.price,
-            data.createdAt
-          );
-        })
-      );
-    }
+    setMain(
+      ListDatas.map((data) => {
+        return new List(
+          data.id,
+          data.title,
+          data.img,
+          data.price,
+          data.createdAt
+        );
+      })
+    );
   }, [ListDatas]);
 
   useEffect(() => {
