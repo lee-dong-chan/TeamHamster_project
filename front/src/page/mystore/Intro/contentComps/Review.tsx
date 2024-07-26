@@ -11,6 +11,7 @@ import { useLocation } from "react-router-dom";
 
 const Review = () => {
   const serverUrl = process.env.REACT_APP_SERVER_URL;
+  const imgBaseUrl = process.env.REACT_APP_IMG_BASE;
   const loca = useLocation();
 
   const reviewUrl = `${serverUrl}/review${loca.search}`;
@@ -37,7 +38,7 @@ const Review = () => {
               reviewContent: "오류가 뜨면 찾아오는 따봉스터",
               Store: {
                 nick: "따봉스터",
-                img: "./imgs/good.png",
+                img: `good.png`,
               },
               Product: {
                 title: "따봉스터를 봤다면 코드를 버려라",
@@ -48,7 +49,7 @@ const Review = () => {
               reviewContent: "오류가 뜨면 찾아오는 따봉스터",
               Store: {
                 nick: "따봉스터",
-                img: "./imgs/good.png",
+                img: `good.png`,
               },
               Product: {
                 title: "따봉스터를 봤다면 코드를 버려라",
