@@ -21,6 +21,8 @@ const ReviewWrite = ({ id, img }: IProps): JSX.Element => {
 
   const ModalState = useSetRecoilState(Modal);
 
+  const serverUrl = process.env.REACT_APP_SERVER_URL;
+
   //func
 
   const reviewWrite = async (
@@ -30,7 +32,7 @@ const ReviewWrite = ({ id, img }: IProps): JSX.Element => {
     if (contentValue) {
       axios
         .post(
-          `/reviewWrite/${id}`,
+          `${serverUrl}/reviewWrite/${id}`,
           {
             star: starValue,
             content: contentValue,

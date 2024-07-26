@@ -33,6 +33,7 @@ import axios from "axios";
 import { IUserDatas } from "../interFace";
 import { GoogleCallback } from "../../Component/OAuth/GoogleOAuth";
 import { NaverCallback } from "../../Component/OAuth/NaverOAuth";
+import Observer from "../../Component/Observer/Observer";
 
 interface IProps {
   setUserLogin: React.Dispatch<React.SetStateAction<boolean>>;
@@ -111,6 +112,7 @@ const Layout = ({
             <div></div>
           ) : (
             <Routes>
+              <Route path="Test" element={<Observer />}></Route>
               <Route
                 path="/"
                 element={<Main list={main} mainDataGet={mainDataGet} />}
