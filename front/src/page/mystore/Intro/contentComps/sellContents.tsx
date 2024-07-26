@@ -31,6 +31,7 @@ const SellContent = ({ data, isBuyTap = false }: IProps) => {
   const imgBase = process.env.REACT_APP_IMG_BASE;
 
   //funcs
+
   const moveToProduct = (id: string) => {
     navigate(`/product/${id}`);
   };
@@ -38,7 +39,7 @@ const SellContent = ({ data, isBuyTap = false }: IProps) => {
   //// text = 정보수정 배송현황 리뷰쓰기 구매확정
   const moveToProductRetouch = () => {
     if (data.id) {
-      navigate(`/write/${data.id}`);
+      navigate(`/sell/${data.id}`);
     } else {
       console.log("정보수정 error", data.id);
     }
@@ -110,19 +111,18 @@ const SellContent = ({ data, isBuyTap = false }: IProps) => {
   }, []);
 
   return (
-    <div
-      className={`h-[420px] min-w-[220px]`}
-      onClick={() => {
-        if (data.id) {
-          moveToProduct(data.id + "");
-        } else {
-          console.log("전설의 따봉스터가 오류를 표합니다!");
-
-          return;
-        }
-      }}
-    >
-      <div className={`border-2 mx-2`}>
+    <div className={`h-[420px] min-w-[220px]`}>
+      <div
+        className={`border-2 mx-2`}
+        onClick={() => {
+          if (data.id) {
+            moveToProduct(data.id + "");
+          } else {
+            console.log("게시글 이동 오류");
+            return;
+          }
+        }}
+      >
         {/* 이미지 */}
         <div
           className={`h-[220px] bg-cover relative ${center}`}
