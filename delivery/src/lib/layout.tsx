@@ -16,8 +16,17 @@ import PickUpList from "../page/pickuplist";
 import DeliveryList from "../page/deliverylist";
 import SelectCamp from "../page/selectcamp";
 import MyPage from "../page/mypage";
-
+import DeliveryLoginPage from "../page/deliverylogin";
+import { useMutation } from "react-query";
+interface IUser {
+  id: number;
+  nick: string;
+  point: number;
+  admin: boolean;
+  delivery: boolean;
+}
 const LayOut = (): JSX.Element => {
+  const [userlogin, setUserLogin] = useState<boolean>(false);
   const [camp, setcamp] = useState<string>("");
   const [workstate, SetWorkState] = useState<boolean>();
   const [liststate, SetListState] = useState(0);
@@ -89,6 +98,22 @@ const LayOut = (): JSX.Element => {
     }
   };
 
+  const logcheck = useMutation({
+    mutationKey: "userlogin",
+    mutationFn: async () => {
+      const { data } = await axios.post(
+        `${serverUrl}/layout`,
+        {},
+        { withCredentials: true }
+      );
+      return data;
+    },
+  });
+
+  console.log(logcheck);
+
+  const log: IUser = logcheck.data?.login;
+  console.log(log);
   //mount
 
   useEffect(() => {
@@ -108,6 +133,10 @@ const LayOut = (): JSX.Element => {
     if (x && y) gpsToServer(x, y);
   }, [x, y]);
 
+  useEffect(() => {
+    logcheck.mutate();
+  }, []);
+
   return (
     <div className="h-[50rem] ">
       <div className="m-auto max-w-[35rem] h-[6rem] bg-blue-300">
@@ -125,7 +154,7 @@ const LayOut = (): JSX.Element => {
           </div>
           <div className="text-center text-white">
             <div>배송파트너</div>
-            <div>이동찬 님</div>
+            <div>{log?.nick} 님</div>
             {workstate && (
               <div className="border rounded bg-yellow-400">업무중</div>
             )}
@@ -134,37 +163,48 @@ const LayOut = (): JSX.Element => {
       </div>
       <div>
         <div className="m-auto w-[35rem]">
-          <Routes>
-            <Route path="/" element={<Main start={start} end={end} />}></Route>
-            <Route path="/pickupscan" element={<PickupScan />}></Route>
-            <Route
-              path="/pickupcheck"
-              element={
-                <PickupCheck liststate={liststate} checklist={saveList} />
-              }
-            ></Route>
-            <Route
-              path="/selectcamp"
-              element={<SelectCamp setcamp={setcamp} />}
-            ></Route>
-            <Route
-              path="/pickuplist"
-              element={
-                <PickUpList liststate={liststate} checklist={saveList} />
-              }
-            ></Route>
-            <Route
-              path="/deliverylist"
-              element={
-                <DeliveryList liststate={liststate} checklist={saveList} />
-              }
-            ></Route>
-            <Route path="/deliveryscan" element={<DeliveryScan />}></Route>
-            <Route
-              path="/mypage"
-              element={<MyPage workstate={workstate} camp={camp} />}
-            ></Route>
-          </Routes>
+          {log?.delivery ? (
+            <div>
+              <Routes>
+                <Route
+                  path="/"
+                  element={<Main start={start} end={end} />}
+                ></Route>
+                <Route path="/pickupscan" element={<PickupScan />}></Route>
+                <Route
+                  path="/pickupcheck"
+                  element={
+                    <PickupCheck liststate={liststate} checklist={saveList} />
+                  }
+                ></Route>
+                <Route
+                  path="/selectcamp"
+                  element={<SelectCamp setcamp={setcamp} />}
+                ></Route>
+                <Route
+                  path="/pickuplist"
+                  element={
+                    <PickUpList liststate={liststate} checklist={saveList} />
+                  }
+                ></Route>
+                <Route
+                  path="/deliverylist"
+                  element={
+                    <DeliveryList liststate={liststate} checklist={saveList} />
+                  }
+                ></Route>
+                <Route path="/deliveryscan" element={<DeliveryScan />}></Route>
+                <Route
+                  path="/mypage"
+                  element={<MyPage workstate={workstate} camp={camp} />}
+                ></Route>
+              </Routes>
+            </div>
+          ) : (
+            <div>
+              <DeliveryLoginPage setUserLogin={setUserLogin} />
+            </div>
+          )}
         </div>
       </div>
       <div className="m-auto max-w-[35rem] h-[5rem] flex items-center justify-evenly bg-gray-400 sticky bottom-0">

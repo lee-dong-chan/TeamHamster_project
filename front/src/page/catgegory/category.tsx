@@ -63,12 +63,14 @@ const Category = ({}: IProps): JSX.Element => {
   const getcatename = useMutation({
     mutationKey: "catename",
     mutationFn: async () => {
-      const data = axios.post(
+      const { data } = await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/category/${id}`,
         {},
         { withCredentials: true }
       );
-      console.log(data);
+
+      const name = data.nowcate.name;
+      return name;
     },
   });
 
@@ -91,14 +93,14 @@ const Category = ({}: IProps): JSX.Element => {
 
   useEffect(() => {
     cateDataGet();
+    getcatename.mutate();
   }, []);
   return (
     <div>
       {isdesktop && <SearchComp />}
       <div className={`${isdesktop && box} ${ismobile && mobilebox}`}>
         <div className="p-[2rem] text-[1.7rem] font-bold">
-          <span className="text-orange-500">{ListDatas[0]?.category}</span>{" "}
-          추천상품
+          <span className="text-orange-500">{getcatename.data}</span> 추천상품
         </div>
         {catelist ? (
           <div>
