@@ -7,7 +7,11 @@ import { IListData } from "../../App";
 import { useCallback, useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import axios from "axios";
+<<<<<<< HEAD
 import Observer from "../../Component/Observer/Observer";
+=======
+import { useMutation } from "react-query";
+>>>>>>> 78a2325 (find)
 
 interface IProps {
   list: ListData[];
@@ -21,41 +25,42 @@ const Main = ({ list, mainDataGet, obToggleValue }: IProps): JSX.Element => {
   const [recent, setrecent] = useState<ListData[]>([]);
   const [recentlist, setresent] = useState<number[]>([]);
 
-  const save = () => {
-    if (cookies.Product) {
-      const products = cookies.Product.product;
+  const products = cookies.Product.product;
+  const recentproduct = products
+    .split("+")
+    .filter((item: string) => item != "")
+    .filter((item: String, idx: number) => {
+      return (
+        products
+          .split("+")
+          .filter((item: string) => item != "")
+          .indexOf(item) === idx
+      );
+    });
+  const pre: number[] = recentproduct.map((item: string) => {
+    return Number(item);
+  });
 
-      const recentproduct = products
-        .split("+")
-        .filter((item: string) => item != "")
-        .filter((item: String, idx: number) => {
-          return (
-            products
-              .split("+")
-              .filter((item: string) => item != "")
-              .indexOf(item) === idx
-          );
-        });
-      const pre: number[] = recentproduct.map((item: string) => {
-        return Number(item);
-      });
-      setresent(pre);
-    }
-  };
+  const getrecent = useMutation({
+    mutationKey: "recentitems",
+    mutationFn: async () => {
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_SERVER_URL}/recent`,
+        { productlist: pre },
+        { withCredentials: true }
+      );
 
-  // const getrecent = async () => {
-  //   await axios.post(
-  //     `${process.env.REACT_APP_SERVER_URL}/recent`,
-  //     { productlist: [1, 2] },
-  //     { withCredentials: true }
-  //   );
-  // };
+      const products = data;
+      console.log(products);
+      const product = products.productlist;
+      console.log(product);
+    },
+  });
 
   const cookie = false;
 
   useEffect(() => {
-    save();
-    // getrecent();
+    getrecent.mutate();
     mainDataGet();
   }, []);
 
@@ -70,12 +75,12 @@ const Main = ({ list, mainDataGet, obToggleValue }: IProps): JSX.Element => {
               <div></div>
               <div></div>
             </div>
-            <div className="p-[2rem] text-[1.7rem] font-bold">최근 본 상품</div>
-            <List list={list} />
           </div>
         ) : (
           <></>
         )}
+        <div className="p-[2rem] text-[1.7rem] font-bold">최근 본 상품</div>
+        <List list={recent} />
         <div className="p-[2rem] text-[1.7rem] font-bold">오늘의 추천상품</div>
         <List list={list} func={mainDataGet} toggleValue={obToggleValue} />
       </div>
