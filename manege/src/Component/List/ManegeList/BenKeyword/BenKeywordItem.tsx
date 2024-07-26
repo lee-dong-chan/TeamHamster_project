@@ -20,9 +20,13 @@ const Item = ({ item, idx }: IProps): JSX.Element => {
   const delKeyword = useMutation({
     mutationKey: ["delKeyword"],
     mutationFn: async () => {
-      await axios.post(`${process.env.REACT_APP_SERVER_URL}/admin/delkeyword`, {
-        keyword: item.word,
-      });
+      await axios.post(
+        `${process.env.REACT_APP_SERVER_URL}/admin/delkeyword`,
+        {
+          keyword: item.word,
+        },
+        { withCredentials: true }
+      );
     },
     onSuccess(data) {
       queryClient.invalidateQueries("benlist");

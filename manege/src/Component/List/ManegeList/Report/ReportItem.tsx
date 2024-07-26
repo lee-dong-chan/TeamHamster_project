@@ -24,9 +24,9 @@ const Item = ({ item, idx }: IProps): JSX.Element => {
   const deletereport = useMutation({
     mutationKey: "delreport",
     mutationFn: async () => {
-      await axios.delete(
-        `${process.env.REACT_APP_SERVER_URL}/admin/report/${item.id}`
-      );
+      await axios.delete(`${process.env.REACT_APP_SERVER_URL}/admin/report/${item.id}`, {
+        withCredentials: true,
+      });
     },
     onSuccess(data) {
       queryClient.invalidateQueries("reportlist");
