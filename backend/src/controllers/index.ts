@@ -73,6 +73,8 @@ import updatepw from "../services/common/user/updatepw";
 /// user 중 OAuth
 import NaverCallback from "../services/common/user/NaverCallback";
 import GoogleCallback from "../services/common/user/GoogleCallback";
+import deliverycost from "../services/common/deliverycost";
+import pointpercent from "../services/common/pointpercent";
 
 router.use(
   session({
@@ -151,5 +153,8 @@ router.post("/updatepw", updatepw);
 /// user 중 OAuth
 router.post("/NaverCallback", NaverCallback);
 router.post("/GoogleCallback", GoogleCallback);
+
+router.post("/deliverycost", deliverycost);
+router.post("/pointpercent", pointpercent);
 
 export default router;
