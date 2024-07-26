@@ -115,6 +115,7 @@ const App = (): JSX.Element => {
     <div>
       <div>
         <Layout
+          mainDataGet={mainDataGet}
           userDatas={userDatas}
           setUserLogin={setUserLogin}
           userlogin={userlogin}

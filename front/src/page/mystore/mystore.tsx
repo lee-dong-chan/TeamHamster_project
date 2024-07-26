@@ -74,9 +74,13 @@ const MyStore = ({ userlogin }: IProps): JSX.Element => {
     getPageValues();
   }, [userlogin, reCheck]);
 
+  useEffect(() => {
+    getPageValues();
+  }, []);
+
   return (
     <div className={`${center} flex-wrap`}>
-      <Intro intro={intro}></Intro>
+      <Intro intro={intro} getPageValues={getPageValues}></Intro>
 
       <Content loginCheck={loginCheck}></Content>
     </div>
