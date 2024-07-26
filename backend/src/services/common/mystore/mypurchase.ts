@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Category, DeliveryCost, Product } from "../../../models";
+import { Category, DeliveryCost, Product, Review } from "../../../models";
 
 export default async (req: Request, res: Response) => {
   try {
@@ -10,15 +10,7 @@ export default async (req: Request, res: Response) => {
       count: number;
     } = await Product.findAndCountAll({
       where: { purchaseId: nowstoreid },
-      attributes: [
-        "id",
-        "title",
-        "discription",
-        "price",
-        "createdAt",
-        "itemState",
-        "img",
-      ],
+      attributes: ["id", "title", "discription", "price", "createdAt", "itemState", "img"],
       include: [
         { model: DeliveryCost, as: "DeliveryCost", attributes: ["cost"] },
         { model: Category, as: "Category", attributes: ["name"] },
@@ -29,6 +21,7 @@ export default async (req: Request, res: Response) => {
       if (product.rows[i].img) {
         const splimg = product.rows[i].img.split(",");
         product.rows[i].dataValues.image = splimg;
+
         if (
           product.rows[i].itemState == "픽업 대기" ||
           product.rows[i].itemState == "픽업 중" ||
@@ -40,6 +33,12 @@ export default async (req: Request, res: Response) => {
           product.rows[i].userCheck = true;
         } else if (product.rows[i].itemState == "구매 확정") {
           product.rows[i].itemState = "구매 완료";
+          const duplicationcheck = await Review.findOne({
+            where: { productId: product.rows[i].id, storeId: nowstoreid },
+          });
+          if (duplicationcheck) {
+            product.rows[i].userCheck = true;
+          }
         }
       }
     }
