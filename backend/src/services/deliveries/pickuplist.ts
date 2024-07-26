@@ -8,8 +8,8 @@ export default async (req: Request, res: Response) => {
     const deliveryfind: any = await delivery
       .find({ userId: reqbody.user.id })
       .distinct("productId");
-
-    const waitepickup: Product[] = await Product.findAll({
+    // 찜한 상품 리스트 보기
+    const waitpickup: Product[] = await Product.findAll({
       where: { id: deliveryfind, itemState: "픽업 중" },
       attributes: ["id", "itemState"],
       include: [
@@ -21,8 +21,7 @@ export default async (req: Request, res: Response) => {
         },
       ],
     });
-
-    res.json({ product: waitepickup });
+    res.json({ product: waitpickup });
   } catch (err) {
     console.error(err);
     res.status(500).json({ result: "fail" });

@@ -62,7 +62,7 @@ const PickupCheck = ({ liststate, checklist }: IProps): JSX.Element => {
         { withCredentials: true }
       );
       const date: IData | undefined = queryClient.getQueryData("pickup");
-      const product = date?.product;
+      const product = data?.product;
       const productlist = product?.map((data: IProduct) => {
         const outData = {
           id: data.id,

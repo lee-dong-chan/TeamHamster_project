@@ -19,7 +19,9 @@ const DeliveryScan = (): JSX.Element => {
     mutationKey: ["pickcomplete"],
     mutationFn: async () => {
       await axios.post(
-        `${process.env.REACT_APP_SERVER_URL}/delivery/deliverycomplete/${item}`
+        `${process.env.REACT_APP_SERVER_URL}/delivery/deliverycomplete/${item}`,
+        {},
+        { withCredentials: true }
       );
     },
   });
@@ -43,8 +45,7 @@ const DeliveryScan = (): JSX.Element => {
       </div>
 
       <div className="m-5 text-[1.3rem] font-bold">
-        <span className="text-orange-400">{pickitem}</span>상품배송을 완료
-        하시겠습니까?
+        <span className="text-orange-400">{pickitem}</span>상품배송을 완료 하시겠습니까?
       </div>
       <div className={`m-[3rem] `}>
         <Link to={"/"}>

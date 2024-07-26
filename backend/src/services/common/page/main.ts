@@ -7,6 +7,8 @@ export default async (req: Request, res: Response) => {
       where: { itemState: "판매중" },
       attributes: ["id", "title", "discription", "price", "createdAt", "img"],
       include: [{ model: Category, as: "Category", attributes: ["name"] }],
+      offset: req.body.idx,
+      limit: 6,
     });
 
     for (let i = 0; i < productlist.length; i++) {

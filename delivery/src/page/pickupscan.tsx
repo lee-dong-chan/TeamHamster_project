@@ -22,7 +22,9 @@ const PickupScan = ({}): JSX.Element => {
     mutationKey: ["pickcomplete"],
     mutationFn: async () => {
       await axios.post(
-        `${process.env.REACT_APP_SERVER_URL}/delivery/pickscan/${item}`
+        `${process.env.REACT_APP_SERVER_URL}/delivery/pickscan/${item}`,
+        {},
+        { withCredentials: true }
       );
     },
     onSuccess(data) {
@@ -49,8 +51,7 @@ const PickupScan = ({}): JSX.Element => {
       </div>
 
       <div className="m-4 text-[1.3rem] font-bold">
-        <span className="text-orange-400">{pickitem}</span>상품을 픽업
-        하시겠습니까?
+        <span className="text-orange-400">{pickitem}</span>상품을 픽업 하시겠습니까?
       </div>
       <div className={`m-[3rem] `}>
         <Link to={"/"}>

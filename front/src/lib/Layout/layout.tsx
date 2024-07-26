@@ -78,32 +78,25 @@ const Layout = ({
                 </div>
               )}
               <Link to={"/"}>
-                <img
-                  alt="logo"
-                  src="/imgs/hamster.png"
-                  className="h-[4rem]"
-                ></img>
+                <img alt="logo" src="/imgs/hamster.png" className="h-[4rem]"></img>
               </Link>
               <div
-                className={`${
-                  isdesktop && "text-[2rem] text-white font-bold"
-                } ${ismobile && "text-[1rem] text-white font-bold"}`}
+                className={`${isdesktop && "text-[2rem] text-white font-bold"} ${
+                  ismobile && "text-[1rem] text-white font-bold"
+                }`}
               >
                 햄스터마켓
               </div>
             </div>
 
-            {!userlogin ? (
-              <NotLogin />
-            ) : !userDatas.login?.delivery ? (
-              !userDatas.login?.admin ? (
+            <div>
+              {!userlogin && <NotLogin />}
+              {userlogin && userDatas.login?.admin ? (
                 <Login userDatas={userDatas} setUserLogin={setUserLogin} />
               ) : (
                 <Maneger userDatas={userDatas} />
-              )
-            ) : (
-              <div></div>
-            )}
+              )}
+            </div>
           </div>
         </div>
         {/* 상단 */}
@@ -113,10 +106,7 @@ const Layout = ({
           ) : (
             <Routes>
               <Route path="Test" element={<Observer />}></Route>
-              <Route
-                path="/"
-                element={<Main list={main} mainDataGet={mainDataGet} />}
-              ></Route>
+              <Route path="/" element={<Main list={main} mainDataGet={mainDataGet} />}></Route>
               <Route
                 path="/GoogleLoding"
                 element={<GoogleCallback setUserLogin={setUserLogin} />}
@@ -129,20 +119,12 @@ const Layout = ({
               <Route path={`/search/:id`} element={<Search />}></Route>
               <Route
                 path="/product/:id"
-                element={
-                  <Product mainDataGet={mainDataGet} userdata={userDatas} />
-                }
+                element={<Product mainDataGet={mainDataGet} userdata={userDatas} />}
               ></Route>
               <Route path="/sell" element={<ProductWrite />}></Route>
               <Route path="/sell/:id" element={<ProductWrite />}></Route>
-              <Route
-                path="/mystore"
-                element={<MyStore userlogin={userlogin} />}
-              ></Route>
-              <Route
-                path="/login"
-                element={<LoginPage setUserLogin={setUserLogin} />}
-              ></Route>
+              <Route path="/mystore" element={<MyStore userlogin={userlogin} />}></Route>
+              <Route path="/login" element={<LoginPage setUserLogin={setUserLogin} />}></Route>
               <Route path="/regist" element={<Regist />}></Route>
               <Route
                 path="/point"

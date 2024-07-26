@@ -99,7 +99,7 @@ router.use(
 
 /// 로그인 확인 및 권한 확인
 router.use(logincheck);
-router.use("/deliveries", deliveries);
+router.use("/delivery", deliveries);
 router.use("/admin", admin);
 router.post("/adminlogin", adminlogin);
 router.post("/deliverylogin", deliverylogin);
