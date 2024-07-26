@@ -18,6 +18,8 @@ export default async (req: Request, res: Response) => {
       ],
       where: { title: { [Op.like]: `%${reqbody.keyword}%` } },
       include: [{ model: Category, as: "Category", attributes: ["name"] }],
+      offset: reqbody.idx,
+      limit: 6,
     });
 
     for (let i = 0; i < productlist.length; i++) {

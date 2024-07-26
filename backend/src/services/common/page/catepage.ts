@@ -15,8 +15,15 @@ export default async (req: Request, res: Response) => {
         "categoryId",
       ],
       include: [
-        { model: Category, as: "Category", attributes: ["name"], where: { id: req.params.id } },
+        {
+          model: Category,
+          as: "Category",
+          attributes: ["name"],
+          where: { id: req.params.id },
+        },
       ],
+      offset: req.body.idx,
+      limit: 6,
     });
     for (let i = 0; i < productlist.length; i++) {
       if (productlist[i].img) {

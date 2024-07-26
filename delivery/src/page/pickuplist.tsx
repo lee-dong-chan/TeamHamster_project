@@ -49,18 +49,17 @@ const PickUpList = ({ liststate, checklist }: IProps): JSX.Element => {
   const mypickup = useMutation({
     mutationKey: ["mypickup"],
     mutationFn: async () => {
-      await axios.post(
+      const { data } = await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/delivery/pickuplist`,
-        { userId: 1 },
+        {},
         { withCredentials: true }
       );
-      const data: IData | undefined = queryClient.getQueryData(["mypickup"]);
+
       const product = data?.product;
       const productlist = product?.map((data: IProduct) => {
         const outData: Picklist = {
           id: data.id,
-          pickadress:
-            data.SellAddress.Address.address + data.SellAddress.detailAddress,
+          pickadress: data.SellAddress.Address.address + data.SellAddress.detailAddress,
           state: data.itemState,
         };
         return outData;
