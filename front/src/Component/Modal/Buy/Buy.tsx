@@ -44,6 +44,7 @@ const Buy = ({}: IProps): JSX.Element => {
     { address: "오류", addressId: 999, detailAddress: "디테일주소" },
   ]);
   const [price, setPrice] = useState<number>(0);
+  const [deliveryCost, setDeliveryCost] = useState<Number>();
 
   //func
   const selectadress = (value: string, id: number) => {
@@ -94,12 +95,26 @@ const Buy = ({}: IProps): JSX.Element => {
     product: T;
   }
   //값 가져오기
+  interface IDeCosRes {
+    cost: {
+      cost: number;
+    };
+  }
   const getProductValues = async () => {
     await axios
       .post(`${serverUrl}/product/${productid}`, {}, { withCredentials: true })
-      .then((data: AxiosResponse<IFix<IProductPage>>) => {
+      .then(async (data: AxiosResponse<IFix<IProductPage>>) => {
         console.log(data.data, "asdasdadasd");
         setPrice(data.data.product.price);
+
+        await axios
+          .post("/deliverycost", {}, { withCredentials: true })
+          .then((data: AxiosResponse<IDeCosRes>) => {
+            setDeliveryCost(data.data.cost.cost);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       })
       .catch((err) => {
         console.log("err", err);
@@ -156,7 +171,15 @@ const Buy = ({}: IProps): JSX.Element => {
           <div className="p-3 text-[1.2rem]">현재주소: {selectcontent}</div>
         </div>
         <div className="p-3 text-[1.3rem]">
-          상품금액:<span className="text-orange-400">{price}</span>원
+          <div>
+            상품금액:<span className="text-orange-400">{price}</span>원
+          </div>
+          {deliveryCost && (
+            <div>
+              택배비:
+              <span className="text-orange-400">{deliveryCost + ""}</span>원
+            </div>
+          )}
         </div>
       </div>
       <div>

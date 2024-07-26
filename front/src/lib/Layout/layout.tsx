@@ -138,7 +138,10 @@ const Layout = ({
                 element={<LoginPage setUserLogin={setUserLogin} />}
               ></Route>
               <Route path="/regist" element={<Regist />}></Route>
-              <Route path="/point" element={<Point />}></Route>
+              <Route
+                path="/point"
+                element={<Point userDataCheck={userDataCheck} />}
+              ></Route>
             </Routes>
           )}
           <div>
