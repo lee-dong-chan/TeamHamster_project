@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { DeliveryCost, ExtraAddress, Product, Store } from "../../../models";
+import { DeliveryCost, ExtraAddress, PointHistory, Product, Store } from "../../../models";
 
 export default async (req: Request, res: Response) => {
   try {
@@ -26,10 +26,8 @@ export default async (req: Request, res: Response) => {
       attributes: ["id", "cost"],
     });
 
-    let pointcheck: number = nowuser.point - product.price;
-    const delcost: number = deliverycost?.cost || 1000;
-
-    pointcheck = nowuser.point - product.price - delcost;
+    const delcost: number = deliverycost?.cost || 5000;
+    let pointcheck: number = nowuser.point - product.price - delcost;
 
     if (pointcheck < 0) {
       throw Error("not have point");
@@ -43,6 +41,12 @@ export default async (req: Request, res: Response) => {
     await Purchaseaddress?.addPurchaseAddress(product);
     await product?.update({ itemState: "픽업 대기" });
     await nowuser?.update({ point: pointcheck });
+
+    const nowhistory = await PointHistory.create({
+      point: -product.price - delcost,
+      history: `${product.title} 상품 구매`,
+    });
+    await nowuser?.addPointHistory(nowhistory);
 
     res.json({ result: "ok" });
   } catch (err: any) {
