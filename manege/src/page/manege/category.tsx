@@ -36,7 +36,8 @@ const ManegeCategory = ({}: IProps): JSX.Element => {
       );
     },
     onSuccess(data) {
-      queryClient.invalidateQueries({ queryKey: "firstcate" });
+      queryClient.invalidateQueries("firstcate");
+      // queryClient.invalidateQueries("secondcate");
     },
   });
 

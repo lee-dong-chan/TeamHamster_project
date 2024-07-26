@@ -74,10 +74,6 @@ const ManegeCategoryList = ({
       });
   };
 
-  console.log(`cate:${cate}`);
-  console.log(`cate1:${selectcate1}`);
-  console.log(`cate2:${selectcate2}`);
-
   useEffect(() => {
     settopcate(cate?.id);
     settopname(cate?.name);
@@ -86,9 +82,9 @@ const ManegeCategoryList = ({
   }, [cate]);
 
   useEffect(() => {
+    setselectcate2(0);
     setdata3([]);
-    thirdcate();
-  }, [selectcate1]);
+  }, [selectcate1, data2[0]]);
 
   return (
     <div className="w-[60rem] h-[30rem] flex border">
@@ -124,7 +120,7 @@ const ManegeCategoryList = ({
       <div className="h-[100%] flex-1 overflow-y-auto">
         <div className="p-2">
           {selectcate2 !== undefined &&
-            data3.map((item: ICate, idx: number) => (
+            data3?.map((item: ICate, idx: number) => (
               <CateItem
                 key={idx}
                 item={item}
