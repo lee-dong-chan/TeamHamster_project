@@ -30,7 +30,7 @@ export default async (req: Request, res: Response) => {
         } else if (product.rows[i].itemState == "배송 완료") {
           product.rows[i].itemState = "배송중";
           product.rows[i].userCheck = true;
-        } else if ((product.rows[i].itemState = "구매 확정")) {
+        } else if (product.rows[i].itemState == "구매 확정") {
           product.rows[i].itemState = "구매 완료";
         }
       }

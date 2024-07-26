@@ -28,7 +28,7 @@ export default async (req: Request, res: Response) => {
           product.rows[i].itemState == "배송 완료"
         ) {
           product.rows[i].itemState = "배송중";
-        } else if ((product.rows[i].itemState = "구매 확정")) {
+        } else if (product.rows[i].itemState == "구매 확정") {
           product.rows[i].itemState = "판매 완료";
         }
       }
