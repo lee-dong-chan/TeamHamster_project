@@ -2,18 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-.Box {
-  max-width: 80rem;
-  margin: auto;
+body {
+  -ms-overflow-style: none;
 }
 
-.MobileBox {
-  max-width: 30rem;
-  margin: auto;
-}
-
-.center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+::-webkit-scrollbar {
+  display: none;
 }

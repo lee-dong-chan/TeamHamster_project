@@ -3,7 +3,7 @@ import Item from "./PagingItem";
 interface IProps {}
 
 const Paging = ({}: IProps): JSX.Element => {
-  const pageCount: number = 10;
+  const pageCount: number = 6;
   const number: Array<number> = [];
   for (let i = 0; i < pageCount && i < 10; i++) {
     number.push(i + 1);

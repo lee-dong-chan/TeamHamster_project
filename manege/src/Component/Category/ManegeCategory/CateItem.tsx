@@ -1,3 +1,4 @@
+import { UseMutationResult } from "react-query";
 import { ICLick } from "./ManegeCategory";
 
 export interface ICate {
@@ -29,16 +30,16 @@ const CateItem = ({
     } else if (setselectcate2) {
       setcate({ id: item.id, name: item.name });
       setselectcate2(item.id);
-    } else {
-      setcate({ id: item.id, name: item.name });
     }
   };
 
   return (
     <div>
       <div
-        onClick={select}
-        className={`py-3 flex items-center hover:bg-gray-200 ${
+        onClick={() => {
+          select();
+        }}
+        className={`py-3 flex items-center hover:bg-gray-200 visited:bg-gray-200 ${
           (cate1 == item.id && "bg-gray-200") ||
           (cate2 == item.id && "bg-gray-200")
         }`}

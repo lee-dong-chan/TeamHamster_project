@@ -94,10 +94,14 @@ const Layout = ({
 
             {!userlogin ? (
               <NotLogin />
-            ) : !userDatas.login?.admin ? (
-              <Login userDatas={userDatas} setUserLogin={setUserLogin} />
+            ) : !userDatas.login?.delivery ? (
+              !userDatas.login?.admin ? (
+                <Login userDatas={userDatas} setUserLogin={setUserLogin} />
+              ) : (
+                <Maneger userDatas={userDatas} />
+              )
             ) : (
-              <Maneger userDatas={userDatas} />
+              <div></div>
             )}
           </div>
         </div>
@@ -177,7 +181,7 @@ const Layout = ({
           </div>
         )}
         {ismobile && getModal[0] === undefined && (
-          <div className="h-[6em] flex justify-evenly items-center sticky bottom-0 bg-gray-300 border border-t">
+          <div className="absolute h-[6em] flex justify-evenly items-center sticky bottom-0 bg-gray-300 border border-t">
             <Link to={"/"}>
               <div className="flex flex-col items-center ">
                 <IoHome size={30} />

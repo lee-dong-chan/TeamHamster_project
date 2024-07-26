@@ -12,6 +12,7 @@ export interface IListData {
   title: string;
   img: string;
   price: number;
+  category?: string;
   createdAt: number;
 }
 

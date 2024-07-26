@@ -8,6 +8,8 @@ import { IListData } from "../../App";
 import { IProduct } from "../../lib/interFace";
 import { useParams } from "react-router-dom";
 import axios, { AxiosResponse } from "axios";
+import { box, center, mobilebox } from "../../lib/styles";
+import { useMutation } from "react-query";
 interface IProps {}
 
 const Category = ({}: IProps): JSX.Element => {
@@ -21,19 +23,20 @@ const Category = ({}: IProps): JSX.Element => {
   const cateDataGet = async () => {
     await axios
       .post(
-        `${process.env.REACT_APP_SERVER_URL}/main`,
-        { keyword: id },
+        `${process.env.REACT_APP_SERVER_URL}/category/${id}`,
+        {},
         { withCredentials: true }
       )
       .then((data: AxiosResponse) => {
-        console.log(data);
         const products: IProduct[] = data.data.product;
+
         const listDatas: IListData[] = products.map((data: IProduct) => {
           const listData: IListData = {
             id: data.id || 9999999,
             title: data.title,
             img: data.image ? data.image[0] : "hamster.png",
             price: data.price,
+            category: data.Category?.name,
             createdAt: Math.floor(
               (+new Date() - +new Date(data.createdAt || new Date() + "")) /
                 (1000 * 60 * 60 * 24)
@@ -43,6 +46,7 @@ const Category = ({}: IProps): JSX.Element => {
         });
         setListDatas(listDatas);
       })
+
       .catch(() => {
         setListDatas([
           {
@@ -55,6 +59,19 @@ const Category = ({}: IProps): JSX.Element => {
         ]);
       });
   };
+
+  const getcatename = useMutation({
+    mutationKey: "catename",
+    mutationFn: async () => {
+      const data = axios.post(
+        `${process.env.REACT_APP_SERVER_URL}/category/${id}`,
+        {},
+        { withCredentials: true }
+      );
+      console.log(data);
+    },
+  });
+
   //mount
   useEffect(() => {
     if (ListDatas[0]) {
@@ -78,14 +95,15 @@ const Category = ({}: IProps): JSX.Element => {
   return (
     <div>
       {isdesktop && <SearchComp />}
-      <div className={`${isdesktop && "Box"} ${ismobile && "MobileBox"}`}>
+      <div className={`${isdesktop && box} ${ismobile && mobilebox}`}>
         <div className="p-[2rem] text-[1.7rem] font-bold">
-          <span className="text-orange-500">{cate}</span> 추천상품
+          <span className="text-orange-500">{ListDatas[0]?.category}</span>{" "}
+          추천상품
         </div>
         {catelist ? (
           <div>
             <List list={catelist} />
-            <div className="center">{isdesktop && <Paging />}</div>
+            {/* <div className={`${center}`}>{isdesktop && <Paging />}</div> */}
           </div>
         ) : (
           <div></div>
