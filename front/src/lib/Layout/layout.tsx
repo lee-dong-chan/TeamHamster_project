@@ -34,12 +34,6 @@ import { IUserDatas } from "../interFace";
 import { GoogleCallback } from "../../Component/OAuth/GoogleOAuth";
 import { NaverCallback } from "../../Component/OAuth/NaverOAuth";
 
-// interface IUser {
-//   id: number;
-//   nick: string;
-//   point: number;
-// }
-
 interface IProps {
   setUserLogin: React.Dispatch<React.SetStateAction<boolean>>;
   userlogin: boolean;

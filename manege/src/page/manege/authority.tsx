@@ -83,8 +83,8 @@ const Authority = ({}: IProps): JSX.Element => {
         <div className="p-20 flex text-[2rem] font-bold gap-10 items-center ">
           <div>
             유저
-            <span className="px-2 text-orange-500">{userData?.nick}</span>
-            에게 관리자 권한을 부여하시겠습니까?
+            <span className="px-2 text-orange-500">{userData?.nick}</span>의
+            권한을 변경하시겠습니까?
           </div>
           <div
             onClick={() => {
