@@ -94,10 +94,10 @@ const Layout = ({
 
             {!userlogin ? (
               <NotLogin />
-            ) : !authority ? (
+            ) : !userDatas.login?.admin ? (
               <Login userDatas={userDatas} setUserLogin={setUserLogin} />
             ) : (
-              <Maneger />
+              <Maneger userDatas={userDatas} />
             )}
           </div>
         </div>
@@ -121,7 +121,10 @@ const Layout = ({
               ></Route>
               <Route path="/category/:id" element={<Category />}></Route>
               <Route path={`/search/:id`} element={<Search />}></Route>
-              <Route path="/product/:id" element={<Product />}></Route>
+              <Route
+                path="/product/:id"
+                element={<Product userdata={userDatas} />}
+              ></Route>
               <Route path="/sell" element={<ProductWrite />}></Route>
               <Route path="/sell/:id" element={<ProductWrite />}></Route>
               <Route
