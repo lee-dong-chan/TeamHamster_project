@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { List as ListData } from "../../lib/list";
 import { useBreakPoint } from "../../CustomHook/BreakPoint";
 import { IListData } from "../../App";
+import { center } from "../../lib/styles";
 
 export interface IItem {
   getId: () => number;
@@ -24,16 +25,22 @@ const Item = ({ item }: IProps): JSX.Element => {
           ismobile && "mb-5 max-w-[12rem] border"
         }`}
       >
-        <div>
-          <img src={`${item.getImg()}`}></img>
+        <div className={`${center}`}>
+          <img
+            className="w-[190px] h-[190px] flex"
+            src={`${item.getImg()}`}
+          ></img>
         </div>
         <div className=" border-t">
           <div className="p-3 text-[1.1rem]">{item.getTite()}</div>
           <div className="p-3 flex justify-between items-center">
             <div>
-              <span className="text-[1.2rem] font-bold">{item.getPrice()}</span> 원
+              <span className="text-[1.2rem] font-bold">{item.getPrice()}</span>{" "}
+              원
             </div>
-            <div className="text-[0.8rem] text-gray-500">{item.getCreatedAt()}</div>
+            <div className="text-[0.8rem] text-gray-500">
+              {item.getCreatedAt()}일 전
+            </div>
           </div>
         </div>
       </div>

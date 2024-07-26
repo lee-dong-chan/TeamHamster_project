@@ -10,7 +10,15 @@ export default async (req: Request, res: Response) => {
       count: number;
     } = await Product.findAndCountAll({
       where: { sellId: nowstoreid },
-      attributes: ["id", "title", "discription", "price", "createdAt", "itemState", "img"],
+      attributes: [
+        "id",
+        "title",
+        "discription",
+        "price",
+        "createdAt",
+        "itemState",
+        "img",
+      ],
       include: [
         { model: DeliveryCost, as: "DeliveryCost", attributes: ["cost"] },
         { model: Category, as: "Category", attributes: ["name"] },

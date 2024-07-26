@@ -129,10 +129,10 @@ const Intro = ({ intro, getPageValues }: IIntro): JSX.Element => {
     <div
       className={`${
         isdesktop &&
-        "border-2 border-gray-300 w-[95%] h-[350px] p-5 flex justify-between gap-[4%]"
+        "border-2 border-gray-300 w-[90%] h-[350px] p-5 flex justify-between gap-[4%]"
       } ${
         ismobile &&
-        "mx-3 border-2 border-gray-300 w-[95%] h-[17rem] p-5 flex justify-between gap-[4%]"
+        "mx-3 border-2 border-gray-300 w-[90%] h-[17rem] p-5 flex justify-between gap-[4%]"
       }`}
     >
       {/*  */}
