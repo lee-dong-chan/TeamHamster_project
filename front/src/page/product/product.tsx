@@ -8,17 +8,19 @@ import { Modal, Modalproduct } from "../../Context/Modal";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios, { AxiosResponse } from "axios";
-import { IProductPage } from "../../lib/interFace";
+import { IProductPage, IUserDatas } from "../../lib/interFace";
 import { productPageDataErr } from "../../lib/errors";
 import { useCookies } from "react-cookie";
 
-interface IProps {}
+interface IProps {
+  userdata: IUserDatas;
+}
 
 export interface IData<T> {
   product: T;
 }
 
-const Product = ({}: IProps): JSX.Element => {
+const Product = ({ userdata }: IProps): JSX.Element => {
   const serverUrl = process.env.REACT_APP_SERVER_URL;
   const { isdesktop, ismobile } = useBreakPoint();
   const [cookies, setCookie] = useCookies(["Product"]);
@@ -85,7 +87,7 @@ const Product = ({}: IProps): JSX.Element => {
     <div>
       <div className={`${box} ${center} relative`}>
         <div>
-          {propData && <ProductInfo data={propData} />}
+          {propData && <ProductInfo data={propData} userdata={userdata} />}
           <div className={`pt-5 pb-3`}>
             {isdesktop && (
               <div

@@ -3,10 +3,14 @@ import Imgs from "./Imgs/imgs";
 import User from "./User";
 import { center } from "../../lib/styles";
 import { useBreakPoint } from "../../CustomHook/BreakPoint";
-import { IProductPage } from "../../lib/interFace";
+import { IProductPage, IUserDatas } from "../../lib/interFace";
+import { useMutation } from "react-query";
+import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
 
 interface IProps {
   data: IProductPage;
+  userdata: IUserDatas;
 }
 
 interface IUser {
@@ -27,7 +31,7 @@ interface IProduct {
   imgs: string[];
 }
 
-const ProductInfo = ({ data }: IProps): JSX.Element => {
+const ProductInfo = ({ data, userdata }: IProps): JSX.Element => {
   //모바일
   const { isdesktop, ismobile } = useBreakPoint();
 
@@ -54,6 +58,24 @@ const ProductInfo = ({ data }: IProps): JSX.Element => {
     deliverycost: data.DeliveryCost?.cost ? true : false,
     content: data.discription,
     imgs: data.image,
+  };
+  //관리자 상품삭제
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const serverURL = process.env.REACT_APP_SERVER_URL;
+  const deletes = useMutation({
+    mutationKey: ["adminproductdel"],
+    mutationFn: async () => {
+      await axios.delete(
+        `${serverURL}/admin/delproduct/${id}`,
+
+        { withCredentials: true }
+      );
+    },
+  });
+  const admindel = () => {
+    deletes.mutate();
+    navigate("/");
   };
 
   const [imgcount, SetCount] = useState<number>(0);
@@ -144,7 +166,14 @@ const ProductInfo = ({ data }: IProps): JSX.Element => {
       <User user={user} />
 
       <div className="p-10 flex-1">
-        <div className="py-2 text-[1.3rem] font-bold">{product.title}</div>
+        <div className="flex items-center justify-between">
+          <div className="py-2 text-[1.3rem] font-bold">{product.title}</div>
+          {userdata.login?.admin && (
+            <div className="p-2 rounded border bg-red-300" onClick={admindel}>
+              삭제하기
+            </div>
+          )}
+        </div>
         <div className="py-2 flex  text-[0.9rem] text-gray-400 gap-3">
           <div>{product.category}</div>
           <div>14시간전</div>
