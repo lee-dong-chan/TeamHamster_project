@@ -11,6 +11,7 @@ import { useNavigate, useParams } from "react-router-dom";
 interface IProps {
   data: IProductPage;
   userdata: IUserDatas;
+  mainDataGet: () => void;
 }
 
 interface IUser {
@@ -31,7 +32,7 @@ interface IProduct {
   imgs: string[];
 }
 
-const ProductInfo = ({ data, userdata }: IProps): JSX.Element => {
+const ProductInfo = ({ data, userdata, mainDataGet }: IProps): JSX.Element => {
   //모바일
   const { isdesktop, ismobile } = useBreakPoint();
 
@@ -66,11 +67,14 @@ const ProductInfo = ({ data, userdata }: IProps): JSX.Element => {
   const deletes = useMutation({
     mutationKey: ["adminproductdel"],
     mutationFn: async () => {
-      await axios.delete(
-        `${serverURL}/admin/delproduct/${id}`,
-
-        { withCredentials: true }
-      );
+      await axios
+        .delete(`${serverURL}/admin/delproduct/${id}`, {
+          withCredentials: true,
+        })
+        .then(() => {
+          console.log("@@@@@@@@@@@@@@@@@");
+          mainDataGet();
+        });
     },
   });
   const admindel = () => {
