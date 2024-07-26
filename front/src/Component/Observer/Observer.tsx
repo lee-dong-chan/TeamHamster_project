@@ -1,35 +1,34 @@
-import { useState } from "react";
-import { outborder } from "../../lib/styles";
+import { useEffect, useMemo, useRef } from "react";
 
-interface IProps {}
+interface IProps {
+  func: () => void;
+}
 
-const Observer = ({}: IProps): JSX.Element => {
-  //옵저버
+const Observer = ({ func }: IProps): JSX.Element => {
+  const observerElem: React.MutableRefObject<null> = useRef(null);
 
-  //
-
-  const [Testdumis, setTestDumis] = useState<string[]>([]);
-
-  const [starterObserver, setStartObserver] = useState<IntersectionObserver>(
-    new IntersectionObserver(
+  const observer = useMemo<IntersectionObserver>(() => {
+    return new IntersectionObserver(
       async (entries) => {
         if (!entries[0].isIntersecting) return;
 
-        setTestDumis((Values) => [...Values, "hi"]);
+        //실행할 함수
+        func();
+        console.log("옵저버 실행");
+
+        //옵저버 재실행
+        observer.unobserve(entries[0].target);
+        if (observerElem.current) observer.observe(observerElem.current);
       },
-      { threshold: 0.3 }
-    )
-  );
+      { threshold: 0.1 }
+    );
+  }, []);
 
-  const dumiAdd = () => {};
+  useEffect(() => {
+    if (observerElem.current) observer.observe(observerElem.current);
+  }, [observerElem.current]);
 
-  //첫 옵저버 셋팅
-  //   starterObserver.unobserve(entries[0].target);
-  //   starterObserver.observe(lastRoomElem);
-
-  //   lastroomObserver.observe(document.getElementById("forOb"));
-
-  return <div className={`${outborder} p-10`}></div>;
+  return <div ref={observerElem} className={`p-3`}></div>;
 };
 
 export default Observer;
