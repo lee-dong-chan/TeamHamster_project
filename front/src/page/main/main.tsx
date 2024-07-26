@@ -10,9 +10,10 @@ import axios from "axios";
 
 interface IProps {
   list: ListData[];
+  mainDataGet: () => void;
 }
 
-const Main = ({ list }: IProps): JSX.Element => {
+const Main = ({ list, mainDataGet }: IProps): JSX.Element => {
   const [cookies] = useCookies(["Product"]);
   const { ismobile, isdesktop } = useBreakPoint();
   const [recent, setrecent] = useState<ListData[]>([]);
@@ -53,6 +54,7 @@ const Main = ({ list }: IProps): JSX.Element => {
   useEffect(() => {
     save();
     // getrecent();
+    mainDataGet();
   }, []);
 
   return (

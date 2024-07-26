@@ -11,7 +11,7 @@ import { useBreakPoint } from "../../../CustomHook/BreakPoint";
 const serverUrl = process.env.REACT_APP_SERVER_URL;
 const imgBase = process.env.REACT_APP_IMG_BASE;
 
-const Intro = ({ intro }: IIntro): JSX.Element => {
+const Intro = ({ intro, getPageValues }: IIntro): JSX.Element => {
   const { isdesktop, ismobile } = useBreakPoint();
   const {
     storeName,
@@ -34,7 +34,6 @@ const Intro = ({ intro }: IIntro): JSX.Element => {
   const callbackUrl = `${loca.pathname}${loca.search}`;
   const id = new URL(window.location.href).searchParams.get("id");
 
-  console.log(id);
   //func
   const nameBtnOpen = () => {
     setNameBtn(true);
@@ -68,11 +67,10 @@ const Intro = ({ intro }: IIntro): JSX.Element => {
         )
         .then((data) => {
           console.log("서버로 잘 보냈다", data);
-          navigate(`${callbackUrl}`);
+          getPageValues();
         })
         .catch(() => {
           console.error("이미지 서버로 보내기에서 에러");
-          navigate(`${callbackUrl}`);
         });
     }
   };

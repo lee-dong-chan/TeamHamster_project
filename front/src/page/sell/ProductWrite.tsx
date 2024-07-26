@@ -7,6 +7,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { IData as IDataProduct } from "../product/product";
 import { IProductPage } from "../../lib/interFace";
 import { productPageDataErr } from "../../lib/errors";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { Modal } from "../../Context/Modal";
 
 interface IFormData {
   productName: string;
@@ -40,6 +42,7 @@ const ProductWrite: React.FC = () => {
 
   //state
   const [images, setImages] = useState<File[]>([]);
+  const [modalValue, modalstate] = useRecoilState(Modal);
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
   const [lastClickCateId, setLastClickCateId] = useState<number>();
   const [showCateValue, setShowCateValue] = useState<string[]>([]);
@@ -149,6 +152,9 @@ const ProductWrite: React.FC = () => {
     );
   };
 
+  const addadress = () => {
+    modalstate("addadress");
+  };
   const getProductDatas = async () => {
     await axios
       .post(`${serverUrl}/product/${id}`, {}, { withCredentials: true })
@@ -319,7 +325,7 @@ const ProductWrite: React.FC = () => {
           categoryId: lastClickCateId,
           price: +formData.price || 0,
           extraAddressId: id,
-          img: names,
+          img: names.join(","),
         },
         { withCredentials: true }
       )
@@ -359,6 +365,10 @@ const ProductWrite: React.FC = () => {
   };
 
   //mount
+
+  useEffect(() => {
+    getUserAddress();
+  }, [modalValue]);
 
   useEffect(() => {
     firstCateGet();
@@ -554,6 +564,15 @@ const ProductWrite: React.FC = () => {
               selectadress={selectadress}
             />
           ))}
+        <div className={`${center}`}>
+          <div
+            onClick={addadress}
+            className="cursor-pointer p-4 text-center text-blue-500 max-w-100px bg-gray-50 rounded-3xl"
+          >
+            +주소추가
+          </div>
+        </div>
+
         <div className="mb-4">
           <div className="flex"></div>
         </div>
@@ -583,6 +602,13 @@ const ProductWrite: React.FC = () => {
         <div className="relative p-5">
           <div
             onClick={() => {
+              console.log(
+                id,
+                selectcontent,
+                lastClickCateId,
+                formData.productName !== "",
+                images.length > 0
+              );
               if (
                 id &&
                 selectcontent &&

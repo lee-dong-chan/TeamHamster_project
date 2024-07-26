@@ -8,6 +8,7 @@ export interface IIntro {
     sellCount: number;
     loginCheck: boolean;
   };
+  getPageValues: () => void;
 }
 
 //유저 로그인

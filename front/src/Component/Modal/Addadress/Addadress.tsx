@@ -53,11 +53,10 @@ const Addaddress = ({}: IProps): JSX.Element => {
       )
       .then((data) => {
         console.log(data);
-        modalstate("buy");
+        modalstate(undefined);
       })
       .catch((err) => {
         console.error("err:", err);
-        modalstate("buy");
       });
   };
 

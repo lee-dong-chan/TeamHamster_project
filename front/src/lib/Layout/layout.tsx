@@ -40,6 +40,7 @@ interface IProps {
   main: List[];
   userDatas: IUserDatas;
   userDataCheck: () => void;
+  mainDataGet: () => void;
 }
 
 const Layout = ({
@@ -48,6 +49,7 @@ const Layout = ({
   userlogin,
   main,
   userDataCheck,
+  mainDataGet,
 }: IProps): JSX.Element => {
   const { isdesktop, ismobile } = useBreakPoint();
   const authority = false;
@@ -105,7 +107,10 @@ const Layout = ({
             <div></div>
           ) : (
             <Routes>
-              <Route path="/" element={<Main list={main} />}></Route>
+              <Route
+                path="/"
+                element={<Main list={main} mainDataGet={mainDataGet} />}
+              ></Route>
               <Route
                 path="/GoogleLoding"
                 element={<GoogleCallback setUserLogin={setUserLogin} />}
