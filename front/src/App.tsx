@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useState } from "react";
 import Layout from "./lib/Layout/layout";
 import { List } from "./lib/list";
 
@@ -25,12 +25,15 @@ const App = (): JSX.Element => {
   const [userDatas, setUserDatas] = useState<IUserDatas>(errUserDatas);
   const [obServerOn, setObserverOn] = useState<boolean>(true);
 
+  const idxValue = useMemo(() => {
+    return ListDatas.length;
+  }, [ListDatas]);
   //func
-  const mainDataGet = useCallback(async () => {
+  const mainDataGet = useCallback(async (idxValue: number) => {
     await axios
       .post(
         `${process.env.REACT_APP_SERVER_URL}/main`,
-        { idx: ListDatas.length },
+        { idx: idxValue },
         { withCredentials: true }
       )
       .then((data: AxiosResponse) => {
@@ -44,8 +47,7 @@ const App = (): JSX.Element => {
               : "/imgs/hamster.png",
             price: data.price,
             createdAt: Math.floor(
-              (+new Date() - +new Date(data.createdAt || new Date() + "")) /
-                (1000 * 60 * 60 * 24)
+              (+new Date() - +new Date(data.createdAt || new Date() + "")) / (1000 * 60 * 60 * 24)
             ),
           };
           return listData;
@@ -105,19 +107,13 @@ const App = (): JSX.Element => {
   useEffect(() => {
     setMain(
       ListDatas.map((data) => {
-        return new List(
-          data.id,
-          data.title,
-          data.img,
-          data.price,
-          data.createdAt
-        );
+        return new List(data.id, data.title, data.img, data.price, data.createdAt);
       })
     );
   }, [ListDatas]);
 
   useEffect(() => {
-    mainDataGet();
+    mainDataGet(idxValue);
     userDataCheck();
   }, []);
 
@@ -136,6 +132,8 @@ const App = (): JSX.Element => {
           main={main}
           userDataCheck={userDataCheck}
           obToggleValue={obServerOn}
+          dataCheckIdxValue={idxValue}
+          setListDatas={setListDatas}
         />
       </div>
     </div>

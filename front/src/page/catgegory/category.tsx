@@ -3,7 +3,7 @@ import { List as ListData } from "../../lib/list";
 import List from "../../Component/List/List";
 import Paging from "../../Component/paging/paging";
 import { useBreakPoint } from "../../CustomHook/BreakPoint";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { IListData } from "../../App";
 import { IProduct } from "../../lib/interFace";
 import { useParams } from "react-router-dom";
@@ -21,11 +21,15 @@ const Category = ({}: IProps): JSX.Element => {
 
   let { id } = useParams();
 
-  const cateDataGet = useCallback(async () => {
+  const idxValue = useMemo(() => {
+    return ListDatas.length;
+  }, [ListDatas]);
+
+  const cateDataGet = useCallback(async (idxValue: number) => {
     await axios
       .post(
         `${process.env.REACT_APP_SERVER_URL}/category/${id}`,
-        { idx: ListDatas.length },
+        { idx: idxValue },
         { withCredentials: true }
       )
       .then((data: AxiosResponse) => {
@@ -39,8 +43,7 @@ const Category = ({}: IProps): JSX.Element => {
             price: data.price,
             category: data.Category?.name,
             createdAt: Math.floor(
-              (+new Date() - +new Date(data.createdAt || new Date() + "")) /
-                (1000 * 60 * 60 * 24)
+              (+new Date() - +new Date(data.createdAt || new Date() + "")) / (1000 * 60 * 60 * 24)
             ),
           };
           return listData;
@@ -92,20 +95,14 @@ const Category = ({}: IProps): JSX.Element => {
     if (ListDatas[0]) {
       setcatelist(
         ListDatas.map((data) => {
-          return new ListData(
-            data.id,
-            data.title,
-            data.img,
-            data.price,
-            data.createdAt
-          );
+          return new ListData(data.id, data.title, data.img, data.price, data.createdAt);
         })
       );
     }
   }, [ListDatas]);
 
   useEffect(() => {
-    cateDataGet();
+    cateDataGet(idxValue);
     getcatename.mutate();
   }, []);
   return (
@@ -117,7 +114,12 @@ const Category = ({}: IProps): JSX.Element => {
         </div>
         {catelist[0] ? (
           <div>
-            <List list={catelist} func={cateDataGet} toggleValue={obServerOn} />
+            <List
+              list={catelist}
+              func={cateDataGet}
+              funcValue={idxValue}
+              toggleValue={obServerOn}
+            />
             {/* <div className={`${center}`}>{isdesktop && <Paging />}</div> */}
           </div>
         ) : (
@@ -125,15 +127,11 @@ const Category = ({}: IProps): JSX.Element => {
             <div>
               <div className="p-[2rem] text-[1.7rem] font-bold flex flex-col items-center">
                 <div>
-                  <span className="pe-2 text-orange-500">
-                    {getcatename.data}
-                  </span>
+                  <span className="pe-2 text-orange-500">{getcatename.data}</span>
                   항목에 해당하는 상품이 없습니다.
                 </div>
                 <div>
-                  <img
-                    src={`${process.env.REACT_APP_IMG_BASE}hamster.png`}
-                  ></img>
+                  <img src={`${process.env.REACT_APP_IMG_BASE}hamster.png`}></img>
                 </div>
               </div>
             </div>

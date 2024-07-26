@@ -3,6 +3,7 @@ import { Category, Product } from "../../../models";
 
 export default async (req: Request, res: Response) => {
   try {
+    console.log(req.body);
     let productlist: Product[] = await Product.findAll({
       where: { itemState: "판매중" },
       attributes: ["id", "title", "discription", "price", "createdAt", "img"],

@@ -12,11 +12,12 @@ import { useMutation } from "react-query";
 
 interface IProps {
   list: ListData[];
-  mainDataGet: () => void;
+  mainDataGet: (i: number) => void;
   obToggleValue: boolean;
+  idxValue: number;
 }
 
-const Main = ({ list, mainDataGet, obToggleValue }: IProps): JSX.Element => {
+const Main = ({ idxValue, list, mainDataGet, obToggleValue }: IProps): JSX.Element => {
   interface IData {
     Category: { name: string };
     categoryId: number;
@@ -36,24 +37,29 @@ const Main = ({ list, mainDataGet, obToggleValue }: IProps): JSX.Element => {
   const [recentlist, setresent] = useState<number[]>([]);
 
   const procookie = useMemo(() => {
-    const products = cookies.Product.product;
+    if (cookies.Product) {
+      const products = cookies.Product.product;
 
-    const recentproduct = products
-      .split("+")
-      .filter((item: string) => item != "")
-      .filter((item: String, idx: number) => {
-        return (
-          products
-            .split("+")
-            .filter((item: string) => item != "")
-            .indexOf(item) === idx
-        );
+      const recentproduct = products
+        .split("+")
+        .filter((item: string) => item != "")
+        .filter((item: String, idx: number) => {
+          return (
+            products
+              .split("+")
+              .filter((item: string) => item != "")
+              .indexOf(item) === idx
+          );
+        });
+
+      const data: number[] = recentproduct.map((item: string) => {
+        return Number(item);
       });
-    const data: number[] = recentproduct.map((item: string) => {
-      return Number(item);
-    });
-    return data;
-  }, []);
+      return data;
+    } else {
+      return [];
+    }
+  }, [cookies.Product]);
 
   const getrecent = useMutation({
     mutationKey: "recentitems",
@@ -75,8 +81,7 @@ const Main = ({ list, mainDataGet, obToggleValue }: IProps): JSX.Element => {
           item.img,
           item.price,
           Math.floor(
-            (+new Date() - +new Date(item.createdAt || new Date() + "")) /
-              (1000 * 60 * 60 * 24)
+            (+new Date() - +new Date(item.createdAt || new Date() + "")) / (1000 * 60 * 60 * 24)
           )
         );
       });
@@ -85,9 +90,15 @@ const Main = ({ list, mainDataGet, obToggleValue }: IProps): JSX.Element => {
   });
 
   useEffect(() => {
-    getrecent.mutate();
-    mainDataGet();
+    console.log(procookie);
+    mainDataGet(idxValue);
   }, []);
+
+  useEffect(() => {
+    if (procookie) {
+      getrecent.mutate();
+    }
+  }, [procookie]);
 
   return (
     <div>
@@ -96,7 +107,7 @@ const Main = ({ list, mainDataGet, obToggleValue }: IProps): JSX.Element => {
         <div className="p-[2rem] text-[1.7rem] font-bold">최근 본 상품</div>
         <List list={getrecent.data} />
         <div className="p-[2rem] text-[1.7rem] font-bold">오늘의 추천상품</div>
-        <List list={list} func={mainDataGet} toggleValue={obToggleValue} />
+        <List list={list} func={mainDataGet} funcValue={idxValue} toggleValue={obToggleValue} />
       </div>
     </div>
   );

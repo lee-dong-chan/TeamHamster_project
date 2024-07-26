@@ -11,10 +11,11 @@ import axios, { AxiosResponse } from "axios";
 import { IProductPage, IUserDatas } from "../../lib/interFace";
 import { productPageDataErr } from "../../lib/errors";
 import { useCookies } from "react-cookie";
+import { IListData } from "../../App";
 
 interface IProps {
   userdata: IUserDatas;
-  mainDataGet: () => void;
+  mainDataGet: (i: IListData[]) => void;
 }
 
 export interface IData<T> {
@@ -89,26 +90,16 @@ const Product = ({ userdata, mainDataGet }: IProps): JSX.Element => {
       <div className={`${box} ${center} relative`}>
         <div>
           {propData && (
-            <ProductInfo
-              mainDataGet={mainDataGet}
-              data={propData}
-              userdata={userdata}
-            />
+            <ProductInfo mainDataGet={mainDataGet} data={propData} userdata={userdata} />
           )}
           <div className={`pt-5 pb-3`}>
             {isdesktop && (
-              <div
-                onClick={report}
-                className="p-2 flex justify-end text-gray-400"
-              >
+              <div onClick={report} className="p-2 flex justify-end text-gray-400">
                 신고하기
               </div>
             )}
             {ismobile && (
-              <div
-                onClick={report}
-                className="p-2 flex justify-end text-gray-400"
-              >
+              <div onClick={report} className="p-2 flex justify-end text-gray-400">
                 신고하기
               </div>
             )}
