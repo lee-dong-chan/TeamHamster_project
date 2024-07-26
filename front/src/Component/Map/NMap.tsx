@@ -36,7 +36,7 @@ const NMap = ({ id }: IProps): JSX.Element => {
         if (response.v2.addresses.length > 0) {
           const result = response.v2.addresses[0];
 
-          console.log(result.y);
+          console.log(result.y, result.x);
           setUserPosition(new naver.maps.LatLng(+result.y, +result.x));
         } else {
           console.error("유저 포지션 변환 오류");
@@ -53,7 +53,7 @@ const NMap = ({ id }: IProps): JSX.Element => {
   }
   const getRiderLatLng = async () => {
     await axios
-      .post(`${serverUrl}/GpsRiderGet`, { id: id }, { withCredentials: true })
+      .post(`${serverUrl}/GpsRiderGet/${id}`, {}, { withCredentials: true })
       .then((data: AxiosResponse<IXY>) => {
         //성공시 콜백
         console.log("라이더 겟 데이타 보고 수정", data.data.deliveryspot);
@@ -70,7 +70,7 @@ const NMap = ({ id }: IProps): JSX.Element => {
       .catch(() => {
         console.error("라이더 위치 실패");
         //유저와 라이더의 위치
-        setRiderPosition(new naver.maps.LatLng(36.5, 127.5));
+        setRiderPosition(new naver.maps.LatLng(37.5387539, 127.1225123));
       });
   };
 
@@ -79,7 +79,7 @@ const NMap = ({ id }: IProps): JSX.Element => {
   }
   const getUserAddress = async () => {
     await axios
-      .post(`${serverUrl}/GpsUserGet`, { id: id }, { withCredentials: true })
+      .post(`${serverUrl}/GpsUserGet/${id}`, {}, { withCredentials: true })
       .then((data: AxiosResponse<IUserAddRes>) => {
         userPositionSet(data.data.PurchaseAddress);
       })

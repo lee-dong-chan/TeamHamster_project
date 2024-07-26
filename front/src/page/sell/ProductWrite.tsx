@@ -249,19 +249,22 @@ const ProductWrite: React.FC = () => {
   };
 
   const rowCatesGet = async ({ api, id }: IRowCateFunc) => {
-    let rowCheck = true;
+    let rowCheck: boolean;
 
-    if (api !== "/catelist") {
+    if (api === "/catelist") {
+      rowCheck = true;
+    } else {
       rowCheck = false;
     }
 
     await axios
       .post(`${serverUrl}${api}/${id}`, {}, {})
-      .then((data: AxiosResponse<ICate>) => {
-        const childrens = data.data.Children;
+      .then((data: AxiosResponse<IFirstCateRes>) => {
+        const childrens = data.data.category[0].Children;
         if (childrens) {
           if (rowCheck) {
             setRowOneCates(childrens);
+            setRowTwoCates(undefined);
           } else {
             setRowTwoCates(childrens);
           }

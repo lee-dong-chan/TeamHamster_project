@@ -144,7 +144,12 @@ const Layout = ({
               <Route path="/regist" element={<Regist />}></Route>
               <Route
                 path="/point"
-                element={<Point userDataCheck={userDataCheck} />}
+                element={
+                  <Point
+                    points={userDatas.login?.point ? userDatas.login.point : 0}
+                    userDataCheck={userDataCheck}
+                  />
+                }
               ></Route>
             </Routes>
           )}

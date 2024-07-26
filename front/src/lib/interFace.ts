@@ -60,6 +60,7 @@ export interface IProduct extends IProductMini {
   DeliveryCost?: { cost: number };
   Category?: { name: string };
   image?: string[];
+  userCheck?: boolean;
 }
 
 export interface IProductPage extends IProduct {

@@ -44,7 +44,7 @@ const Buy = ({}: IProps): JSX.Element => {
     { address: "오류", addressId: 999, detailAddress: "디테일주소" },
   ]);
   const [price, setPrice] = useState<number>(0);
-  const [deliveryCost, setDeliveryCost] = useState<Number>();
+  const [deliveryCost, setDeliveryCost] = useState<number>();
 
   //func
   const selectadress = (value: string, id: number) => {
@@ -108,8 +108,9 @@ const Buy = ({}: IProps): JSX.Element => {
         setPrice(data.data.product.price);
 
         await axios
-          .post("/deliverycost", {}, { withCredentials: true })
+          .post(`${serverUrl}/deliverycost`, {}, { withCredentials: true })
           .then((data: AxiosResponse<IDeCosRes>) => {
+            console.log(data, "@@@@@@");
             setDeliveryCost(data.data.cost.cost);
           })
           .catch((err) => {
@@ -151,7 +152,7 @@ const Buy = ({}: IProps): JSX.Element => {
   return (
     <div className="flex flex-col items-center">
       <div className="p-3 text-center text-[1.3rem] font-bold">구매하기</div>
-      <div className="p-4 h-[15rem] w-[40rem] bg-white border border-gray-400 overflow-y-auto scrollbar-hide">
+      <div className="p-4 h-[15rem] w-[90%] bg-white border border-gray-400 overflow-y-auto scrollbar-hide">
         {adress &&
           adress.map((item: IAdressData, idx: number) => (
             <AdressItem
@@ -166,8 +167,8 @@ const Buy = ({}: IProps): JSX.Element => {
       <div onClick={addadress} className="p-4 text-center text-blue-500">
         +주소추가
       </div>
-      <div className="h-[20rem]">
-        <div className="w-[40rem]">
+      <div className="h-[20rem] w-[90%]">
+        <div className="">
           <div className="p-3 text-[1.2rem]">현재주소: {selectcontent}</div>
         </div>
         <div className="p-3 text-[1.3rem]">
@@ -180,6 +181,13 @@ const Buy = ({}: IProps): JSX.Element => {
               <span className="text-orange-400">{deliveryCost + ""}</span>원
             </div>
           )}
+          <div>
+            총 금액:
+            <span className="text-orange-400">
+              {deliveryCost ? deliveryCost + price : "err"}
+            </span>
+            원
+          </div>
         </div>
       </div>
       <div>

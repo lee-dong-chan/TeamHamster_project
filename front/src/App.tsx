@@ -75,7 +75,7 @@ const App = (): JSX.Element => {
     await axios
       .post(`${serverUrl}/layout`, {}, { withCredentials: true })
       .then((data: AxiosResponse<IUserDatas>) => {
-        console.log(data.data);
+        // console.log(data.data);
         if (data.data.login) {
           setUserDatas(data.data);
           setUserLogin(true);

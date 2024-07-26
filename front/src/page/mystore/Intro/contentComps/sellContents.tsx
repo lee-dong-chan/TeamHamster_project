@@ -113,7 +113,7 @@ const SellContent = ({ data, isBuyTap = false }: IProps) => {
   return (
     <div className={`h-[420px] min-w-[220px]`}>
       <div
-        className={`border-2 mx-2`}
+        className={`border-2 mx-2 cursor-pointer`}
         onClick={() => {
           if (data.id) {
             moveToProduct(data.id + "");
@@ -170,8 +170,8 @@ const SellContent = ({ data, isBuyTap = false }: IProps) => {
         </div>
       </div>
       {/* 버튼 */}
-      <div className="flex justify-between p-1">
-        {isBuyTap && data.itemState === "배송중" && (
+      <div className="flex justify-between p-2">
+        {isBuyTap && data.itemState === "배송중" && data.userCheck && (
           <SCbuttons
             text={"구매확정"}
             click={() => {
@@ -179,9 +179,18 @@ const SellContent = ({ data, isBuyTap = false }: IProps) => {
             }}
           />
         )}
-        {boxTextValue !== "배송완료" && (
+        {boxTextValue !== "배송완료" && boxTextValue !== "리뷰쓰기" && (
           <SCbuttons
             text={boxTextValue}
+            click={() => {
+              funcsHandler(boxTextValue);
+            }}
+          />
+        )}
+        {boxTextValue === "리뷰쓰기" && (
+          <SCbuttons
+            text={data.userCheck ? "리뷰완료" : boxTextValue}
+            didReview={data.userCheck}
             click={() => {
               funcsHandler(boxTextValue);
             }}
