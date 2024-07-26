@@ -22,7 +22,11 @@ const Item = ({ idx, item }: IProps): JSX.Element => {
   const relese = useMutation({
     mutationKey: "releseuser",
     mutationFn: async () => {
-      await axios.post(`${serverURL}/admin/userunblock/${item.id}`);
+      await axios.post(
+        `${serverURL}/admin/userunblock/${item.id}`,
+        {},
+        { withCredentials: true }
+      );
     },
     onSuccess(data) {
       queryClient.invalidateQueries("blockdata");
