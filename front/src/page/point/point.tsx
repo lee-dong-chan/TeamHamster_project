@@ -77,7 +77,7 @@ const Point = ({ points, userDataCheck }: IProps): JSX.Element => {
 
   return (
     <div className="p-8">
-      <div className={`Box ${center}`}>
+      <div className={`${box} ${center}`}>
         <div className="rounded-lg  w-full m">
           <h2 className="text-2xl font-bold text-center text-orange-500 mt-10">
             햄스터 마켓

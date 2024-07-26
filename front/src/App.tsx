@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useState } from "react";
 import Layout from "./lib/Layout/layout";
 import { List } from "./lib/list";
 
@@ -26,7 +26,7 @@ const App = (): JSX.Element => {
   const [obServerOn, setObserverOn] = useState<boolean>(true);
 
   //func
-  const mainDataGet = async () => {
+  const mainDataGet = useCallback(async () => {
     await axios
       .post(
         `${process.env.REACT_APP_SERVER_URL}/main`,
@@ -84,9 +84,9 @@ const App = (): JSX.Element => {
           ],
         ]);
       });
-  };
+  }, []);
 
-  const userDataCheck = async () => {
+  const userDataCheck = useCallback(async () => {
     await axios
       .post(`${serverUrl}/layout`, {}, { withCredentials: true })
       .then((data: AxiosResponse<IUserDatas>) => {
@@ -99,7 +99,7 @@ const App = (): JSX.Element => {
       .catch((err) => {
         console.log("layOut userDataCheck func Err", err);
       });
-  };
+  }, []);
 
   //mount
   useEffect(() => {
