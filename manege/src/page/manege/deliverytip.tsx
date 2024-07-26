@@ -33,7 +33,7 @@ const ManegeDeliveryTip = ({}: IProps): JSX.Element => {
     queryKey: "deliverycost",
     queryFn: async () => {
       const { data } = await axios.post(
-        `${process.env.REACT_APP_SERVER_URL}/admin/deliverycost`,
+        `${process.env.REACT_APP_SERVER_URL}/deliverycost`,
         {},
         { withCredentials: true }
       );
@@ -66,7 +66,10 @@ const ManegeDeliveryTip = ({}: IProps): JSX.Element => {
         <div className="pb-20 flex w-[45rem] text-[2rem] font-bold gap-10">
           <div>현재 배송비: </div>
           <div>
-            <span className="text-orange-500">{deliverycost.data?.cost.cost}</span>원
+            <span className="text-orange-500">
+              {deliverycost.data?.cost.cost}
+            </span>
+            원
           </div>
         </div>
       </div>

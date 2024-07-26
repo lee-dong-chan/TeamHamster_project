@@ -87,7 +87,13 @@ const ManegePoint = ({}: IProps): JSX.Element => {
           <div>현재 포인트 비율: </div>
           <div>
             <span className="text-orange-500">1000</span> 원 당
-            <span className="text-orange-500">{data?.point.pointPercent}</span>
+            <span className="text-orange-500">
+              {data?.point.pointPercent ? (
+                <span className="p-1">{data?.point.pointPercent}</span>
+              ) : (
+                "   "
+              )}
+            </span>
             포인트
           </div>
         </div>
