@@ -14,9 +14,7 @@ import userblock from "../services/admin/userblock";
 import userunblock from "../services/admin/userunblock";
 import userblocksearch from "../services/admin/userblocksearch";
 /// 포인트 및 배달비 관련
-import pointpercent from "../services/admin/pointpercent";
 import updatepoint from "../services/admin/updatepoint";
-import deliverycost from "../services/admin/deliverycost";
 import updatedeliverycost from "../services/admin/updatedeliverycost";
 /// 금지 키워드
 import keyword from "../services/admin/keyword";
@@ -44,9 +42,7 @@ router.post("/userblock/:id", userblock);
 router.post("/userunblock/:id", userunblock);
 router.post("/userblocksearch", userblocksearch);
 /// 포인트 및 배달비 관련
-router.post("/pointpercent", pointpercent);
 router.patch("/updatepoint", updatepoint);
-router.post("/deliverycost", deliverycost);
 router.patch("/updatedeliverycost", updatedeliverycost);
 /// 금지 키워드
 router.post("/keyword", keyword);
