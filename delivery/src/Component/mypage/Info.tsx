@@ -1,9 +1,12 @@
+import { IUser } from "../../lib/layout";
+
 interface IProps {
   workstate: boolean | undefined;
   camp: string;
+  user: IUser;
 }
 
-const Info = ({ workstate, camp }: IProps): JSX.Element => {
+const Info = ({ workstate, camp, user }: IProps): JSX.Element => {
   return (
     <div className="flex justify-between items-center h-[7rem] border">
       <div className="p-2 flex  items-center gap-4">
@@ -12,7 +15,7 @@ const Info = ({ workstate, camp }: IProps): JSX.Element => {
         </div>
         <div className="font-bold">
           <div>배송파트너</div>
-          <div>이동찬</div>
+          <div>{user.nick}</div>
         </div>
         <div className="px-10 text-center font-bold">
           <div>상태</div>

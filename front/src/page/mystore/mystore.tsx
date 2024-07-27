@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Intro from "./Intro/Intro";
 import Content from "./Intro/content";
-import { center } from "../../lib/styles";
+import { box, center } from "../../lib/styles";
 import { IMyStoreRes } from "../../lib/interFace";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
@@ -79,7 +79,7 @@ const MyStore = ({ userlogin }: IProps): JSX.Element => {
   }, []);
 
   return (
-    <div className={`${center} flex-wrap`}>
+    <div className={`${center} flex-wrap mt-10 `}>
       <Intro intro={intro} getPageValues={getPageValues}></Intro>
 
       <Content loginCheck={loginCheck}></Content>

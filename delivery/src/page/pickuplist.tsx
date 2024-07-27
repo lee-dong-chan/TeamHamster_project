@@ -59,7 +59,8 @@ const PickUpList = ({ liststate, checklist }: IProps): JSX.Element => {
       const productlist = product?.map((data: IProduct) => {
         const outData: Picklist = {
           id: data.id,
-          pickadress: data.SellAddress.Address.address + data.SellAddress.detailAddress,
+          pickadress:
+            data.SellAddress.Address.address + data.SellAddress.detailAddress,
           state: data.itemState,
         };
         return outData;
@@ -74,7 +75,7 @@ const PickUpList = ({ liststate, checklist }: IProps): JSX.Element => {
   }, []);
   const btn = new Button("확인", "bg-blue-200");
   return (
-    <div className={`${mobilebox} flex flex-col items-center`}>
+    <div className={`${mobilebox} flex flex-col items-center h-[41rem]`}>
       <div className="py-3 text-[1.2rem] font-bold">픽업 목록</div>
       <div className={`mt-5 my-[6rem]`}>
         <List liststate={liststate} list2={lastdata} />

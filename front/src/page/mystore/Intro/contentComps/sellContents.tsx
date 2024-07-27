@@ -125,7 +125,7 @@ const SellContent = ({ data, isBuyTap = false }: IProps) => {
       >
         {/* 이미지 */}
         <div
-          className={`h-[220px] bg-cover relative ${center}`}
+          className={`h-[220px] h-[240px] bg-[length:220px_240px] relative ${center}`}
           style={{
             backgroundImage: data.image
               ? `url(${imgBase}${data.image[0]})`

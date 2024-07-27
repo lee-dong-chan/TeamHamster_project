@@ -132,7 +132,7 @@ const Intro = ({ intro, getPageValues }: IIntro): JSX.Element => {
         "border-2 border-gray-300 w-[90%] h-[350px] p-5 flex justify-between gap-[4%]"
       } ${
         ismobile &&
-        "mx-3 border-2 border-gray-300 w-[90%] h-[17rem] p-5 flex justify-between gap-[4%]"
+        "mx-3 border-2 border-gray-300 w-[90%] min-w-[35rem] h-[17rem] p-5 flex justify-between gap-[4%]"
       }`}
     >
       {/*  */}
@@ -232,13 +232,13 @@ const Intro = ({ intro, getPageValues }: IIntro): JSX.Element => {
           {storeIntro}
         </div>
         {loginCheck && (
-          <div className={`flex`}>
+          <div className={`flex items-center`}>
             <button
               onClick={contentBtnOpen}
               className={`${
                 isdesktop && `${center} ${rowfont} ${nanoBtn} h-[24px]`
               }
-              ${ismobile && " text-[0.6rem] "}`}
+              ${ismobile && " text-[0.5rem] w-[3rem] "}`}
             >
               소개글 수정
             </button>
@@ -251,14 +251,16 @@ const Intro = ({ intro, getPageValues }: IIntro): JSX.Element => {
                   }: ChangeEvent<HTMLInputElement>) => {
                     setContentValue(value);
                   }}
-                  className={`${outborder} h-[24px] ml-2`}
+                  className={`${isdesktop && `${outborder} h-[24px] ml-2`} ${
+                    ismobile && "border  w-[7rem]"
+                  } `}
                   type="text"
                 />
                 <button
                   onClick={storeContentHandler}
                   className={`${isdesktop && `mx-1 ${rowfont} ${nanoBtn}`} ${
                     ismobile &&
-                    "m-1 px-1 text-[0.7rem] border border-black rounded  "
+                    "m-1 px-[0.3px] text-[0.5rem] w-[3rem] border border-black rounded  "
                   }`}
                 >
                   수정하기

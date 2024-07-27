@@ -26,7 +26,7 @@ const Item = ({ item }: IProps): JSX.Element => {
       >
         <div className={`${center}`}>
           <img
-            className="w-[190px] h-[190px] flex"
+            className="w-[100%] h-[190px] flex"
             src={`${item.getImg()}`}
           ></img>
         </div>

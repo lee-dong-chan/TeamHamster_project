@@ -5,7 +5,7 @@ import { LuScanLine } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import { MdAddShoppingCart } from "react-icons/md";
 import { CiDeliveryTruck } from "react-icons/ci";
-import { FaClipboardList } from "react-icons/fa";
+import { FaClipboardList, FaTag } from "react-icons/fa";
 
 interface IProps {
   start(): void;
@@ -14,7 +14,7 @@ interface IProps {
 
 const Main = ({ start, end }: IProps): JSX.Element => {
   return (
-    <div className={`${mobilebox}`}>
+    <div className={`${mobilebox} h-[41rem]`}>
       <div className=" p-3 flex grid grid-cols-2">
         <div className="flex flex-col items-center">
           <div className={`h-[10rem] w-[10rem] border`} onClick={start}>
@@ -29,12 +29,14 @@ const Main = ({ start, end }: IProps): JSX.Element => {
           <div className="py-2 text-[1.2rem] text-gray-500">업무종료</div>
         </div>
         <div className="flex flex-col items-center">
-          <Link to={"/pickupscan"}>
-            <div className={`h-[10rem] w-[10rem] border`}>
-              <LuScanLine className="h-[100%] w-[100%]" color="gray" />
+          <Link to={"/pickuplist"}>
+            <div
+              className={`h-[10rem] w-[10rem] border flex item-center justify-center`}
+            >
+              <FaTag className="py-3 h-[80%] w-[80%]" color="gray" />
             </div>
           </Link>
-          <div className="py-2 text-[1.2rem] text-gray-500">픽업상품 스캔</div>
+          <div className="py-2 text-[1.2rem] text-gray-500">픽업목록</div>
         </div>
         <div className="flex flex-col items-center">
           <Link to={"/pickupcheck"}>

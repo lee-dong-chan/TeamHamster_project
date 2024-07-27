@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 
 import axios, { AxiosResponse } from "axios";
 import { useLocation } from "react-router-dom";
+import { useBreakPoint } from "../../../../CustomHook/BreakPoint";
 
 const Review = () => {
   const serverUrl = process.env.REACT_APP_SERVER_URL;
@@ -18,7 +19,7 @@ const Review = () => {
 
   const [reviews, setReviews] = useState<IReviewOne[]>([]);
   const [reviewRes, setReviewRes] = useState<IReviewRes>();
-
+  const { ismobile, isdesktop } = useBreakPoint();
   const errNum = 0;
 
   //func
@@ -73,7 +74,11 @@ const Review = () => {
   }, []);
 
   return (
-    <div className={`mt-4 w-[100%] h-[90%]`}>
+    <div
+      className={
+        isdesktop ? `mt-4 p-3 w-[100%] min-w-[30rem] h-[90%] border` : ""
+      }
+    >
       <Count text="리뷰" number={reviewRes?.reviewlist.length || 0}></Count>
       {/* 리뷰 평균 */}
       <div
