@@ -1,5 +1,5 @@
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
-import { box, center } from "../../../lib/styles";
+import { box, center, mobilebox } from "../../../lib/styles";
 import { Link } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useSetRecoilState } from "recoil";
@@ -66,7 +66,7 @@ const Search = ({}: IProps): JSX.Element => {
   console.log(recentsearch.length);
   return (
     <div>
-      <div className={`${box}`}>
+      <div className={`${mobilebox}`}>
         <div className={`${center}`}>
           <input
             className="p-2 w-[20rem] h-[3rem]  border"

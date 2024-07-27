@@ -34,12 +34,13 @@ const Category = ({}: IProps): JSX.Element => {
       )
       .then((data: AxiosResponse) => {
         const products: IProduct[] = data.data.product;
-
         const listDatas: IListData[] = products.map((data: IProduct) => {
           const listData: IListData = {
             id: data.id || 9999999,
             title: data.title,
-            img: data.image ? data.image[0] : "hamster.png",
+            img: data.image
+              ? `${process.env.REACT_APP_SERVER_URL}/imgs/${data.image[0]}`
+              : "/imgs/hamster.png",
             price: data.price,
             category: data.Category?.name,
             createdAt: Math.floor(

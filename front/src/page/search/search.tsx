@@ -30,18 +30,22 @@ const Search = ({}: IProps): JSX.Element => {
         { withCredentials: true }
       )
       .then((data: AxiosResponse) => {
-        console.log(data);
+        console.log(data.data);
         const products: IProduct[] = data.data.product;
         const listDatas: IListData[] = products.map((data: IProduct) => {
           const listData: IListData = {
             id: data.id || 9999999,
             title: data.title,
-            img: data.image ? data.image[0] : "hamster.png",
+            img: data.image
+              ? `${process.env.REACT_APP_SERVER_URL}/imgs/${data.image[0]}`
+              : "/imgs/hamster.png",
             price: data.price,
             createdAt: Math.floor(
-              (+new Date() - +new Date(data.createdAt || new Date() + "")) / (1000 * 60 * 60 * 24)
+              (+new Date() - +new Date(data.createdAt || new Date() + "")) /
+                (1000 * 60 * 60 * 24)
             ),
           };
+
           return listData;
         });
         if (
@@ -77,11 +81,21 @@ const Search = ({}: IProps): JSX.Element => {
     if (ListDatas[0]) {
       setSearch(
         ListDatas.map((data) => {
-          return new ListData(data.id, data.title, data.img, data.price, data.createdAt);
+          return new ListData(
+            data.id,
+            data.title,
+            data.img,
+            data.price,
+            data.createdAt
+          );
         })
       );
     }
   }, [ListDatas]);
+
+  const data = search;
+  console.log(data);
+  console.log(search);
 
   useEffect(() => {
     searchDataGet(idxValue);
@@ -90,35 +104,39 @@ const Search = ({}: IProps): JSX.Element => {
   return (
     <div>
       {isdesktop && <SearchComp />}
-      <div className={`${isdesktop && box} ${ismobile && mobilebox} h-[60rem] `}>
+      <div
+        className={`${isdesktop && box} ${ismobile && mobilebox} h-[60rem] `}
+      >
         <div className="p-[2rem] text-[1.7rem] font-bold">
           <span className="text-orange-500">{id}</span>의 검색결과
         </div>
 
         {search[0] ? (
           <div>
-            <List
-              list={search}
-              func={searchDataGet}
-              funcValue={idxValue}
-              toggleValue={obServerOn}
-            />
+            <List list={data} func={searchDataGet} toggleValue={obServerOn} />
             <div className="py-5 center">{isdesktop && <Paging />}</div>
           </div>
         ) : (
           <div className="pb-20 center">
             <div>
               <div className="p-[2rem] text-[1.7rem] font-bold">
-                <span className="text-orange-500">{id}</span>에 대한 검색결과를 찾을수 없습니다
+                <span className="text-orange-500">{id}</span>에 대한 검색결과를
+                찾을수 없습니다
               </div>
               <div className="h-[1px] flex border "></div>
 
-              <div className="p-1 text-center font-bold">-단어의 철자가 정확한지 확인해 보세요</div>
+              <div className="p-1 text-center font-bold">
+                -단어의 철자가 정확한지 확인해 보세요
+              </div>
               <div className="p-1 text-center font-bold">
                 - 보다 일반적인 검색어로 다시 검색해 보세요
               </div>
-              <div className="p-1 text-center font-bold">- 검색어의 띄어쓰기를 다르게 해보세요</div>
-              <div className="p-1 text-center font-bold">- 유해/금지어가 아닌지 확인해주세요</div>
+              <div className="p-1 text-center font-bold">
+                - 검색어의 띄어쓰기를 다르게 해보세요
+              </div>
+              <div className="p-1 text-center font-bold">
+                - 유해/금지어가 아닌지 확인해주세요
+              </div>
             </div>
           </div>
         )}

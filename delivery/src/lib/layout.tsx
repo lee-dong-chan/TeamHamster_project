@@ -18,7 +18,8 @@ import SelectCamp from "../page/selectcamp";
 import MyPage from "../page/mypage";
 import DeliveryLoginPage from "../page/deliverylogin";
 import { useMutation } from "react-query";
-interface IUser {
+import { LuScanLine } from "react-icons/lu";
+export interface IUser {
   id: number;
   nick: string;
   point: number;
@@ -112,6 +113,18 @@ const LayOut = (): JSX.Element => {
 
   console.log(logcheck);
 
+  const logOut = async () => {
+    await axios
+      .post(`${serverUrl}/logout`, {}, { withCredentials: true })
+      .then((data) => {
+        console.log(data);
+        setUserLogin(false);
+      })
+      .catch((err) => {
+        console.log("logout err", err);
+      });
+  };
+
   const log: IUser = logcheck.data?.login;
   console.log(log);
   //mount
@@ -152,15 +165,31 @@ const LayOut = (): JSX.Element => {
               <div>배송파트너</div>
             </div>
           </div>
-          <div className="text-center text-white">
-            <div>배송파트너</div>
-            <div>{log?.nick} 님</div>
-            {workstate && (
-              <div className="border rounded bg-yellow-400">업무중</div>
-            )}
-          </div>
+          {log?.delivery ? (
+            <div className="flex items-center">
+              <div className="text-center text-white">
+                <div>배송파트너</div>
+                <div>{log?.nick} 님</div>
+                {workstate && (
+                  <div className="border rounded bg-yellow-400">업무중</div>
+                )}
+              </div>
+              <div
+                onClick={() => {
+                  logOut();
+                  window.location.reload();
+                }}
+                className="ms-2 p-1 border text-white rounded bg-blue-400"
+              >
+                로그아웃
+              </div>
+            </div>
+          ) : (
+            <div>로그인</div>
+          )}
         </div>
       </div>
+
       <div>
         <div className="m-auto w-[35rem]">
           {log?.delivery ? (
@@ -196,7 +225,9 @@ const LayOut = (): JSX.Element => {
                 <Route path="/deliveryscan" element={<DeliveryScan />}></Route>
                 <Route
                   path="/mypage"
-                  element={<MyPage workstate={workstate} camp={camp} />}
+                  element={
+                    <MyPage workstate={workstate} camp={camp} user={log} />
+                  }
                 ></Route>
               </Routes>
             </div>
@@ -216,20 +247,21 @@ const LayOut = (): JSX.Element => {
             <div>홈</div>
           </div>
         </Link>
-        <Link to={"/deliverylist"}>
+        <Link to={"/deliveryscan"}>
           <div className="flex flex-col items-center">
             <div>
-              <MdLocalShipping size={30} />
+              <LuScanLine size={30} />
             </div>
-            <div>배송목록</div>
+            <div>배송완료스캔</div>
           </div>
         </Link>
-        <Link to={"/pickuplist"}>
+
+        <Link to={"/pickupscan"}>
           <div className="flex flex-col items-center">
             <div>
-              <FaTag size={30} />
+              <LuScanLine size={30} />
             </div>
-            <div>픽업목록</div>
+            <div>픽업상품 스캔</div>
           </div>
         </Link>
         <Link to={"/mypage"}>

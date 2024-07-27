@@ -17,7 +17,12 @@ interface IProps {
   idxValue: number;
 }
 
-const Main = ({ idxValue, list, mainDataGet, obToggleValue }: IProps): JSX.Element => {
+const Main = ({
+  idxValue,
+  list,
+  mainDataGet,
+  obToggleValue,
+}: IProps): JSX.Element => {
   interface IData {
     Category: { name: string };
     categoryId: number;
@@ -36,9 +41,11 @@ const Main = ({ idxValue, list, mainDataGet, obToggleValue }: IProps): JSX.Eleme
   const [recent, setrecent] = useState<ListData[]>([]);
   const [recentlist, setresent] = useState<number[]>([]);
 
+  console.log(cookies);
+
   const procookie = useMemo(() => {
     if (cookies.Product) {
-      const products = cookies.Product.product;
+      const products = cookies.Product?.product;
 
       const recentproduct = products
         .split("+")
@@ -51,15 +58,12 @@ const Main = ({ idxValue, list, mainDataGet, obToggleValue }: IProps): JSX.Eleme
               .indexOf(item) === idx
           );
         });
-
       const data: number[] = recentproduct.map((item: string) => {
         return Number(item);
       });
       return data;
-    } else {
-      return [];
     }
-  }, [cookies.Product]);
+  }, []);
 
   const getrecent = useMutation({
     mutationKey: "recentitems",
@@ -78,10 +82,13 @@ const Main = ({ idxValue, list, mainDataGet, obToggleValue }: IProps): JSX.Eleme
         return new ListData(
           item.id,
           item.title,
-          item.img,
+          item.image
+            ? `${process.env.REACT_APP_SERVER_URL}/imgs/${item.image[0]}`
+            : "/imgs/hamster.png",
           item.price,
           Math.floor(
-            (+new Date() - +new Date(item.createdAt || new Date() + "")) / (1000 * 60 * 60 * 24)
+            (+new Date() - +new Date(item.createdAt || new Date() + "")) /
+              (1000 * 60 * 60 * 24)
           )
         );
       });
@@ -104,10 +111,18 @@ const Main = ({ idxValue, list, mainDataGet, obToggleValue }: IProps): JSX.Eleme
     <div>
       {isdesktop && <SearchComp />}
       <div className={`${isdesktop && `${box}`} ${ismobile && mobilebox}`}>
-        <div className="p-[2rem] text-[1.7rem] font-bold">최근 본 상품</div>
-        <List list={getrecent.data} />
-        <div className="p-[2rem] text-[1.7rem] font-bold">오늘의 추천상품</div>
-        <List list={list} func={mainDataGet} funcValue={idxValue} toggleValue={obToggleValue} />
+        {procookie && (
+          <div>
+            <div className="p-[2rem] text-[1.7rem] font-bold">최근 본 상품</div>
+            <List list={getrecent.data} />
+          </div>
+        )}
+        <div>
+          <div className="p-[2rem] text-[1.7rem] font-bold">
+            오늘의 추천상품
+          </div>
+          <List list={list} func={mainDataGet} toggleValue={obToggleValue} />
+        </div>
       </div>
     </div>
   );

@@ -84,7 +84,11 @@ const SellComp = ({ value }: IProps) => {
   }, [value]);
 
   return (
-    <div className={`mt-4 w-[100%] min-w-[30rem] h-[90%]`}>
+    <div
+      className={
+        isdesktop ? `mt-4 p-3 w-[100%] min-w-[30rem] h-[90%] border` : ""
+      }
+    >
       {/* 탭 */}
       <div className={`flex justify-between`}>
         <Count text="상품" number={products.length}></Count>
@@ -93,7 +97,7 @@ const SellComp = ({ value }: IProps) => {
             {value === 1 && (
               <div
                 onClick={moveToProductWrite}
-                className={`${outborder} ${center} p-1 pl-4 pr-4`}
+                className={` ${center} p-1 pl-4 pr-4 border rounded bg-blue-100 text-gray-500`}
               >
                 상품 등록
               </div>

@@ -60,7 +60,7 @@ const DeliveryLoginPage = ({ setUserLogin }: IProps): JSX.Element => {
 
   return (
     <div>
-      <div className={` ${box} ${center}`}>
+      <div className={` ${box}  h-[38.5rem]`}>
         <div className="rounded-lg  w-full m">
           <h2 className="text-2xl font-bold text-center text-blue-500 mt-10">
             햄스터 마켓
@@ -112,9 +112,9 @@ const DeliveryLoginPage = ({ setUserLogin }: IProps): JSX.Element => {
                 이메일 혹은 비밀번호가 틀렸습니다.
               </label>
             )}
-            <div className="mb-10" onClick={handleLogin}>
+            <div className="mt-[13rem]" onClick={handleLogin}>
               <LargeButton
-                btn={new Button("로그인", "bg-orange-500 w-auto")}
+                btn={new Button("로그인", "bg-blue-300 w-auto")}
               ></LargeButton>
             </div>
           </form>

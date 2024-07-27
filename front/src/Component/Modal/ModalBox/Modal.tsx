@@ -76,10 +76,11 @@ const MobileModal = ({
 
   return (
     <div
-      className={`absolute z-[100] ${
+      className={`fixed z-[100] ${
         ismobile && "top-[6rem] h-[50rem] w-[100%]"
       } ${
-        isdesktop && "top-[15rem] start-[20%] h-[50rem] w-[60%]"
+        isdesktop &&
+        "top-[50%] start-[50%] translate-x-[-50%] translate-y-[-50%] h-[50rem] w-[60%]"
       } bg-gray-100 overflow-scroll scrollbar-hide`}
     >
       <div className="flex justify-end">
