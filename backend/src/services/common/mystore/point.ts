@@ -18,7 +18,9 @@ export default async (req: Request, res: Response) => {
     if (!pointpercent?.pointPercent) {
       throw Error("err");
     }
-    const chargepoint = (reqbody.pointvalue / 1000) * pointpercent?.pointPercent;
+    // 포인트 충전량 관련
+    // const chargepoint = (reqbody.pointvalue / 1000) * pointpercent?.pointPercent;
+    const chargepoint = reqbody.pointvalue;
 
     await nowuser?.update({
       point: reqbody.user.point + chargepoint,
