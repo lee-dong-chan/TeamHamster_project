@@ -79,9 +79,7 @@ const Point = ({ points, userDataCheck }: IProps): JSX.Element => {
     <div className="p-8">
       <div className={`${box} ${center}`}>
         <div className="rounded-lg  w-full m">
-          <h2 className="text-2xl font-bold text-center text-orange-500 mt-10">
-            햄스터 마켓
-          </h2>
+          <h2 className="text-2xl font-bold text-center text-orange-500 mt-10">햄스터 마켓</h2>
 
           <h2 className="text-2xl font-bold text-center mb-10">포인트충전</h2>
           <p className=" mb-4">
@@ -144,25 +142,25 @@ const Point = ({ points, userDataCheck }: IProps): JSX.Element => {
             </div>
           </div>
           <p className="text-xl font-bold mb-4">
-            <div>
-              포인트 배율:{" "}
-              <span className="text-orange-500">{pointMulValue}</span>
-            </div>
+            {pointMulValue && (
+              <div>
+                포인트 충전 배율: <span className="text-orange-500">1000</span> 포인트 당{" "}
+                <span className="text-orange-500">{pointMulValue * 1000}</span> 원
+              </div>
+            )}
 
             {pointMulValue && (
               <div>
                 결제금액:{" "}
                 <span className="text-orange-500">
-                  {selectedAmount / pointMulValue}원
+                  {Math.ceil(selectedAmount / pointMulValue)}원
                 </span>
               </div>
             )}
           </p>
 
           <div onClick={handleRecharge}>
-            <LargeButton
-              btn={new Button("결제하기", "bg-amber-300 w-auto")}
-            ></LargeButton>
+            <LargeButton btn={new Button("결제하기", "bg-amber-300 w-auto")}></LargeButton>
           </div>
         </div>
       </div>
