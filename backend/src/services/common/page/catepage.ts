@@ -3,6 +3,7 @@ import { Category, Product, sequelize } from "../../../models";
 
 export default async (req: Request, res: Response) => {
   try {
+    console.log(req.body.idx, "인덱스");
     const cateid: number[] = [];
 
     const firstcate = await Category.findAll({

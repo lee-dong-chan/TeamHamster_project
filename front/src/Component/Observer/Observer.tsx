@@ -15,7 +15,7 @@ const Observer = ({ func, funcValue }: IProps): JSX.Element => {
 
         //실행할 함수
         func(funcValue);
-        console.log("옵저버 실행");
+        console.log("옵저버 실행", funcValue);
 
         //옵저버 재실행
         observer.unobserve(entries[0].target);

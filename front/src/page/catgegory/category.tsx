@@ -17,11 +17,11 @@ const Category = ({}: IProps): JSX.Element => {
   const { isdesktop, ismobile } = useBreakPoint();
   const obServerOn = useRecoilValue(categoryobserver);
   const setObserverOn = useSetRecoilState(categoryobserver);
-  const [idxValue, setidxValue] = useState<number>(0);
+  // const [idxValue, setidxValue] = useState<number>(0);
 
   let { id } = useParams();
 
-  const cateDataGet = useMutation({
+  const cateDataGet: any = useMutation({
     mutationKey: "catelistdata",
     mutationFn: async (idxValue: number) => {
       const { data } = await axios.post(
@@ -30,9 +30,14 @@ const Category = ({}: IProps): JSX.Element => {
         { withCredentials: true }
       );
 
-      console.log(data);
-
       const products = data.product;
+
+      if (data.product.length === 0) {
+        setObserverOn(false);
+      } else {
+        setObserverOn(true);
+      }
+
       const listData = products.map((data: IProduct) => {
         const listdata = {
           id: data.id || 9999999,
@@ -42,20 +47,16 @@ const Category = ({}: IProps): JSX.Element => {
             : "/imgs/hamster.png",
           price: data.price,
           catatedAt: Math.floor(
-            (+new Date() - +new Date(data.createdAt || new Date() + "")) /
-              (1000 * 60 * 60 * 24)
+            (+new Date() - +new Date(data.createdAt || new Date() + "")) / (1000 * 60 * 60 * 24)
           ),
         };
         return listdata;
       });
 
-      return listData;
-    },
-    onSuccess(data) {
-      if (data.length === 0) {
-        setObserverOn(false);
+      if (cateDataGet.data ? true : false) {
+        return [...cateDataGet.data, ...listData];
       } else {
-        setObserverOn(true);
+        return listData;
       }
     },
   });
@@ -78,30 +79,23 @@ const Category = ({}: IProps): JSX.Element => {
 
   //mount
 
-  // const idxValue = useMemo(() => {
-  //   return cateDataGet.data?.length;
-  // }, [id]);
-  const changevalue = useCallback(() => {
-    setidxValue(cateDataGet.data?.length);
-  }, []);
-
-  console.log(cateDataGet.data);
+  const idxValue = useMemo(() => {
+    return cateDataGet.data?.length;
+  }, [cateDataGet.data?.length]);
+  // const changevalue = useCallback(() => {
+  //   setidxValue(cateDataGet.data?.length);
+  // }, []);
 
   useEffect(() => {
     cateDataGet.mutate(idxValue);
     getcatename.mutate();
-    changevalue();
   }, [id]);
 
   console.log(idxValue);
   return (
     <div>
       {isdesktop && <SearchComp />}
-      <div
-        className={`${isdesktop && box} ${
-          ismobile && mobilebox
-        } h-[40rem] overflow-auto`}
-      >
+      <div className={`${isdesktop && box} ${ismobile && mobilebox} h-[40rem] overflow-auto`}>
         <div className="p-[2rem] text-[1.7rem] font-bold">
           <span className="text-orange-500">{getcatename.data}</span> 추천상품
         </div>
@@ -119,15 +113,11 @@ const Category = ({}: IProps): JSX.Element => {
             <div>
               <div className="p-[2rem] text-[1.7rem] font-bold flex flex-col items-center">
                 <div>
-                  <span className="pe-2 text-orange-500">
-                    {getcatename.data}
-                  </span>
+                  <span className="pe-2 text-orange-500">{getcatename.data}</span>
                   항목에 해당하는 상품이 없습니다.
                 </div>
                 <div>
-                  <img
-                    src={`${process.env.REACT_APP_IMG_BASE}hamster.png`}
-                  ></img>
+                  <img src={`${process.env.REACT_APP_IMG_BASE}hamster.png`}></img>
                 </div>
               </div>
             </div>
