@@ -15,11 +15,8 @@ export default async (req: Request, res: Response) => {
     let categorylist: Category | null = await Category.findOne({
       where: { name: { [Op.like]: `%${cate}%` } },
       attributes: ["id", "name"],
-      include: [
-        { model: Category, as: "Children", attributes: ["id", "name"] },
-      ],
+      include: [{ model: Category, as: "Children", attributes: ["id", "name"] }],
     });
-    console.log("응답", categorylist);
 
     res.json({ category: categorylist });
   } catch (err) {
