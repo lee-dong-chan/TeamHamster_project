@@ -6,28 +6,29 @@ import axios from "axios";
 import Review from "./contentComps/Review";
 import { useBreakPoint } from "../../../CustomHook/BreakPoint";
 
-const Content = ({ loginCheck }: { loginCheck: boolean }): JSX.Element => {
+interface IProps {
+  loginCheck: boolean;
+  value: number;
+  setValue: React.Dispatch<React.SetStateAction<number>>;
+  isReview: boolean;
+  valueChanger: (value: number) => void;
+}
+
+const Content = ({
+  loginCheck,
+  value,
+  isReview,
+  valueChanger,
+}: IProps): JSX.Element => {
   const { isdesktop, ismobile } = useBreakPoint();
   //0 리뷰 , 1 판매 , 2 구매
 
-  const [value, setValue] = useState<number>(0);
-
-  const [isReview, setIsReview] = useState<boolean>(true);
-
   //func
-  const valueChanger = (value: number) => {
-    setValue(value);
-    if (value === 0) {
-      setIsReview(true);
-    } else {
-      setIsReview(false);
-    }
-  };
 
   //comp
   return (
     <div
-      className={`w-[90%] min-w-[35rem] h-[781px] mt-10 mb-10 flex flex-wrap pt-5 border`}
+      className={`w-[90%] min-w-[35rem] h-[781px] mt-10 mb-10 flex flex-wrap pt-5 border `}
     >
       <div className={`p-10 w-[100%]`}>
         <div className={`w-[100%] h-[54px] flex flex-wrap`}>

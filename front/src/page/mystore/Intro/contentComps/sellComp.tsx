@@ -84,39 +84,44 @@ const SellComp = ({ value }: IProps) => {
   }, [value]);
 
   return (
-    <div
-      className={
-        isdesktop ? `mt-4 p-3 w-[100%] min-w-[30rem] h-[90%] border` : ""
-      }
-    >
-      {/* 탭 */}
-      <div className={`flex justify-between`}>
-        <Count text="상품" number={products.length}></Count>
-        <div className={`p-3 grid`}>
-          <div className="flex">
-            {value === 1 && (
-              <div
-                onClick={moveToProductWrite}
-                className={` ${center} p-1 pl-4 pr-4 border rounded bg-blue-100 text-gray-500`}
-              >
-                상품 등록
-              </div>
-            )}
+    <div>
+      <div
+        className={
+          isdesktop
+            ? `mt-4 p-3 w-[100%] min-w-[35rem] h-[90%] border overflow-auto `
+            : ""
+        }
+      >
+        {/* 탭 */}
+        <div className={`flex justify-between overflow-auto`}>
+          <Count text="상품" number={products.length}></Count>
+          <div className={`p-3 grid`}>
+            <div className="flex">
+              {value === 1 && (
+                <div
+                  onClick={moveToProductWrite}
+                  className={` ${center} p-1 pl-4 pr-4 border rounded bg-blue-100 text-gray-500`}
+                >
+                  상품 등록
+                </div>
+              )}
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* 상품페이지 변환 */}
-      <div
-        className={`${
-          isdesktop && "h-auto flex flex-nowrap overflow-x-scroll"
-        } ${ismobile && "grid grid-cols-2"}`}
-        style={{ scrollbarWidth: "none" }}
-      >
-        {/* 상품 */}
-        {products.map((data: IProduct, idx: number) => {
-          return <SellContent key={idx} data={data} isBuyTap={isBuyTap} />;
-        })}
+        {/* 상품페이지 변환 */}
+        <div
+          className={`${
+            isdesktop &&
+            "flex grid grid-cols-5 overflow-auto h-[33rem] min-w-[70rem]"
+          } ${ismobile && "grid grid-cols-2 overflow-auto  h-[35rem]"}`}
+          style={{ scrollbarWidth: "none" }}
+        >
+          {/* 상품 */}
+          {products.map((data: IProduct, idx: number) => {
+            return <SellContent key={idx} data={data} isBuyTap={isBuyTap} />;
+          })}
+        </div>
       </div>
     </div>
   );

@@ -10,9 +10,21 @@ const serverUrl = process.env.REACT_APP_SERVER_URL;
 
 interface IProps {
   userlogin: boolean;
+  value: number;
+  isReview: boolean;
+  setvalue: React.Dispatch<React.SetStateAction<number>>;
+  setIsReview: React.Dispatch<React.SetStateAction<boolean>>;
+  valueChanger: (value: number) => void;
 }
 
-const MyStore = ({ userlogin }: IProps): JSX.Element => {
+const MyStore = ({
+  userlogin,
+  value,
+  setvalue,
+  isReview,
+  setIsReview,
+  valueChanger,
+}: IProps): JSX.Element => {
   const [storeName, setStoreName] = useState<string>("오류따봉스터");
   const [storePoint, setStorePoint] = useState<number>(0);
   const [storeIntro, setStoreIntro] = useState<string>(
@@ -82,7 +94,13 @@ const MyStore = ({ userlogin }: IProps): JSX.Element => {
     <div className={`${center} flex-wrap mt-10 `}>
       <Intro intro={intro} getPageValues={getPageValues}></Intro>
 
-      <Content loginCheck={loginCheck}></Content>
+      <Content
+        loginCheck={loginCheck}
+        value={value}
+        setValue={setvalue}
+        isReview={isReview}
+        valueChanger={valueChanger}
+      ></Content>
     </div>
   );
 };

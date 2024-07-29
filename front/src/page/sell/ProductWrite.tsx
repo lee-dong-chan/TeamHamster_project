@@ -35,7 +35,15 @@ interface IRowCateFunc {
   id: number;
 }
 
-const ProductWrite: React.FC = () => {
+interface IProps {
+  mainDataGet: (i: number) => void;
+  dataCheckIdxValue: number;
+}
+
+const ProductWrite = ({
+  mainDataGet,
+  dataCheckIdxValue,
+}: IProps): JSX.Element => {
   //hook
   const navigate = useNavigate();
   const loca = useLocation();
@@ -346,8 +354,10 @@ const ProductWrite: React.FC = () => {
       .then((data) => {
         console.log(data);
         if (isProductReWrite) {
+          mainDataGet(dataCheckIdxValue);
           navigate(`/product${idPath}`);
         } else {
+          mainDataGet(dataCheckIdxValue);
           navigate("/");
         }
       })
@@ -483,7 +493,7 @@ const ProductWrite: React.FC = () => {
                   ))}
               </ul>
             </div>
-            <div className="w-1/3 border p-4">
+            <div className="w-1/3 border p-4 h-[27rem] overflow-auto">
               <h3 className="font-semibold">중분류 선택</h3>
               <ul className="mt-2">
                 {rowOneCates &&
@@ -516,7 +526,7 @@ const ProductWrite: React.FC = () => {
                   ))}
               </ul>
             </div>
-            <div className="w-1/3 border p-4">
+            <div className="w-1/3 border p-4 h-[27rem] overflow-auto">
               <h3 className="font-semibold">소분류 선택</h3>
               <ul className="mt-2">
                 {rowTwoCates &&
@@ -577,16 +587,18 @@ const ProductWrite: React.FC = () => {
           <div className="text-[1.3rem] font-bold border-b border-gray-500">
             주소
           </div>
-          {adress &&
-            adress.map((item: IAdressData, idx: number) => (
-              <AdressItem
-                key={idx}
-                detail={item.detailAddress}
-                item={item.address}
-                id={item.addressId}
-                selectadress={selectadress}
-              />
-            ))}{" "}
+          <div className="mt-5 h-[20rem] border overflow-auto">
+            {adress &&
+              adress.map((item: IAdressData, idx: number) => (
+                <AdressItem
+                  key={idx}
+                  detail={item.detailAddress}
+                  item={item.address}
+                  id={item.addressId}
+                  selectadress={selectadress}
+                />
+              ))}
+          </div>
         </div>
         <div className={`${center} mt-5`}>
           <div
@@ -611,7 +623,7 @@ const ProductWrite: React.FC = () => {
                 name="price"
                 value={formData.price}
                 onChange={handleChange}
-                className="w-6/12 h-[3rem] px-4  border border-gray-300 rounded-md"
+                className="w-6/12 h-[3rem] px-4  border border-gray-300 rounded-md appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 placeholder="원하는 가격을 입력하세요"
                 required
               />
@@ -637,6 +649,7 @@ const ProductWrite: React.FC = () => {
                   ) {
                     imgUploader(images);
                   }
+                  navigate("/");
                 }}
                 className={`absolute right-3 bottom-3 ${center} h-[6rem] text-[1.5rem] text-white border rounded-[1rem] bg-amber-300 hover:bg-yellow-600 w-[10rem]`}
               >

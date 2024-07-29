@@ -14,7 +14,7 @@ const AdressItem = ({
   id,
 }: IProps): JSX.Element => {
   return (
-    <div className="mt-5 p-4 h-[10rem] flex gap-5 text-[1.2rem] border border-gray-300 overflow-auto">
+    <div className="p-4  flex gap-5 text-[1.2rem]">
       <input
         className="h-[1.5rem] w-[1.5rem]"
         type="radio"

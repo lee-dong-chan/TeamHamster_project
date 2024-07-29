@@ -6,6 +6,8 @@ import { center } from "../../lib/styles";
 import { Debounce } from "../../CustomHook/Debounce";
 import axios, { AxiosResponse } from "axios";
 import { IChild } from "../Category/categoryItem";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { key } from "../../Context/Modal";
 
 interface IProps {}
 
@@ -20,6 +22,8 @@ const SearchComp = ({}: IProps): JSX.Element => {
   const saveContent = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setContent(e.target.value);
   }, []);
+  const setrender = useSetRecoilState(key);
+  const rerender = useRecoilValue(key);
 
   const search = Debounce(content, 800);
   const imgbase = process.env.REACT_APP_IMG_BASE;
@@ -60,9 +64,9 @@ const SearchComp = ({}: IProps): JSX.Element => {
           className="w-[100%] h-[100%] absolute z-0"
           src={`${imgbase}banner.png`}
         ></img>
-        <div className="flex min-w-[60rem] gap-[9rem]">
+        <div className="flex min-w-[60rem] gap-[4rem]">
           <img className="relative" src={`${imgbase}good.png`}></img>
-          <div className="py-8 relative text-[1.4rem] text-white font-bold text-center">
+          <div className="py-4 relative text-[1.4rem] text-white font-bold text-center">
             믿을수 있는 중고거래 <br></br>따봉 햄스터가 여러분의 안전한 거래를
             응원합니다!
           </div>
@@ -87,6 +91,9 @@ const SearchComp = ({}: IProps): JSX.Element => {
         {content ? (
           <Link to={`/search/${content}`}>
             <div
+              onClick={() => {
+                setrender(!rerender);
+              }}
               className={`${center} px-2 h-[3rem] border rounded-e bg-blue-100 text-gray-500`}
             >
               검색

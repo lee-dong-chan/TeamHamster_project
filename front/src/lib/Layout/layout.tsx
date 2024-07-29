@@ -34,11 +34,12 @@ import { IUserDatas } from "../interFace";
 import { GoogleCallback } from "../../Component/OAuth/GoogleOAuth";
 import { NaverCallback } from "../../Component/OAuth/NaverOAuth";
 import { IListData } from "../../App";
+import { IList } from "../../Component/List/ListItem";
 
 interface IProps {
   setUserLogin: React.Dispatch<React.SetStateAction<boolean>>;
   userlogin: boolean;
-  main: List[];
+  main: IList[];
   userDatas: IUserDatas;
   userDataCheck: () => void;
   dataCheckIdxValue: number;
@@ -58,8 +59,9 @@ const Layout = ({
   dataCheckIdxValue,
   obToggleValue,
 }: IProps): JSX.Element => {
+  const [value, setValue] = useState<number>(0);
+  const [isReview, setIsReview] = useState<boolean>(true);
   const { isdesktop, ismobile } = useBreakPoint();
-  const authority = false;
   const getModal = useRecoilState(Modal);
   const setModal = useSetRecoilState(Modal);
   const openmenu = () => {
@@ -69,6 +71,15 @@ const Layout = ({
   useEffect(() => {
     setModal(undefined);
   }, [location, setModal]);
+
+  const valueChanger = (value: number) => {
+    setValue(value);
+    if (value === 0) {
+      setIsReview(true);
+    } else {
+      setIsReview(false);
+    }
+  };
 
   return (
     <div>
@@ -85,12 +96,16 @@ const Layout = ({
                 </div>
               )}
               <Link to={"/"}>
-                <img alt="logo" src="/imgs/hamster.png" className="h-[4rem]"></img>
+                <img
+                  alt="logo"
+                  src="/imgs/hamster.png"
+                  className="h-[4rem]"
+                ></img>
               </Link>
               <div
-                className={`${isdesktop && "text-[2rem] text-white font-bold"} ${
-                  ismobile && "text-[1rem] text-white font-bold"
-                }`}
+                className={`${
+                  isdesktop && "text-[2rem] text-white font-bold"
+                } ${ismobile && "text-[1rem] text-white font-bold"}`}
               >
                 햄스터마켓
               </div>
@@ -135,12 +150,45 @@ const Layout = ({
               <Route path={`/search/:id`} element={<Search />}></Route>
               <Route
                 path="/product/:id"
-                element={<Product mainDataGet={setListDatas} userdata={userDatas} />}
+                element={
+                  <Product mainDataGet={setListDatas} userdata={userDatas} />
+                }
               ></Route>
-              <Route path="/sell" element={<ProductWrite />}></Route>
-              <Route path="/sell/:id" element={<ProductWrite />}></Route>
-              <Route path="/mystore" element={<MyStore userlogin={userlogin} />}></Route>
-              <Route path="/login" element={<LoginPage setUserLogin={setUserLogin} />}></Route>
+              <Route
+                path="/sell"
+                element={
+                  <ProductWrite
+                    mainDataGet={mainDataGet}
+                    dataCheckIdxValue={dataCheckIdxValue}
+                  />
+                }
+              ></Route>
+              <Route
+                path="/sell/:id"
+                element={
+                  <ProductWrite
+                    mainDataGet={mainDataGet}
+                    dataCheckIdxValue={dataCheckIdxValue}
+                  />
+                }
+              ></Route>
+              <Route
+                path="/mystore"
+                element={
+                  <MyStore
+                    userlogin={userlogin}
+                    value={value}
+                    setvalue={setValue}
+                    isReview={isReview}
+                    setIsReview={setIsReview}
+                    valueChanger={valueChanger}
+                  />
+                }
+              ></Route>
+              <Route
+                path="/login"
+                element={<LoginPage setUserLogin={setUserLogin} />}
+              ></Route>
               <Route path="/regist" element={<Regist />}></Route>
               <Route
                 path="/point"
@@ -185,40 +233,103 @@ const Layout = ({
             </div>
           </div>
         )}
-        {ismobile && getModal[0] === undefined && (
-          <div className=" h-[6em] sticky flex justify-evenly items-center  bg-gray-300 border border-t bottom-0">
-            <Link to={"/"}>
-              <div className="flex flex-col items-center ">
-                <IoHome size={30} />
-                <div>홈</div>
+        {userlogin
+          ? ismobile &&
+            getModal[0] === undefined && (
+              <div className=" h-[6em] sticky flex justify-evenly items-center  bg-gray-300 border border-t bottom-0">
+                <Link to={"/"}>
+                  <div className="flex flex-col items-center ">
+                    <IoHome size={30} />
+                    <div>홈</div>
+                  </div>
+                </Link>
+                <Link to={`/mystore?id=${userDatas.login?.id}`}>
+                  <div
+                    className="flex flex-col items-center "
+                    onClick={() => {
+                      valueChanger(2);
+                    }}
+                  >
+                    <BiPurchaseTag size={30} />
+                    <div>구매상품</div>
+                  </div>
+                </Link>
+                <Link to={"/sell"}>
+                  <div className="flex flex-col items-center ">
+                    <CgAdd size={30} />
+                    <div>등록</div>
+                  </div>
+                </Link>
+                <Link to={`/mystore?id=${userDatas.login?.id}`}>
+                  <div
+                    className="flex flex-col items-center "
+                    onClick={() => {
+                      valueChanger(1);
+                    }}
+                  >
+                    <MdOutlineShoppingBag size={30} />
+                    <div>판매상품</div>
+                  </div>
+                </Link>
+                <Link to={`/mystore?id=${userDatas.login?.id}`}>
+                  <div
+                    className="flex flex-col items-center"
+                    onClick={() => {
+                      valueChanger(0);
+                    }}
+                  >
+                    <IoAccessibility size={30} />
+                    <div>내상점</div>
+                  </div>
+                </Link>
               </div>
-            </Link>
-            <Link to={"/mystore"}>
-              <div className="flex flex-col items-center ">
-                <BiPurchaseTag size={30} />
-                <div>구매상품</div>
+            )
+          : ismobile &&
+            getModal[0] === undefined && (
+              <div className=" h-[6em] sticky flex justify-evenly items-center  bg-gray-300 border border-t bottom-0">
+                <Link to={"/"}>
+                  <div className="flex flex-col items-center ">
+                    <IoHome size={30} />
+                    <div>홈</div>
+                  </div>
+                </Link>
+
+                <div
+                  className="flex flex-col items-center "
+                  onClick={() => {
+                    valueChanger(2);
+                  }}
+                >
+                  <BiPurchaseTag size={30} />
+                  <div>구매상품</div>
+                </div>
+
+                <div className="flex flex-col items-center ">
+                  <CgAdd size={30} />
+                  <div>등록</div>
+                </div>
+
+                <div
+                  className="flex flex-col items-center "
+                  onClick={() => {
+                    valueChanger(1);
+                  }}
+                >
+                  <MdOutlineShoppingBag size={30} />
+                  <div>판매상품</div>
+                </div>
+
+                <div
+                  className="flex flex-col items-center"
+                  onClick={() => {
+                    valueChanger(0);
+                  }}
+                >
+                  <IoAccessibility size={30} />
+                  <div>내상점</div>
+                </div>
               </div>
-            </Link>
-            <Link to={"/sell"}>
-              <div className="flex flex-col items-center ">
-                <CgAdd size={30} />
-                <div>등록</div>
-              </div>
-            </Link>
-            <Link to={"/mystore"}>
-              <div className="flex flex-col items-center ">
-                <MdOutlineShoppingBag size={30} />
-                <div>판매상품</div>
-              </div>
-            </Link>
-            <Link to={"/mystore"}>
-              <div className="flex flex-col items-center ">
-                <IoAccessibility size={30} />
-                <div>내상점</div>
-              </div>
-            </Link>
-          </div>
-        )}
+            )}
       </div>
     </div>
   );
