@@ -45,7 +45,7 @@ const Product = ({ userdata, mainDataGet }: IProps): JSX.Element => {
     await axios
       .post(`${serverUrl}/product/${id}`, {}, { withCredentials: true })
       .then((data: AxiosResponse<IData<IProductPage>>) => {
-        console.log(data);
+        console.log("@@@@@@", data);
         const values = data.data.product;
         setPropData(values);
       })

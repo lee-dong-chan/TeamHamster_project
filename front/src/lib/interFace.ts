@@ -71,6 +71,8 @@ export interface IProductPage extends IProduct {
     star: {
       star: string;
     };
+
+    profileimg?: string;
   };
   image: string[];
   islogin: boolean;

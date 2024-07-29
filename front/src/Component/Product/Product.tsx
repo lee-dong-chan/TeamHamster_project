@@ -43,7 +43,7 @@ const ProductInfo = ({ data, userdata, mainDataGet }: IProps): JSX.Element => {
     name: data.Sell.nick,
     adress: "",
     star: +data.Sell.star.star,
-    img: "good.png",
+    img: data.Sell.profileimg ? data.Sell.profileimg : "good.png",
   };
 
   //게시글
