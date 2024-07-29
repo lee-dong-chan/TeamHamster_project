@@ -53,8 +53,7 @@ const App = (): JSX.Element => {
             : "/imgs/hamster.png",
           price: item.price,
           createdAt: Math.floor(
-            (+new Date() - +new Date(item.createdAt || new Date() + "")) /
-              (1000 * 60 * 60 * 24)
+            (+new Date() - +new Date(item.createdAt || new Date() + "")) / (1000 * 60 * 60 * 24)
           ),
         };
         return listdata;

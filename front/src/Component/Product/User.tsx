@@ -13,14 +13,12 @@ interface IProps {
 }
 
 const User = ({ user }: IProps): JSX.Element => {
+  const serverURL = process.env.REACT_APP_IMG_BASE;
   return (
     <div className="pb-3 flex justify-between items-center border-b">
       <div className="py-5 flex items-center gap-5">
         <div>
-          <img
-            className="h-[5rem] border rounded-[5rem]"
-            src={`/imgs/${user.img}`}
-          ></img>
+          <img className="h-[5rem] border rounded-[5rem]" src={`${serverURL}${user.img}`}></img>
         </div>
         <div>
           <div className="text-[1.1rem] font-bold">{user.name}</div>

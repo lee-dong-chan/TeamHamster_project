@@ -14,17 +14,12 @@ export default async (req: Request, res: Response) => {
       where: { id: reqbody.user.id },
     });
 
-    const pointpercent = await point
-      .findOne({}, { pointPercent: 1, _id: 0 })
-      .sort({ _id: -1 });
+    const pointpercent = await point.findOne({}, { pointPercent: 1, _id: 0 }).sort({ _id: -1 });
     if (!pointpercent?.pointPercent) {
       throw Error("err");
     }
-<<<<<<< HEAD
     // 포인트 충전량 관련
     // const chargepoint = (reqbody.pointvalue / 1000) * pointpercent?.pointPercent;
-=======
->>>>>>> a62f60c (fix3)
     const chargepoint = reqbody.pointvalue;
 
     await nowuser?.update({
