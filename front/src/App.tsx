@@ -31,7 +31,7 @@ const App = (): JSX.Element => {
 
   //func
 
-  const getmain = useMutation({
+  const getmain: any = useMutation({
     mutationKey: "getmain",
     mutationFn: async (idxValue: number) => {
       const { data } = await axios.post(
@@ -41,9 +41,14 @@ const App = (): JSX.Element => {
       );
 
       const products = data;
-      console.log(products);
+      if (data.product.length === 0) {
+        setObserverOn(false);
+      } else {
+        setObserverOn(true);
+      }
 
       const product = products.product;
+
       const lastdata = product?.map((item: IData) => {
         const listdata = {
           id: item.id,
@@ -58,21 +63,17 @@ const App = (): JSX.Element => {
         };
         return listdata;
       });
-      return lastdata;
-    },
-
-    onSuccess(data) {
-      if (data.length === 0) {
-        setObserverOn(false);
+      if (getmain.data ? true : false) {
+        return [...getmain.data, ...lastdata];
       } else {
-        setObserverOn(true);
+        return lastdata;
       }
     },
   });
 
   const idxValue = useMemo(() => {
     return getmain.data?.length;
-  }, [ListDatas]);
+  }, [getmain.data?.length]);
 
   console.log(getmain.data);
 

@@ -32,12 +32,7 @@ export interface IData {
   title: string;
 }
 
-const Main = ({
-  idxValue,
-  list,
-  mainDataGet,
-  obToggleValue,
-}: IProps): JSX.Element => {
+const Main = ({ idxValue, list, mainDataGet, obToggleValue }: IProps): JSX.Element => {
   const [cookies] = useCookies(["Product"]);
   const { ismobile, isdesktop } = useBreakPoint();
   const [recent, setrecent] = useState<ListData[]>([]);
@@ -89,8 +84,7 @@ const Main = ({
             : "/imgs/hamster.png",
           item.price,
           Math.floor(
-            (+new Date() - +new Date(item.createdAt || new Date() + "")) /
-              (1000 * 60 * 60 * 24)
+            (+new Date() - +new Date(item.createdAt || new Date() + "")) / (1000 * 60 * 60 * 24)
           )
         );
       });
@@ -120,10 +114,8 @@ const Main = ({
           </div>
         )}
         <div>
-          <div className="p-[2rem] text-[1.7rem] font-bold">
-            오늘의 추천상품
-          </div>
-          <List list={list} func={mainDataGet} toggleValue={obToggleValue} />
+          <div className="p-[2rem] text-[1.7rem] font-bold">오늘의 추천상품</div>
+          <List list={list} func={mainDataGet} funcValue={idxValue} toggleValue={obToggleValue} />
         </div>
       </div>
     </div>
