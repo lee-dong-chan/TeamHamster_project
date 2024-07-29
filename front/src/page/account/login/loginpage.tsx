@@ -126,11 +126,11 @@ const LoginPage = ({ setUserLogin }: IProps): JSX.Element => {
                 이메일 혹은 비밀번호가 틀렸습니다.
               </label>
             )}
-            <div onClick={handleLogin}>
+            <button className="w-[100%]" onClick={handleLogin}>
               <LargeButton
                 btn={new Button("로그인", "bg-amber-300 w-auto")}
               ></LargeButton>
-            </div>
+            </button>
             <div className="text-center mt-4">
               햄스터 마켓 계정이 없으신가요?
             </div>

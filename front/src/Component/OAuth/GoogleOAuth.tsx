@@ -23,9 +23,9 @@ export const GoogleOAuth = (): JSX.Element => {
 
   //구글 버튼
   return (
-    <button
+    <div
       onClick={loginHandler}
-      className={`flex items-center justify-center p-2 bg-white border rounded shadow hover:bg-gray-100 w-[100%]`}
+      className={`cursor-pointer flex items-center justify-center p-2 bg-white border rounded shadow hover:bg-gray-100 w-[100%]`}
     >
       <img
         src="https://developers.google.com/identity/images/g-logo.png"
@@ -33,7 +33,7 @@ export const GoogleOAuth = (): JSX.Element => {
         className={`w-6 h-6 mr-2`}
       />
       <span className={`text-gray-700 font-medium`}>Google 로그인</span>
-    </button>
+    </div>
   );
 };
 

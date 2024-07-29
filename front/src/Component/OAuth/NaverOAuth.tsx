@@ -23,9 +23,9 @@ export const NaverOAuth = (): JSX.Element => {
   };
 
   return (
-    <button
+    <div
       onClick={loginHandler}
-      className={`flex items-center justify-center p-2 bg-green-500 text-white border rounded shadow hover:bg-green-600 w-[100%]`}
+      className={`cursor-pointer flex items-center justify-center p-2 bg-green-500 text-white border rounded shadow hover:bg-green-600 w-[100%]`}
     >
       <img
         src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Naver_logo_initial.svg"
@@ -33,7 +33,7 @@ export const NaverOAuth = (): JSX.Element => {
         className={`w-6 h-6 mr-2`}
       />
       <span className={`font-medium`}>naver 로그인</span>
-    </button>
+    </div>
   );
 };
 
