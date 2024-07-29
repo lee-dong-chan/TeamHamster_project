@@ -9,97 +9,66 @@ import axios, { AxiosResponse } from "axios";
 import { IListData } from "../../App";
 import { IProduct } from "../../lib/interFace";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { Searchobserver, key } from "../../Context/Modal";
+import { IList } from "../../Component/List/ListItem";
+import { useMutation } from "react-query";
 
 interface IProps {}
 
 const Search = ({}: IProps): JSX.Element => {
-  const [search, setSearch] = useState<ListData[]>([]);
-  const [ListDatas, setListDatas] = useState<IListData[]>([]);
   const { isdesktop, ismobile } = useBreakPoint();
-  let { id } = useParams();
-  const [obServerOn, setObserverOn] = useState<boolean>(true);
 
-  const idxValue = useMemo(() => {
-    return ListDatas.length;
-  }, [ListDatas]);
-  const searchDataGet = useCallback(async (idxValue: number) => {
-    await axios
-      .post(
+  const observerOn = useRecoilValue(Searchobserver);
+  const setObserverOn = useSetRecoilState(Searchobserver);
+
+  const { id } = useParams();
+
+  const searchDataGet = useMutation({
+    mutationKey: "searchlistdata",
+    mutationFn: async (idxValue: number) => {
+      const { data } = await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/search`,
         { keyword: id, idx: idxValue },
         { withCredentials: true }
-      )
-      .then((data: AxiosResponse) => {
-        console.log(data.data);
-        const products: IProduct[] = data.data.product;
-        const listDatas: IListData[] = products.map((data: IProduct) => {
-          const listData: IListData = {
-            id: data.id || 9999999,
-            title: data.title,
-            img: data.image
-              ? `${process.env.REACT_APP_SERVER_URL}/imgs/${data.image[0]}`
-              : "/imgs/hamster.png",
-            price: data.price,
-            createdAt: Math.floor(
-              (+new Date() - +new Date(data.createdAt || new Date() + "")) /
-                (1000 * 60 * 60 * 24)
-            ),
-          };
-
-          return listData;
-        });
-        if (
-          products === undefined ||
-          products === null ||
-          products[0] === undefined ||
-          products[0] === null
-        ) {
-          setObserverOn(false);
-        } else {
-          setObserverOn(true);
-        }
-        setListDatas((datas) => [...datas, ...listDatas]);
-      })
-      .catch(() => {
-        setListDatas((datas) => [
-          ...datas,
-          ...[
-            {
-              id: 1,
-              title: "자전거 ok",
-              img: "hamster.png",
-              price: 3000,
-              createdAt: 3,
-            },
-          ],
-        ]);
-      });
-  }, []);
-
-  //mount
-  useEffect(() => {
-    if (ListDatas[0]) {
-      setSearch(
-        ListDatas.map((data) => {
-          return new ListData(
-            data.id,
-            data.title,
-            data.img,
-            data.price,
-            data.createdAt
-          );
-        })
       );
-    }
-  }, [ListDatas]);
+      console.log(data);
+      const products = data.product;
+      const listDatas = products.map((data: IProduct) => {
+        const listData = {
+          id: data.id || 9999999,
+          title: data.title,
+          img: data.image
+            ? `${process.env.REACT_APP_SERVER_URL}/imgs/${data.image[0]}`
+            : "/imgs/hamster.png",
+          price: data.price,
+          createdAt: Math.floor(
+            (+new Date() - +new Date(data.createdAt || new Date() + "")) /
+              (1000 * 60 * 60 * 24)
+          ),
+        };
+        return listData;
+      });
+      return listDatas;
+    },
+    onSuccess(data) {
+      if (data.length === 0) {
+        setObserverOn(false);
+      } else {
+        setObserverOn(true);
+      }
+    },
+  });
 
-  const data = search;
-  console.log(data);
-  console.log(search);
+  console.log(searchDataGet.data);
+
+  const idxValue = useMemo(() => {
+    return searchDataGet.data?.length;
+  }, [searchDataGet.data?.length]);
 
   useEffect(() => {
-    searchDataGet(idxValue);
-  }, []);
+    searchDataGet.mutate(idxValue);
+  }, [id]);
 
   return (
     <div>
@@ -111,10 +80,13 @@ const Search = ({}: IProps): JSX.Element => {
           <span className="text-orange-500">{id}</span>의 검색결과
         </div>
 
-        {search[0] ? (
+        {idxValue ? (
           <div>
-            <List list={data} func={searchDataGet} toggleValue={obServerOn} />
-            <div className="py-5 center">{isdesktop && <Paging />}</div>
+            <List
+              list={searchDataGet.data}
+              func={searchDataGet.mutate}
+              toggleValue={observerOn}
+            />
           </div>
         ) : (
           <div className="pb-20 center">

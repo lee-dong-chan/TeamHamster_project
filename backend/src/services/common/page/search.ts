@@ -1,10 +1,12 @@
 import { Request, Response } from "express";
 import { Category, Product } from "../../../models";
-import { Op } from "sequelize";
+import { JSON, Op } from "sequelize";
+import { formToJSON } from "axios";
 
 export default async (req: Request, res: Response) => {
   try {
     const reqbody = req.body;
+    console.log(req.body);
     const productlist: Product[] = await Product.findAll({
       attributes: [
         "id",
@@ -29,6 +31,7 @@ export default async (req: Request, res: Response) => {
       }
     }
 
+    console.log(productlist);
     res.json({ product: productlist });
   } catch (err) {
     console.error(err);

@@ -9,12 +9,27 @@ import { useCookies } from "react-cookie";
 import axios from "axios";
 import Observer from "../../Component/Observer/Observer";
 import { useMutation } from "react-query";
+import { useParams } from "react-router-dom";
+import { IList } from "../../Component/List/ListItem";
 
 interface IProps {
-  list: ListData[];
+  list: IList[];
   mainDataGet: (i: number) => void;
   obToggleValue: boolean;
   idxValue: number;
+}
+
+export interface IData {
+  Category: { name: string };
+  categoryId: number;
+  createdAt: Date;
+  discription: string;
+  id: number;
+  image: [string];
+  img: string;
+  itemState: string;
+  price: number;
+  title: string;
 }
 
 const Main = ({
@@ -23,25 +38,12 @@ const Main = ({
   mainDataGet,
   obToggleValue,
 }: IProps): JSX.Element => {
-  interface IData {
-    Category: { name: string };
-    categoryId: number;
-    createdAt: Date;
-    discription: string;
-    id: number;
-    image: [string];
-    img: string;
-    itemState: string;
-    price: number;
-    title: string;
-  }
-
   const [cookies] = useCookies(["Product"]);
   const { ismobile, isdesktop } = useBreakPoint();
   const [recent, setrecent] = useState<ListData[]>([]);
   const [recentlist, setresent] = useState<number[]>([]);
 
-  console.log(cookies);
+  // console.log(cookies);
 
   const procookie = useMemo(() => {
     if (cookies.Product) {

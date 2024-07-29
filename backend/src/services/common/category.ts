@@ -6,7 +6,7 @@ export default async (req: Request, res: Response) => {
   try {
     const reqbody = req.body;
     let cate = reqbody.category;
-
+    console.log("입력", req.body);
     // where에 undefined가 들어가면 오류뜸
     if (!cate) {
       throw Error("err");
@@ -15,8 +15,11 @@ export default async (req: Request, res: Response) => {
     let categorylist: Category | null = await Category.findOne({
       where: { name: { [Op.like]: `%${cate}%` } },
       attributes: ["id", "name"],
-      include: [{ model: Category, as: "Children", attributes: ["id", "name"] }],
+      include: [
+        { model: Category, as: "Children", attributes: ["id", "name"] },
+      ],
     });
+    console.log("응답", categorylist);
 
     res.json({ category: categorylist });
   } catch (err) {

@@ -1,8 +1,4 @@
-import { IItem } from "../Component/List/ListItem";
-
-interface IList extends IItem {}
-
-export class List implements IList {
+export class List {
   private id: number;
   private title: string;
   private img: string;
