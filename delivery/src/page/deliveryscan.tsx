@@ -8,7 +8,11 @@ import { ChangeEvent, useState } from "react";
 import { Debounce } from "../Costomhook/Debounce";
 import { useMutation } from "react-query";
 import axios from "axios";
+import { useSetRecoilState } from "recoil";
+import { Modalcontent, Modalstate } from "../Context/Modal/Modal";
 const DeliveryScan = (): JSX.Element => {
+  const setsystemonoff = useSetRecoilState(Modalstate);
+  const setModalcontent = useSetRecoilState(Modalcontent);
   const [pickitem, SetPickItem] = useState<string>("");
   const changeitem = (e: ChangeEvent<HTMLInputElement>) => {
     SetPickItem(e.target.value);
@@ -23,6 +27,14 @@ const DeliveryScan = (): JSX.Element => {
         {},
         { withCredentials: true }
       );
+    },
+    onSuccess() {
+      setModalcontent("completedelivery");
+      setsystemonoff(true);
+    },
+    onError() {
+      setModalcontent("falideliveryscan");
+      setsystemonoff(true);
     },
   });
 

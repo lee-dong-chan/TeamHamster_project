@@ -1,4 +1,11 @@
-import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import {
+  Link,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import ManegeReport from "../../page/manege/report";
 import ManegeCategory from "../../page/manege/category";
 import ManegeBenKeyword from "../../page/manege/benkeyword";
@@ -65,11 +72,10 @@ const ManegeLayout = ({}: IProps): JSX.Element => {
   });
 
   const log: IUser = logcheck.data?.login;
-
+  const { id } = useParams();
   useEffect(() => {
     logcheck.mutate();
-  }, []);
-  useEffect(() => {}, [userlogin]);
+  }, [id]);
 
   return (
     <div>
@@ -78,14 +84,27 @@ const ManegeLayout = ({}: IProps): JSX.Element => {
           <div className={`${box} h-[100%] flex justify-between items-center `}>
             <div className={`${center}`}>
               <img src="/imgs/hamster.png" className="h-[4rem]"></img>
-              <div>
-                <div className="text-[2rem] text-white font-bold">
-                  햄스터마켓
+              {log?.admin ? (
+                <Link to={"/manege/report"}>
+                  <div>
+                    <div className="text-[2rem] text-white font-bold">
+                      햄스터마켓
+                    </div>
+                    <div className="text-[1rem] text-white font-bold">
+                      관리자 페이지
+                    </div>
+                  </div>
+                </Link>
+              ) : (
+                <div>
+                  <div className="text-[2rem] text-white font-bold">
+                    햄스터마켓
+                  </div>
+                  <div className="text-[1rem] text-white font-bold">
+                    관리자 페이지
+                  </div>
                 </div>
-                <div className="text-[1rem] text-white font-bold">
-                  관리자 페이지
-                </div>
-              </div>
+              )}
             </div>
             <div className={`${center} gap-3`}>
               <div className="h-[3rem] w-[3rem]">

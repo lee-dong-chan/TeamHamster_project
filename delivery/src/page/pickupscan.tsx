@@ -7,8 +7,12 @@ import { ChangeEvent, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import axios from "axios";
 import { Debounce } from "../Costomhook/Debounce";
+import { useSetRecoilState } from "recoil";
+import { Modalcontent, Modalstate } from "../Context/Modal/Modal";
 
 const PickupScan = ({}): JSX.Element => {
+  const setsystemonoff = useSetRecoilState(Modalstate);
+  const setModalcontent = useSetRecoilState(Modalcontent);
   const [pickitem, SetPickItem] = useState<string>("");
   const changeitem = (e: ChangeEvent<HTMLInputElement>) => {
     SetPickItem(e.target.value);
@@ -29,6 +33,12 @@ const PickupScan = ({}): JSX.Element => {
     },
     onSuccess(data) {
       queryClient.invalidateQueries(["mypickup"]);
+      setModalcontent("completepick");
+      setsystemonoff(true);
+    },
+    onError() {
+      setModalcontent("failpickscan");
+      setsystemonoff(true);
     },
   });
 
@@ -51,7 +61,8 @@ const PickupScan = ({}): JSX.Element => {
       </div>
 
       <div className="m-4 text-[1.3rem] font-bold">
-        <span className="text-orange-400">{pickitem}</span>상품을 픽업 하시겠습니까?
+        <span className="text-orange-400">{pickitem}</span>상품을 픽업
+        하시겠습니까?
       </div>
       <div className={`m-[3rem] `}>
         <Link to={"/"}>

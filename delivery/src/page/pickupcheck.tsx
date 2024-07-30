@@ -8,6 +8,8 @@ import { ChangeEvent, useEffect, useMemo, useState } from "react";
 import { PickCheck } from "../Component/List/item/Item";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import axios from "axios";
+import { useSetRecoilState } from "recoil";
+import { Modalcontent, Modalstate } from "../Context/Modal/Modal";
 
 interface IData {
   product: [
@@ -40,6 +42,8 @@ interface IProps {
 }
 
 const PickupCheck = ({ liststate, checklist }: IProps): JSX.Element => {
+  const setsystemonoff = useSetRecoilState(Modalstate);
+  const setModalcontent = useSetRecoilState(Modalcontent);
   const [lastdata, setlastdata] = useState<PickCheck[]>();
   const [checkbox, SetCheckBox] = useState("");
   const checkdata = (e: ChangeEvent<HTMLInputElement>) => {
@@ -66,7 +70,8 @@ const PickupCheck = ({ liststate, checklist }: IProps): JSX.Element => {
       const productlist = product.map((data: IProduct) => {
         const outData = {
           id: data.id,
-          pickadress: data.SellAddress.Address.address + data.SellAddress.detailAddress,
+          pickadress:
+            data.SellAddress.Address.address + data.SellAddress.detailAddress,
           campadress: data.itemState,
         };
         return outData;
@@ -85,6 +90,14 @@ const PickupCheck = ({ liststate, checklist }: IProps): JSX.Element => {
         { id: pickitems },
         { withCredentials: true }
       );
+    },
+    onSuccess(data) {
+      setModalcontent("sucesspick");
+      setsystemonoff(true);
+    },
+    onError() {
+      setModalcontent("failpick");
+      setsystemonoff(true);
     },
   });
 
@@ -121,11 +134,16 @@ const PickupCheck = ({ liststate, checklist }: IProps): JSX.Element => {
       </div>
       <div className={`my-5 flex`}>
         <div className="flex items-center">
-          <div className="pe-2 text-[1.2rem] font-bold">배송번호:{cookiedata()}</div>번
+          <div className="pe-2 text-[1.2rem] font-bold">
+            배송번호:{cookiedata()}
+          </div>
+          번
         </div>
       </div>
 
-      <div className="m-10 text-[1.3rem] font-bold">픽업건을 선택 하시겠습니까?</div>
+      <div className="m-10 text-[1.3rem] font-bold">
+        픽업건을 선택 하시겠습니까?
+      </div>
       <div className={`m-[3rem] `}>
         <Link to={"/"}>
           <div

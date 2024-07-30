@@ -5,7 +5,12 @@ import Report from "../../Component/List/ManegeList/Report/Report";
 import { Button } from "../../lib/Button/Button";
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import axios from "axios";
-import { UseMutationResult, useMutation, useQuery, useQueryClient } from "react-query";
+import {
+  UseMutationResult,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "react-query";
 import { IReport } from "../../Component/List/ManegeList/Report/ReportItem";
 import { useLocation } from "react-router-dom";
 
