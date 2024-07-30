@@ -4,6 +4,8 @@ import { Button } from "../../lib/Button/Button";
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useSetRecoilState } from "recoil";
+import { Modalcontent, Modalstate } from "../../Context/Modal/Modal";
 
 interface IPoint {
   pointPercent: number;
@@ -16,6 +18,8 @@ interface IData {
 interface IProps {}
 
 const ManegePoint = ({}: IProps): JSX.Element => {
+  const modalvalue = useSetRecoilState(Modalcontent);
+  const onoffModal = useSetRecoilState(Modalstate);
   const btn = new Button("확인", "bg-orange-500");
   const [onclick, setonclick] = useState<number>(0);
   const [point, setpoint] = useState<number>();
@@ -45,6 +49,7 @@ const ManegePoint = ({}: IProps): JSX.Element => {
       );
     },
     onSuccess(data) {
+      modalvalue("point");
       queryClient.invalidateQueries({ queryKey: "pointvalue" });
     },
   });
@@ -78,6 +83,7 @@ const ManegePoint = ({}: IProps): JSX.Element => {
           <div
             onClick={() => {
               mutate();
+              onoffModal(true);
             }}
           >
             <SmallButton btn={btn} />

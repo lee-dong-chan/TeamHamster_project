@@ -3,6 +3,8 @@ import { Button } from "../../../../../lib/Button/Button";
 import { TinyButton } from "../../../../Button/Button";
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { Modalcontent, Modalstate } from "../../../../../Context/Modal/Modal";
 
 export interface IReportUser {
   id: number;
@@ -15,6 +17,9 @@ interface IProps {
 }
 
 const Item = ({ item, idx }: IProps): JSX.Element => {
+  const modalvalue = useSetRecoilState(Modalcontent);
+  const onoffModal = useSetRecoilState(Modalstate);
+
   const benbtn = new Button("정지", "bg-red-200");
   const queryClient = useQueryClient();
   const benuser = useMutation({
@@ -29,6 +34,7 @@ const Item = ({ item, idx }: IProps): JSX.Element => {
       );
     },
     onSuccess(data) {
+      modalvalue("benuser");
       queryClient.invalidateQueries("manydata");
       queryClient.invalidateQueries("blockdata");
     },
@@ -41,6 +47,7 @@ const Item = ({ item, idx }: IProps): JSX.Element => {
       <div
         onClick={() => {
           benuser.mutate();
+          onoffModal(true);
         }}
       >
         <TinyButton btn={benbtn} />

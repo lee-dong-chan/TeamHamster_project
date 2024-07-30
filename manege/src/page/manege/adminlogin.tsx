@@ -4,12 +4,16 @@ import { Link, useNavigate } from "react-router-dom";
 import { box, center } from "../../lib/styles";
 import { LargeButton } from "../../Component/Button/Button";
 import { Button } from "../../lib/Button/Button";
+import { useSetRecoilState } from "recoil";
+import { Modalcontent, Modalstate } from "../../Context/Modal/Modal";
 
 interface IProps {
   setUserLogin: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const AdminLoginPage = ({ setUserLogin }: IProps): JSX.Element => {
+  const modalvalue = useSetRecoilState(Modalcontent);
+  const onoffModal = useSetRecoilState(Modalstate);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginCheck, setLoginCheck] = useState(false); // 로그인 상태 체크
@@ -51,6 +55,8 @@ const AdminLoginPage = ({ setUserLogin }: IProps): JSX.Element => {
       } catch (error) {
         console.error("오류 발생:", error);
         setLoginCheck(true);
+        modalvalue("login fale");
+        onoffModal(true);
       }
     }
   };

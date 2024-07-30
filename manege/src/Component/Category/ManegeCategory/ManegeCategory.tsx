@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import CateItem, { ICate } from "./CateItem";
-import { QueryClient, useQuery, useQueryClient } from "react-query";
+import {
+  QueryClient,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "react-query";
 import axios, { AxiosResponse } from "axios";
 
 interface IData {
@@ -42,21 +47,21 @@ const ManegeCategoryList = ({
     },
   });
 
-  const secondcate = async () => {
-    await axios
-      .post(
+  const secondcate = useMutation({
+    mutationKey: "manegesecondcate",
+    mutationFn: async () => {
+      const { data } = await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/catelist/${selectcate1}`,
         {},
         { withCredentials: true }
-      )
-      .then((data: AxiosResponse) => {
-        const Children: ICate[] = data.data.category[0].Children;
-        setdata2(Children);
-      })
-      .catch(() => {
-        console.log("안되네");
-      });
-  };
+      );
+      const Children: ICate[] = data.category[0].Children;
+      return Children;
+    },
+    onSuccess(data) {
+      setdata2(data);
+    },
+  });
 
   const thirdcate = async () => {
     await axios
@@ -77,7 +82,7 @@ const ManegeCategoryList = ({
   useEffect(() => {
     settopcate(cate?.id);
     settopname(cate?.name);
-    secondcate();
+    secondcate.mutate();
     thirdcate();
   }, [cate]);
 
@@ -105,7 +110,7 @@ const ManegeCategoryList = ({
       <div className="h-[100%] flex-1 border-e overflow-y-auto">
         <div className="p-2">
           {selectcate1 !== undefined &&
-            data2.map((item: ICate, idx: number) => (
+            secondcate.data?.map((item: ICate, idx: number) => (
               <CateItem
                 key={idx}
                 item={item}

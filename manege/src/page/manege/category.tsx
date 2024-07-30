@@ -6,10 +6,14 @@ import { Button } from "../../lib/Button/Button";
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { Mutation, useMutation, useQueryClient } from "react-query";
+import { useResetRecoilState, useSetRecoilState } from "recoil";
+import { Modalcontent, Modalstate } from "../../Context/Modal/Modal";
 
 interface IProps {}
 
 const ManegeCategory = ({}: IProps): JSX.Element => {
+  const setmodalvalue = useSetRecoilState(Modalcontent);
+  const setmodlastate = useSetRecoilState(Modalstate);
   const [topname, settopname] = useState<string>();
   const [topcate, settopcate] = useState<number | undefined>();
   const [createcate, setcreatecate] = useState<string>();
@@ -37,7 +41,8 @@ const ManegeCategory = ({}: IProps): JSX.Element => {
     },
     onSuccess(data) {
       queryClient.invalidateQueries("firstcate");
-      // queryClient.invalidateQueries("secondcate");
+      queryClient.invalidateQueries("manegesecondcate");
+      setmodalvalue("addcate");
     },
   });
 
@@ -69,6 +74,7 @@ const ManegeCategory = ({}: IProps): JSX.Element => {
       <div
         onClick={() => {
           mutate();
+          setmodlastate(true);
         }}
         className={`${center}`}
       >

@@ -4,10 +4,14 @@ import { Button } from "../../lib/Button/Button";
 import { ChangeEvent, useCallback, useState } from "react";
 import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { Modalcontent, Modalstate } from "../../Context/Modal/Modal";
 
 interface IProps {}
 
 const ManegeDeliveryTip = ({}: IProps): JSX.Element => {
+  const modalvalue = useSetRecoilState(Modalcontent);
+  const onoffModal = useSetRecoilState(Modalstate);
   const [tip, settip] = useState<number>();
   const changetip = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     settip(Number(e.target.value));
@@ -25,6 +29,7 @@ const ManegeDeliveryTip = ({}: IProps): JSX.Element => {
       );
     },
     onSuccess(data) {
+      modalvalue("delivery");
       queryClient.invalidateQueries({ queryKey: "deliverycost" });
     },
   });
@@ -58,6 +63,7 @@ const ManegeDeliveryTip = ({}: IProps): JSX.Element => {
           <div
             onClick={() => {
               mutate();
+              onoffModal(true);
             }}
           >
             <SmallButton btn={btn} />

@@ -3,6 +3,8 @@ import { Button } from "../../../../../lib/Button/Button";
 import { TinyButton } from "../../../../Button/Button";
 import { useCallback } from "react";
 import { useMutation, useQueries, useQueryClient } from "react-query";
+import { useSetRecoilState } from "recoil";
+import { Modalcontent, Modalstate } from "../../../../../Context/Modal/Modal";
 
 export interface IBenUser {
   id: number;
@@ -15,10 +17,12 @@ interface IProps {
 }
 
 const Item = ({ idx, item }: IProps): JSX.Element => {
+  const modalvalue = useSetRecoilState(Modalcontent);
+  const onoffModal = useSetRecoilState(Modalstate);
   const deletebtn = new Button("정지해제", "bg-red-200");
-
   const serverURL = process.env.REACT_APP_SERVER_URL;
   const queryClient = useQueryClient();
+
   const relese = useMutation({
     mutationKey: "releseuser",
     mutationFn: async () => {
@@ -29,6 +33,7 @@ const Item = ({ idx, item }: IProps): JSX.Element => {
       );
     },
     onSuccess(data) {
+      modalvalue("releseuser");
       queryClient.invalidateQueries("blockdata");
     },
   });
@@ -40,6 +45,7 @@ const Item = ({ idx, item }: IProps): JSX.Element => {
       <div
         onClick={() => {
           relese.mutate();
+          onoffModal(true);
         }}
       >
         <TinyButton btn={deletebtn} />
