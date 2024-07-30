@@ -64,7 +64,7 @@ const Regist = ({}: IProps): JSX.Element => {
 
   return (
     <div>
-      <div className={`${ismobile && "p-4 "} Box ${center}`}>
+      <div className={`${ismobile && "p-4 "} ${box} ${center}`}>
         <div className="rounded-lg w-full m">
           <h2 className="text-2xl font-bold text-center text-orange-500 mt-10">
             햄스터 마켓
