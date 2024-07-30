@@ -52,14 +52,14 @@ export default async (req: Request, res: Response) => {
         const splimg = productlist[i].img.split(",");
         productlist[i].dataValues.image = splimg;
       }
+
+      const nowcate = await Category.findOne({
+        attributes: ["name"],
+        where: { id: req.params.id },
+      });
+
+      res.json({ product: productlist, nowcate: nowcate });
     }
-
-    const nowcate = await Category.findOne({
-      attributes: ["name"],
-      where: { id: req.params.id },
-    });
-
-    res.json({ product: productlist, nowcate: nowcate });
   } catch (err) {
     console.error(err);
     res.status(500).json({ result: "fail" });

@@ -9,6 +9,8 @@ import axios, { AxiosResponse } from "axios";
 
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { IKeyword } from "../../Component/List/ManegeList/BenKeyword/BenKeywordItem";
+import { useSetRecoilState } from "recoil";
+import { Modalcontent, Modalstate } from "../../Context/Modal/Modal";
 
 export interface IData {
   Keyword: IKeyword[];
@@ -17,6 +19,8 @@ export interface IData {
 interface IProps {}
 
 const ManegeBenKeyword = ({}: IProps): JSX.Element => {
+  const setmodalvalue = useSetRecoilState(Modalcontent);
+  const setmodlastate = useSetRecoilState(Modalstate);
   const btn = new Button("추가", "bg-orange-500");
 
   const [keyword, setkeyword] = useState<string>("");
@@ -38,6 +42,7 @@ const ManegeBenKeyword = ({}: IProps): JSX.Element => {
     },
     onSuccess(data) {
       queryClient.invalidateQueries({ queryKey: "benlist" });
+      setmodalvalue("benkeyword");
     },
   });
 
@@ -76,6 +81,7 @@ const ManegeBenKeyword = ({}: IProps): JSX.Element => {
           <div
             onClick={() => {
               mutate();
+              setmodlastate(true);
             }}
           >
             <SmallButton btn={btn} />

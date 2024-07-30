@@ -8,10 +8,14 @@ import { Debounce } from "../../CostomHook/Debounce";
 import AuthorityComp from "../../Component/List/ManegeList/authoritylist/authority";
 import { IUser } from "../../Component/List/ManegeList/authoritylist/authorityitem";
 import { Navigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import { Modalcontent, Modalstate } from "../../Context/Modal/Modal";
 
 interface IProps {}
 
 const Authority = ({}: IProps): JSX.Element => {
+  const modalvalue = useSetRecoilState(Modalcontent);
+  const onoffModal = useSetRecoilState(Modalstate);
   const btn = new Button("확인", "bg-orange-500");
   const [list, setlist] = useState();
   const [userData, setData] = useState<IUser>();
@@ -50,6 +54,9 @@ const Authority = ({}: IProps): JSX.Element => {
         },
         { withCredentials: true }
       );
+    },
+    onSuccess(data) {
+      modalvalue("authority");
     },
   });
 
@@ -90,6 +97,7 @@ const Authority = ({}: IProps): JSX.Element => {
             onClick={() => {
               changeauth.mutate();
               redirect();
+              onoffModal(true);
             }}
           >
             <ButtonComp width="w-[10rem]" btn={btn} />

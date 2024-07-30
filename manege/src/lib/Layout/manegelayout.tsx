@@ -16,6 +16,9 @@ import AdminLoginPage from "../../page/manege/adminlogin";
 import { useCallback, useEffect, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import axios from "axios";
+import ModalBox from "../../Component/Modal/Modalbox/ModalBox";
+import { useRecoilValue } from "recoil";
+import { Modalstate } from "../../Context/Modal/Modal";
 
 interface IUser {
   id: number;
@@ -28,6 +31,7 @@ interface IUser {
 interface IProps {}
 
 const ManegeLayout = ({}: IProps): JSX.Element => {
+  const Modal = useRecoilValue(Modalstate);
   const [userlogin, setUserLogin] = useState<boolean>(false);
   const queryClient = useQueryClient();
 
@@ -155,11 +159,11 @@ const ManegeLayout = ({}: IProps): JSX.Element => {
           </div>
         </div>
       </div>
-      {/* {
-        <div className="absolute z-40 top-0 h-[100%] w-[100%] bg-black opacity-[0.2]">
-          <div className="">123</div>
+      {Modal && (
+        <div className="fixed top-[30%] start-[35%]  z-200">
+          <ModalBox />
         </div>
-      } */}
+      )}
     </div>
   );
 };
