@@ -6,6 +6,7 @@ import { Modal } from "../../Context/Modal";
 import axios from "axios";
 import { IUserDatas } from "../../lib/interFace";
 import { errUserDatas } from "../../lib/errors";
+import { Modalcontent, Modalstate } from "../../Context/SystemModal/Modal";
 
 interface IProps {
   setUserLogin: React.Dispatch<React.SetStateAction<boolean>>;
@@ -13,6 +14,8 @@ interface IProps {
 }
 
 const Login = ({ setUserLogin, userDatas }: IProps): JSX.Element => {
+  const setsystemonoff = useSetRecoilState(Modalstate);
+  const setModalcontent = useSetRecoilState(Modalcontent);
   const { isdesktop, ismobile } = useBreakPoint();
   const serverUrl = process.env.REACT_APP_SERVER_URL;
   const setModal = useSetRecoilState(Modal);
@@ -31,9 +34,13 @@ const Login = ({ setUserLogin, userDatas }: IProps): JSX.Element => {
       .then((data) => {
         console.log(data);
         setUserLogin(false);
+        setsystemonoff(true);
+        setModalcontent("logout");
       })
       .catch((err) => {
         console.log("logout err", err);
+        setsystemonoff(true);
+        setModalcontent("not logout");
       });
   };
 
@@ -45,7 +52,9 @@ const Login = ({ setUserLogin, userDatas }: IProps): JSX.Element => {
           <div className="">{`${nick}님`}</div>
           <div className="">{`보유포인트:${point}포인트`}</div>
           <div
-            onClick={logOut}
+            onClick={() => {
+              logOut();
+            }}
             className={`${center} w-[5rem] border rounded bg-blue-100 cursor-pointer`}
           >
             로그아웃

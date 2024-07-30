@@ -3,6 +3,8 @@ import axios, { AxiosResponse } from "axios";
 import { box, center } from "../../lib/styles";
 import { LargeButton } from "../../Component/Button/Button";
 import { Button } from "../../lib/Button/Button";
+import { useSetRecoilState } from "recoil";
+import { Modalcontent, Modalstate } from "../../Context/SystemModal/Modal";
 
 interface IProps {
   userDataCheck: () => void;
@@ -10,6 +12,8 @@ interface IProps {
 }
 
 const Point = ({ points, userDataCheck }: IProps): JSX.Element => {
+  const setsystemonoff = useSetRecoilState(Modalstate);
+  const setModalcontent = useSetRecoilState(Modalcontent);
   const [selectedAmount, setSelectedAmount] = useState<number>(1000);
   const [customAmount, setCustomAmount] = useState<string>("");
   const [pointMulValue, setPointMulValue] = useState<number>();
@@ -45,13 +49,17 @@ const Point = ({ points, userDataCheck }: IProps): JSX.Element => {
           if (data.status) {
             setCustomAmount("");
             userDataCheck();
+            setsystemonoff(true);
+            setModalcontent("oncharge");
           } else {
-            alert("충전 실패: " + data.data);
+            setsystemonoff(true);
+            setModalcontent("failcharge");
           }
         })
         .catch((error) => {
           console.error("충전 요청 중 오류 발생:", error);
-          alert("충전 요청 중 오류가 발생했습니다.");
+          setsystemonoff(true);
+          setModalcontent("chargeerror");
         });
     } else {
       alert("유효한 금액을 입력하세요.");

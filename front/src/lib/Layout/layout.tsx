@@ -25,7 +25,7 @@ import { IoAccessibility } from "react-icons/io5";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import MobileModal from "../../Component/Modal/ModalBox/Modal";
 import { box, center } from "../styles";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { Modal } from "../../Context/Modal";
 import Regist from "../../page/account/regist/registpage";
 import { useQuery } from "react-query";
@@ -35,6 +35,10 @@ import { GoogleCallback } from "../../Component/OAuth/GoogleOAuth";
 import { NaverCallback } from "../../Component/OAuth/NaverOAuth";
 import { IListData } from "../../App";
 import { IList } from "../../Component/List/ListItem";
+import { Modalcontent, Modalstate } from "../../Context/SystemModal/Modal";
+import ModalBox from "../../Component/Modal/SystemModal/ModalBox";
+import FindID from "../../page/account/findid/findID";
+import FindPW from "../../page/account/findpw/findPW";
 
 interface IProps {
   setUserLogin: React.Dispatch<React.SetStateAction<boolean>>;
@@ -64,6 +68,8 @@ const Layout = ({
   const { isdesktop, ismobile } = useBreakPoint();
   const getModal = useRecoilState(Modal);
   const setModal = useSetRecoilState(Modal);
+
+  const systemModal = useRecoilValue(Modalstate);
   const openmenu = () => {
     setModal("mobilemenu");
   };
@@ -189,6 +195,8 @@ const Layout = ({
                 path="/login"
                 element={<LoginPage setUserLogin={setUserLogin} />}
               ></Route>
+              <Route path="/findID" element={<FindID />}></Route>
+              <Route path="/findPW" element={<FindPW />}></Route>
               <Route path="/regist" element={<Regist />}></Route>
               <Route
                 path="/point"
@@ -209,6 +217,15 @@ const Layout = ({
                 userDatas={userDatas}
                 userDataCheck={userDataCheck}
               />
+            )}
+            {systemModal && (
+              <div
+                className={`${
+                  isdesktop && "fixed top-[30%] start-[35%]  z-200"
+                } ${ismobile && "fixed top-[30%] start-[10%]  z-200"}`}
+              >
+                <ModalBox />
+              </div>
             )}
           </div>
         </div>
