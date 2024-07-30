@@ -4,12 +4,16 @@ import { Button } from "../lib/Button/Button";
 import { center, mobilebox } from "../lib/styles";
 import Camp from "../Component/Camp/Camp";
 import { useEffect, useState } from "react";
+import { useSetRecoilState } from "recoil";
+import { Modalcontent, Modalstate } from "../Context/Modal/Modal";
 
 interface IProps {
   setcamp: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const SelectCamp = ({ setcamp }: IProps): JSX.Element => {
+  const setsystemonoff = useSetRecoilState(Modalstate);
+  const setModalcontent = useSetRecoilState(Modalcontent);
   const camplist: string[] = ["천호", "송파", "구의"];
   const [select, SetSelect] = useState<string>("");
   const changeselect = (item: string) => {
@@ -31,7 +35,12 @@ const SelectCamp = ({ setcamp }: IProps): JSX.Element => {
       </div>
       <div className={`m-[3rem] `}>
         <Link to={"/"}>
-          <div>
+          <div
+            onClick={() => {
+              setModalcontent("setcamp");
+              setsystemonoff(true);
+            }}
+          >
             <ButtonComp btn={btn} width={"w-[25rem]"} height="h-[4rem]" />
           </div>
         </Link>

@@ -19,6 +19,10 @@ import MyPage from "../page/mypage";
 import DeliveryLoginPage from "../page/deliverylogin";
 import { useMutation } from "react-query";
 import { LuScanLine } from "react-icons/lu";
+import ModalBox from "../Component/Modal/ModalBox";
+import { useBreakPoint } from "../Costomhook/BreakPoint";
+import { Modalcontent, Modalstate } from "../Context/Modal/Modal";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 export interface IUser {
   id: number;
   nick: string;
@@ -27,9 +31,13 @@ export interface IUser {
   delivery: boolean;
 }
 const LayOut = (): JSX.Element => {
+  const setsystemonoff = useSetRecoilState(Modalstate);
+  const setModalcontent = useSetRecoilState(Modalcontent);
+  const systemModal = useRecoilValue(Modalstate);
+  const { isdesktop, ismobile } = useBreakPoint();
   const [userlogin, setUserLogin] = useState<boolean>(false);
   const [camp, setcamp] = useState<string>("");
-  const [workstate, SetWorkState] = useState<boolean>();
+  const [workstate, SetWorkState] = useState<boolean>(false);
   const [liststate, SetListState] = useState(0);
   // let intervalGpsGet: any;
   const [intervalGpsGet, setIntervalGpsGet] = useState<any>();
@@ -117,10 +125,14 @@ const LayOut = (): JSX.Element => {
     await axios
       .post(`${serverUrl}/logout`, {}, { withCredentials: true })
       .then((data) => {
+        setsystemonoff(true);
+        setModalcontent("logout");
         console.log(data);
         setUserLogin(false);
       })
       .catch((err) => {
+        setsystemonoff(true);
+        setModalcontent("logoutfail");
         console.log("logout err", err);
       });
   };
@@ -197,7 +209,9 @@ const LayOut = (): JSX.Element => {
               <Routes>
                 <Route
                   path="/"
-                  element={<Main start={start} end={end} />}
+                  element={
+                    <Main start={start} end={end} workstate={workstate} />
+                  }
                 ></Route>
                 <Route path="/pickupscan" element={<PickupScan />}></Route>
                 <Route
@@ -238,6 +252,15 @@ const LayOut = (): JSX.Element => {
           )}
         </div>
       </div>
+      {systemModal && (
+        <div
+          className={`${isdesktop && "fixed top-[30%] start-[35%]  z-200"} ${
+            ismobile && "fixed top-[30%] start-[10%]  z-200"
+          }`}
+        >
+          <ModalBox />
+        </div>
+      )}
       <div className="m-auto max-w-[35rem] h-[5rem] flex items-center justify-evenly bg-gray-400 sticky bottom-0">
         <Link to={"/"}>
           <div className="flex flex-col items-center">
