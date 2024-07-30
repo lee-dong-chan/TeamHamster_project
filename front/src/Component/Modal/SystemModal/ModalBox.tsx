@@ -13,13 +13,29 @@ const ModalBox = ({}: IProps): JSX.Element => {
         {modalvalue == "not login" && <div>로그인 실패. </div>}
         {modalvalue == "login" && <div>로그인 성공. </div>}
         {modalvalue == "logout" && <div>로그아웃 성공. </div>}
-        {modalvalue == "not logout" && <div>로그인 성공. </div>}
+        {modalvalue == "not logout" && <div>로그아웃 실패. </div>}
         {modalvalue == "oncharge" && <div>포인트 충전이 완료되었습니다. </div>}
         {modalvalue == "failcharge" && (
           <div>포인트 충전에 실패하엿습니다. </div>
         )}
         {modalvalue == "chargeerror" && (
           <div>충전 요청 중 오류가 발생하엿습니다. </div>
+        )}
+        {modalvalue == "findpwfalil" && (
+          <div>입력된정보가 일치하는 대상이 없습니다.</div>
+        )}
+        {modalvalue == "changesucsess" && <div>비밀번호 변경 성공.</div>}
+        {modalvalue == "changefail" && <div>비밀번호 변경 실패.</div>}
+        {modalvalue == "sucsessid" && <div>아이디찾기 성공.</div>}
+
+        {modalvalue == "notdata" && <div>입력된 정보를 확인해 주세요.</div>}
+        {modalvalue == "sucessproduct" && <div>상품등록성공</div>}
+        {modalvalue == "sucsesspurchase" && <div>상품을 구매하엿습니다.</div>}
+        {modalvalue == "failpurchase" && (
+          <div className="text-center">
+            상품을 구매하지 못했습니다.
+            <br /> 포인트 보유여부를 확인해주세요
+          </div>
         )}
       </div>
       <div

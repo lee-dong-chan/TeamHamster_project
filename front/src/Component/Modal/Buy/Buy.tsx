@@ -8,8 +8,11 @@ import ButtonComp from "../../Button/Button";
 import { Button } from "../../../lib/Button/Button";
 import axios, { AxiosResponse } from "axios";
 import { IProductPage } from "../../../lib/interFace";
+import { Modalcontent, Modalstate } from "../../../Context/SystemModal/Modal";
 
-interface IProps {}
+interface IProps {
+  userDataCheck: () => void;
+}
 
 export interface IAdress {
   id: number;
@@ -32,7 +35,9 @@ export interface IAdressData {
   detailAddress: string;
 }
 
-const Buy = ({}: IProps): JSX.Element => {
+const Buy = ({ userDataCheck }: IProps): JSX.Element => {
+  const setsystemonoff = useSetRecoilState(Modalstate);
+  const setModalcontent = useSetRecoilState(Modalcontent);
   const navigate = useNavigate();
   const btn = new Button("구매하기", "bg-orange-200");
   const modalstate = useSetRecoilState(Modal);
@@ -134,10 +139,15 @@ const Buy = ({}: IProps): JSX.Element => {
         { withCredentials: true }
       )
       .then((data) => {
+        userDataCheck();
+        setModalcontent("sucsesspurchase");
+        setsystemonoff(true);
         console.log("구매 버튼 클릭 data", data);
         navigate("/");
       })
       .catch((err) => {
+        setModalcontent("failpurchase");
+        setsystemonoff(true);
         console.log("구매 버튼 클릭 오류", err);
         navigate("/");
       });

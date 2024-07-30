@@ -7,8 +7,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { IData as IDataProduct } from "../product/product";
 import { IProductPage } from "../../lib/interFace";
 import { productPageDataErr } from "../../lib/errors";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { Modal } from "../../Context/Modal";
+import { Modalcontent, Modalstate } from "../../Context/SystemModal/Modal";
 
 interface IFormData {
   productName: string;
@@ -46,6 +47,8 @@ const ProductWrite = ({ mainDataGet, dataCheckIdxValue }: IProps): JSX.Element =
   const loca = useLocation();
 
   //state
+  const setsystemonoff = useSetRecoilState(Modalstate);
+  const setModalcontent = useSetRecoilState(Modalcontent);
   const [images, setImages] = useState<File[]>([]);
   const [modalValue, modalstate] = useRecoilState(Modal);
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
@@ -622,6 +625,14 @@ const ProductWrite = ({ mainDataGet, dataCheckIdxValue }: IProps): JSX.Element =
                   ) {
                     imgUploader(images);
                     navigate("/");
+<<<<<<< HEAD
+=======
+                    setModalcontent("sucessproduct");
+                    setsystemonoff(true);
+                  } else {
+                    setModalcontent("notdata");
+                    setsystemonoff(true);
+>>>>>>> 30c206d (fix)
                   }
                 }}
                 className={`absolute right-3 bottom-3 ${center} h-[6rem] text-[1.5rem] text-white border rounded-[1rem] bg-amber-300 hover:bg-yellow-600 w-[10rem]`}

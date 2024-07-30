@@ -39,7 +39,7 @@ const MobileModal = ({
     ),
     mobilesearch: <Search />,
     report: <Report />,
-    buy: <Buy />,
+    buy: <Buy userDataCheck={userDataCheck} />,
     showMap: (id: number | undefined) => {
       return <NMap id={id} />;
     },
