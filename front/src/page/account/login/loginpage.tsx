@@ -7,12 +7,16 @@ import { Button } from "../../../lib/Button/Button";
 import { useBreakPoint } from "../../../CustomHook/BreakPoint";
 import { NaverOAuth } from "../../../Component/OAuth/NaverOAuth";
 import { GoogleOAuth } from "../../../Component/OAuth/GoogleOAuth";
+import { useSetRecoilState } from "recoil";
+import { Modalcontent, Modalstate } from "../../../Context/SystemModal/Modal";
 
 interface IProps {
   setUserLogin: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const LoginPage = ({ setUserLogin }: IProps): JSX.Element => {
+  const setsystemonoff = useSetRecoilState(Modalstate);
+  const setModalcontent = useSetRecoilState(Modalcontent);
   const { isdesktop, ismobile } = useBreakPoint();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -49,12 +53,16 @@ const LoginPage = ({ setUserLogin }: IProps): JSX.Element => {
           setUserLogin(true);
           console.log("로그인성공, 이메일주소:" + result.email);
           navigate("/"); // 로그인 성공시 홈으로 이동합니다.
+          setModalcontent("login");
+          setsystemonoff(true);
         } else {
           setLoginCheck(true);
         }
       } catch (error) {
         console.error("오류 발생:", error);
         setLoginCheck(true);
+        setModalcontent("not login");
+        setsystemonoff(true);
       }
     }
   };
