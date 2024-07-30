@@ -21,7 +21,6 @@ const LoginPage = ({ setUserLogin }: IProps): JSX.Element => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginCheck, setLoginCheck] = useState(false); // 로그인 상태 체크
-
   const serverUrl = process.env.REACT_APP_SERVER_URL;
 
   const navigate = useNavigate();
