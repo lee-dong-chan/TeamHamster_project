@@ -4,6 +4,7 @@ import { IReviewOne } from "../../../../lib/interFace";
 
 const ReviewOne = ({ data }: { data: IReviewOne }) => {
   const imgBaseUrl = process.env.REACT_APP_IMG_BASE;
+
   return (
     <div className={`flex w-[100%] h-[120px]`}>
       {/* 이미지 */}

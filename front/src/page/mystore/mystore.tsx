@@ -91,7 +91,7 @@ const MyStore = ({
   }, []);
 
   return (
-    <div className={`${center} flex-wrap mt-10 `}>
+    <div className={`${box} ${center} flex-wrap mt-10 `}>
       <Intro intro={intro} getPageValues={getPageValues}></Intro>
 
       <Content

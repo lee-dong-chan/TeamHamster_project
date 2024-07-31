@@ -6,6 +6,10 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Modal, MapId, ReviewId, ImgUrl } from "../../../../Context/Modal";
 import { useSetRecoilState } from "recoil";
+import {
+  Modalcontent,
+  Modalstate,
+} from "../../../../Context/SystemModal/Modal";
 
 interface IProps {
   data: IProduct;
@@ -13,6 +17,8 @@ interface IProps {
 }
 
 const SellContent = ({ data, isBuyTap = false }: IProps) => {
+  const setsystemonoff = useSetRecoilState(Modalstate);
+  const setModalcontent = useSetRecoilState(Modalcontent);
   //state
   const [imgCurtainActive, setImgCurtainActive] = useState<boolean>(false);
   const [boxTextValue, setBoxTextValue] = useState<string>("정보수정");
@@ -68,10 +74,14 @@ const SellContent = ({ data, isBuyTap = false }: IProps) => {
         { withCredentials: true }
       )
       .then((data) => {
+        setModalcontent("checkpurchase");
+        setsystemonoff(true);
         console.log(data);
         navigate(`${callbackUrl}`);
       })
       .catch((err) => {
+        setModalcontent("checkfail");
+        setsystemonoff(true);
         navigate(`${callbackUrl}`);
         console.log(err);
       });
