@@ -30,6 +30,7 @@ class User extends Model {
         },
         mobile: {
           type: DataTypes.STRING(11),
+          defaultValue: "01012345678",
         },
         delivery: {
           type: DataTypes.BOOLEAN,

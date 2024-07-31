@@ -47,6 +47,7 @@ class Product extends Model {
         },
         img: {
           type: DataTypes.TEXT,
+          defaultValue: "hamster.png",
         },
         delivery: {
           type: DataTypes.INTEGER,
