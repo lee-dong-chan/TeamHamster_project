@@ -16,10 +16,6 @@ export default async (req: Request, res: Response) => {
       attributes: ["id", "name"],
       include: [{ model: Category, as: "Children", attributes: ["id", "name"] }],
     });
-<<<<<<< HEAD
-
-=======
->>>>>>> 06ad4b9 (-fix)
     res.json({ category: categorylist });
   } catch (err) {
     console.error(err);

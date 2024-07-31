@@ -625,14 +625,11 @@ const ProductWrite = ({ mainDataGet, dataCheckIdxValue }: IProps): JSX.Element =
                   ) {
                     imgUploader(images);
                     navigate("/");
-<<<<<<< HEAD
-=======
                     setModalcontent("sucessproduct");
                     setsystemonoff(true);
                   } else {
                     setModalcontent("notdata");
                     setsystemonoff(true);
->>>>>>> 30c206d (fix)
                   }
                 }}
                 className={`absolute right-3 bottom-3 ${center} h-[6rem] text-[1.5rem] text-white border rounded-[1rem] bg-amber-300 hover:bg-yellow-600 w-[10rem]`}
