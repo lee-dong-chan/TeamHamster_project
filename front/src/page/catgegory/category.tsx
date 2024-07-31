@@ -53,8 +53,10 @@ const Category = ({}: IProps): JSX.Element => {
         return listdata;
       });
 
-      if (cateDataGet.data ? true : false) {
+      if (cateDataGet.data && data.product[0] ? true : false) {
         return [...cateDataGet.data, ...listData];
+      } else if (cateDataGet.data) {
+        return cateDataGet.data;
       } else {
         return listData;
       }
@@ -87,6 +89,7 @@ const Category = ({}: IProps): JSX.Element => {
   // }, []);
 
   useEffect(() => {
+    cateDataGet.data = [];
     cateDataGet.mutate(idxValue);
     getcatename.mutate();
   }, [id]);
