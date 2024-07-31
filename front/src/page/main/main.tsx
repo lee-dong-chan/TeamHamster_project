@@ -40,8 +40,7 @@ const Main = ({
 }: IProps): JSX.Element => {
   const [cookies] = useCookies(["Product"]);
   const { ismobile, isdesktop } = useBreakPoint();
-  const [recent, setrecent] = useState<ListData[]>([]);
-  const [recentlist, setresent] = useState<number[]>([]);
+  const [recent, setrecent] = useState<IList[]>([]);
 
   // console.log(cookies);
 
@@ -81,18 +80,19 @@ const Main = ({
 
       const product = products.productlist;
       const lastdata = product.map((item: IData) => {
-        return new ListData(
-          item.id,
-          item.title,
-          item.image
+        const listdata = {
+          id: item.id,
+          title: item.title,
+          img: item.image
             ? `${process.env.REACT_APP_SERVER_URL}/imgs/${item.image[0]}`
             : "/imgs/hamster.png",
-          item.price,
-          Math.floor(
+          price: item.price,
+          createdAt: Math.floor(
             (+new Date() - +new Date(item.createdAt || new Date() + "")) /
               (1000 * 60 * 60 * 24)
-          )
-        );
+          ),
+        };
+        return listdata;
       });
       return lastdata;
     },
@@ -106,6 +106,7 @@ const Main = ({
   useEffect(() => {
     if (procookie) {
       getrecent.mutate();
+      setrecent(getrecent.data);
     }
   }, [procookie]);
 
@@ -113,7 +114,7 @@ const Main = ({
     <div>
       {isdesktop && <SearchComp />}
       <div className={`${isdesktop && `${box}`} ${ismobile && mobilebox}`}>
-        {procookie && (
+        {getrecent?.data && (
           <div>
             <div className="p-[2rem] text-[1.7rem] font-bold">최근 본 상품</div>
             <List list={getrecent.data} />
