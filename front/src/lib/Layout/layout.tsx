@@ -28,7 +28,7 @@ import { box, center } from "../styles";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { Modal } from "../../Context/Modal";
 import Regist from "../../page/account/regist/registpage";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { IUserDatas } from "../interFace";
 import { GoogleCallback } from "../../Component/OAuth/GoogleOAuth";

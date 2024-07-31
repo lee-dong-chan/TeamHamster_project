@@ -8,7 +8,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import Observer from "../../Component/Observer/Observer";
-import { useMutation } from "react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { IList } from "../../Component/List/ListItem";
 
@@ -32,7 +32,12 @@ export interface IData {
   title: string;
 }
 
-const Main = ({ idxValue, list, mainDataGet, obToggleValue }: IProps): JSX.Element => {
+const Main = ({
+  idxValue,
+  list,
+  mainDataGet,
+  obToggleValue,
+}: IProps): JSX.Element => {
   const [cookies] = useCookies(["Product"]);
   const { ismobile, isdesktop } = useBreakPoint();
   const [recent, setrecent] = useState<ListData[]>([]);
@@ -63,7 +68,7 @@ const Main = ({ idxValue, list, mainDataGet, obToggleValue }: IProps): JSX.Eleme
   }, []);
 
   const getrecent = useMutation({
-    mutationKey: "recentitems",
+    mutationKey: ["recentitems"],
     mutationFn: async () => {
       const { data } = await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/recent`,
@@ -84,7 +89,8 @@ const Main = ({ idxValue, list, mainDataGet, obToggleValue }: IProps): JSX.Eleme
             : "/imgs/hamster.png",
           item.price,
           Math.floor(
-            (+new Date() - +new Date(item.createdAt || new Date() + "")) / (1000 * 60 * 60 * 24)
+            (+new Date() - +new Date(item.createdAt || new Date() + "")) /
+              (1000 * 60 * 60 * 24)
           )
         );
       });
@@ -114,8 +120,15 @@ const Main = ({ idxValue, list, mainDataGet, obToggleValue }: IProps): JSX.Eleme
           </div>
         )}
         <div>
-          <div className="p-[2rem] text-[1.7rem] font-bold">오늘의 추천상품</div>
-          <List list={list} func={mainDataGet} funcValue={idxValue} toggleValue={obToggleValue} />
+          <div className="p-[2rem] text-[1.7rem] font-bold">
+            오늘의 추천상품
+          </div>
+          <List
+            list={list}
+            func={mainDataGet}
+            funcValue={idxValue}
+            toggleValue={obToggleValue}
+          />
         </div>
       </div>
     </div>

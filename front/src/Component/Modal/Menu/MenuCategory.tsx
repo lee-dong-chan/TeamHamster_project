@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import { center } from "../../../lib/styles";
 import CategoryItem, { ICate, ICates } from "./CategoryItem";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useQuery } from "react-query";
+
 import { errCateFirstData } from "../../../lib/errors";
 
 interface IProps {}

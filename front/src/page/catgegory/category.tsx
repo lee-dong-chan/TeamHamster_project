@@ -8,7 +8,12 @@ import { IProduct } from "../../lib/interFace";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { box, mobilebox } from "../../lib/styles";
-import { useMutation } from "react-query";
+import {
+  useMutation,
+  useQueries,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { categoryobserver } from "../../Context/Modal";
 interface IProps {}
@@ -20,10 +25,10 @@ const Category = ({}: IProps): JSX.Element => {
   // const [idxValue, setidxValue] = useState<number>(0);
 
   let { id } = useParams();
-
-  const cateDataGet: any = useMutation({
-    mutationKey: "catelistdata",
-    mutationFn: async (idxValue: number) => {
+  const queryclient = useQueryClient();
+  const cateDataGet: any = useQuery({
+    queryKey: ["catelistdata", id],
+    queryFn: async () => {
       const { data } = await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/category/${id}`,
         { idx: idxValue },
@@ -47,7 +52,8 @@ const Category = ({}: IProps): JSX.Element => {
             : "/imgs/hamster.png",
           price: data.price,
           catatedAt: Math.floor(
-            (+new Date() - +new Date(data.createdAt || new Date() + "")) / (1000 * 60 * 60 * 24)
+            (+new Date() - +new Date(data.createdAt || new Date() + "")) /
+              (1000 * 60 * 60 * 24)
           ),
         };
         return listdata;
@@ -66,7 +72,7 @@ const Category = ({}: IProps): JSX.Element => {
   console.log(obServerOn);
 
   const getcatename = useMutation({
-    mutationKey: "catename",
+    mutationKey: ["catename"],
     mutationFn: async () => {
       const { data } = await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/category/${id}`,
@@ -88,9 +94,13 @@ const Category = ({}: IProps): JSX.Element => {
   //   setidxValue(cateDataGet.data?.length);
   // }, []);
 
+  const DataGet = useCallback(() => {
+    queryclient.invalidateQueries({ queryKey: ["catelistdata", id] });
+  }, []);
+
   useEffect(() => {
-    cateDataGet.data = [];
-    cateDataGet.mutate(idxValue);
+    // cateDataGet.data = [];
+    DataGet();
     getcatename.mutate();
   }, [id]);
 
@@ -98,7 +108,7 @@ const Category = ({}: IProps): JSX.Element => {
   return (
     <div>
       {isdesktop && <SearchComp />}
-      <div className={`${isdesktop && box} ${ismobile && mobilebox} h-[40rem] overflow-auto`}>
+      <div className={`${isdesktop && box} ${ismobile && mobilebox} `}>
         <div className="p-[2rem] text-[1.7rem] font-bold">
           <span className="text-orange-500">{getcatename.data}</span> 추천상품
         </div>
@@ -106,7 +116,7 @@ const Category = ({}: IProps): JSX.Element => {
           <div>
             <List
               list={cateDataGet.data}
-              func={cateDataGet.mutate}
+              func={DataGet}
               funcValue={idxValue}
               toggleValue={obServerOn}
             />
@@ -116,11 +126,15 @@ const Category = ({}: IProps): JSX.Element => {
             <div>
               <div className="p-[2rem] text-[1.7rem] font-bold flex flex-col items-center">
                 <div>
-                  <span className="pe-2 text-orange-500">{getcatename.data}</span>
+                  <span className="pe-2 text-orange-500">
+                    {getcatename.data}
+                  </span>
                   항목에 해당하는 상품이 없습니다.
                 </div>
                 <div>
-                  <img src={`${process.env.REACT_APP_IMG_BASE}hamster.png`}></img>
+                  <img
+                    src={`${process.env.REACT_APP_IMG_BASE}hamster.png`}
+                  ></img>
                 </div>
               </div>
             </div>
