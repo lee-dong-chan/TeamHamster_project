@@ -38,7 +38,6 @@ const ModalBox = ({}: IProps): JSX.Element => {
           </div>
         )}
         {modalvalue == "checkpurchase" && <div>구매가 확정되었습니다.</div>}
-        {modalvalue == "checkpurchase" && <div>구매가 확정되었습니다.</div>}
 
         {modalvalue == "sucsessreview" && <div>리뷰작성을 완료하엿습니다.</div>}
         {modalvalue == "checkfail" && <div>구매확정 실패.</div>}
