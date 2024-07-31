@@ -57,7 +57,7 @@ const LayOut = (): JSX.Element => {
   const gpsToServer = async (x: number, y: number) => {
     await axios
       .post(
-        `${serverUrl}/deliveries/nowspot`,
+        `${serverUrl}/delivery/nowspot`,
         {
           spotX: x,
           spotY: y,
