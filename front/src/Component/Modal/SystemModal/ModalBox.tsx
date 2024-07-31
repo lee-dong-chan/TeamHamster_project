@@ -30,13 +30,18 @@ const ModalBox = ({}: IProps): JSX.Element => {
 
         {modalvalue == "notdata" && <div>입력된 정보를 확인해 주세요.</div>}
         {modalvalue == "sucessproduct" && <div>상품등록성공</div>}
-        {modalvalue == "sucsesspurchase" && <div>상품을 구매하엿습니다.</div>}
+        {modalvalue == "sucsesspurchase" && <div>상품구매완료</div>}
         {modalvalue == "failpurchase" && (
           <div className="text-center">
             상품을 구매하지 못했습니다.
             <br /> 포인트 보유여부를 확인해주세요
           </div>
         )}
+        {modalvalue == "checkpurchase" && <div>구매가 확정되었습니다.</div>}
+        {modalvalue == "checkpurchase" && <div>구매가 확정되었습니다.</div>}
+
+        {modalvalue == "sucsessreview" && <div>리뷰작성을 완료하엿습니다.</div>}
+        {modalvalue == "checkfail" && <div>구매확정 실패.</div>}
       </div>
       <div
         onClick={() => {

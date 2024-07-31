@@ -28,7 +28,7 @@ const Content = ({
   //comp
   return (
     <div
-      className={`w-[90%] min-w-[35rem] h-[781px] mt-10 mb-10 flex flex-wrap pt-5 border `}
+      className={`w-[97%] min-w-[35rem] h-[781px] mt-10 mb-10 flex flex-wrap pt-5 border `}
     >
       <div className={`p-10 w-[100%]`}>
         <div className={`w-[100%] h-[54px] flex flex-wrap`}>
