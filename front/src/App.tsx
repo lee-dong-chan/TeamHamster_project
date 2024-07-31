@@ -5,10 +5,16 @@ import { List } from "./lib/list";
 import axios, { AxiosResponse } from "axios";
 import { IUserDatas, IProduct } from "./lib/interFace";
 import { errUserDatas } from "./lib/errors";
-import { useMutation } from "react-query";
+import {
+  useMutation,
+  useQueries,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { IData } from "./page/main/main";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { mainobserver } from "./Context/Modal";
+import { keepPreviousData } from "@tanstack/react-query";
 
 export interface IListData {
   id: number;
@@ -30,17 +36,19 @@ const App = (): JSX.Element => {
   const setObserverOn = useSetRecoilState(mainobserver);
 
   //func
+  const queryclient = useQueryClient();
 
-  const getmain: any = useMutation({
-    mutationKey: "getmain",
-    mutationFn: async (idxValue: number) => {
+  const getmain: any = useQuery({
+    queryKey: ["getmain"],
+    queryFn: async () => {
       const { data } = await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/main`,
         { idx: idxValue },
         { withCredentials: true }
       );
 
-      const products = data;
+      const products = keepPreviousData(data);
+
       if (data.product.length === 0) {
         setObserverOn(false);
       } else {
@@ -58,7 +66,8 @@ const App = (): JSX.Element => {
             : "/imgs/hamster.png",
           price: item.price,
           createdAt: Math.floor(
-            (+new Date() - +new Date(item.createdAt || new Date() + "")) / (1000 * 60 * 60 * 24)
+            (+new Date() - +new Date(item.createdAt || new Date() + "")) /
+              (1000 * 60 * 60 * 24)
           ),
         };
         return listdata;
@@ -71,11 +80,14 @@ const App = (): JSX.Element => {
         return lastdata;
       }
     },
+    placeholderData: keepPreviousData,
   });
 
   const idxValue = useMemo(() => {
     return getmain.data?.length;
   }, [getmain.data?.length]);
+
+  console.log(idxValue);
 
   const userDataCheck = useCallback(async () => {
     await axios
@@ -92,10 +104,13 @@ const App = (): JSX.Element => {
   }, []);
 
   //mount
+  const mainDataGet = useCallback(() => {
+    queryclient.invalidateQueries({ queryKey: ["getmain"] });
+  }, []);
 
   useEffect(() => {
     userDataCheck();
-    getmain.mutate(idxValue);
+    mainDataGet();
   }, []);
 
   useEffect(() => {
@@ -106,7 +121,7 @@ const App = (): JSX.Element => {
     <div>
       <div>
         <Layout
-          mainDataGet={getmain.mutate}
+          mainDataGet={mainDataGet}
           userDatas={userDatas}
           setUserLogin={setUserLogin}
           userlogin={userlogin}

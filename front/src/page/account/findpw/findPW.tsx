@@ -10,7 +10,7 @@ import axios from "axios"; // Axios import 추가
 import LargeButton from "../../../Component/Button/Button";
 import { Button } from "../../../lib/Button/Button";
 import { box, center, mobilebox } from "../../../lib/styles";
-import { useMutation } from "react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useBreakPoint } from "../../../CustomHook/BreakPoint";
 import { useSetRecoilState } from "recoil";
 import { Modalcontent, Modalstate } from "../../../Context/SystemModal/Modal";
@@ -39,7 +39,7 @@ const FindPW = ({}: IProps): JSX.Element => {
     e.preventDefault(); // 기본 폼 제출 방지
   };
   const response = useMutation({
-    mutationKey: "findpw",
+    mutationKey: ["findpw"],
     mutationFn: async () => {
       const { data } = await axios.post(
         `${serverUrl}/findpw`,
@@ -53,14 +53,14 @@ const FindPW = ({}: IProps): JSX.Element => {
       return data;
     },
 
-    onError(error) {
+    onError() {
       setsystemonoff(true);
       setModalcontent("findpwfalil");
     },
   });
 
   const changepassword = useMutation({
-    mutationKey: "changepw",
+    mutationKey: ["changepw"],
     mutationFn: async () => {
       const { data } = await axios.post(
         `${serverUrl}/updatepw`,

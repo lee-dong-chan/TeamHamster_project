@@ -4,7 +4,7 @@ import LargeButton from "../../../Component/Button/Button";
 import { Button } from "../../../lib/Button/Button";
 import { box, center, mobilebox } from "../../../lib/styles";
 import { useBreakPoint } from "../../../CustomHook/BreakPoint";
-import { useMutation } from "react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { Modalcontent, Modalstate } from "../../../Context/SystemModal/Modal";
@@ -21,7 +21,7 @@ const FindID = ({}: IProps): JSX.Element => {
   const serverUrl = process.env.REACT_APP_SERVER_URL;
 
   const response = useMutation({
-    mutationKey: "findID",
+    mutationKey: ["findID"],
     mutationFn: async () => {
       const { data } = await axios.post(
         `${serverUrl}/findemail`,

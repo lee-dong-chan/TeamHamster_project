@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { Button } from "../../../lib/Button/Button";
 import { TinyButton } from "../../Button/Button";
 import MenuCategory from "./MenuCategory";
-import { useQuery } from "react-query";
 import axios, { AxiosResponse } from "axios";
 import { useSetRecoilState } from "recoil";
 import { Modal } from "../../../Context/Modal";

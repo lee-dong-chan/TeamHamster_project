@@ -12,7 +12,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { Searchobserver, key } from "../../Context/Modal";
 import { IList } from "../../Component/List/ListItem";
-import { useMutation } from "react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 interface IProps {}
 
@@ -23,10 +23,10 @@ const Search = ({}: IProps): JSX.Element => {
   const setObserverOn = useSetRecoilState(Searchobserver);
 
   const { id } = useParams();
-
-  const searchDataGet: any = useMutation({
-    mutationKey: "searchlistdata",
-    mutationFn: async (idxValue: number) => {
+  const queryclient = useQueryClient();
+  const searchDataGet: any = useQuery({
+    queryKey: ["searchlistdata", id],
+    queryFn: async () => {
       console.log(id);
       const { data } = await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/search`,
@@ -51,7 +51,8 @@ const Search = ({}: IProps): JSX.Element => {
             : "/imgs/hamster.png",
           price: data.price,
           createdAt: Math.floor(
-            (+new Date() - +new Date(data.createdAt || new Date() + "")) / (1000 * 60 * 60 * 24)
+            (+new Date() - +new Date(data.createdAt || new Date() + "")) /
+              (1000 * 60 * 60 * 24)
           ),
         };
         return listData;
@@ -72,15 +73,21 @@ const Search = ({}: IProps): JSX.Element => {
     return searchDataGet.data?.length;
   }, [searchDataGet.data?.length]);
 
+  const DataGet = useCallback(() => {
+    queryclient.invalidateQueries({ queryKey: ["searchlistdata", id] });
+  }, []);
+
   useEffect(() => {
-    searchDataGet.data = [];
-    searchDataGet.mutate(idxValue);
+    // searchDataGet.data = [];
+    DataGet();
   }, [id]);
 
   return (
     <div>
       {isdesktop && <SearchComp />}
-      <div className={`${isdesktop && box} ${ismobile && mobilebox} h-[60rem] `}>
+      <div
+        className={`${isdesktop && box} ${ismobile && mobilebox} h-[60rem] `}
+      >
         <div className="p-[2rem] text-[1.7rem] font-bold">
           <span className="text-orange-500">{id}</span>의 검색결과
         </div>
@@ -89,7 +96,7 @@ const Search = ({}: IProps): JSX.Element => {
           <div>
             <List
               list={searchDataGet.data}
-              func={searchDataGet.mutate}
+              func={DataGet}
               funcValue={idxValue}
               toggleValue={observerOn}
             />
@@ -98,16 +105,23 @@ const Search = ({}: IProps): JSX.Element => {
           <div className="pb-20 center">
             <div>
               <div className="p-[2rem] text-[1.7rem] font-bold">
-                <span className="text-orange-500">{id}</span>에 대한 검색결과를 찾을수 없습니다
+                <span className="text-orange-500">{id}</span>에 대한 검색결과를
+                찾을수 없습니다
               </div>
               <div className="h-[1px] flex border "></div>
 
-              <div className="p-1 text-center font-bold">-단어의 철자가 정확한지 확인해 보세요</div>
+              <div className="p-1 text-center font-bold">
+                -단어의 철자가 정확한지 확인해 보세요
+              </div>
               <div className="p-1 text-center font-bold">
                 - 보다 일반적인 검색어로 다시 검색해 보세요
               </div>
-              <div className="p-1 text-center font-bold">- 검색어의 띄어쓰기를 다르게 해보세요</div>
-              <div className="p-1 text-center font-bold">- 유해/금지어가 아닌지 확인해주세요</div>
+              <div className="p-1 text-center font-bold">
+                - 검색어의 띄어쓰기를 다르게 해보세요
+              </div>
+              <div className="p-1 text-center font-bold">
+                - 유해/금지어가 아닌지 확인해주세요
+              </div>
             </div>
           </div>
         )}
