@@ -54,6 +54,7 @@ class Store extends Model {
         },
         profileimg: {
           type: DataTypes.TEXT,
+          defaultValue: "hamster.png",
         },
       },
       {
