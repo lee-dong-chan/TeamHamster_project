@@ -91,7 +91,7 @@ export interface IReviewOne {
   reviewContent: string;
   Store: {
     nick: string;
-    img: string;
+    profileimg: string;
   };
   Product: {
     title: string;
