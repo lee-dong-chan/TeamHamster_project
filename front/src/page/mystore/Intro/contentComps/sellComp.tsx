@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { rowfont, center, outborder, nanoBtn } from "../../../../lib/styles";
 import SellContent from "./sellContents";
 import { IProduct, IProductRes } from "../../../../lib/interFace";
@@ -7,6 +7,7 @@ import axios, { AxiosResponse } from "axios";
 import { sellContentsErr, buyContentsErr } from "../../../../lib/errors";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useBreakPoint } from "../../../../CustomHook/BreakPoint";
+import Notitem from "../../../../Component/Notitem/Notitem";
 
 interface IProps {
   value: number;
@@ -15,6 +16,7 @@ interface IProps {
 const SellComp = ({ value }: IProps) => {
   const { ismobile, isdesktop } = useBreakPoint();
   //State
+  const [notitem, setnotitem] = useState<boolean>(true);
   const [products, setProducts] = useState<IProduct[]>([]);
   const [isBuyTap, setIsBuyTap] = useState<boolean>(false);
 
@@ -83,6 +85,12 @@ const SellComp = ({ value }: IProps) => {
     }
   }, [value]);
 
+  useEffect(() => {
+    if (!products.length) {
+      setnotitem(false);
+    }
+  }, [value]);
+
   return (
     <div>
       <div
@@ -110,19 +118,24 @@ const SellComp = ({ value }: IProps) => {
         </div>
 
         {/* 상품페이지 변환 */}
+        {notitem && <Notitem />}
         <div className="flex justify-center">
-          <div
-            className={`${
-              isdesktop &&
-              "flex grid grid-cols-5 overflow-auto h-[33rem] min-w-[70rem] "
-            } ${ismobile && "grid grid-cols-2 overflow-auto  h-[35rem]"}`}
-            style={{ scrollbarWidth: "none" }}
-          >
-            {/* 상품 */}
-            {products.map((data: IProduct, idx: number) => {
-              return <SellContent key={idx} data={data} isBuyTap={isBuyTap} />;
-            })}
-          </div>
+          {!notitem && (
+            <div
+              className={`${
+                isdesktop &&
+                "flex grid grid-cols-5 overflow-auto h-[33rem] min-w-[70rem] "
+              } ${ismobile && "grid grid-cols-2 overflow-auto  h-[35rem]"}`}
+              style={{ scrollbarWidth: "none" }}
+            >
+              {/* 상품 */}
+              {products.map((data: IProduct, idx: number) => {
+                return (
+                  <SellContent key={idx} data={data} isBuyTap={isBuyTap} />
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
     </div>
