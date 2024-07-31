@@ -51,7 +51,7 @@ const Category = ({}: IProps): JSX.Element => {
             ? `${process.env.REACT_APP_SERVER_URL}/imgs/${data.image[0]}`
             : "/imgs/hamster.png",
           price: data.price,
-          catatedAt: Math.floor(
+          createdAt: Math.floor(
             (+new Date() - +new Date(data.createdAt || new Date() + "")) /
               (1000 * 60 * 60 * 24)
           ),
