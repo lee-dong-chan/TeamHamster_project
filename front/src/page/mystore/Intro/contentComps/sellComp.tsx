@@ -88,7 +88,7 @@ const SellComp = ({ value }: IProps) => {
       <div
         className={
           isdesktop
-            ? `mt-4 p-3 w-[100%] min-w-[35rem] h-[90%] border overflow-auto `
+            ? `mt-4 p-3 w-[100%] min-w-[35rem] h-[90%] border overflow-auto`
             : ""
         }
       >
@@ -110,17 +110,19 @@ const SellComp = ({ value }: IProps) => {
         </div>
 
         {/* 상품페이지 변환 */}
-        <div
-          className={`${
-            isdesktop &&
-            "flex grid grid-cols-5 overflow-auto h-[33rem] min-w-[70rem]"
-          } ${ismobile && "grid grid-cols-2 overflow-auto  h-[35rem]"}`}
-          style={{ scrollbarWidth: "none" }}
-        >
-          {/* 상품 */}
-          {products.map((data: IProduct, idx: number) => {
-            return <SellContent key={idx} data={data} isBuyTap={isBuyTap} />;
-          })}
+        <div className="flex justify-center">
+          <div
+            className={`${
+              isdesktop &&
+              "flex grid grid-cols-5 overflow-auto h-[33rem] min-w-[70rem] "
+            } ${ismobile && "grid grid-cols-2 overflow-auto  h-[35rem]"}`}
+            style={{ scrollbarWidth: "none" }}
+          >
+            {/* 상품 */}
+            {products.map((data: IProduct, idx: number) => {
+              return <SellContent key={idx} data={data} isBuyTap={isBuyTap} />;
+            })}
+          </div>
         </div>
       </div>
     </div>
