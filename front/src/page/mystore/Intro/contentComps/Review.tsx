@@ -39,7 +39,7 @@ const Review = () => {
               reviewContent: "오류가 뜨면 찾아오는 따봉스터",
               Store: {
                 nick: "따봉스터",
-                img: `good.png`,
+                profileimg: `good.png`,
               },
               Product: {
                 title: "따봉스터를 봤다면 코드를 버려라",
@@ -50,7 +50,7 @@ const Review = () => {
               reviewContent: "오류가 뜨면 찾아오는 따봉스터",
               Store: {
                 nick: "따봉스터",
-                img: `good.png`,
+                profileimg: `good.png`,
               },
               Product: {
                 title: "따봉스터를 봤다면 코드를 버려라",
@@ -74,25 +74,16 @@ const Review = () => {
   }, []);
 
   return (
-    <div
-      className={
-        isdesktop ? `mt-4 p-3 w-[100%] min-w-[30rem] h-[90%] border` : ""
-      }
-    >
+    <div className={isdesktop ? `mt-4 p-3 w-[100%] min-w-[30rem] h-[90%] border` : ""}>
       <Count text="리뷰" number={reviewRes?.reviewlist.length || 0}></Count>
       {/* 리뷰 평균 */}
-      <div
-        className={`border-2 border-[#e5e7eb] rounded-xl ${center} w-[100%] h-[80px] p-[10px]`}
-      >
+      <div className={`border-2 border-[#e5e7eb] rounded-xl ${center} w-[100%] h-[80px] p-[10px]`}>
         {/* 별 */}
         <div className="w-[50%] border-r-2">
           <div className={`${center} ${weightfont}`}>
             {reviewRes?.reviewAverage?.star || errNum}
           </div>
-          <Star
-            storeStar={reviewRes?.reviewAverage?.star || errNum}
-            textActive={false}
-          ></Star>
+          <Star storeStar={reviewRes?.reviewAverage?.star || errNum} textActive={false}></Star>
         </div>
         {/* 퍼센트 */}
         <div className="w-[50%]">
@@ -100,16 +91,11 @@ const Review = () => {
             <span>{reviewRes?.reviewPercent || 0}</span>
             <span>%</span>
           </div>
-          <div className={`${center} ${rowfont} font-bold text-stone-400`}>
-            만족후기
-          </div>
+          <div className={`${center} ${rowfont} font-bold text-stone-400`}>만족후기</div>
         </div>
       </div>
       {/* 리뷰들 */}
-      <div
-        className={`mt-4 h-[450px] overflow-scroll`}
-        style={{ scrollbarWidth: "none" }}
-      >
+      <div className={`mt-4 h-[450px] overflow-scroll`} style={{ scrollbarWidth: "none" }}>
         {/* 리뷰하나 */}
         {reviews.map((data: IReviewOne, idx: number) => {
           return <ReviewOne key={idx} data={data} />;
