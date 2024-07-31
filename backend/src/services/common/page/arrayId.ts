@@ -16,7 +16,7 @@ export default async (req: Request, res: Response) => {
         "img",
         "categoryId",
       ],
-      where: { id: [...prolist] },
+      where: { id: [...prolist], itemState: "판매중" },
       include: [{ model: Category, as: "Category", attributes: ["name"] }],
     });
     for (let i = 0; i < productlist.length; i++) {
