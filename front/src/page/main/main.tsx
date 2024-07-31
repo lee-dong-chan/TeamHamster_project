@@ -93,8 +93,8 @@ const Main = ({ idxValue, list, mainDataGet, obToggleValue }: IProps): JSX.Eleme
   });
 
   useEffect(() => {
-    console.log(procookie);
     mainDataGet(idxValue);
+    // console.log("?");
   }, []);
 
   useEffect(() => {

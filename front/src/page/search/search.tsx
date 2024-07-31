@@ -27,12 +27,14 @@ const Search = ({}: IProps): JSX.Element => {
   const searchDataGet: any = useMutation({
     mutationKey: "searchlistdata",
     mutationFn: async (idxValue: number) => {
+      console.log(id);
       const { data } = await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/search`,
         { keyword: id, idx: idxValue },
         { withCredentials: true }
       );
 
+      console.log(data.product);
       const products = data.product;
 
       if (data.product.length === 0) {
@@ -54,9 +56,13 @@ const Search = ({}: IProps): JSX.Element => {
         };
         return listData;
       });
-      if (searchDataGet.data ? true : false) {
+      if (searchDataGet.data && data.product[0] ? true : false) {
         return [...searchDataGet.data, ...listDatas];
+      } else if (searchDataGet.data) {
+        console.log(searchDataGet.data, "데이터만 있음");
+        return searchDataGet.data;
       } else {
+        console.log(listDatas);
         return listDatas;
       }
     },
@@ -67,6 +73,7 @@ const Search = ({}: IProps): JSX.Element => {
   }, [searchDataGet.data?.length]);
 
   useEffect(() => {
+    searchDataGet.data = [];
     searchDataGet.mutate(idxValue);
   }, [id]);
 

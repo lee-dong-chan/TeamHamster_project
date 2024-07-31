@@ -63,8 +63,10 @@ const App = (): JSX.Element => {
         };
         return listdata;
       });
-      if (getmain.data ? true : false) {
+      if (getmain.data && data.product[0] ? true : false) {
         return [...getmain.data, ...lastdata];
+      } else if (getmain.data) {
+        return getmain.data;
       } else {
         return lastdata;
       }
@@ -74,8 +76,6 @@ const App = (): JSX.Element => {
   const idxValue = useMemo(() => {
     return getmain.data?.length;
   }, [getmain.data?.length]);
-
-  console.log(getmain.data);
 
   const userDataCheck = useCallback(async () => {
     await axios
