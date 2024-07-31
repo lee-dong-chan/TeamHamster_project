@@ -66,7 +66,7 @@ const FindID = ({}: IProps): JSX.Element => {
             </div>
           </label>
           <label>
-            <div className="p-2 mb-4 border">
+            <div className="p-2 mb-4 border flex">
               <input
                 className="w-[100%] outline-none"
                 type="text"
@@ -74,13 +74,7 @@ const FindID = ({}: IProps): JSX.Element => {
                 value={phone}
                 onChange={(e: any) => setPhone(e.target.value)}
               />
-              <button
-                className={`${isdesktop && "absolute end-[7rem] z-10"} ${
-                  ismobile && "absolute end-[5rem] z-10"
-                }`}
-              >
-                인증
-              </button>
+              <button className="w-[4rem]">인증</button>
             </div>
           </label>
           <div
