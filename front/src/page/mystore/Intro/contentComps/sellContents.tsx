@@ -14,9 +14,11 @@ import {
 interface IProps {
   data: IProduct;
   isBuyTap?: boolean;
+  value: number;
+  getData: (value: number) => Promise<void>;
 }
 
-const SellContent = ({ data, isBuyTap = false }: IProps) => {
+const SellContent = ({ data, isBuyTap = false, getData, value }: IProps) => {
   const setsystemonoff = useSetRecoilState(Modalstate);
   const setModalcontent = useSetRecoilState(Modalcontent);
   //state
@@ -33,7 +35,7 @@ const SellContent = ({ data, isBuyTap = false }: IProps) => {
   //custom
   const serverUrl = process.env.REACT_APP_SERVER_URL;
   const loca = useLocation();
-  const callbackUrl = `${loca.pathname}${loca.search}`;
+
   const imgBase = process.env.REACT_APP_IMG_BASE;
 
   //funcs
@@ -77,12 +79,12 @@ const SellContent = ({ data, isBuyTap = false }: IProps) => {
         setModalcontent("checkpurchase");
         setsystemonoff(true);
         console.log(data);
-        navigate(`${callbackUrl}`);
+        getData(value);
       })
       .catch((err) => {
         setModalcontent("checkfail");
         setsystemonoff(true);
-        navigate(`${callbackUrl}`);
+        getData(value);
         console.log(err);
       });
   };
@@ -118,7 +120,7 @@ const SellContent = ({ data, isBuyTap = false }: IProps) => {
         setBoxTextValue("리뷰쓰기");
       }
     }
-  }, []);
+  }, [data.itemState]);
 
   return (
     <div className={`h-[420px] min-w-[220px] max-w-[220px]`}>

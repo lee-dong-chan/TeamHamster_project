@@ -59,6 +59,7 @@ const SellComp = ({ value }: IProps) => {
         .then((data: AxiosResponse) => {
           const res: IProductRes = data.data;
           const products: IProduct[] = res.product.rows;
+          console.log(products, "프로덕트들");
           setProducts(products);
         })
         .catch(() => {
@@ -131,7 +132,13 @@ const SellComp = ({ value }: IProps) => {
               {/* 상품 */}
               {products.map((data: IProduct, idx: number) => {
                 return (
-                  <SellContent key={idx} data={data} isBuyTap={isBuyTap} />
+                  <SellContent
+                    key={idx}
+                    data={data}
+                    isBuyTap={isBuyTap}
+                    value={value}
+                    getData={getData}
+                  />
                 );
               })}
             </div>
