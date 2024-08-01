@@ -108,7 +108,7 @@ const Category = ({}: IProps): JSX.Element => {
   return (
     <div>
       {isdesktop && <SearchComp />}
-      <div className={`${isdesktop && box} ${ismobile && mobilebox} `}>
+      <div className={`${isdesktop && box} ${ismobile && mobilebox} h-screen `}>
         <div className="p-[2rem] text-[1.7rem] font-bold">
           <span className="text-orange-500">{getcatename.data}</span> 추천상품
         </div>
