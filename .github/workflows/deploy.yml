@@ -32,17 +32,15 @@ jobs:
         working-directory: ./front
         run: npm run build
 
-      - name: Setting .env
-        working-directory: ./front/build
-        run: |
-          ${{ secrets.FRONT_ENV }}
-
       - name: Copy Files to EC2
         run: |
           ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} '
             rm -rf /var/www/front
             mkdir /var/www/front'
           rsync -avz -e "ssh" ./front/build/ ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/var/www/front
+           ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} '
+            export NVM_DIR="$HOME/.nvm"
+            ${{ secrets.FRONT_ENV }}'
 
       - name: Restart Nginx
         run: ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} 'sudo service nginx restart'
