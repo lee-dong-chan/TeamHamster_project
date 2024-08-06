@@ -173,10 +173,6 @@ jobs:
             }
           }" > config/config.json
 
-      - name: create .env file
-        run: |
-          echo "${{ secrets.SERVER_ENV }}" | sed 's/:/\n/g' > .env
-
       - name: Build Back
         working-directory: ./backend
         run: npx tsc
@@ -188,7 +184,14 @@ jobs:
             mkdir /var/www/backend'
           rsync -avz -e "ssh" ./backend/build/ ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/var/www/backend
           rsync -avz -e "ssh" ./backend/package.json ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/var/www/backend/package.json
-          rsync -avz -e "ssh" .env ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/var/www/backend/.env
+          ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} '
+          echo COOKIE ="${{ secrets.COOKIE  }}" > /var/www/backend/.env
+          echo SESSION ="${{ secrets.SESSION }}" >> /var/www/backend/.env
+          echo PORT ="${{ secrets.PORT}}" >> /var/www/backend/.env
+          echo MONGURL ="${{ secrets.MONGURL }}" >> /var/www/backend/.env
+          echo IV ="${{ secrets.IV }}" >> /var/www/backend/.env
+          echo SALT="${{ secrets.SALT }}" >> /var/www/backend/.env
+          echo KEY ="${{ secrets.KEY  }}" >> /var/www/backend/.env'
 
       - name: Install and Configure Node.js and PM2
         run: |
