@@ -117,7 +117,7 @@ jobs:
         working-directory: ./manege
         run: npm i
 
-      - name: Build delivery
+      - name: Build manege
         working-directory: ./manege
         run: npm run build
 
@@ -154,6 +154,23 @@ jobs:
       - name: Install Dependencies of Back
         working-directory: ./backend
         run: npm i
+
+      - name: Make secrets
+        env:
+          USERNAME: ${{ secrets.MYSQL_USER}
+          PASSWORD: ${{ secrets.MYSQL_PASSWORD}}
+          DATABASE: ${{ secrets.MYSQL_DB}}
+        run: |
+          mkdir config
+          echo   "{
+           \"development\": {
+              \"username\": \"$USERNAME\",
+              \"password\": \"$PASSWORD\",
+              \"database\": \"$DATABASE\",
+              \"host\": \"127.0.0.1\",
+              \"dialect\": \"mysql\"
+            }
+          }" > config/config.json
 
       - name: create .env file
         run: |
