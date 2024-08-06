@@ -1,9 +1,9 @@
-export interface Button {
+interface IButton {
   getText(): string;
   getBtnClass(): string;
 }
 
-export class Button implements Button {
+export class Button implements IButton {
   private text: string;
   private btnclass: string;
   constructor(text: string, btnclass: string) {
