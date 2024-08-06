@@ -157,9 +157,10 @@ jobs:
 
       - name: Make secrets
         env:
-          USERNAME: ${{ secrets.MYSQL_USER}
+          USERNAME: ${{ secrets.MYSQL_USER}}
           PASSWORD: ${{ secrets.MYSQL_PASSWORD}}
           DATABASE: ${{ secrets.MYSQL_DB}}
+          HOST: ${{ secrets.EC2_HOST }}
         run: |
           mkdir config
           echo   "{
@@ -167,7 +168,7 @@ jobs:
               \"username\": \"$USERNAME\",
               \"password\": \"$PASSWORD\",
               \"database\": \"$DATABASE\",
-              \"host\": \"127.0.0.1\",
+              \"host\": \"$HOST\",
               \"dialect\": \"mysql\"
             }
           }" > config/config.json
