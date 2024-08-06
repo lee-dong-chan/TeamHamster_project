@@ -189,9 +189,7 @@ jobs:
             echo SESSION ="${{ secrets.SESSION }}" >> /var/www/backend/.env
             echo PORT ="${{ secrets.PORT}}" >> /var/www/backend/.env
             echo MONGURL ="${{ secrets.MONGURL }}" >> /var/www/backend/.env
-            echo IV ="${{ secrets.IV }}" >> /var/www/backend/.env
             echo SALT="${{ secrets.SALT }}" >> /var/www/backend/.env
-            echo KEY ="${{ secrets.KEY  }}" >> /var/www/backend/.env'
 
       - name: Install and Configure Node.js and PM2
         run: |
