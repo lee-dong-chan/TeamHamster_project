@@ -13,7 +13,7 @@ const ButtonComp = ({
   width = "w-[20rem]",
   text = "text-[1.5rem]",
   height = "h-[6rem]",
-}: IProps): JSX.Element => {
+}: IProps) => {
   return (
     <div
       className={`${center} ${height} ${text} text-white border rounded-[1rem] ${btn.getBtnClass()} ${width}`}
