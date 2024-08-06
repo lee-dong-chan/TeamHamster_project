@@ -155,7 +155,8 @@ jobs:
         working-directory: ./backend
         run: npm i
 
-      - name: Make secrets
+      - name: Make confing
+        working-directory: ./backend
         env:
           USERNAME: ${{ secrets.MYSQL_USER}}
           PASSWORD: ${{ secrets.MYSQL_PASSWORD}}
