@@ -31,7 +31,7 @@ jobs:
       - name: Setting .env
         working-directory: ./front
         run: |
-          echo "${{ secrets.FRONT_ENV }}" > .env
+          ${{ secrets.FRONT_ENV }}
 
       - name: Build Front
         working-directory: ./front
