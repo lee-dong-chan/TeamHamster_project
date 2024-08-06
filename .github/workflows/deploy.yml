@@ -197,16 +197,14 @@ jobs:
             fi
             nvm use --lts
             cd /var/www/backend
-            npm i --production
-          '
-         ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} '
-          echo COOKIE="${{ secrets.COOKIE  }}" > /var/www/backend/.env
-          echo SESSION="${{ secrets.SESSION }}" >> /var/www/backend/.env
-          echo PORT="${{ secrets.PORT}}" >> /var/www/backend/.env
-          echo MONGURL="${{ secrets.MONGURL }}" >> /var/www/backend/.env
-          echo IV="${{ secrets.IV }}" >> /var/www/backend/.env
-          echo SALT="${{ secrets.SALT }}" >> /var/www/backend/.env
-          echo KEY="${{ secrets.KEY  }}" >> /var/www/backend/.env'
+            npm i --production 
+            echo COOKIE="${{ secrets.COOKIE  }}" > /var/www/backend/.env
+            echo SESSION="${{ secrets.SESSION }}" >> /var/www/backend/.env
+            echo PORT="${{ secrets.PORT}}" >> /var/www/backend/.env
+            echo MONGURL="${{ secrets.MONGURL }}" >> /var/www/backend/.env
+            echo IV="${{ secrets.IV }}" >> /var/www/backend/.env
+            echo SALT="${{ secrets.SALT }}" >> /var/www/backend/.env
+            echo KEY="${{ secrets.KEY  }}" >> /var/www/backend/.env'
 
       - name: Start Server
         run: |
