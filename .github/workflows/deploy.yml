@@ -28,14 +28,14 @@ jobs:
         working-directory: ./front
         run: npm i
 
-      - name: Setting .env
-        working-directory: ./front
-        run: |
-          echo "REACT_APP_GOOGLE_CLIENTID=123" >> .env
-
       - name: Build Front
         working-directory: ./front
         run: npm run build
+
+      - name: Setting .env
+        working-directory: ./front/build
+        run: |
+          ${{ secrets.FRONT_ENV }}
 
       - name: Copy Files to EC2
         run: |
