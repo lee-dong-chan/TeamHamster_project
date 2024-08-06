@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import LargeButton from "../../../Component/Button/Button";
 import { Button } from "../../../lib/Button/Button";
@@ -9,9 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { Modalcontent, Modalstate } from "../../../Context/SystemModal/Modal";
 
-interface IProps {}
-
-const FindID = ({}: IProps): JSX.Element => {
+const FindID = (): JSX.Element => {
   const setsystemonoff = useSetRecoilState(Modalstate);
   const setModalcontent = useSetRecoilState(Modalcontent);
   const navigate = useNavigate();
@@ -30,7 +28,7 @@ const FindID = ({}: IProps): JSX.Element => {
       );
       return data;
     },
-    onSuccess(data) {
+    onSuccess() {
       setModalcontent("sucsessid");
       setsystemonoff(true);
     },

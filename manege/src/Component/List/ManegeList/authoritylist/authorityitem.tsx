@@ -1,9 +1,4 @@
-import axios from "axios";
-import { Button } from "../../../../lib/Button/Button";
-import { TinyButton } from "../../../Button/Button";
-import { Link, Navigate } from "react-router-dom";
-import { useMutation, useQueryClient } from "react-query";
-import { ChangeEvent, useEffect, useState } from "react";
+import { useState } from "react";
 
 interface IProps {
   item: IUser;
@@ -23,7 +18,7 @@ const Item = ({ item, idx, setdata }: IProps): JSX.Element => {
   const [superstate, setsuper] = useState(item.superAdmin);
   const [adminstate, setadmin] = useState(item.admin);
   const [deliverystate, setdelivery] = useState(item.delivery);
-  const [username, setusername] = useState();
+
   const superchange = () => {
     setsuper(!superstate);
   };

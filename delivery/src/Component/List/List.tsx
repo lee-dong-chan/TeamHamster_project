@@ -18,7 +18,7 @@ export const List = ({
 }: IProps): JSX.Element => {
   return (
     <div className="h-[20rem] w-[33em] border border-black overflow-y-auto">
-      {liststate == 1 && (
+      {liststate === 1 && (
         <div>
           <div className="px-4 py-2  flex">
             <div>주문번호</div>
@@ -38,7 +38,7 @@ export const List = ({
           })}
         </div>
       )}
-      {liststate == 2 && (
+      {liststate === 2 && (
         <div>
           <div className="px-4 py-2 flex">
             <div>주문번호</div>
@@ -50,7 +50,7 @@ export const List = ({
           ))}
         </div>
       )}
-      {liststate == 3 && (
+      {liststate === 3 && (
         <div>
           <div className="px-4 py-2 flex">
             <div>주문번호</div>

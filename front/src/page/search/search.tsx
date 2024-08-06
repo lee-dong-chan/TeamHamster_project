@@ -1,22 +1,16 @@
 import SearchComp from "../../Component/Search/SearchComp";
 import List from "../../Component/List/List";
-import { List as ListData } from "../../lib/list";
 import { useParams } from "react-router-dom";
-import Paging from "../../Component/paging/paging";
 import { useBreakPoint } from "../../CustomHook/BreakPoint";
 import { box, mobilebox } from "../../lib/styles";
-import axios, { AxiosResponse } from "axios";
-import { IListData } from "../../App";
+import axios from "axios";
 import { IProduct } from "../../lib/interFace";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { Searchobserver, key } from "../../Context/Modal";
-import { IList } from "../../Component/List/ListItem";
+import { Searchobserver } from "../../Context/Modal";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-interface IProps {}
-
-const Search = ({}: IProps): JSX.Element => {
+const Search = (): JSX.Element => {
   const { isdesktop, ismobile } = useBreakPoint();
 
   const observerOn = useRecoilValue(Searchobserver);
@@ -75,12 +69,13 @@ const Search = ({}: IProps): JSX.Element => {
 
   const DataGet = useCallback(() => {
     queryclient.invalidateQueries({ queryKey: ["searchlistdata", id] });
-  }, []);
+  }, [queryclient, id]);
 
   useEffect(() => {
-    // searchDataGet.data = [];
     DataGet();
-  }, [id]);
+  }, [id, DataGet]);
+
+  console.log("서치 무한 체크");
 
   return (
     <div>

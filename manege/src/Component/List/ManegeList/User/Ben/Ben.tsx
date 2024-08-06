@@ -1,6 +1,4 @@
-import { useMutation } from "react-query";
 import Item, { IBenUser } from "./BenItem";
-import axios from "axios";
 
 interface IProps {
   data?: IBenUser[];

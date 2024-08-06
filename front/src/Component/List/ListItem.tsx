@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { List as ListData } from "../../lib/list";
 import { useBreakPoint } from "../../CustomHook/BreakPoint";
 import { center } from "../../lib/styles";
 
@@ -25,7 +24,11 @@ const Item = ({ item }: IProps): JSX.Element => {
         }`}
       >
         <div className={`${center}`}>
-          <img className="w-[100%] h-[190px] flex" src={`${item.img}`}></img>
+          <img
+            className="w-[100%] h-[190px] flex"
+            src={`${item.img}`}
+            alt="itemimg"
+          ></img>
         </div>
         <div className=" border-t">
           <div className="p-3 text-[1.1rem]">{item.title}</div>

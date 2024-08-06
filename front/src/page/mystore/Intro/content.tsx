@@ -1,8 +1,5 @@
-import { rowfont, center, outborder, nanoBtn } from "../../../lib/styles";
 import SellComp from "./contentComps/sellComp";
 import CateBtn from "./contentComps/catebutton";
-import { useEffect, useState } from "react";
-import axios from "axios";
 import Review from "./contentComps/Review";
 import { useBreakPoint } from "../../../CustomHook/BreakPoint";
 

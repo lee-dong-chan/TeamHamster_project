@@ -1,7 +1,7 @@
 import { box, center } from "../../lib/styles";
 import { SmallButton } from "../../Component/Button/Button";
 import { Button } from "../../lib/Button/Button";
-import { ChangeEvent, useCallback, useEffect, useState } from "react";
+import { ChangeEvent, useCallback, useState } from "react";
 import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useSetRecoilState } from "recoil";
@@ -15,13 +15,11 @@ interface IData {
   point: IPoint;
 }
 
-interface IProps {}
-
-const ManegePoint = ({}: IProps): JSX.Element => {
+const ManegePoint = (): JSX.Element => {
   const modalvalue = useSetRecoilState(Modalcontent);
   const onoffModal = useSetRecoilState(Modalstate);
   const btn = new Button("확인", "bg-orange-500");
-  const [onclick, setonclick] = useState<number>(0);
+
   const [point, setpoint] = useState<number>();
   const changepoint = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setpoint(Number(e.target.value));

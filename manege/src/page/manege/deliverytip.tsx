@@ -4,12 +4,10 @@ import { Button } from "../../lib/Button/Button";
 import { ChangeEvent, useCallback, useState } from "react";
 import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { Modalcontent, Modalstate } from "../../Context/Modal/Modal";
 
-interface IProps {}
-
-const ManegeDeliveryTip = ({}: IProps): JSX.Element => {
+const ManegeDeliveryTip = (): JSX.Element => {
   const modalvalue = useSetRecoilState(Modalcontent);
   const onoffModal = useSetRecoilState(Modalstate);
   const [tip, settip] = useState<number>();

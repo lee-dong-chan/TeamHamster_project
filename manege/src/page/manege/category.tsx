@@ -3,15 +3,13 @@ import { LargeButton } from "../../Component/Button/Button";
 
 import ManegeCategoryList from "../../Component/Category/ManegeCategory/ManegeCategory";
 import { Button } from "../../lib/Button/Button";
-import { ChangeEvent, useCallback, useEffect, useState } from "react";
+import { ChangeEvent, useCallback, useState } from "react";
 import axios from "axios";
-import { Mutation, useMutation, useQueryClient } from "react-query";
-import { useResetRecoilState, useSetRecoilState } from "recoil";
+import { useMutation, useQueryClient } from "react-query";
+import { useSetRecoilState } from "recoil";
 import { Modalcontent, Modalstate } from "../../Context/Modal/Modal";
 
-interface IProps {}
-
-const ManegeCategory = ({}: IProps): JSX.Element => {
+const ManegeCategory = (): JSX.Element => {
   const setmodalvalue = useSetRecoilState(Modalcontent);
   const setmodlastate = useSetRecoilState(Modalstate);
   const [topname, settopname] = useState<string>();

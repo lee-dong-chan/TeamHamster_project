@@ -1,6 +1,6 @@
 import { center, blockTextOver } from "../../../../lib/styles";
 import SCbuttons from "./buttons";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { IProduct } from "../../../../lib/interFace";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -34,7 +34,6 @@ const SellContent = ({ data, isBuyTap = false, getData, value }: IProps) => {
 
   //custom
   const serverUrl = process.env.REACT_APP_SERVER_URL;
-  const loca = useLocation();
 
   const imgBase = process.env.REACT_APP_IMG_BASE;
 

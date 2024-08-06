@@ -1,6 +1,6 @@
 import { ChangeEvent, useState } from "react";
 import { Button } from "../../../lib/Button/Button";
-import ButtonComp, { TinyButton } from "../../Button/Button";
+import ButtonComp from "../../Button/Button";
 import { Link } from "react-router-dom";
 
 export interface PickCheck {
@@ -43,7 +43,7 @@ const Item = ({
   };
   return (
     <div>
-      {liststate == 1 && (
+      {liststate === 1 && (
         <div className="px-4 py-2  flex">
           <div className="pe-2">{item1?.id}</div>
           <div className="flex-1 text-center truncate">{item1?.pickadress}</div>
@@ -57,14 +57,14 @@ const Item = ({
           ></input>
         </div>
       )}
-      {liststate == 2 && (
+      {liststate === 2 && (
         <div className="px-4 py-2 flex">
           <div>{item2?.id}</div>
           <div className="flex-1 text-center">{item2?.pickadress}</div>
           <div>{item2?.state}</div>
         </div>
       )}
-      {liststate == 3 && (
+      {liststate === 3 && (
         <div className="px-4 py-2 flex items-center">
           <div>{item3?.id}</div>
           <div className="flex-1 text-center">{item3?.deliveryadress}</div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { box, center } from "../../lib/styles";
 import axios, { AxiosResponse } from "axios";
 import { IData, IAdress, IAdressData } from "../../Component/Modal/Buy/Buy";
@@ -6,10 +6,13 @@ import AdressItem from "../../Component/Modal/Buy/UserAdressItem";
 import { useLocation, useNavigate } from "react-router-dom";
 import { IData as IDataProduct } from "../product/product";
 import { IProductPage } from "../../lib/interFace";
-import { productPageDataErr } from "../../lib/errors";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { Modal } from "../../Context/Modal";
 import { Modalcontent, Modalstate } from "../../Context/SystemModal/Modal";
+
+//env
+const serverUrl = process.env.REACT_APP_SERVER_URL;
+const imgBaseUrl = process.env.REACT_APP_IMG_BASE;
 
 interface IFormData {
   productName: string;
@@ -41,7 +44,10 @@ interface IProps {
   dataCheckIdxValue: number;
 }
 
-const ProductWrite = ({ mainDataGet, dataCheckIdxValue }: IProps): JSX.Element => {
+const ProductWrite = ({
+  mainDataGet,
+  dataCheckIdxValue,
+}: IProps): JSX.Element => {
   //hook
   const navigate = useNavigate();
   const loca = useLocation();
@@ -78,20 +84,16 @@ const ProductWrite = ({ mainDataGet, dataCheckIdxValue }: IProps): JSX.Element =
       loca.pathname.lastIndexOf("/") !== 0 &&
       loca.pathname.slice(loca.pathname.lastIndexOf("/") + 1)
     );
-  }, []);
+  }, [loca]);
 
   //useMemo
   const isProductReWrite = useMemo<boolean>(() => {
     return loca.pathname.lastIndexOf("/") !== 0;
-  }, []);
+  }, [loca]);
 
   const idStartIdx = useMemo<number>(() => {
     return loca.pathname.lastIndexOf("/");
-  }, []);
-
-  //env
-  const serverUrl = process.env.REACT_APP_SERVER_URL;
-  const imgBaseUrl = process.env.REACT_APP_IMG_BASE;
+  }, [loca]);
 
   //funcs
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -109,8 +111,29 @@ const ProductWrite = ({ mainDataGet, dataCheckIdxValue }: IProps): JSX.Element =
     setImages((prev) => prev.filter((_, i) => i !== index));
     setPreviewUrls((prev) => prev.filter((_, i) => i !== index));
   };
+
+  const getImgBlob = useCallback(async (files: IFiles) => {
+    const { fileType, fileNameFull } = files;
+
+    console.log(`${imgBaseUrl}${fileNameFull}`);
+    const response = await fetch(`${imgBaseUrl}${fileNameFull}`);
+    if (!response.ok) {
+      throw new Error(`${fileNameFull},이미지 없음`);
+    }
+    const blob = await response.blob();
+
+    const fileFromBlob: File = new File([blob], fileNameFull, {
+      type: `image/${fileType}`,
+      lastModified: +new Date(),
+    });
+
+    return fileFromBlob;
+  }, []);
+
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
     const { name, value } = e.target;
 
@@ -159,21 +182,27 @@ const ProductWrite = ({ mainDataGet, dataCheckIdxValue }: IProps): JSX.Element =
     setcontent(value);
     setId(id);
   };
-  const asyncOperation = async (item: any) => {
-    return new Promise<File>((resolve) => setTimeout(() => resolve(getImgBlob(item)), 300));
-  };
+  const asyncOperation = useCallback(
+    async (item: any) => {
+      return new Promise<File>((resolve) =>
+        setTimeout(() => resolve(getImgBlob(item)), 300)
+      );
+    },
+    [getImgBlob]
+  );
 
   const addadress = () => {
     modalstate("addadress");
   };
-  const getProductDatas = async () => {
+  const getProductDatas = useCallback(async () => {
     console.log(`${serverUrl}/product/${productId}`);
     await axios
       .post(`${serverUrl}/product/${productId}`, {}, { withCredentials: true })
       .then(async (data: AxiosResponse<IDataProduct<IProductPage>>) => {
         console.log(data);
         const values = data.data.product;
-        const { image, title, discription, categoryId, Category, price } = values;
+        const { image, title, discription, categoryId, Category, price } =
+          values;
 
         setFormData({
           productName: title,
@@ -213,43 +242,8 @@ const ProductWrite = ({ mainDataGet, dataCheckIdxValue }: IProps): JSX.Element =
       })
       .catch(async (err) => {
         console.log(err);
-        // const { image, title, discription, categoryId, Category, price } =
-        //   productPageDataErr;
-
-        // setFormData({
-        //   productName: title,
-        //   description: discription,
-        //   price: price + "",
-        // });
-        // setLastClickCateId(categoryId);
-        // setShowCateValue([Category ? Category.name : "에러"]);
-        // const newImages = Array.from(image);
-        // const newPreviewUrls = newImages.map((file) => `${imgBaseUrl}${file}`);
-        // setPreviewUrls(newPreviewUrls);
-
-        // //files Get
-
-        // const results: File[] = [];
-        // console.log(image);
-
-        // for (const imgName of image) {
-        //   const fileNameFull = imgName;
-        //   const fileType = imgName.slice(imgName.indexOf(".") + 1);
-        //   const fileName = imgName.slice(0, imgName.indexOf("."));
-
-        //   const obj: IFiles = {
-        //     fileName: fileName,
-        //     fileNameFull: fileType,
-        //     fileType: fileNameFull,
-        //   };
-
-        //   const result: File = await asyncOperation(obj);
-        //   results.push(result);
-        // }
-
-        // setImages(results);
       });
-  };
+  }, [asyncOperation, productId]);
 
   const rowCatesGet = async ({ api, id }: IRowCateFunc) => {
     let rowCheck: boolean;
@@ -366,24 +360,6 @@ const ProductWrite = ({ mainDataGet, dataCheckIdxValue }: IProps): JSX.Element =
       });
   };
 
-  const getImgBlob = async (files: IFiles) => {
-    const { fileType, fileName, fileNameFull } = files;
-
-    console.log(`${imgBaseUrl}${fileNameFull}`);
-    const response = await fetch(`${imgBaseUrl}${fileNameFull}`);
-    if (!response.ok) {
-      throw new Error(`${fileNameFull},이미지 없음`);
-    }
-    const blob = await response.blob();
-
-    const fileFromBlob: File = new File([blob], fileNameFull, {
-      type: `image/${fileType}`,
-      lastModified: +new Date(),
-    });
-
-    return fileFromBlob;
-  };
-
   //mount
 
   useEffect(() => {
@@ -398,7 +374,9 @@ const ProductWrite = ({ mainDataGet, dataCheckIdxValue }: IProps): JSX.Element =
       setIdPath(loca.pathname.slice(idStartIdx));
       getProductDatas();
     }
-  }, []);
+  }, [loca, getProductDatas, idStartIdx, isProductReWrite]);
+
+  console.log("글 작성 무한 체크");
 
   return (
     <div className={`${center} p-8 ${box}`}>
@@ -425,11 +403,15 @@ const ProductWrite = ({ mainDataGet, dataCheckIdxValue }: IProps): JSX.Element =
             +
           </label>
 
-          <div className="flex grid grid-cols-4 overflow-hidden gap-10 min-w-[35rem] max-w-[35rem]">
+          <div className="flex justify-start overflow-hidden gap-10 min-w-[35rem] max-w-[35rem]">
             {previewUrls.map((url, index) => (
               <div key={index} className="relative border ">
                 {/* <div className="w-32 h-32" /> */}
-                <img src={url} alt={`Preview ${index}`} className="w-32 h-32 uploadImgElem" />
+                <img
+                  src={url}
+                  alt={`Preview ${index}`}
+                  className="w-32 h-32 uploadImgElem"
+                />
                 <button
                   onClick={() => handleRemoveImage(index)}
                   className="absolute top-0 right-[0rem] bg-red-500 text-white p-1 rounded"
@@ -459,7 +441,9 @@ const ProductWrite = ({ mainDataGet, dataCheckIdxValue }: IProps): JSX.Element =
           />
         </div>
         <div className="mt-3">
-          <h2 className="text-xl font-bold mb-4 border-b border-gray-500">카테고리</h2>
+          <h2 className="text-xl font-bold mb-4 border-b border-gray-500">
+            카테고리
+          </h2>
           <div className="flex space-x-4">
             <div className="w-1/3 border p-4 h-[27rem] overflow-auto">
               <h3 className="font-semibold">선택</h3>
@@ -497,7 +481,10 @@ const ProductWrite = ({ mainDataGet, dataCheckIdxValue }: IProps): JSX.Element =
                           });
                           setLastClickCateId(category.id);
                           if (showCateValue.length < 2) {
-                            setShowCateValue((data) => [...data, category.name]);
+                            setShowCateValue((data) => [
+                              ...data,
+                              category.name,
+                            ]);
                           } else {
                             setShowCateValue((data) => {
                               return [...data.slice(0, 1), category.name];
@@ -523,7 +510,10 @@ const ProductWrite = ({ mainDataGet, dataCheckIdxValue }: IProps): JSX.Element =
                         if (category.id) {
                           setLastClickCateId(category.id);
                           if (showCateValue.length < 3) {
-                            setShowCateValue((data) => [...data, category.name]);
+                            setShowCateValue((data) => [
+                              ...data,
+                              category.name,
+                            ]);
                           } else {
                             setShowCateValue((data) => {
                               return [...data.slice(0, 2), category.name];
@@ -542,7 +532,9 @@ const ProductWrite = ({ mainDataGet, dataCheckIdxValue }: IProps): JSX.Element =
           <div className="mt-4">
             <h3 className="font-semibold">선택:</h3>
             <div className="flex">
-              <span className="text-orange-500">{showCateValue.join(" → ")}</span>
+              <span className="text-orange-500">
+                {showCateValue.join(" → ")}
+              </span>
             </div>
           </div>
         </div>
@@ -565,7 +557,9 @@ const ProductWrite = ({ mainDataGet, dataCheckIdxValue }: IProps): JSX.Element =
           />
         </div>
         <div>
-          <div className="text-[1.3rem] font-bold border-b border-gray-500">주소</div>
+          <div className="text-[1.3rem] font-bold border-b border-gray-500">
+            주소
+          </div>
           <div className="mt-5 h-[20rem] border overflow-auto">
             {adress &&
               adress.map((item: IAdressData, idx: number) => (
@@ -590,7 +584,10 @@ const ProductWrite = ({ mainDataGet, dataCheckIdxValue }: IProps): JSX.Element =
         <div className="mt-10">
           <div className="mb-4">
             <div className="flex items-center">
-              <label htmlFor="price" className="me-4 block text-[1.3rem] font-medium text-gray-700">
+              <label
+                htmlFor="price"
+                className="me-4 block text-[1.3rem] font-medium text-gray-700"
+              >
                 가격 :
               </label>
               <input

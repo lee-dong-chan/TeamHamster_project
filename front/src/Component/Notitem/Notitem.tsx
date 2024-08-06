@@ -1,6 +1,4 @@
-interface IProps {}
-
-const Notitem = ({}: IProps): JSX.Element => {
+const Notitem = (): JSX.Element => {
   return (
     <div>
       <div className="h-[30rem] flex flex-col items-center">

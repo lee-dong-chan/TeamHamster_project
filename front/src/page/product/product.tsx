@@ -1,4 +1,4 @@
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import ButtonComp, { LargeButton } from "../../Component/Button/Button";
 import ProductInfo from "../../Component/Product/Product";
 import { useBreakPoint } from "../../CustomHook/BreakPoint";
@@ -6,7 +6,7 @@ import { Button } from "../../lib/Button/Button";
 import { box, center } from "../../lib/styles";
 import { Modal, Modalproduct } from "../../Context/Modal";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios, { AxiosResponse } from "axios";
 import { IProductPage, IUserDatas } from "../../lib/interFace";
 import { productPageDataErr } from "../../lib/errors";
@@ -22,11 +22,12 @@ export interface IData<T> {
   product: T;
 }
 
+const serverUrl = process.env.REACT_APP_SERVER_URL;
+
 const Product = ({ userdata, mainDataGet }: IProps): JSX.Element => {
-  const serverUrl = process.env.REACT_APP_SERVER_URL;
   const { isdesktop, ismobile } = useBreakPoint();
   const [cookies, setCookie] = useCookies(["Product"]);
-  const [productlog, setproductlog] = useState("");
+  const [, setproductlog] = useState("");
   const { id } = useParams();
   const btn = new Button("구매하기", "bg-orange-200");
   const ModalState = useSetRecoilState(Modal);
@@ -41,7 +42,7 @@ const Product = ({ userdata, mainDataGet }: IProps): JSX.Element => {
     ModalState("buy");
   };
 
-  const getDatas = async () => {
+  const getDatas = useCallback(async () => {
     await axios
       .post(`${serverUrl}/product/${id}`, {}, { withCredentials: true })
       .then((data: AxiosResponse<IData<IProductPage>>) => {
@@ -53,22 +54,25 @@ const Product = ({ userdata, mainDataGet }: IProps): JSX.Element => {
         console.log(err);
         setPropData(productPageDataErr);
       });
-  };
+  }, [id]);
 
-  const handleCookie = (product: string) => {
-    const time = 3600; //1시간
-    const expiration = new Date(Date.now() + time * 1000);
-    setCookie(
-      "Product",
-      {
-        product: product,
-      },
-      {
-        path: "/",
-        expires: expiration,
-      }
-    );
-  };
+  const handleCookie = useCallback(
+    (product: string) => {
+      const time = 3600; //1시간
+      const expiration = new Date(Date.now() + time * 1000);
+      setCookie(
+        "Product",
+        {
+          product: product,
+        },
+        {
+          path: "/",
+          expires: expiration,
+        }
+      );
+    },
+    [setCookie]
+  );
 
   useEffect(() => {
     if (id !== undefined) {
@@ -76,30 +80,63 @@ const Product = ({ userdata, mainDataGet }: IProps): JSX.Element => {
       Modalproductitem(id);
       getDatas();
     }
-    if (cookies.Product == undefined) {
+  }, [getDatas, id, Modalproductitem]);
+
+  useEffect(() => {
+    if (cookies.Product === undefined) {
       if (id !== undefined) {
+        console.log(cookies);
         handleCookie(id);
       }
     } else {
-      handleCookie(cookies.Product.product + "+" + id);
+      console.log("아이디체크", cookies, id);
+
+      if (cookies.Product.product && id) {
+        const a: string[] = cookies.Product.product.split("+");
+        const set: Set<string> = new Set([...a]);
+        const result: string[] = [];
+
+        set.forEach((e) => {
+          result.push(e);
+        });
+
+        console.log(result.indexOf(id));
+        if (result.indexOf(id) !== -1) {
+          return;
+        } else {
+          handleCookie(result.join("+") + "+" + id);
+        }
+      }
     }
-  }, []);
+  }, [handleCookie, id, cookies]);
+
+  console.log("프로덕트 무한 돌기 체크");
 
   return (
     <div>
       <div className={`${box} ${center} relative`}>
         <div>
           {propData && (
-            <ProductInfo mainDataGet={mainDataGet} data={propData} userdata={userdata} />
+            <ProductInfo
+              mainDataGet={mainDataGet}
+              data={propData}
+              userdata={userdata}
+            />
           )}
           <div className={`pt-5 pb-3`}>
             {isdesktop && (
-              <div onClick={report} className="p-2 flex justify-end text-gray-400">
+              <div
+                onClick={report}
+                className="p-2 flex justify-end text-gray-400"
+              >
                 신고하기
               </div>
             )}
             {ismobile && (
-              <div onClick={report} className="p-2 flex justify-end text-gray-400">
+              <div
+                onClick={report}
+                className="p-2 flex justify-end text-gray-400"
+              >
                 신고하기
               </div>
             )}

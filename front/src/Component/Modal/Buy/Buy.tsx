@@ -1,7 +1,6 @@
-import { ChangeEvent, useCallback, useEffect, useState } from "react";
-import { center } from "../../../lib/styles";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import AdressItem from "./UserAdressItem";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { Modal, Modalproduct } from "../../../Context/Modal";
 import ButtonComp from "../../Button/Button";
@@ -44,7 +43,7 @@ const Buy = ({ userDataCheck }: IProps): JSX.Element => {
   const productid = useRecoilState(Modalproduct)[0];
   const [selectcontent, setcontent] = useState<string>();
   const [id, setId] = useState<number>();
-  const serverUrl = process.env.REACT_APP_SERVER_URL;
+  const serverUrl = useMemo(() => process.env.REACT_APP_SERVER_URL, []);
   const [adress, setAdress] = useState<IAdressData[]>([
     { address: "오류", addressId: 999, detailAddress: "디테일주소" },
   ]);
@@ -59,10 +58,11 @@ const Buy = ({ userDataCheck }: IProps): JSX.Element => {
 
   const addadress = useCallback(() => {
     modalstate("addadress");
-  }, []);
+  }, [modalstate]);
 
+  console.log("무한 돌기 체크");
   //유저 주소 정보 가져오기
-  const getUserAddress = async () => {
+  const getUserAddress = useCallback(async () => {
     await axios
       .post(`${serverUrl}/address`, {}, { withCredentials: true })
       .then((data: AxiosResponse<IData>) => {
@@ -94,7 +94,7 @@ const Buy = ({ userDataCheck }: IProps): JSX.Element => {
           { address: "빠킹오류", addressId: 3, detailAddress: "그만떠라" },
         ]);
       });
-  };
+  }, [serverUrl]);
 
   interface IFix<T> {
     product: T;
@@ -105,7 +105,7 @@ const Buy = ({ userDataCheck }: IProps): JSX.Element => {
       cost: number;
     };
   }
-  const getProductValues = async () => {
+  const getProductValues = useCallback(async () => {
     await axios
       .post(`${serverUrl}/product/${productid}`, {}, { withCredentials: true })
       .then(async (data: AxiosResponse<IFix<IProductPage>>) => {
@@ -115,7 +115,7 @@ const Buy = ({ userDataCheck }: IProps): JSX.Element => {
         await axios
           .post(`${serverUrl}/deliverycost`, {}, { withCredentials: true })
           .then((data: AxiosResponse<IDeCosRes>) => {
-            console.log(data, "@@@@@@");
+            console.log(data, "data");
             setDeliveryCost(data.data.cost.cost);
           })
           .catch((err) => {
@@ -126,7 +126,7 @@ const Buy = ({ userDataCheck }: IProps): JSX.Element => {
         console.log("err", err);
         setPrice(10);
       });
-  };
+  }, [serverUrl, productid]);
 
   //구매하기 버튼 클릭
   const buyClick = async () => {
@@ -157,7 +157,7 @@ const Buy = ({ userDataCheck }: IProps): JSX.Element => {
   useEffect(() => {
     getUserAddress();
     getProductValues();
-  }, []);
+  }, [getUserAddress, getProductValues]);
 
   return (
     <div className="flex flex-col items-center">

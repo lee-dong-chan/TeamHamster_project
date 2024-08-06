@@ -1,7 +1,6 @@
-import { useMutation } from "react-query";
 import Info from "../Component/mypage/Info";
 import TodayLog from "../Component/mypage/TodayLog";
-import { center, mobilebox } from "../lib/styles";
+import { mobilebox } from "../lib/styles";
 import { DiGithubAlt } from "react-icons/di";
 import { IUser } from "../lib/layout";
 

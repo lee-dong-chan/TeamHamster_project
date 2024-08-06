@@ -1,8 +1,6 @@
 import { center } from "../../lib/styles";
 
-interface IProps {}
-
-const TodayLog = ({}: IProps): JSX.Element => {
+const TodayLog = (): JSX.Element => {
   return (
     <div>
       <div className="pb-5 flex justify-evenly">

@@ -11,7 +11,11 @@ const Info = ({ workstate, camp, user }: IProps): JSX.Element => {
     <div className="flex justify-between items-center h-[7rem] border">
       <div className="p-2 flex  items-center gap-4">
         <div className="h-[5rem] w-[5rem] rounded-[5rem] border border-gray-400 overflow-hidden">
-          <img src="/imgs/good.png" className="h-[100%] w-[100%]"></img>
+          <img
+            src="/imgs/good.png"
+            alt="imgNotFound"
+            className="h-[100%] w-[100%]"
+          ></img>
         </div>
         <div className="font-bold">
           <div>배송파트너</div>
