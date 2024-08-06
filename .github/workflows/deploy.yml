@@ -28,6 +28,10 @@ jobs:
         working-directory: ./front
         run: npm i
 
+      - name: Generate .env file
+        run: |
+          echo "${{ secrets.FRONT_ENV }}" | sed 's/:/\n/g' > .env
+
       - name: Build Front
         working-directory: ./front
         run: npm run build
@@ -36,20 +40,10 @@ jobs:
         run: |
           ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} '
             rm -rf /var/www/front
-            mkdir /var/www/front'
+            mkdir /var/www/front
+            mkdir /var/www/front/.env'
           rsync -avz -e "ssh" ./front/build/ ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/var/www/front
-           ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} '
-            export NVM_DIR="$HOME/.nvm"
-            if [ -s "$NVM_DIR/nvm.sh" ]; then
-              . "$NVM_DIR/nvm.sh"
-            else 
-              echo "nvm.sh not found"
-              exit 1
-            fi
-
-            nvm use --lts
-            cd /var/www/front
-            ${{ secrets.SERVER_ENV }}'
+          rsync -avz -e "ssh" .env ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/var/www/front/.env
 
       - name: Restart Nginx
         run: ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} 'sudo service nginx restart'
