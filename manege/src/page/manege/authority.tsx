@@ -1,6 +1,5 @@
 import { box, center } from "../../lib/styles";
-import ButtonComp from "../../Component/Button/Button";
-import { Button } from "../../lib/Button/Button";
+
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
@@ -10,6 +9,8 @@ import { IUser } from "../../Component/List/ManegeList/authoritylist/authorityit
 
 import { useSetRecoilState } from "recoil";
 import { Modalcontent, Modalstate } from "../../Context/Modal/Modal";
+import Button from "../../lib/Button/Button";
+import ButtonComp from "../../Component/Button/ButtonClass";
 
 const Authority = (): JSX.Element => {
   const modalvalue = useSetRecoilState(Modalcontent);

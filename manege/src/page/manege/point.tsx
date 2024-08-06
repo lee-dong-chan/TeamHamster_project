@@ -1,11 +1,12 @@
 import { box, center } from "../../lib/styles";
-import { SmallButton } from "../../Component/Button/Button";
-import { Button } from "../../lib/Button/Button";
+
 import { ChangeEvent, useCallback, useState } from "react";
 import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useSetRecoilState } from "recoil";
 import { Modalcontent, Modalstate } from "../../Context/Modal/Modal";
+import Button from "../../lib/Button/Button";
+import { SmallButton } from "../../Component/Button/ButtonClass";
 
 interface IPoint {
   pointPercent: number;

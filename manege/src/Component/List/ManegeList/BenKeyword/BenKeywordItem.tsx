@@ -1,7 +1,7 @@
-import { Button } from "../../../../lib/Button/Button";
-import { TinyButton } from "../../../Button/Button";
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
+import Button from "../../../../lib/Button/Button";
+import { TinyButton } from "../../../Button/ButtonClass";
 
 export interface IKeyword {
   word: string;

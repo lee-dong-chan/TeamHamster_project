@@ -3,7 +3,7 @@ interface IButton {
   getBtnClass(): string;
 }
 
-export class Button implements IButton {
+class Button implements IButton {
   private text: string;
   private btnclass: string;
   constructor(text: string, btnclass: string) {
@@ -17,3 +17,5 @@ export class Button implements IButton {
     return this.btnclass;
   }
 }
+
+export default Button;

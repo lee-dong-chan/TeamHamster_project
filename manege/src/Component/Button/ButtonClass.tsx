@@ -1,4 +1,4 @@
-import { Button } from "../../lib/Button/Button";
+import Button from "../../lib/Button/Button";
 import { center } from "../../lib/styles";
 
 interface IProps {
@@ -7,7 +7,7 @@ interface IProps {
   text?: string;
   height?: string;
 }
-// w-[55rem]
+
 const ButtonComp = ({
   btn,
   width = "w-[20rem]",

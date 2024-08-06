@@ -1,13 +1,14 @@
 import { box, center } from "../../lib/styles";
-import { LargeButton } from "../../Component/Button/Button";
 
 import ManegeCategoryList from "../../Component/Category/ManegeCategory/ManegeCategory";
-import { Button } from "../../lib/Button/Button";
+
 import { ChangeEvent, useCallback, useState } from "react";
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
 import { useSetRecoilState } from "recoil";
 import { Modalcontent, Modalstate } from "../../Context/Modal/Modal";
+import { LargeButton } from "../../Component/Button/ButtonClass";
+import Button from "../../lib/Button/Button";
 
 const ManegeCategory = (): JSX.Element => {
   const setmodalvalue = useSetRecoilState(Modalcontent);

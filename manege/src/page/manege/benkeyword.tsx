@@ -1,8 +1,6 @@
 import { ChangeEvent, useCallback, useState } from "react";
-import { SmallButton } from "../../Component/Button/Button";
 
 import BenKeyWord from "../../Component/List/ManegeList/BenKeyword/Benkeyword";
-import { Button } from "../../lib/Button/Button";
 
 import { box, center } from "../../lib/styles";
 import axios from "axios";
@@ -11,6 +9,8 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { IKeyword } from "../../Component/List/ManegeList/BenKeyword/BenKeywordItem";
 import { useSetRecoilState } from "recoil";
 import { Modalcontent, Modalstate } from "../../Context/Modal/Modal";
+import { SmallButton } from "../../Component/Button/ButtonClass";
+import Button from "../../lib/Button/Button";
 
 export interface IData {
   Keyword: IKeyword[];

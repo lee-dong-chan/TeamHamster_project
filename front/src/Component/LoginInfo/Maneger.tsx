@@ -1,8 +1,7 @@
-import { Link } from "react-router-dom";
 import { Button } from "../../lib/Button/Button";
 import { TinyButton } from "../Button/Button";
 import { IUserDatas } from "../../lib/interFace";
-
+import { Link } from "react-router-dom";
 interface IProps {
   userDatas: IUserDatas;
 }

@@ -1,14 +1,15 @@
 import { box, center } from "../../lib/styles";
-import { SmallButton } from "../../Component/Button/Button";
 
 import Ben from "../../Component/List/ManegeList/User/Ben/Ben";
 import ReportUser from "../../Component/List/ManegeList/User/ReportUser/ReportUser";
-import { Button } from "../../lib/Button/Button";
+
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import axios from "axios";
 import { IReportUser } from "../../Component/List/ManegeList/User/ReportUser/UserItem";
 import { IBenUser } from "../../Component/List/ManegeList/User/Ben/BenItem";
 import { ChangeEvent, useState } from "react";
+import Button from "../../lib/Button/Button";
+import { SmallButton } from "../../Component/Button/ButtonClass";
 
 const ManegeUser = (): JSX.Element => {
   const btn = new Button("검색", "bg-orange-500");

@@ -1,10 +1,11 @@
 import React, { useMemo, useState } from "react";
 import axios from "axios";
 import { box, center } from "../../lib/styles";
-import { LargeButton } from "../../Component/Button/Button";
-import { Button } from "../../lib/Button/Button";
+
 import { useSetRecoilState } from "recoil";
 import { Modalcontent, Modalstate } from "../../Context/Modal/Modal";
+import { LargeButton } from "../../Component/Button/ButtonClass";
+import Button from "../../lib/Button/Button";
 
 interface IProps {
   setUserLogin: React.Dispatch<React.SetStateAction<boolean>>;

@@ -1,10 +1,10 @@
 import axios from "axios";
-import { Button } from "../../../../../lib/Button/Button";
-import { TinyButton } from "../../../../Button/Button";
 
 import { useMutation, useQueryClient } from "react-query";
 import { useSetRecoilState } from "recoil";
 import { Modalcontent, Modalstate } from "../../../../../Context/Modal/Modal";
+import Button from "../../../../../lib/Button/Button";
+import { TinyButton } from "../../../../Button/ButtonClass";
 
 export interface IBenUser {
   id: number;
