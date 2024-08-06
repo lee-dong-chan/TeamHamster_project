@@ -1,5 +1,4 @@
-import Category from "../Component/Category/Category";
-import { IProductPage, IUserDatas } from "./interFace";
+import { IProductPage } from "./interFace";
 
 export const errCateFirstData = {
   category: [

@@ -72,7 +72,7 @@ const ReviewWrite = ({ id, img }: IProps): JSX.Element => {
           <img
             src={`${imgbase}${img}`}
             alt="Product img"
-            className="bg-cover"
+            className="bg-cover pointer-events-none"
           />
         </div>
         {/* 별 */}

@@ -23,11 +23,13 @@ const Observer = ({ func, funcValue }: IProps): JSX.Element => {
       },
       { threshold: 0.1 }
     );
-  }, []);
+  }, [func, funcValue]);
 
   useEffect(() => {
     if (observerElem.current) observer.observe(observerElem.current);
-  }, [observerElem.current]);
+  }, [observerElem, observer]);
+
+  console.log("무한 돌기 체크");
 
   return <div ref={observerElem} className={`p-3`}></div>;
 };

@@ -1,10 +1,11 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Intro from "./Intro/Intro";
 import Content from "./Intro/content";
-import { box, center } from "../../lib/styles";
+import { box, center, mobilebox } from "../../lib/styles";
 import { IMyStoreRes } from "../../lib/interFace";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
+import { useBreakPoint } from "../../CustomHook/BreakPoint";
 
 const serverUrl = process.env.REACT_APP_SERVER_URL;
 
@@ -22,9 +23,9 @@ const MyStore = ({
   value,
   setvalue,
   isReview,
-  setIsReview,
   valueChanger,
 }: IProps): JSX.Element => {
+  const { isdesktop, ismobile } = useBreakPoint();
   const [storeName, setStoreName] = useState<string>("오류따봉스터");
   const [storePoint, setStorePoint] = useState<number>(0);
   const [storeIntro, setStoreIntro] = useState<string>(
@@ -34,11 +35,11 @@ const MyStore = ({
   const [storePFImg, setStorePFImg] = useState<string>("good.png");
   const [sellCount, setSellCount] = useState<number>(0);
   const [loginCheck, setLoginCheck] = useState<boolean>(false);
-  const [reCheck, setReCheck] = useState<boolean>(false);
+  const [reCheck] = useState<boolean>(false);
 
   const loca = useLocation();
 
-  const getPageValues = async () => {
+  const getPageValues = useCallback(async () => {
     const serverCall = serverUrl + "/mystore" + loca.search;
     await axios
       .post(serverCall, {}, { withCredentials: true })
@@ -56,7 +57,7 @@ const MyStore = ({
         setStoreName("앙 에러띠");
         setStoreStar(3.5);
       });
-  };
+  }, [loca]);
 
   const intro = useMemo(() => {
     return {
@@ -84,14 +85,16 @@ const MyStore = ({
   //mount
   useEffect(() => {
     getPageValues();
-  }, [userlogin, reCheck]);
+  }, [userlogin, reCheck, getPageValues]);
 
-  useEffect(() => {
-    getPageValues();
-  }, []);
+  console.log("마이스토어 무한돌기 체크");
 
   return (
-    <div className={`${box} ${center} flex-wrap mt-10 `}>
+    <div
+      className={`${isdesktop && `${box} ${center} flex-wrap mt-10`} ${
+        ismobile && `${mobilebox} ${center} flex-wrap mt-10`
+      }`}
+    >
       <Intro intro={intro} getPageValues={getPageValues}></Intro>
 
       <Content

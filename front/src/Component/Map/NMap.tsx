@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useLayoutEffect } from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
 import axios, { AxiosResponse } from "axios";
 import { center } from "../../lib/styles";
 
@@ -51,7 +51,7 @@ const NMap = ({ id }: IProps): JSX.Element => {
       spotY: number;
     };
   }
-  const getRiderLatLng = async () => {
+  const getRiderLatLng = useCallback(async () => {
     await axios
       .post(`${serverUrl}/GpsRiderGet/${id}`, {}, { withCredentials: true })
       .then((data: AxiosResponse<IXY>) => {
@@ -72,12 +72,12 @@ const NMap = ({ id }: IProps): JSX.Element => {
         //유저와 라이더의 위치
         setRiderPosition(new naver.maps.LatLng(37.5387539, 127.1225123));
       });
-  };
+  }, [serverUrl, id]);
 
   interface IUserAddRes {
     PurchaseAddress: string;
   }
-  const getUserAddress = async () => {
+  const getUserAddress = useCallback(async () => {
     await axios
       .post(`${serverUrl}/GpsUserGet/${id}`, {}, { withCredentials: true })
       .then((data: AxiosResponse<IUserAddRes>) => {
@@ -88,7 +88,7 @@ const NMap = ({ id }: IProps): JSX.Element => {
         console.error("유저 어드레스 실패");
         userPositionSet("서울특별시 강남구 테헤란로 152");
       });
-  };
+  }, [id, serverUrl]);
   //
 
   //userMaker
@@ -107,7 +107,7 @@ const NMap = ({ id }: IProps): JSX.Element => {
         })
       );
     }
-  }, [userPosition]);
+  }, [userPosition, map]);
 
   //riderMaker
   useEffect(() => {
@@ -129,7 +129,7 @@ const NMap = ({ id }: IProps): JSX.Element => {
         riderMarker.setPosition(new naver.maps.LatLng(riderPosition));
       }
     }
-  }, [riderPosition]);
+  }, [riderPosition, map, riderMarker]);
 
   //boundposition
   useEffect(() => {
@@ -139,7 +139,7 @@ const NMap = ({ id }: IProps): JSX.Element => {
         new naver.maps.LatLngBounds(riderPosition, userPosition)
       );
     }
-  }, [userPosition, riderPosition]);
+  }, [userPosition, riderPosition, map]);
 
   //bunding
   useEffect(() => {
@@ -147,21 +147,23 @@ const NMap = ({ id }: IProps): JSX.Element => {
       console.log("bounding");
       map.fitBounds(boundPosition);
     }
-  }, [boundPosition]);
+  }, [boundPosition, map]);
 
   //mount
   useEffect(() => {
-    if (mapRef.current && naver) {
-      getUserAddress();
-      getRiderLatLng();
+    if (!map) {
+      if (mapRef.current && naver) {
+        getUserAddress();
+        getRiderLatLng();
 
-      //map set
-      setMap(
-        new naver.maps.Map(mapRef.current, {
-          mapTypeId: naver.maps.MapTypeId.NORMAL,
-          zoom: 6, // 지도 확대 정도
-        })
-      );
+        //map set
+        setMap(
+          new naver.maps.Map(mapRef.current, {
+            mapTypeId: naver.maps.MapTypeId.NORMAL,
+            zoom: 6, // 지도 확대 정도
+          })
+        );
+      }
     }
     // 클린업 함수 추가
     return () => {
@@ -171,12 +173,14 @@ const NMap = ({ id }: IProps): JSX.Element => {
         map.destroy();
       }
     };
-  }, []);
+  }, [map, getUserAddress, getRiderLatLng]);
+
+  console.log("무한 돌기 체크321");
 
   //naverMap으로 바뀐 mapRef을 ref로 참조하여 리턴
   return (
     <div className={`h-[740px] w-[500px] ${center}`}>
-      <div ref={mapRef} className="w-[100%] h-[100%] flex"></div>;
+      <div ref={mapRef} className="w-[100%] h-[100%] flex"></div>
     </div>
   );
 };

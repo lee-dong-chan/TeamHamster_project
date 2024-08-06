@@ -1,4 +1,4 @@
-import { UseMutationResult } from "react-query";
+import { useCallback } from "react";
 import { ICLick } from "./ManegeCategory";
 
 export interface ICate {
@@ -23,7 +23,7 @@ const CateItem = ({
   setselectcate1,
   setselectcate2,
 }: IProps): JSX.Element => {
-  const select = () => {
+  const select = useCallback(() => {
     if (setselectcate1) {
       setcate({ id: item.id, name: item.name });
       setselectcate1(item.id);
@@ -31,7 +31,7 @@ const CateItem = ({
       setcate({ id: item.id, name: item.name });
       setselectcate2(item.id);
     }
-  };
+  }, [item, setcate, setselectcate2, setselectcate1]);
 
   return (
     <div>
@@ -40,8 +40,8 @@ const CateItem = ({
           select();
         }}
         className={`py-3 flex items-center hover:bg-gray-200 visited:bg-gray-200 ${
-          (cate1 == item.id && "bg-gray-200") ||
-          (cate2 == item.id && "bg-gray-200")
+          (cate1 === item.id && "bg-gray-200") ||
+          (cate2 === item.id && "bg-gray-200")
         }`}
       >
         <div className=" me-2 w-6 rounded  text-center">{item.id}</div>

@@ -4,27 +4,13 @@ import { Button } from "../lib/Button/Button";
 import { mobilebox } from "../lib/styles";
 
 import { List } from "../Component/List/List";
-import { ChangeEvent, useEffect, useMemo, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { PickCheck } from "../Component/List/item/Item";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import axios from "axios";
 import { useSetRecoilState } from "recoil";
 import { Modalcontent, Modalstate } from "../Context/Modal/Modal";
 
-interface IData {
-  product: [
-    {
-      id: number;
-      itemState: string;
-      SellAddress: {
-        detailAddress: string;
-        Address: {
-          address: string;
-        };
-      };
-    }
-  ];
-}
 interface IProduct {
   id: number;
   itemState: string;
@@ -51,13 +37,10 @@ const PickupCheck = ({ liststate, checklist }: IProps): JSX.Element => {
   };
   const [isMounted, SetIsMounted] = useState(false);
   const [pickitems, SetPickItems] = useState<string[]>([]);
-  const test1: PickCheck[] = [
-    { id: 1, pickadress: "어디지", campadress: "배송중" },
-    { id: 2, pickadress: "어디지", campadress: "배송중" },
-  ];
-  const queryClient = useQueryClient();
 
-  const { data } = useQuery({
+  useQueryClient();
+
+  useQuery({
     queryKey: "pickup",
     queryFn: async () => {
       const { data } = await axios.post(
@@ -80,8 +63,6 @@ const PickupCheck = ({ liststate, checklist }: IProps): JSX.Element => {
     },
   });
 
-  console.log(data);
-
   const selectpick = useMutation({
     mutationKey: ["selectpick"],
     mutationFn: async () => {
@@ -91,7 +72,7 @@ const PickupCheck = ({ liststate, checklist }: IProps): JSX.Element => {
         { withCredentials: true }
       );
     },
-    onSuccess(data) {
+    onSuccess() {
       setModalcontent("sucesspick");
       setsystemonoff(true);
     },
@@ -102,9 +83,10 @@ const PickupCheck = ({ liststate, checklist }: IProps): JSX.Element => {
   });
 
   const cookiedata = () => {
+    console.log(pickitems);
     let str = pickitems[0];
     for (let i = 0; i < pickitems.length - 1; i++) {
-      str += "," + pickitems[i + 1];
+      str += " " + pickitems[i + 1];
     }
 
     return str;
@@ -112,18 +94,17 @@ const PickupCheck = ({ liststate, checklist }: IProps): JSX.Element => {
 
   useEffect(() => {
     checklist(1);
-  }, []);
+  }, [checklist]);
+
   useEffect(() => {
     if (isMounted) {
-      SetPickItems(
-        [...pickitems, checkbox].filter(
-          (item, idx) => [...pickitems, checkbox].indexOf(item) === idx
-        )
-      );
+      SetPickItems((items) => {
+        return [...items, checkbox];
+      });
     } else {
       SetIsMounted(true);
     }
-  }, [checkbox]);
+  }, [checkbox, isMounted]);
 
   const btn = new Button("확인", "bg-blue-200");
   return (

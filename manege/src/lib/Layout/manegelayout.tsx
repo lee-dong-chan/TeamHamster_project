@@ -1,11 +1,4 @@
-import {
-  Link,
-  Route,
-  Routes,
-  useLocation,
-  useNavigate,
-  useParams,
-} from "react-router-dom";
+import { Link, Route, Routes, useParams } from "react-router-dom";
 import ManegeReport from "../../page/manege/report";
 import ManegeCategory from "../../page/manege/category";
 import ManegeBenKeyword from "../../page/manege/benkeyword";
@@ -14,13 +7,12 @@ import ManegePoint from "../../page/manege/point";
 import ManegeDeliveryTip from "../../page/manege/deliverytip";
 import ManegePageCategory from "../../Component/Category/ManegePageCategory";
 
-import { TinyButton } from "../../Component/Button/Button";
 import { box, center } from "../styles";
-import { Button } from "../Button/Button";
+
 import Authority from "../../page/manege/authority";
-import LoginPage from "../../page/manege/adminlogin";
+
 import AdminLoginPage from "../../page/manege/adminlogin";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import axios from "axios";
 import ModalBox from "../../Component/Modal/Modalbox/ModalBox";
@@ -35,12 +27,10 @@ interface IUser {
   delivery: boolean;
 }
 
-interface IProps {}
-
-const ManegeLayout = ({}: IProps): JSX.Element => {
+const ManegeLayout = (): JSX.Element => {
   const Modal = useRecoilValue(Modalstate);
-  const [userlogin, setUserLogin] = useState<boolean>(false);
-  const queryClient = useQueryClient();
+  const setUserLogin = useState<boolean>(false)[1];
+  useQueryClient();
 
   const onclick = () => {
     window.location.replace("http://localhost:3000/");
@@ -52,7 +42,7 @@ const ManegeLayout = ({}: IProps): JSX.Element => {
   };
 
   const serverUrl = process.env.REACT_APP_SERVER_URL;
-  const logcheck = useMutation({
+  const { data, mutate } = useMutation({
     mutationKey: "userlogin",
     mutationFn: async () => {
       const { data } = await axios.post(
@@ -71,11 +61,12 @@ const ManegeLayout = ({}: IProps): JSX.Element => {
     },
   });
 
-  const log: IUser = logcheck.data?.login;
+  const log: IUser = useMemo(() => data?.login, [data]);
+
   const { id } = useParams();
   useEffect(() => {
-    logcheck.mutate();
-  }, [id]);
+    mutate();
+  }, [id, mutate]);
 
   return (
     <div>
@@ -83,7 +74,11 @@ const ManegeLayout = ({}: IProps): JSX.Element => {
         <div className="p-1 h-[6rem] bg-orange-600">
           <div className={`${box} h-[100%] flex justify-between items-center `}>
             <div className={`${center}`}>
-              <img src="/imgs/hamster.png" className="h-[4rem]"></img>
+              <img
+                src="/imgs/hamster.png"
+                alt="imgNotFound"
+                className="h-[4rem]"
+              ></img>
               {log?.admin ? (
                 <Link to={"/manege/report"}>
                   <div>
@@ -108,7 +103,11 @@ const ManegeLayout = ({}: IProps): JSX.Element => {
             </div>
             <div className={`${center} gap-3`}>
               <div className="h-[3rem] w-[3rem]">
-                <img className="h-[100%]" src="/imgs/good.png"></img>
+                <img
+                  className="h-[100%]"
+                  alt="imgNotFound"
+                  src="/imgs/good.png"
+                ></img>
               </div>
               <div
                 className={`text-white ${log?.nick ? "w-[7rem]" : "w-[2rem]"} `}
@@ -164,15 +163,15 @@ const ManegeLayout = ({}: IProps): JSX.Element => {
         <div className="border border-t border-b">
           <div className={`${box} ${center} py-[1rem]text-gray-400 `}>
             <div>팀이름</div>
-            <div className="mx-[1.5rem] h-[1rem] border border-[1px] border-gray-200 "></div>
+            <div className="mx-[1.5rem] h-[1rem] border-[1px] border-gray-200 "></div>
             <div>프로젝트 이름</div>
-            <div className="mx-[1.5rem] h-[1rem] border border-[1px] border-gray-200 "></div>
+            <div className="mx-[1.5rem] h-[1rem] border-[1px] border-gray-200 "></div>
 
             <div>팀원명단</div>
-            <div className="mx-[1.5rem] h-[1rem] border border-[1px] border-gray-200 "></div>
+            <div className="mx-[1.5rem] h-[1rem] border-[1px] border-gray-200 "></div>
 
             <div>담당영역</div>
-            <div className="mx-[1.5rem] h-[1rem] border border-[1px] border-gray-200 "></div>
+            <div className="mx-[1.5rem] h-[1rem] border-[1px] border-gray-200 "></div>
 
             <div>깃주소</div>
           </div>

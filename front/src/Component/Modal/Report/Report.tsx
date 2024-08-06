@@ -4,16 +4,14 @@ import ButtonComp from "../../Button/Button";
 import Radioitem from "./RadioItem";
 import { Modal, Modalproduct } from "../../../Context/Modal";
 import { useBreakPoint } from "../../../CustomHook/BreakPoint";
-import { ChangeEvent, useCallback, useEffect, useState } from "react";
+import { ChangeEvent, useCallback, useMemo, useState } from "react";
 import axios from "axios";
 
-interface IProps {}
-
-const Report = ({}: IProps): JSX.Element => {
+const Report = (): JSX.Element => {
   const [select, setselect] = useState<string>();
   const [check, setCheck] = useState<boolean>(false);
 
-  const serverUrl = process.env.REACT_APP_SERVER_URL;
+  const serverUrl = useMemo(() => process.env.REACT_APP_SERVER_URL, []);
 
   const selectinput = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setselect(e.target.value);

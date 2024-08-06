@@ -6,9 +6,7 @@ import { Modal } from "../../../Context/Modal";
 import { useSetRecoilState } from "recoil";
 import axios from "axios";
 
-interface IProps {}
-
-const Addaddress = ({}: IProps): JSX.Element => {
+const Addaddress = (): JSX.Element => {
   const nameReg = /^[가-힣]{2,4}$/;
   const phoneReg = /^\d{2,3}-\d{3,4}-\d{4}$/;
 

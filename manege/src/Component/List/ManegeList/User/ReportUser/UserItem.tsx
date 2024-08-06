@@ -1,9 +1,8 @@
-import { useCallback } from "react";
 import { Button } from "../../../../../lib/Button/Button";
 import { TinyButton } from "../../../../Button/Button";
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { Modalcontent, Modalstate } from "../../../../../Context/Modal/Modal";
 
 export interface IReportUser {

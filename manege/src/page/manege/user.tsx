@@ -8,11 +8,9 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import axios from "axios";
 import { IReportUser } from "../../Component/List/ManegeList/User/ReportUser/UserItem";
 import { IBenUser } from "../../Component/List/ManegeList/User/Ben/BenItem";
-import { ChangeEvent, useCallback, useState } from "react";
+import { ChangeEvent, useState } from "react";
 
-interface IProps {}
-
-const ManegeUser = ({}: IProps): JSX.Element => {
+const ManegeUser = (): JSX.Element => {
   const btn = new Button("검색", "bg-orange-500");
   const [search, setsearch] = useState<string>("");
 
@@ -46,7 +44,7 @@ const ManegeUser = ({}: IProps): JSX.Element => {
     },
   });
 
-  const queryClient = useQueryClient();
+  useQueryClient();
 
   const searchlist = useMutation({
     mutationKey: ["searchben"],

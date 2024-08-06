@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import ButtonComp, { LargeButton } from "../Component/Button/Button";
+import ButtonComp from "../Component/Button/Button";
 import { Button } from "../lib/Button/Button";
-import { center, mobilebox } from "../lib/styles";
+import { mobilebox } from "../lib/styles";
 
 import Scan from "../Component/Scan/Scan";
 import { ChangeEvent, useState } from "react";

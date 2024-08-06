@@ -1,6 +1,5 @@
-import { useState, ChangeEvent, useEffect } from "react";
+import { useState, ChangeEvent } from "react";
 import { IIntro } from "../../../lib/interFace";
-import { getClip } from "../../../lib/func";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Star from "../../../Component/Star/Star";

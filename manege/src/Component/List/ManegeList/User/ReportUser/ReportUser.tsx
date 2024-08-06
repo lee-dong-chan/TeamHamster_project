@@ -1,6 +1,4 @@
-import { useQuery } from "react-query";
 import Item, { IReportUser } from "./UserItem";
-import axios from "axios";
 
 interface IProps {
   data?: IReportUser[];

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useBreakPoint } from "../../CustomHook/BreakPoint";
 import { center } from "../../lib/styles";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { Modal } from "../../Context/Modal";
 import axios from "axios";
 import { IUserDatas } from "../../lib/interFace";
@@ -20,7 +20,7 @@ const Login = ({ setUserLogin, userDatas }: IProps): JSX.Element => {
   const serverUrl = process.env.REACT_APP_SERVER_URL;
   const setModal = useSetRecoilState(Modal);
 
-  const { admin, delivery, id, nick, point } = userDatas.login
+  const { id, nick, point } = userDatas.login
     ? userDatas.login
     : errUserDatas.login;
 
@@ -68,7 +68,11 @@ const Login = ({ setUserLogin, userDatas }: IProps): JSX.Element => {
             className="h-[3rem] w-[3rem] border rounded-]"
             onClick={opensearch}
           >
-            <img className="h-[100%]" src="/imgs/listsearch.png"></img>
+            <img
+              className="h-[100%]"
+              src="/imgs/listsearch.png"
+              alt="listseatch"
+            ></img>
           </div>
         </div>
       )}

@@ -7,7 +7,7 @@ interface IProps {
 
 const Camp = ({ camplist, changeselect }: IProps): JSX.Element => {
   return (
-    <div className="flex grid grid-cols-2">
+    <div className="grid grid-cols-2">
       {camplist.map((item: string, idx) => (
         <Item key={idx} item={item} changeselect={changeselect} />
       ))}

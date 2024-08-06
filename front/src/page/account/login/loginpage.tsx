@@ -17,7 +17,7 @@ interface IProps {
 const LoginPage = ({ setUserLogin }: IProps): JSX.Element => {
   const setsystemonoff = useSetRecoilState(Modalstate);
   const setModalcontent = useSetRecoilState(Modalcontent);
-  const { isdesktop, ismobile } = useBreakPoint();
+  const { ismobile } = useBreakPoint();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginCheck, setLoginCheck] = useState(false); // 로그인 상태 체크
@@ -87,7 +87,7 @@ const LoginPage = ({ setUserLogin }: IProps): JSX.Element => {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="이메일주소"
               />
-              {email !== "" && emailReg.test(email) == false && (
+              {email !== "" && emailReg.test(email) === false && (
                 <div className="text-red-500">
                   이메일 형식에 맞추어 입력해 주세요
                 </div>
@@ -103,7 +103,7 @@ const LoginPage = ({ setUserLogin }: IProps): JSX.Element => {
                 placeholder="비밀번호"
               />
               {password !== "" &&
-                pwReg.test(password) == false &&
+                pwReg.test(password) === false &&
                 (password.length < 8 || password.length > 30 ? (
                   <div className="text-red-500">
                     "비밀번호는 8글자 이상, 30글자 이하로 작성하세요"

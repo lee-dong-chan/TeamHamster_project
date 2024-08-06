@@ -1,10 +1,4 @@
-import React, {
-  ChangeEvent,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { ChangeEvent, useCallback, useMemo, useState } from "react";
 
 import axios from "axios"; // Axios import 추가
 import LargeButton from "../../../Component/Button/Button";
@@ -16,9 +10,7 @@ import { useSetRecoilState } from "recoil";
 import { Modalcontent, Modalstate } from "../../../Context/SystemModal/Modal";
 import { useNavigate } from "react-router-dom";
 
-interface IProps {}
-
-const FindPW = ({}: IProps): JSX.Element => {
+const FindPW = (): JSX.Element => {
   const setsystemonoff = useSetRecoilState(Modalstate);
   const setModalcontent = useSetRecoilState(Modalcontent);
   const { ismobile, isdesktop } = useBreakPoint();
@@ -71,11 +63,11 @@ const FindPW = ({}: IProps): JSX.Element => {
       );
       return data;
     },
-    onSuccess(data) {
+    onSuccess() {
       setsystemonoff(true);
       setModalcontent("changesucsess");
     },
-    onError(error) {
+    onError() {
       setsystemonoff(true);
       setModalcontent("changefail");
     },
@@ -107,7 +99,7 @@ const FindPW = ({}: IProps): JSX.Element => {
                 onChange={(e) => setUserId(e.target.value)}
               />
             </div>
-            {userId !== "" && emailReg.test(userId) == false && (
+            {userId !== "" && emailReg.test(userId) === false && (
               <div className="text-red-500">
                 이메일 형식에 맞추어 입력해 주세요
               </div>
@@ -131,13 +123,14 @@ const FindPW = ({}: IProps): JSX.Element => {
               />
             </div>
 
-            {response.data?.result == "ok" && (
+            {response.data?.result === "ok" && (
               <div className="my-[6rem] flex items-center gap-3">
                 <div className="text-[1.5rem]">비밀번호 변경:</div>
                 <input
                   className=" p-2 flex-1 border"
                   placeholder="변경할 비밀번호"
                   onChange={change}
+                  type="password"
                 ></input>
 
                 <div

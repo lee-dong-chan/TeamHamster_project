@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Category, Product, sequelize } from "../../../models";
+import { Category, Product } from "../../../models";
 
 export default async (req: Request, res: Response) => {
   try {

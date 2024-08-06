@@ -18,7 +18,11 @@ const User = ({ user }: IProps): JSX.Element => {
     <div className="pb-3 flex justify-between items-center border-b">
       <div className="py-5 flex items-center gap-5">
         <div>
-          <img className="h-[5rem] border rounded-[5rem]" src={`${serverURL}${user.img}`}></img>
+          <img
+            className="h-[5rem] border rounded-[5rem] pointer-events-none"
+            src={`${serverURL}${user.img}`}
+            alt="userimage"
+          ></img>
         </div>
         <div>
           <div className="text-[1.1rem] font-bold">{user.name}</div>

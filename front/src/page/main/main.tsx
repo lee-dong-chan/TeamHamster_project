@@ -1,15 +1,12 @@
 import SearchComp from "../../Component/Search/SearchComp";
 import List from "../../Component/List/List";
-import { List as ListData } from "../../lib/list";
 import { useBreakPoint } from "../../CustomHook/BreakPoint";
 import { box, mobilebox } from "../../lib/styles";
 
 import { useEffect, useMemo, useState } from "react";
 import { useCookies } from "react-cookie";
 import axios from "axios";
-import Observer from "../../Component/Observer/Observer";
 import { useMutation } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
 import { IList } from "../../Component/List/ListItem";
 
 interface IProps {
@@ -40,7 +37,7 @@ const Main = ({
 }: IProps): JSX.Element => {
   const [cookies] = useCookies(["Product"]);
   const { ismobile, isdesktop } = useBreakPoint();
-  const [recent, setrecent] = useState<IList[]>([]);
+  const setrecent = useState<IList[]>([])[1];
 
   // console.log(cookies);
 
@@ -50,12 +47,12 @@ const Main = ({
 
       const recentproduct = products
         .split("+")
-        .filter((item: string) => item != "")
+        .filter((item: string) => item !== "")
         .filter((item: String, idx: number) => {
           return (
             products
               .split("+")
-              .filter((item: string) => item != "")
+              .filter((item: string) => item !== "")
               .indexOf(item) === idx
           );
         });
@@ -64,9 +61,9 @@ const Main = ({
       });
       return data;
     }
-  }, []);
+  }, [cookies]);
 
-  const getrecent = useMutation({
+  const { data, mutate } = useMutation({
     mutationKey: ["recentitems"],
     mutationFn: async () => {
       const { data } = await axios.post(
@@ -100,24 +97,30 @@ const Main = ({
 
   useEffect(() => {
     mainDataGet(idxValue);
-    // console.log("?");
-  }, []);
+  }, [mainDataGet, idxValue]);
 
   useEffect(() => {
     if (procookie) {
-      getrecent.mutate();
-      setrecent(getrecent.data);
+      mutate();
     }
-  }, [procookie]);
+  }, [procookie, mutate]);
+
+  useEffect(() => {
+    if (procookie) {
+      setrecent(data);
+    }
+  }, [procookie, data, setrecent]);
+
+  console.log("메인 무한 돌기 체크");
 
   return (
     <div>
       {isdesktop && <SearchComp />}
       <div className={`${isdesktop && `${box}`} ${ismobile && mobilebox}`}>
-        {getrecent?.data && (
+        {data && (
           <div>
             <div className="p-[2rem] text-[1.7rem] font-bold">최근 본 상품</div>
-            <List list={getrecent.data} />
+            <List list={data} />
           </div>
         )}
         <div>

@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Button } from "../../lib/Button/Button";
 import { TinyButton } from "../Button/Button";
 import { IUserDatas } from "../../lib/interFace";
@@ -8,7 +8,6 @@ interface IProps {
 }
 
 const Maneger = ({ userDatas }: IProps): JSX.Element => {
-  const navigate = useNavigate();
   const manege = () => {
     window.location.replace("http://localhost:8000/manege/report");
   };

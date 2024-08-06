@@ -21,6 +21,7 @@ const CategoryItem = ({ item }: IProps): JSX.Element => {
           <img
             className="h-[100%]"
             src={`/imgs/category/category${item.id}.png`}
+            alt="item"
           ></img>
         </div>
         <div>{item.name}</div>

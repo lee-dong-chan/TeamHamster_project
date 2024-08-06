@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import ButtonComp, { LargeButton } from "../Component/Button/Button";
+import ButtonComp from "../Component/Button/Button";
 import { Button } from "../lib/Button/Button";
-import { center, mobilebox } from "../lib/styles";
+import { mobilebox } from "../lib/styles";
 import Camp from "../Component/Camp/Camp";
 import { useEffect, useState } from "react";
 import { useSetRecoilState } from "recoil";

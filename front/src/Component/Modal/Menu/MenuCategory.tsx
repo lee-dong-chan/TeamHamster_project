@@ -5,11 +5,9 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { errCateFirstData } from "../../../lib/errors";
 
-interface IProps {}
-
-const MenuCategory = ({}: IProps): JSX.Element => {
+const MenuCategory = (): JSX.Element => {
   const [cateCount, setCateCount] = useState(0);
-  const serverUrl = process.env.REACT_APP_SERVER_URL;
+  const serverUrl = useMemo(() => process.env.REACT_APP_SERVER_URL, []);
 
   const setCatePage = useCallback((num: number) => {
     setCateCount(num);
@@ -17,7 +15,7 @@ const MenuCategory = ({}: IProps): JSX.Element => {
 
   const [cateData, setData] = useState<ICates<ICate>>({ category: [] });
 
-  const cateGet = async () => {
+  const cateGet = useCallback(async () => {
     await axios
       .post(`${serverUrl}/catefirst`, {}, { withCredentials: true })
       .then((data: AxiosResponse<ICates<ICate>>) => {
@@ -28,7 +26,7 @@ const MenuCategory = ({}: IProps): JSX.Element => {
         console.log("cateGet err", err);
         setData(errCateFirstData);
       });
-  };
+  }, [serverUrl]);
 
   const btns = useMemo(() => {
     const temp = [];
@@ -38,7 +36,7 @@ const MenuCategory = ({}: IProps): JSX.Element => {
 
   useEffect(() => {
     cateGet();
-  }, []);
+  }, [cateGet]);
 
   return (
     <div>
@@ -58,7 +56,7 @@ const MenuCategory = ({}: IProps): JSX.Element => {
             <div
               key={idx}
               className={`h-4 ${
-                idx == cateCount
+                idx === cateCount
                   ? "w-7 rounded bg-orange-600"
                   : "w-4 rounded bg-orange-400"
               }`}

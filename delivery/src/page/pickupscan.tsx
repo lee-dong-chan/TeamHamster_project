@@ -10,13 +10,14 @@ import { Debounce } from "../Costomhook/Debounce";
 import { useSetRecoilState } from "recoil";
 import { Modalcontent, Modalstate } from "../Context/Modal/Modal";
 
-const PickupScan = ({}): JSX.Element => {
+const PickupScan = (): JSX.Element => {
   const setsystemonoff = useSetRecoilState(Modalstate);
   const setModalcontent = useSetRecoilState(Modalcontent);
   const [pickitem, SetPickItem] = useState<string>("");
   const changeitem = (e: ChangeEvent<HTMLInputElement>) => {
     SetPickItem(e.target.value);
   };
+  useQueryClient();
 
   const item = Debounce(pickitem, 200);
 

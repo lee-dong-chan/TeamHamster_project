@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { Category, Product } from "../../../models";
-import { JSON, Op } from "sequelize";
-import { formToJSON } from "axios";
+import { Op } from "sequelize";
 
 export default async (req: Request, res: Response) => {
   try {

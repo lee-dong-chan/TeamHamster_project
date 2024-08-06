@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
-import { box, center } from "../lib/styles";
+
+import { box } from "../lib/styles";
 import { LargeButton } from "../Component/Button/Button";
 import { Button } from "../lib/Button/Button";
 import { Modalcontent, Modalstate } from "../Context/Modal/Modal";
@@ -20,8 +20,6 @@ const DeliveryLoginPage = ({ setUserLogin }: IProps): JSX.Element => {
   const [loginCheck, setLoginCheck] = useState(false); // 로그인 상태 체크
 
   const serverUrl = process.env.REACT_APP_SERVER_URL;
-
-  const navigate = useNavigate();
 
   const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -85,7 +83,7 @@ const DeliveryLoginPage = ({ setUserLogin }: IProps): JSX.Element => {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="이메일주소"
               />
-              {email !== "" && emailReg.test(email) == false && (
+              {email !== "" && emailReg.test(email) === false && (
                 <div className="text-red-500">
                   이메일 형식에 맞추어 입력해 주세요
                 </div>
@@ -101,7 +99,7 @@ const DeliveryLoginPage = ({ setUserLogin }: IProps): JSX.Element => {
                 placeholder="비밀번호"
               />
               {password !== "" &&
-                pwReg.test(password) == false &&
+                pwReg.test(password) === false &&
                 (password.length < 8 || password.length > 30 ? (
                   <div className="text-red-500">
                     "비밀번호는 8글자 이상, 30글자 이하로 작성하세요"

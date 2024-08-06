@@ -1,4 +1,4 @@
-import { Request, Response, query } from "express";
+import { Request, Response } from "express";
 import { Store, User } from "../../models";
 
 export default async (req: Request, res: Response) => {

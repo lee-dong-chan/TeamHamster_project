@@ -1,11 +1,11 @@
-import { ChangeEvent, useCallback, useEffect, useState } from "react";
+import { ChangeEvent, useCallback, useState } from "react";
 import { SmallButton } from "../../Component/Button/Button";
 
 import BenKeyWord from "../../Component/List/ManegeList/BenKeyword/Benkeyword";
 import { Button } from "../../lib/Button/Button";
 
 import { box, center } from "../../lib/styles";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { IKeyword } from "../../Component/List/ManegeList/BenKeyword/BenKeywordItem";
@@ -16,9 +16,7 @@ export interface IData {
   Keyword: IKeyword[];
 }
 
-interface IProps {}
-
-const ManegeBenKeyword = ({}: IProps): JSX.Element => {
+const ManegeBenKeyword = (): JSX.Element => {
   const setmodalvalue = useSetRecoilState(Modalcontent);
   const setmodlastate = useSetRecoilState(Modalstate);
   const btn = new Button("추가", "bg-orange-500");
@@ -46,7 +44,7 @@ const ManegeBenKeyword = ({}: IProps): JSX.Element => {
     },
   });
 
-  const Keywordlist = useQuery({
+  useQuery({
     queryKey: ["benlist"],
     queryFn: async () => {
       const { data } = await axios.post(

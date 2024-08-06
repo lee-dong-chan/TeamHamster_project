@@ -1,5 +1,5 @@
-import { useEffect, useLayoutEffect, useState } from "react";
-import { rowfont, center, outborder, nanoBtn } from "../../../../lib/styles";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { center } from "../../../../lib/styles";
 import SellContent from "./sellContents";
 import { IProduct, IProductRes } from "../../../../lib/interFace";
 import Count from "../../../../Component/jabs/Count";
@@ -21,52 +21,55 @@ const SellComp = ({ value }: IProps) => {
   const [isBuyTap, setIsBuyTap] = useState<boolean>(false);
 
   //env
-  const serverUrl = process.env.REACT_APP_SERVER_URL;
+  const serverUrl = useMemo(() => process.env.REACT_APP_SERVER_URL, []);
 
   //values
   const loca = useLocation();
   const navigate = useNavigate();
 
   //funcs
-  const getData = async (value: number) => {
-    //판매상품
-    if (value === 1) {
-      await axios
-        .post(
-          `${serverUrl}/mysell${loca.search}`,
-          {},
-          { withCredentials: true }
-        )
-        .then((data: AxiosResponse) => {
-          console.log(data);
-          const res: IProductRes = data.data;
-          const products: IProduct[] = res.product.rows;
-          setProducts(products);
-        })
-        .catch(() => {
-          setProducts(sellContentsErr);
-        });
-    }
+  const getData = useCallback(
+    async (value: number) => {
+      //판매상품
+      if (value === 1) {
+        await axios
+          .post(
+            `${serverUrl}/mysell${loca.search}`,
+            {},
+            { withCredentials: true }
+          )
+          .then((data: AxiosResponse) => {
+            console.log(data);
+            const res: IProductRes = data.data;
+            const products: IProduct[] = res.product.rows;
+            setProducts(products);
+          })
+          .catch(() => {
+            setProducts(sellContentsErr);
+          });
+      }
 
-    //구매상품
-    if (value === 2) {
-      await axios
-        .post(
-          `${serverUrl}/mypurchase${loca.search}`,
-          {},
-          { withCredentials: true }
-        )
-        .then((data: AxiosResponse) => {
-          const res: IProductRes = data.data;
-          const products: IProduct[] = res.product.rows;
-          console.log(products, "프로덕트들");
-          setProducts(products);
-        })
-        .catch(() => {
-          setProducts(buyContentsErr);
-        });
-    }
-  };
+      //구매상품
+      if (value === 2) {
+        await axios
+          .post(
+            `${serverUrl}/mypurchase${loca.search}`,
+            {},
+            { withCredentials: true }
+          )
+          .then((data: AxiosResponse) => {
+            const res: IProductRes = data.data;
+            const products: IProduct[] = res.product.rows;
+            console.log(products, "프로덕트들");
+            setProducts(products);
+          })
+          .catch(() => {
+            setProducts(buyContentsErr);
+          });
+      }
+    },
+    [loca, serverUrl]
+  );
 
   const moveToProductWrite = () => {
     navigate("/sell");
@@ -84,13 +87,15 @@ const SellComp = ({ value }: IProps) => {
     } else {
       setIsBuyTap(false);
     }
-  }, [value]);
+  }, [value, getData]);
 
   useEffect(() => {
     if (!products.length) {
       setnotitem(false);
     }
-  }, [value]);
+  }, [value, products]);
+
+  console.log("마이스토어 판매 무한 돌기 체크");
 
   return (
     <div>
@@ -120,13 +125,12 @@ const SellComp = ({ value }: IProps) => {
 
         {/* 상품페이지 변환 */}
         {notitem && <Notitem />}
-        <div className="flex justify-center">
+        <div className="flex justify-start">
           {!notitem && (
             <div
-              className={`${
-                isdesktop &&
-                "flex grid grid-cols-5 overflow-auto h-[33rem] min-w-[70rem] "
-              } ${ismobile && "grid grid-cols-2 overflow-auto  h-[35rem]"}`}
+              className={`${isdesktop && " ms-4 flex h-[33rem] flex-wrap "} ${
+                ismobile && " ms-4 grid grid-cols-2 overflow-auto  h-[35rem] "
+              }`}
               style={{ scrollbarWidth: "none" }}
             >
               {/* 상품 */}

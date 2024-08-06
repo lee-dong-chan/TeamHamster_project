@@ -1,28 +1,14 @@
 import { Link } from "react-router-dom";
-import ButtonComp, { LargeButton } from "../Component/Button/Button";
+import ButtonComp from "../Component/Button/Button";
 import { Button } from "../lib/Button/Button";
-import { center, mobilebox } from "../lib/styles";
+import { mobilebox } from "../lib/styles";
 
 import { List } from "../Component/List/List";
-import { useEffect, useState } from "react";
-import { PickCheck, Picklist } from "../Component/List/item/Item";
+import { useEffect, useMemo, useState } from "react";
+import { Picklist } from "../Component/List/item/Item";
 import { useMutation, useQueryClient } from "react-query";
 import axios from "axios";
 
-interface IData {
-  product: [
-    {
-      id: number;
-      itemState: string;
-      SellAddress: {
-        detailAddress: string;
-        Address: {
-          address: string;
-        };
-      };
-    }
-  ];
-}
 interface IProduct {
   id: number;
   itemState: string;
@@ -40,13 +26,9 @@ interface IProps {
 }
 const PickUpList = ({ liststate, checklist }: IProps): JSX.Element => {
   const [lastdata, setlastdata] = useState<Picklist[] | undefined>([]);
-  const test2: Picklist[] = [
-    { id: 1, pickadress: "어딘가", state: "픽업대기" },
-    { id: 2, pickadress: "무언가", state: "픽업완료" },
-  ];
-  const queryClient = useQueryClient();
+  useQueryClient();
 
-  const mypickup = useMutation({
+  const { mutate } = useMutation({
     mutationKey: ["mypickup"],
     mutationFn: async () => {
       const { data } = await axios.post(
@@ -70,10 +52,14 @@ const PickUpList = ({ liststate, checklist }: IProps): JSX.Element => {
   });
 
   useEffect(() => {
-    mypickup.mutate();
+    mutate();
     checklist(2);
-  }, []);
-  const btn = new Button("확인", "bg-blue-200");
+  }, [checklist, mutate]);
+
+  const btn = useMemo(() => new Button("확인", "bg-blue-200"), []);
+
+  console.log("무한돌기 체크");
+
   return (
     <div className={`${mobilebox} flex flex-col items-center h-[41rem]`}>
       <div className="py-3 text-[1.2rem] font-bold">픽업 목록</div>

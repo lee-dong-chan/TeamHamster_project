@@ -1,11 +1,10 @@
 import { NavigateFunction, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import axios from "axios";
 
 //구글 OAuth로그인 완료 시 이동할 URL
 const callBackUrl: string = `${process.env.REACT_APP_BASE_URL}/GoogleLoding`;
 //서버 URL 베이스 나는 http://localhost:8001 로 했음
-
 const serverOAuthCallbackUrl = process.env.REACT_APP_SERVER_OAUTH_CALLBACK_URL;
 
 //구글 OAuth로 로그인하는 버튼을 만드는 Component
@@ -21,6 +20,7 @@ export const GoogleOAuth = (): JSX.Element => {
     window.location.href = googleOAuthUrl;
   };
 
+  console.log("무한 돌기 체크");
   //구글 버튼
   return (
     <div
@@ -48,12 +48,12 @@ export const GoogleCallback = ({ setUserLogin }: IGCProp): JSX.Element => {
   //네이버 OAuth 콜백시 주소로 데이터가 넘어오기 때문에 주소에서 데이터를 뽑아 사용해줄거다.
 
   //구글 서버에서 받아온 1회용 코드
-  const code: string | null = new URL(window.location.href).searchParams.get(
-    "code"
-  );
+  const code: string | null = useMemo(() => {
+    return new URL(window.location.href).searchParams.get("code");
+  }, []);
 
   //네이버 콜백시 서버에서 res를 받아오는 코드
-  const naver = async (): Promise<void> => {
+  const google = useCallback(async () => {
     //우리의 서버(express)로 보내기 (난 8001포트)
     await axios
       .post(
@@ -75,12 +75,13 @@ export const GoogleCallback = ({ setUserLogin }: IGCProp): JSX.Element => {
         //실패시 URL
         navigate("/");
       });
-  };
+  }, [code, navigate, setUserLogin]);
 
-  //컴포넌트 생성시 naver 실행
+  //컴포넌트 생성시 google 실행
   useEffect(() => {
-    naver();
-  }, []);
+    google();
+  }, [google]);
 
+  console.log("무한 돌기 체크");
   return <div>loding</div>;
 };
