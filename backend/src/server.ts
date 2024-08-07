@@ -26,13 +26,17 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:8000", "http://localhost:8888"],
+    origin: [
+      "http://localhost:3000",
+      "http://localhost:8000",
+      "http://localhost:8888",
+    ],
     credentials: true,
   })
 );
 console.log("test2");
 
-app.use("/api/imgs", express.static("uploads"));
+app.use("/api/imgs", express.static("/var/www/backend/uploads"));
 
 app.use("/api", router);
 
@@ -59,11 +63,23 @@ const basicvalue = async () => {
       DeliveryCost.create({ cost: 3000 });
       point.create({ pointPercent: 1000 });
 
-      const key: Buffer = crypto.scryptSync("hgaomasttmexrj", `${process.env.KEY || ""}`, 32);
+      const key: Buffer = crypto.scryptSync(
+        "hgaomasttmexrj",
+        `${process.env.KEY || ""}`,
+        32
+      );
       const iv: Buffer = Buffer.from(`${process.env.IV}`, "base64");
-      const cipher: crypto.CipherGCM = crypto.createCipheriv("aes-256-gcm", key, iv);
+      const cipher: crypto.CipherGCM = crypto.createCipheriv(
+        "aes-256-gcm",
+        key,
+        iv
+      );
 
-      const encryptionemail: string = cipher.update(`admin1@admin.com`, "utf-8", "hex");
+      const encryptionemail: string = cipher.update(
+        `admin1@admin.com`,
+        "utf-8",
+        "hex"
+      );
 
       const encryptionpw: string = crypto
         .createHash("sha512")
