@@ -119,7 +119,7 @@ jobs:
         run: npm i
 
       - name: create .env
-        working-directory: ./delivery
+        working-directory: ./manege
         run: |
           echo REACT_APP_SERVER_URL="${{ secrets.REACT_APP_SERVER_URL }}" > .env
           echo REACT_APP_IMG_BASE="${{ secrets.REACT_APP_IMG_BASE }}" >> .env
