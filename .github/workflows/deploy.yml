@@ -189,7 +189,9 @@ jobs:
 
       - name: Build Back
         working-directory: ./backend
-        run: npx tsc
+        run: |
+          npx tsc
+          ls -al
 
       - name: Copy Files to EC2
         run: |
