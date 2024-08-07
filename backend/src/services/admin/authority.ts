@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response, query } from "express";
 import { Store, User } from "../../models";
 
 export default async (req: Request, res: Response) => {
@@ -10,7 +10,7 @@ export default async (req: Request, res: Response) => {
       throw Error("err");
     }
 
-    const usedata = await User.findOne({
+    const usedata: User | null = await User.findOne({
       where: { Oauth: "햄스터" },
       include: { model: Store, as: "Store", where: { id: nowuser } },
     });

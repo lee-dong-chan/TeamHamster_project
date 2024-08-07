@@ -6,7 +6,7 @@ export default async (req: Request, res: Response) => {
     console.log(req.body.idx, "인덱스");
     const cateid: number[] = [];
 
-    const firstcate = await Category.findAll({
+    const firstcate: Category[] = await Category.findAll({
       attributes: ["id"],
       where: { preCateId: req.params.id },
     });
@@ -15,7 +15,7 @@ export default async (req: Request, res: Response) => {
       cateid.push(firstcate[i].id);
     }
 
-    const secondcate = await Category.findAll({
+    const secondcate: Category[] = await Category.findAll({
       attributes: ["id"],
       where: { preCateId: [...cateid] },
     });
@@ -49,12 +49,12 @@ export default async (req: Request, res: Response) => {
 
     for (let i = 0; i < productlist.length; i++) {
       if (productlist[i].img) {
-        const splimg = productlist[i].img.split(",");
+        const splimg: string[] = productlist[i].img.split(",");
         productlist[i].dataValues.image = splimg;
       }
     }
 
-    const nowcate = await Category.findOne({
+    const nowcate: Category | null = await Category.findOne({
       attributes: ["name"],
       where: { id: req.params.id },
     });

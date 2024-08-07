@@ -10,7 +10,7 @@ export default async (req: Request, res: Response) => {
       throw Error("not login");
     }
 
-    const nowuser = await Store.findOne({
+    const nowuser: Store | null = await Store.findOne({
       where: { id: reqbody.user.id },
     });
     if (nowuser?.block) {
@@ -21,7 +21,7 @@ export default async (req: Request, res: Response) => {
     const product: Product | null = await Product.findOne({
       where: { id: nowproid },
     });
-    const report = await Report.create(
+    const report: Report = await Report.create(
       {
         reportText: reqbody.reporttext,
       },

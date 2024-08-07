@@ -2,7 +2,7 @@ import { Product, Review, Store, sequelize } from "../../models";
 
 export default async (id: number) => {
   try {
-    const review = await Store.findAll({
+    const review: Store[] = await Store.findAll({
       where: { id: id },
       attributes: [[sequelize.fn("avg", sequelize.col("Sell->Review.star")), "star"]],
       include: [

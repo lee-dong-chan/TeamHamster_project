@@ -5,7 +5,6 @@ import { Op } from "sequelize";
 export default async (req: Request, res: Response) => {
   try {
     const reqbody = req.body;
-    console.log("ㅁㄴㅇㅁㄴㅇㅁㅊㅋㅌㅊㅋㅌ", req.body);
     const productlist: Product[] = await Product.findAll({
       attributes: [
         "id",
@@ -25,7 +24,7 @@ export default async (req: Request, res: Response) => {
 
     for (let i = 0; i < productlist.length; i++) {
       if (productlist[i].img) {
-        const splimg = productlist[i].img.split(",");
+        const splimg: string[] = productlist[i].img.split(",");
         productlist[i].dataValues.image = splimg;
       }
     }

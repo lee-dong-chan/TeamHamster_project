@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import { Store } from "../../models";
 
-export default async (req: Request, res: Response) => {
+export default async (_req: Request, res: Response) => {
   try {
-    const blockuser = await Store.findAll({
+    const blockuser: Store[] = await Store.findAll({
       where: { block: true },
       attributes: ["id", "nick"],
     });

@@ -10,15 +10,7 @@ export default async (req: Request, res: Response) => {
       count: number;
     } = await Product.findAndCountAll({
       where: { sellId: nowstoreid },
-      attributes: [
-        "id",
-        "title",
-        "discription",
-        "price",
-        "createdAt",
-        "itemState",
-        "img",
-      ],
+      attributes: ["id", "title", "discription", "price", "createdAt", "itemState", "img"],
       include: [
         { model: DeliveryCost, as: "DeliveryCost", attributes: ["cost"] },
         { model: Category, as: "Category", attributes: ["name"] },
@@ -27,7 +19,7 @@ export default async (req: Request, res: Response) => {
 
     for (let i = 0; i < product.rows.length; i++) {
       if (product.rows[i].img) {
-        const splimg = product.rows[i].img.split(",");
+        const splimg: string[] = product.rows[i].img.split(",");
         product.rows[i].dataValues.image = splimg;
         if (
           product.rows[i].itemState == "픽업 대기" ||

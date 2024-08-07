@@ -12,14 +12,14 @@ export default async (req: Request, res: Response) => {
       throw Error("not login");
     }
 
-    const nowuser = await Store.findOne({
+    const nowuser: Store | null = await Store.findOne({
       where: { id: reqbody.user.id },
     });
     if (nowuser?.block) {
       throw Error("block");
     }
 
-    const product = await Product.findOne({
+    const product: Product | null = await Product.findOne({
       where: { id: selectproduct, itemState: "구매 확정" },
     });
 
@@ -27,11 +27,11 @@ export default async (req: Request, res: Response) => {
       throw Error("not found product");
     }
 
-    const duplicationcheck = await Review.findOne({
+    const duplicationcheck: Review | null = await Review.findOne({
       where: { productId: selectproduct, storeId: reqbody.user.id },
     });
 
-    const reviewWrite = await Review.create(
+    const reviewWrite: Review | null = await Review.create(
       {
         star: reqbody.star,
         reviewContent: reqbody.content,

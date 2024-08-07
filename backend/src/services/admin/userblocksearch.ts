@@ -8,7 +8,7 @@ export default async (req: Request, res: Response) => {
     if (!searchnick) {
       throw Error("search nick");
     }
-    const blockuser = await Store.findAll({
+    const blockuser: Store[] = await Store.findAll({
       where: { block: true, nick: { [Op.like]: `%${searchnick}%` } },
       attributes: ["id", "nick"],
     });

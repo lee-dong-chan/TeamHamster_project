@@ -6,7 +6,7 @@ export default async (req: Request, res: Response) => {
   try {
     const searchnick = req.body.nick;
 
-    const reportlist = await Report.findAll({
+    const reportlist: Report[] = await Report.findAll({
       attributes: ["id", "reportText"],
       include: [
         {

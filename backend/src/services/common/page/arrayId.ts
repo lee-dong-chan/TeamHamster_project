@@ -5,7 +5,7 @@ export default async (req: Request, res: Response) => {
   try {
     const prolist = req.body.productlist;
     console.log(prolist);
-    const productlist = await Product.findAll({
+    const productlist: Product[] = await Product.findAll({
       attributes: [
         "id",
         "title",
@@ -21,7 +21,7 @@ export default async (req: Request, res: Response) => {
     });
     for (let i = 0; i < productlist.length; i++) {
       if (productlist[i].img) {
-        const splimg = productlist[i].img.split(",");
+        const splimg: string[] = productlist[i].img.split(",");
         productlist[i].dataValues.image = splimg;
       }
     }

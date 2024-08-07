@@ -14,7 +14,7 @@ export default async (req: Request, res: Response) => {
 
     for (let i = 0; i < productlist.length; i++) {
       if (productlist[i].img) {
-        const splimg = productlist[i].img.split(",");
+        const splimg: string[] = productlist[i].img.split(",");
         productlist[i].dataValues.image = splimg;
       }
     }

@@ -9,7 +9,7 @@ export default async (req: Request, res: Response) => {
     if (!reqbody.user) {
       throw Error("not login");
     }
-    const nowproduct = await Product.findOne({
+    const nowproduct: Product | null = await Product.findOne({
       where: { id: req.params.id },
     });
     const nowuser: Store | null = await Store.findOne({

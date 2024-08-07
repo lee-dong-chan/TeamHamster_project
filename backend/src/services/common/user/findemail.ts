@@ -9,8 +9,8 @@ export default async (req: Request, res: Response) => {
 
     const reqbody = req.body;
 
-    const key = crypto.scryptSync("hgaomasttmexrj", `${process.env.KEY || ""}`, 32);
-    const iv = process.env.IV || "";
+    const key: Buffer = crypto.scryptSync("hgaomasttmexrj", `${process.env.KEY || ""}`, 32);
+    const iv: Buffer = Buffer.from(`${process.env.IV}`, "base64");
 
     const usercheck: User | null = await User.findOne({
       where: { mobile: reqbody.mobile, Oauth: "햄스터" },
@@ -23,7 +23,7 @@ export default async (req: Request, res: Response) => {
 
     console.log(usercheck);
 
-    const namecheck = await Name.findOne({
+    const namecheck: Name | null = await Name.findOne({
       where: { id: usercheck.nameId, name: reqbody.name },
     });
 
@@ -31,8 +31,8 @@ export default async (req: Request, res: Response) => {
       throw Error("not find email");
     }
 
-    const decipher = crypto.createDecipheriv("aes-256-gcm", key, iv);
-    let findemail = decipher.update(usercheck.email, "hex", "utf-8");
+    const decipher: crypto.DecipherGCM = crypto.createDecipheriv("aes-256-gcm", key, iv);
+    let findemail: string = decipher.update(usercheck.email, "hex", "utf-8");
 
     res.json({ email: findemail });
   } catch (err: any) {

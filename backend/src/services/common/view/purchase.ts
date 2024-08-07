@@ -42,7 +42,7 @@ export default async (req: Request, res: Response) => {
     await product?.update({ itemState: "픽업 대기" });
     await nowuser?.update({ point: pointcheck });
 
-    const nowhistory = await PointHistory.create({
+    const nowhistory: PointHistory = await PointHistory.create({
       point: -product.price - delcost,
       history: `${product.title} 상품 구매`,
     });

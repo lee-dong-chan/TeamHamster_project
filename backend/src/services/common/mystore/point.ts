@@ -10,7 +10,7 @@ export default async (req: Request, res: Response) => {
       throw Error("not loged in");
     }
 
-    const nowuser = await Store.findOne({
+    const nowuser: Store | null = await Store.findOne({
       where: { id: reqbody.user.id },
     });
 
@@ -26,7 +26,7 @@ export default async (req: Request, res: Response) => {
       point: reqbody.user.point + chargepoint,
     });
 
-    const pointhistory = await PointHistory.create({
+    const pointhistory: PointHistory = await PointHistory.create({
       point: reqbody.pointvalue,
       history: reqbody.history,
     });

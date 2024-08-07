@@ -10,7 +10,7 @@ export default async (req: Request, res: Response) => {
       throw Error("not match user");
     }
 
-    const storeupdate = await Store.update(
+    await Store.update(
       {
         introduction: reqbody.content,
       },

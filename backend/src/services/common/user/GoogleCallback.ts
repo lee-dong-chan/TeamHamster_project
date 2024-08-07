@@ -8,8 +8,8 @@ import crypto from "crypto";
 export default async (req: Request, res: Response) => {
   dotenv.config();
 
-  const code = req.query.code as string;
-  const redirectUrl = req.body.callbackUrl as string;
+  const code: string = req.query.code as string;
+  const redirectUrl: string = req.body.callbackUrl as string;
   const tokenEndpoint = "https://oauth2.googleapis.com/token";
 
   const client_id: string = process.env.CLIENT_G_ID as string;
@@ -46,16 +46,16 @@ export default async (req: Request, res: Response) => {
       throw Error("err");
     }
 
-    const key = crypto.scryptSync("hgaomasttmexrj", `${process.env.KEY || ""}`, 32);
-    const iv = process.env.IV || "";
-    const cipher = crypto.createCipheriv("aes-256-gcm", key, iv);
+    const key: Buffer = crypto.scryptSync("hgaomasttmexrj", `${process.env.KEY || ""}`, 32);
+    const iv: Buffer = Buffer.from(`${process.env.IV}`, "base64");
+    const cipher: crypto.CipherGCM = crypto.createCipheriv("aes-256-gcm", key, iv);
 
     const encryptionemail: string = cipher.update(`${userInfoResponse.email}`, "utf-8", "hex");
 
     const emailcheck: User | null = await User.findOne({
       where: { email: encryptionemail },
     });
-    const encryptionpw = crypto
+    const encryptionpw: string = crypto
       .createHash("sha512")
       .update(`${userInfoResponse.id + process.env.SALT}`)
       .digest("hex");
@@ -76,7 +76,7 @@ export default async (req: Request, res: Response) => {
         throw Error("duplication nick");
       }
 
-      const regist = await User.create(
+      const regist: User = await User.create(
         {
           email: encryptionemail,
           password: encryptionpw,
@@ -85,7 +85,7 @@ export default async (req: Request, res: Response) => {
         { transaction }
       );
 
-      const store = await Store.create(
+      const store: Store = await Store.create(
         {
           nick: userInfoResponse.name,
           profileimg: userInfoResponse.picture,
@@ -97,7 +97,7 @@ export default async (req: Request, res: Response) => {
         await transaction.commit();
         await name.addUser(regist);
       } else {
-        const newname = await Name.create({
+        const newname: Name = await Name.create({
           name: registname,
         });
         await transaction.commit();

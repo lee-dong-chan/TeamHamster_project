@@ -2,7 +2,7 @@ import { Category } from "../../models";
 
 export default async () => {
   try {
-    const firstcate = [
+    const firstcate: { name: string }[] = [
       { name: "여성의류" },
       { name: "남성의류" },
       { name: "신발" },
@@ -31,7 +31,10 @@ export default async () => {
       { name: "구인구직" },
       { name: "재능" },
     ];
-    const secondcate = [
+    const secondcate: {
+      name: string;
+      preCateId: number;
+    }[] = [
       { name: "여성아우터", preCateId: 1 },
       { name: "여성상의", preCateId: 1 },
       { name: "여성바지", preCateId: 1 },
@@ -456,7 +459,10 @@ export default async () => {
       },
       { name: "기타재능", preCateId: 27 },
     ];
-    const Thirdcate = [
+    const Thirdcate: {
+      name: string;
+      preCateId: number;
+    }[] = [
       { name: "여성패딩", preCateId: 27 + 1 },
       { name: "여성점퍼", preCateId: 27 + 1 },
       { name: "여성코트", preCateId: 27 + 1 },

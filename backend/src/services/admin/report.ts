@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { Product, Report, Store } from "../../models";
 
-export default async (req: Request, res: Response) => {
+export default async (_req: Request, res: Response) => {
   try {
     const reportlist: Report[] = await Report.findAll({
       attributes: ["id", "reportText"],

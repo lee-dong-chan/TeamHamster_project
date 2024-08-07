@@ -4,7 +4,7 @@ import { Address, ExtraAddress, Product } from "../../../models";
 export default async (req: Request, res: Response) => {
   try {
     const selectproduct: string = req.params.id;
-    let useraddress = await Address.findOne({
+    let useraddress: Address | null = await Address.findOne({
       attributes: ["address"],
       include: [
         {
@@ -22,7 +22,7 @@ export default async (req: Request, res: Response) => {
         },
       ],
     });
-    const PurchaseAddress = useraddress?.address;
+    const PurchaseAddress: string | undefined = useraddress?.address;
     res.json({ PurchaseAddress: PurchaseAddress });
   } catch (err) {
     console.error(err);

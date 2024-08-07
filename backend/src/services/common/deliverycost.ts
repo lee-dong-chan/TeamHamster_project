@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { DeliveryCost } from "../../models";
 
-export default async (req: Request, res: Response) => {
+export default async (_req: Request, res: Response) => {
   try {
     const deliverycost: DeliveryCost | null = await DeliveryCost.findOne({
       order: [["id", "DESC"]],

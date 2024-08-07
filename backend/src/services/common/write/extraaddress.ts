@@ -7,7 +7,7 @@ export default async (req: Request, res: Response) => {
     if (!reqbody.user) {
       throw Error("not login");
     }
-    const address = await ExtraAddress.findAll({
+    const address: ExtraAddress[] = await ExtraAddress.findAll({
       where: { storeId: reqbody.user.id },
       attributes: ["id", "mobile", "detailAddress"],
       include: [
@@ -15,7 +15,6 @@ export default async (req: Request, res: Response) => {
         { model: Name, as: "Name", attributes: ["name"] },
       ],
     });
-    console.log(address);
     res.json({ extraAddress: address });
   } catch (err: any) {
     console.error(err);

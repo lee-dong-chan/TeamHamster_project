@@ -8,14 +8,11 @@ export default async (req: Request, res: Response) => {
     dotenv.config();
 
     const reqbody = req.body;
-    console.log(req.session.finduser);
 
-    const encryptionpw = crypto
+    const encryptionpw: string = crypto
       .createHash("sha512")
       .update(`${reqbody.pw + process.env.SALT}`)
       .digest("hex");
-
-    console.log(encryptionpw);
 
     await User.update({ password: encryptionpw }, { where: { id: req.session.finduser } });
 

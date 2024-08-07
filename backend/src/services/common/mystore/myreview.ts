@@ -22,7 +22,7 @@ export default async (req: Request, res: Response) => {
     const reviewcount: number = await Review.count({
       include: [{ model: Product, as: "Product", where: { sellId: nowstoreid } }],
     });
-    const reviewpercent = Math.floor((reviewcount / preductcount) * 100);
+    const reviewpercent: number = Math.floor((reviewcount / preductcount) * 100);
     res.json({
       reviewCount: reviewcount,
       reviewAverage: { star: star },

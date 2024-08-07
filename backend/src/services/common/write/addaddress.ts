@@ -9,7 +9,6 @@ export default async (req: Request, res: Response) => {
     if (!reqbody.user) {
       throw Error("not login");
     }
-    console.log(reqbody);
     if (!reqbody.name || !reqbody.address || !reqbody.mobile) {
       throw Error("not name OR address OR mobile");
     }
@@ -43,7 +42,7 @@ export default async (req: Request, res: Response) => {
     if (name) {
       await name.addExtraAddress(extraaddress);
     } else {
-      const newname = await Name.create({
+      const newname: Name = await Name.create({
         name: reqbody.name,
       });
       await newname.addExtraAddress(extraaddress);
@@ -52,7 +51,7 @@ export default async (req: Request, res: Response) => {
     if (address) {
       await address.addExtraAddress(extraaddress);
     } else {
-      const newaddress = await Address.create({
+      const newaddress: Address = await Address.create({
         address: reqbody.address,
       });
       await newaddress.addExtraAddress(extraaddress);

@@ -7,7 +7,7 @@ export default async (req: Request, res: Response) => {
     const reqbody = req.body;
     const searchuser = reqbody.nick;
 
-    const userlist = await Store.findAll({
+    const userlist: Store[] = await Store.findAll({
       attributes: [
         "id",
         "nick",
