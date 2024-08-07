@@ -114,13 +114,19 @@ jobs:
       - name: Add SSH known hosts
         run: ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
 
-      - name: create .env file
-        run: |
-          echo "${{ secrets.MANAGE_ENV }}" | sed 's/:/\n/g' > .env
-
       - name: Install Dependencies of manege
         working-directory: ./manege
         run: npm i
+
+      - name: create .env
+        working-directory: ./delivery
+        run: |
+          echo REACT_APP_SERVER_URL="${{ secrets.REACT_APP_SERVER_URL }}" > .env
+          echo REACT_APP_IMG_BASE="${{ secrets.REACT_APP_IMG_BASE }}" >> .env
+          echo REACT_APP_CLIENT_ID="${{ secrets.REACT_APP_CLIENT_ID }}" >>.env
+          echo REACT_APP_G_CLIENT_ID="${{ secrets.REACT_APP_G_CLIENT_ID }}" >> .env
+          echo REACT_APP_N_CLIENT_ID="${{ secrets.REACT_APP_N_CLIENT_ID }}" >> .env
+          echo REACT_APP_SERVER_OAUTH_CALLBACK_URL ="${{ secrets.REACT_APP_SERVER_OAUTH_CALLBACK_URL  }}" >> .env
 
       - name: Build manege
         working-directory: ./manege
