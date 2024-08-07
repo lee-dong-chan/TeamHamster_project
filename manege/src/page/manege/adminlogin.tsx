@@ -6,6 +6,7 @@ import { useSetRecoilState } from "recoil";
 import { Modalcontent, Modalstate } from "../../Context/Modal/Modal";
 import { LargeButton } from "../../Component/Button/ButtonClass";
 import Button from "../../lib/Button/Button";
+import { useNavigate } from "react-router-dom";
 
 interface IProps {
   setUserLogin: React.Dispatch<React.SetStateAction<boolean>>;
@@ -17,7 +18,7 @@ const AdminLoginPage = ({ setUserLogin }: IProps): JSX.Element => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginCheck, setLoginCheck] = useState(false); // 로그인 상태 체크
-
+  const navigate = useNavigate();
   const serverUrl = useMemo(() => process.env.REACT_APP_SERVER_URL, []);
 
   const handleLogin = async (event: React.FormEvent) => {
@@ -46,7 +47,8 @@ const AdminLoginPage = ({ setUserLogin }: IProps): JSX.Element => {
           setLoginCheck(false);
           setUserLogin(true);
           console.log("로그인성공, 이메일주소:" + result.email);
-          window.location.replace("http://localhost:8000/manege/report"); // 로그인 성공시 홈으로 이동합니다.
+          navigate("/report");
+          // 로그인 성공시 홈으로 이동합니다.
         } else {
           setLoginCheck(true);
         }
