@@ -175,7 +175,6 @@ jobs:
           USERNAME: ${{ secrets.MYSQL_USER}}
           PASSWORD: ${{ secrets.MYSQL_PASSWORD}}
           DATABASE: ${{ secrets.MYSQL_DB}}
-          HOST: ${{ secrets.EC2_HOST }}
         run: |
           mkdir config
           echo   "{
