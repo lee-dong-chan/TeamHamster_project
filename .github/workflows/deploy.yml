@@ -144,7 +144,10 @@ jobs:
 
   deploy_back:
     runs-on: ubuntu-latest
-
+    needs:
+      - deploy_front
+      - deploy_delivery
+      - deploy_manege
     steps:
       - name: checkout repository
         uses: actions/checkout@v4
