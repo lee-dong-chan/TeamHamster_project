@@ -183,7 +183,7 @@ jobs:
               \"username\": \"$USERNAME\",
               \"password\": \"$PASSWORD\",
               \"database\": \"$DATABASE\",
-              \"host\": \"$HOST\",
+              \"host\": \"$"127.0.0.1\",
               \"dialect\": \"mysql\"
             }
           }" > config/config.json
