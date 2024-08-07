@@ -22,7 +22,7 @@ app.set("url", process.env.MONGURL || "mongodb://localhost:27017");
 sequelize.sync({ force: false });
 
 app.use(morgan("dev"));
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(
   cors({
