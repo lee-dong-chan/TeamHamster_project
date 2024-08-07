@@ -78,8 +78,8 @@ jobs:
       - name: create .env
         working-directory: ./delivery
         run: |
-          echo REACT_APP_SERVER_URL="${{ secrets.REACT_APP_SERVER_URL }}" > /var/www/delivery/.env
-          echo REACT_APP_IMG_BASE="${{ secrets.REACT_APP_IMG_BASE }}" >> /var/www/delivery/.env
+          echo REACT_APP_SERVER_URL="${{ secrets.REACT_APP_SERVER_URL }}" > .env
+          echo REACT_APP_IMG_BASE="${{ secrets.REACT_APP_IMG_BASE }}" >> .env
 
       - name: Build delivery
         working-directory: ./delivery
