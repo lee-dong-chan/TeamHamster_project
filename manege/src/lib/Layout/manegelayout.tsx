@@ -1,4 +1,4 @@
-import { Link, Route, Routes, useParams } from "react-router-dom";
+import { Link, Route, Routes, useNavigate, useParams } from "react-router-dom";
 import ManegeReport from "../../page/manege/report";
 import ManegeCategory from "../../page/manege/category";
 import ManegeBenKeyword from "../../page/manege/benkeyword";
@@ -31,14 +31,15 @@ const ManegeLayout = (): JSX.Element => {
   const Modal = useRecoilValue(Modalstate);
   const setUserLogin = useState<boolean>(false)[1];
   useQueryClient();
+  const navigate = useNavigate();
 
   const onclick = () => {
-    window.location.replace("http://localhost:3000/");
+    window.location.replace("http://lee.dsongc.com");
   };
 
   const onlogout = () => {
     logout.mutate();
-    window.location.replace("http://localhost:8000//manege/login");
+    navigate("/login");
   };
 
   const serverUrl = process.env.REACT_APP_SERVER_URL;
