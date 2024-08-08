@@ -39,7 +39,6 @@ const ManegeLayout = (): JSX.Element => {
 
   const onlogout = () => {
     logout.mutate();
-    navigate("/manege/login");
   };
 
   const serverUrl = process.env.REACT_APP_SERVER_URL;
@@ -72,6 +71,8 @@ const ManegeLayout = (): JSX.Element => {
   useEffect(() => {
     if (!log?.admin) {
       navigate("/manege/login");
+    } else {
+      navigate("/manege/report");
     }
   }, [log, navigate]);
 
