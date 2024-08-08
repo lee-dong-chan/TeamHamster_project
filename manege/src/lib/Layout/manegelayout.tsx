@@ -34,12 +34,12 @@ const ManegeLayout = (): JSX.Element => {
   const navigate = useNavigate();
 
   const onclick = () => {
-    window.location.replace("http://lee.dsongc.com");
+    window.location.replace("http://lee.dsongc.com/");
   };
 
   const onlogout = () => {
     logout.mutate();
-    navigate("/login");
+    navigate("/manege/login");
   };
 
   const serverUrl = process.env.REACT_APP_SERVER_URL;
