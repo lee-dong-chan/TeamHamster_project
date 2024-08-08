@@ -52,7 +52,7 @@ const Main = ({ start, end, workstate }: IProps): JSX.Element => {
           <div className="py-2 text-[1.2rem] text-gray-500">업무종료</div>
         </div>
         <div className="flex flex-col items-center">
-          <Link to={"/pickuplist"}>
+          <Link to={"/delivery/pickuplist"}>
             <div
               className={`h-[10rem] w-[10rem] border flex item-center justify-center`}
             >
@@ -62,7 +62,7 @@ const Main = ({ start, end, workstate }: IProps): JSX.Element => {
           <div className="py-2 text-[1.2rem] text-gray-500">픽업목록</div>
         </div>
         <div className="flex flex-col items-center">
-          <Link to={"/pickupcheck"}>
+          <Link to={"/delivery/pickupcheck"}>
             <div className={`h-[10rem] w-[10rem] border`}>
               <MdAddShoppingCart className="h-[100%] w-[100%]" color="gray" />
             </div>
@@ -70,7 +70,7 @@ const Main = ({ start, end, workstate }: IProps): JSX.Element => {
           <div className="py-2 text-[1.2rem] text-gray-500">픽업상품 선택</div>
         </div>
         <div className="flex flex-col items-center">
-          <Link to={"/selectcamp"}>
+          <Link to={"/delivery/selectcamp"}>
             <div className={`h-[10rem] w-[10rem] border`}>
               <CiDeliveryTruck className="h-[100%] w-[100%]" color="gray" />
             </div>
@@ -78,7 +78,7 @@ const Main = ({ start, end, workstate }: IProps): JSX.Element => {
           <div className="py-2 text-[1.2rem] text-gray-500">배송캠프 선택</div>
         </div>
         <div className="flex flex-col items-center">
-          <Link to={"/mypage"}>
+          <Link to={"/delivery/mypage"}>
             <div className={`h-[10rem] w-[10rem] border`}>
               <FaClipboardList className="h-[100%] w-[100%]" color="gray" />
             </div>

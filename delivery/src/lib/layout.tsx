@@ -222,31 +222,37 @@ const LayOut = (): JSX.Element => {
             <div>
               <Routes>
                 <Route
-                  path="/"
+                  path="/delivery"
                   element={
                     <Main start={start} end={end} workstate={workstate} />
                   }
                 ></Route>
-                <Route path="/pickupscan" element={<PickupScan />}></Route>
                 <Route
-                  path="/pickupcheck"
+                  path="/delivery/pickupscan"
+                  element={<PickupScan />}
+                ></Route>
+                <Route
+                  path="/delivery/pickupcheck"
                   element={
                     <PickupCheck liststate={liststate} checklist={saveList} />
                   }
                 ></Route>
                 <Route
-                  path="/selectcamp"
+                  path="/delivery/selectcamp"
                   element={<SelectCamp setcamp={setcamp} />}
                 ></Route>
                 <Route
-                  path="/pickuplist"
+                  path="/delivery/pickuplist"
                   element={
                     <PickUpList liststate={liststate} checklist={saveList} />
                   }
                 ></Route>
-                <Route path="/deliveryscan" element={<DeliveryScan />}></Route>
                 <Route
-                  path="/mypage"
+                  path="/delivery/deliveryscan"
+                  element={<DeliveryScan />}
+                ></Route>
+                <Route
+                  path="/delivery/mypage"
                   element={
                     <MyPage workstate={workstate} camp={camp} user={log} />
                   }
@@ -270,7 +276,7 @@ const LayOut = (): JSX.Element => {
         </div>
       )}
       <div className="m-auto max-w-[35rem] h-[5rem] flex items-center justify-evenly bg-gray-400 sticky bottom-0">
-        <Link to={"/"}>
+        <Link to={"/delivery"}>
           <div className="flex flex-col items-center">
             <div>
               <IoIosHome size={30} />
@@ -278,7 +284,7 @@ const LayOut = (): JSX.Element => {
             <div>홈</div>
           </div>
         </Link>
-        <Link to={"/deliveryscan"}>
+        <Link to={"/delivery/deliveryscan"}>
           <div className="flex flex-col items-center">
             <div>
               <LuScanLine size={30} />
@@ -287,7 +293,7 @@ const LayOut = (): JSX.Element => {
           </div>
         </Link>
 
-        <Link to={"/pickupscan"}>
+        <Link to={"/delivery/pickupscan"}>
           <div className="flex flex-col items-center">
             <div>
               <LuScanLine size={30} />
@@ -295,7 +301,7 @@ const LayOut = (): JSX.Element => {
             <div>픽업상품 스캔</div>
           </div>
         </Link>
-        <Link to={"/mypage"}>
+        <Link to={"/delivery/mypage"}>
           <div className="flex flex-col items-center">
             <div>
               <BsPersonFill size={30} />

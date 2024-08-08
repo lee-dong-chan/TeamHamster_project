@@ -82,7 +82,7 @@ const Item = ({
             <div className="w-[2rem]"></div>
           )}
           <div className="ps-8">
-            <Link to={"/deliveryscan"}>
+            <Link to={"/delivery/deliveryscan"}>
               <ButtonComp
                 btn={btn}
                 width="w-[2rem]"

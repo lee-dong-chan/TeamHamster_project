@@ -34,7 +34,7 @@ const SelectCamp = ({ setcamp }: IProps): JSX.Element => {
         <span className="text-orange-500">{select}</span> 캠프 선택하시겠습니까?
       </div>
       <div className={`m-[3rem] `}>
-        <Link to={"/"}>
+        <Link to={"/delivery"}>
           <div
             onClick={() => {
               setModalcontent("setcamp");
