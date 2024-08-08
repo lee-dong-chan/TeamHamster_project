@@ -66,7 +66,7 @@ const PickupScan = (): JSX.Element => {
         하시겠습니까?
       </div>
       <div className={`m-[3rem] `}>
-        <Link to={"/"}>
+        <Link to={"/delivery"}>
           <div
             onClick={() => {
               completepcik.mutate();

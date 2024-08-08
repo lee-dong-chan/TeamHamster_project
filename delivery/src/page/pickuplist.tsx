@@ -68,7 +68,7 @@ const PickUpList = ({ liststate, checklist }: IProps): JSX.Element => {
       </div>
 
       <div className={`m-[3rem]`}>
-        <Link to={"/"}>
+        <Link to={"/delivery"}>
           <div>
             <ButtonComp btn={btn} width={"w-[25rem]"} height="h-[4rem]" />
           </div>

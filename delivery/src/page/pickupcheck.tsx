@@ -126,7 +126,7 @@ const PickupCheck = ({ liststate, checklist }: IProps): JSX.Element => {
         픽업건을 선택 하시겠습니까?
       </div>
       <div className={`m-[3rem] `}>
-        <Link to={"/"}>
+        <Link to={"/delivery"}>
           <div
             onClick={() => {
               selectpick.mutate();
