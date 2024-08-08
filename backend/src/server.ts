@@ -19,7 +19,7 @@ app.use(cookieParser(process.env.COOKIE || "test"));
 
 app.set("port", process.env.PORT || 3080);
 app.set("url", process.env.MONGURL || "mongodb://localhost:27017");
-sequelize.sync({ force: false });
+sequelize.sync({ force: true });
 
 app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: false }));
@@ -56,12 +56,12 @@ console.log(process.env.IV);
 const basicvalue = async () => {
   try {
     if (!(await User.findOne())) {
-      mongoose.connection.dropCollection("deliveries");
-      mongoose.connection.dropCollection("points");
-      mongoose.connection.dropCollection("bankeywords");
+      await mongoose.connection.dropCollection("deliveries");
+      await mongoose.connection.dropCollection("points");
+      await mongoose.connection.dropCollection("bankeywords");
 
-      DeliveryCost.create({ cost: 3000 });
-      point.create({ pointPercent: 1000 });
+      await DeliveryCost.create({ cost: 3000 });
+      await point.create({ pointPercent: 1000 });
 
       const key: Buffer = crypto.scryptSync(
         "hgaomasttmexrj",
