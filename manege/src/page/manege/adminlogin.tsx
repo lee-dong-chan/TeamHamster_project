@@ -47,7 +47,7 @@ const AdminLoginPage = ({ setUserLogin }: IProps): JSX.Element => {
           setLoginCheck(false);
           setUserLogin(true);
           console.log("로그인성공, 이메일주소:" + result.email);
-          navigate("/manege/report");
+          navigate("/report");
           // 로그인 성공시 홈으로 이동합니다.
         } else {
           setLoginCheck(true);
