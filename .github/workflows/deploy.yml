@@ -140,6 +140,11 @@ jobs:
         working-directory: ./front
         run: npm run build
 
+      - name: delete map
+        working-directory: ./front/build/
+        run: |
+          rm -rf ./**/*/*.map
+
       - name: Copy Files to EC2
         run: |
           ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} '
@@ -186,6 +191,11 @@ jobs:
       - name: Build delivery
         working-directory: ./delivery
         run: npm run build
+
+      - name: delete map
+        working-directory: ./front/build/
+        run: |
+          rm -rf ./**/*/*.map
 
       - name: Copy Files to EC2
         run: |
@@ -237,6 +247,11 @@ jobs:
       - name: Build manege
         working-directory: ./manege
         run: npm run build
+
+      - name: delete map
+        working-directory: ./front/build/
+        run: |
+          rm -rf ./**/*/*.map
 
       - name: Copy Files to EC2
         run: |
@@ -298,6 +313,11 @@ jobs:
         run: |
           npx tsc
           ls -al
+
+      - name: delete map
+        working-directory: ./front/build/
+        run: |
+          rm -rf ./**/*/*.map
 
       - name: Copy Files to EC2
         run: |
