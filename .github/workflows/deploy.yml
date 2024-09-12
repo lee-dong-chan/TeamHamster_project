@@ -193,7 +193,7 @@ jobs:
         run: npm run build
 
       - name: delete map
-        working-directory: ./front/build/
+        working-directory: ./delivery/build/
         run: |
           rm -rf ./**/*/*.map
 
@@ -249,7 +249,7 @@ jobs:
         run: npm run build
 
       - name: delete map
-        working-directory: ./front/build/
+        working-directory: ./manege/build/
         run: |
           rm -rf ./**/*/*.map
 
@@ -315,7 +315,7 @@ jobs:
           ls -al
 
       - name: delete map
-        working-directory: ./front/build/
+        working-directory: ./backend/build/
         run: |
           rm -rf ./**/*/*.map
 
@@ -349,7 +349,7 @@ jobs:
             echo SALT="${{ secrets.SALT }}" >> /var/www/backend/.env
             echo KEY="${{ secrets.KEY  }}" >> /var/www/backend/.env'
 
-      - name: Start Server1
+      - name: Start Server
         run: |
           ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} '
             export NVM_DIR="$HOME/.nvm"
