@@ -30,6 +30,7 @@ app.use(
       "http://localhost:3000",
       "http://localhost:8000",
       "http://localhost:8888",
+      "https://lee.dsongc.com",
     ],
     credentials: true,
   })
