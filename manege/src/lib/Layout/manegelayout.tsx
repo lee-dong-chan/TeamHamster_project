@@ -34,7 +34,7 @@ const ManegeLayout = (): JSX.Element => {
   const navigate = useNavigate();
 
   const onclick = () => {
-    window.location.replace("http://hamster.dsongc.com/");
+    window.location.replace("https://hamster.dsongc.com/");
   };
 
   const onlogout = () => {
