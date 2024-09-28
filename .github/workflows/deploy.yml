@@ -340,7 +340,7 @@ jobs:
             fi
             nvm use --lts
             cd /var/www/backend
-            npm i --production 
+            npm i 
             echo COOKIE="${{ secrets.COOKIE }}" > /var/www/backend/.env
             echo SESSION="${{ secrets.SESSION }}" >> /var/www/backend/.env
             echo PORT="${{ secrets.PORT}}" >> /var/www/backend/.env
