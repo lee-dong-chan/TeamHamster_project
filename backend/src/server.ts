@@ -19,7 +19,7 @@ app.use(cookieParser(process.env.COOKIE || "test"));
 
 app.set("port", process.env.PORT || 3080);
 app.set("url", process.env.MONGURL || "mongodb://localhost:27017");
-sequelize.sync({ force: false });
+sequelize.sync({ force: true });
 
 app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: false }));
@@ -31,7 +31,6 @@ app.use(
       "http://localhost:8000",
       "http://localhost:8888",
       "http://localhost:8080",
-      "http://lee.dsongc.com",
     ],
     credentials: true,
   })
