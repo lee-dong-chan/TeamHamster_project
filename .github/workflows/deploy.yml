@@ -340,7 +340,7 @@ jobs:
             fi
             nvm use --lts
             cd /var/www/backend
-            npm i 
+            npm i --production 
             echo COOKIE="${{ secrets.COOKIE }}" > /var/www/backend/.env
             echo SESSION="${{ secrets.SESSION }}" >> /var/www/backend/.env
             echo PORT="${{ secrets.PORT}}" >> /var/www/backend/.env
@@ -361,5 +361,6 @@ jobs:
             fi
             nvm use --lts
             npm install -g pm2
-            pm2 start /var/www/backend/src/server.js --name hamster
+            cd /var/www/backend
+            pm2 start npm --name "hamster" -- start
           '

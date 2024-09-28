@@ -56,7 +56,7 @@ console.log(process.env.IV);
 
 const basicvalue = async () => {
   try {
-    if (!(await User.findOne())) {
+    if ((await User.findOne({ where: { id: 1 } })) == undefined) {
       await mongoose.connection.dropCollection("deliveries");
       await mongoose.connection.dropCollection("points");
       await mongoose.connection.dropCollection("bankeywords");
