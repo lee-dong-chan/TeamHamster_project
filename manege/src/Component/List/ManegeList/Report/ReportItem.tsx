@@ -41,7 +41,7 @@ const Item = ({ item, idx }: IProps): JSX.Element => {
   });
 
   const onclick = () => {
-    window.location.replace(`http://hamster.dsongc.com/product/${item.id}`);
+    window.location.replace(`https://hamster.dsongc.com/product/${item.id}`);
   };
   return (
     <div className="px-5 py-2 flex items-center ">

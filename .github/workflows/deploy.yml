@@ -362,5 +362,6 @@ jobs:
             nvm use --lts
             npm install -g pm2
             cd /var/www/backend
+            npm i
             pm2 start npm --name "hamster" -- start
           '

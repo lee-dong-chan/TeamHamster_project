@@ -71,7 +71,7 @@ const ManegeLayout = (): JSX.Element => {
   useEffect(() => {
     if (!log?.admin) {
       navigate("/manege/login");
-    } else {
+    } else if (log?.admin) {
       navigate("/manege/report");
     }
   }, [log, navigate]);
